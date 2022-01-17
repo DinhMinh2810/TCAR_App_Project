@@ -24,7 +24,7 @@ app.use('/api', userRouter);
 
 connectDB();
 
-//deploy
+// Deploy
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));
 	app.get('*', (req, res) => {
