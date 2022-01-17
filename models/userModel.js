@@ -12,20 +12,20 @@ const userSchema = new mongoose.Schema(
 		},
 		email: {
 			type: String,
-			required: [true, 'Please enter your Email'],
+			required: [true, 'Please enter your Email !!'],
 			unique: true,
 			trim: true,
 		},
 		password: {
 			type: String,
-			required: [true, 'Please enter your Password'],
+			required: [true, 'Please enter your Password !!'],
 			minLength: [6, 'Password should be greater than 6 characters'],
 			select: false,
 		},
 		avatar: {
 			type: String,
 			default:
-				'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqh30_JHQRPWX4VFRnz_LQKvZMU6kt9VaWMwF6VioJh8DMGyWCfT--Bf2UsPGS0OaH91k&usqp=CAU',
+				'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
 		},
 		role: {
 			type: String,

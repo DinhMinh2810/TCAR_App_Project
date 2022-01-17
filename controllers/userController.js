@@ -23,7 +23,7 @@ exports.register = async (req, res) => {
 		}
 		const user = await User.findOne({ email });
 		if (user) {
-			return res.status(400).json({ msg: 'This email already exists !!' });
+			return res.status(400).json({ message: 'This email already exists !!' });
 		}
 
 		const newUser = {
@@ -32,6 +32,7 @@ exports.register = async (req, res) => {
 			password,
 			avatar,
 		};
+
 		const activationToken = createActivationToken(newUser);
 
 		const url = `${CLIENT_URL}/api/activate/${activationToken}`;
@@ -58,7 +59,7 @@ exports.activateEmailRegister = async (req, res) => {
 
 		const checkEmail = await User.findOne({ email });
 		if (checkEmail) {
-			return res.status(400).json({ message: 'This email already exists.' });
+			return res.status(400).json({ message: 'This email already exists !!' });
 		}
 
 		const newUser = new User({

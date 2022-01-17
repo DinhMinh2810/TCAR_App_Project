@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const path = require('path');
+const cloudinary = require('cloudinary');
 
 const app = express();
 
@@ -23,6 +24,13 @@ const userRouter = require('./routes/userRouter');
 app.use('/api', userRouter);
 
 connectDB();
+
+// Set up upload avatar
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Deploy
 if (process.env.NODE_ENV === 'production') {
