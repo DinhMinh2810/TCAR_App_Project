@@ -12,27 +12,27 @@ const Footer = () => {
 								<h2 className="footer_heading">Overview</h2>
 								<ul className="footer_heading-list">
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											About us
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											FAQS
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Privacy Policy
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Terms & Conditions
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Why travelers choose TCAR
 										</a>
 									</li>
@@ -44,27 +44,27 @@ const Footer = () => {
 								<h2 className="footer_heading">Company</h2>
 								<ul className="footer_heading-list">
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Discover
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Sustainability
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Car booking instructions
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Guide for car owners
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Payment Guide
 										</a>
 									</li>
@@ -76,22 +76,22 @@ const Footer = () => {
 								<h2 className="footer_heading">Connect with us</h2>
 								<ul className="footer_heading-list">
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											1800 391 3230 (Toll-Free)
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											EdenHazard@tcar.com
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Press
 										</a>
 									</li>
 									<li className="footer_heading-li">
-										<a href="##" class="footer_heading-link">
+										<a href="##" className="footer_heading-link">
 											Feedback
 										</a>
 									</li>
@@ -122,7 +122,7 @@ const Footer = () => {
 													alt="GG_play"
 													width="80"
 													height="18"
-													class="footer_download-gg"
+													className="footer_download-gg"
 												/>
 											</div>
 										</div>

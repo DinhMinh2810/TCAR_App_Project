@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../../redux/actions/authAction';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const Header = () => {
 	const token = useSelector((state) => state.token);
@@ -11,8 +12,12 @@ const Header = () => {
 	};
 
 	return (
-		<div>
-			<h1>Header</h1>
+		<div className="header">
+			<Container>
+				<Row lg={3} md={3} sm={3} xs={3}>
+					<Col>Header</Col>
+				</Row>
+			</Container>
 
 			<button onClick={logoutSubmit}>Logout</button>
 		</div>

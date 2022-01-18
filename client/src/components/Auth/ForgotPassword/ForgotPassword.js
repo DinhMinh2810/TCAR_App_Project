@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { forgotPassword } from '../../../redux/actions/authAction';
+import './ForgotPassword.css';
 
 const ForgotPassword = () => {
 	const dispatch = useDispatch();
@@ -25,18 +26,20 @@ const ForgotPassword = () => {
 			onSubmit={forgotSubmit}
 		>
 			{(formik) => (
-				<form onSubmit={formik.handleSubmit}>
-					<h1>Forgot password</h1>
-					<label htmlFor="email">Email</label>
-					<input id="email" type="email" {...formik.getFieldProps('email')} />
-					{formik.touched.email && formik.errors.email ? (
-						<div>{formik.errors.email}</div>
-					) : null}
+				<div>
+					<form onSubmit={formik.handleSubmit}>
+						<h1>Forgot password</h1>
+						<label htmlFor="email">Email</label>
+						<input id="email" type="email" {...formik.getFieldProps('email')} />
+						{formik.touched.email && formik.errors.email ? (
+							<div className="haha">{formik.errors.email}</div>
+						) : null}
 
-					<button type="submit" disabled={!formik.isValid}>
-						Submit
-					</button>
-				</form>
+						<button type="submit" disabled={!formik.isValid}>
+							Submit
+						</button>
+					</form>
+				</div>
 			)}
 		</Formik>
 	);

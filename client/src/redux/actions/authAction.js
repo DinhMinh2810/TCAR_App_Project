@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const register = (name, email, password, avatar) => async (dispatch) => {
+export const register = (name, email, password) => async (dispatch) => {
 	try {
 		dispatch({ type: 'REGISTER_REQUEST' });
 
@@ -8,7 +8,6 @@ export const register = (name, email, password, avatar) => async (dispatch) => {
 			name,
 			email,
 			password,
-			avatar,
 		});
 
 		dispatch({ type: 'REGISTER_SUCCESS', payload: res.data });
