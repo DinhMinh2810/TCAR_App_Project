@@ -47,6 +47,24 @@ export const login = (email, password) => async (dispatch) => {
 	}
 };
 
+export const loginFacebook = (accessToken, userID) => async (dispatch) => {
+	try {
+		dispatch({ type: 'LOGIN_REQUEST' });
+		const config = { headers: { 'Content-Type': 'application/json' } };
+
+		const res = await axios.post(
+			'/api/facebookLogin',
+			{ accessToken, userID },
+			config
+		);
+		localStorage.setItem('userLogin', true);
+
+		dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
+	} catch (error) {
+		dispatch({ type: 'LOGIN_FAIL', payload: error.response.data.message });
+	}
+};
+
 export const getAccessToken = () => async (dispatch) => {
 	try {
 		const userLogin = localStorage.getItem('userLogin');

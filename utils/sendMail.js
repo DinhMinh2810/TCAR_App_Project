@@ -41,8 +41,8 @@ const sendEmail = (to, url, message) => {
 		subject: 'TCAR Application',
 		html: `
             <div style="max-width: 800px; margin:auto; border: 10px solid #ddd; border-radius: 10px; padding: 40px 30px; font-size: 110%;">
-            <h2 style="text-align: center; text-transform: uppercase;color: #003e95;">Please use the following to activate your account</h2>
-            <p">Hello 😄🤣 Please click the button below to verify your email address !!
+            <h2 style="text-align: center; text-transform: uppercase;color: #003e95;">Please use following the instructions below !!</h2>
+            <p">Hello 😄🤣 Please click the button !!
             </p>
             <div style="display: flex; justify-content: space-evenly; margin-top: 10px;">
             <a href=${url} style="background: #a71547; text-decoration: none; color: white; padding: 10px 20px; margin: 10px 0; border-radius: 10px; display: inline-block;">${message}</a>

@@ -19,7 +19,7 @@ export const authReducer = (state = initialState, action) => {
 				...state,
 				loading: false,
 				isLoggedIn: true,
-				user: action.payload,
+				message: action.payload,
 			};
 
 		case 'REGISTER_FAIL':

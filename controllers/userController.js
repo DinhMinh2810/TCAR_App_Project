@@ -226,16 +226,16 @@ exports.facebookLogin = async (req, res) => {
 		if (user) {
 			const isMatch = await bcrypt.compare(password, user.password);
 			if (!isMatch)
-				return res.status(400).json({ msg: 'Password is incorrect.' });
+				return res.status(400).json({ message: 'Password is incorrect !!' });
 
 			const refresh_token = createRefreshToken({ id: user._id });
 			res.cookie('refreshtoken', refresh_token, {
 				httpOnly: true,
 				path: '/user/refresh_token',
-				maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+				maxAge: 7 * 24 * 60 * 60 * 1000,
 			});
 
-			res.json({ msg: 'Login success!' });
+			res.json({ message: 'Login success !!' });
 		} else {
 			const newUser = new User({
 				name,
@@ -250,13 +250,13 @@ exports.facebookLogin = async (req, res) => {
 			res.cookie('refreshtoken', refresh_token, {
 				httpOnly: true,
 				path: '/user/refresh_token',
-				maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+				maxAge: 7 * 24 * 60 * 60 * 1000,
 			});
 
-			res.json({ msg: 'Login success!' });
+			res.json({ message: 'Login success !!' });
 		}
 	} catch (err) {
-		return res.status(500).json({ msg: err.message });
+		return res.status(500).json({ message: err.message });
 	}
 };
 
