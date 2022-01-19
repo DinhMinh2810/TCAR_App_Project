@@ -8,23 +8,38 @@ import Register from './components/Auth/Register/Register';
 import ActiveMailRegister from './components/Auth/Register/ActiveMailRegister';
 import {
 	dispatchGetUser,
+	dispatchLogin,
 	fetchUser,
 	getAccessToken,
 	loadUser,
 } from './redux/actions/authAction';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
+import axios from 'axios';
 
 function App() {
+	const auth = useSelector((state) => state.auth);
 	const token = useSelector((state) => state.token);
 	const dispatch = useDispatch();
+	const { isLoggedIn } = auth;
 
 	useEffect(() => {
-		dispatch(getAccessToken());
+		const firstLogin = localStorage.getItem('userLogin');
+		if (firstLogin) {
+			const getToken = async () => {
+				const res = await axios.post('/api/refreshToken', null);
 
+				dispatch({ type: 'GET_TOKEN_SUCCESS', payload: res.data.accessToken });
+			};
+			getToken();
+		}
+	}, [auth.isLoggedIn, dispatch]);
+
+	useEffect(() => {
 		if (token) {
 			const getUser = () => {
-				dispatch(loadUser());
+				dispatch(dispatchLogin());
+
 				return fetchUser(token).then((res) => {
 					dispatch(dispatchGetUser(res));
 				});
@@ -33,11 +48,25 @@ function App() {
 		}
 	}, [token, dispatch]);
 
+	// useEffect(() => {
+	// 	dispatch(getAccessToken());
+
+	// 	if (token) {
+	// 		const getUser = () => {
+	// 			dispatch(loadUser());
+	// 			return fetchUser(token).then((res) => {
+	// 				dispatch(dispatchGetUser(res));
+	// 			});
+	// 		};
+	// 		getUser();
+	// 	}
+	// }, [token, dispatch]);
+
 	return (
 		<BrowserRouter>
 			<Header />
 			<Routes>
-				<Route path="/" element={<>Home</>} />
+				<Route path="/" element={<h1>Home page ne !!</h1>} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route

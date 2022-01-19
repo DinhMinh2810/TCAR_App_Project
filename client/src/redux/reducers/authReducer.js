@@ -1,11 +1,13 @@
 const initialState = {
 	user: {},
+	isLoggedIn: false,
 };
 
 export const authReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'REGISTER_REQUEST':
 		case 'LOGIN_REQUEST':
+		case 'LOAD_USER_REQUEST':
 			return {
 				loading: true,
 				isLoggedIn: false,
@@ -21,15 +23,26 @@ export const authReducer = (state = initialState, action) => {
 				isLoggedIn: true,
 				message: action.payload,
 			};
-
+		case 'LOGIN':
+			return {
+				...state,
+				isLoggedIn: true,
+			};
 		case 'REGISTER_FAIL':
 		case 'ACTIVE_MAIL_REGISTER_FAIL':
 		case 'LOGIN_FAIL':
-		case 'LOAD_USER_FAIL':
 			return {
 				...state,
 				loading: false,
 				isLoggedIn: false,
+				user: null,
+				error: action.payload,
+			};
+
+		case 'LOAD_USER_FAIL':
+			return {
+				loading: false,
+				isAuthenticated: false,
 				user: null,
 				error: action.payload,
 			};
@@ -42,13 +55,15 @@ export const authReducer = (state = initialState, action) => {
 
 		case 'LOGOUT_SUCCESS':
 			return {
+				...state,
 				loading: false,
-				user: null,
 				isLoggedIn: false,
+				user: null,
 			};
 
 		case 'LOGOUT_FAIL':
 			return {
+				...state,
 				loading: false,
 				isLoggedIn: true,
 				error: action.payload,
@@ -58,6 +73,23 @@ export const authReducer = (state = initialState, action) => {
 			return {
 				...state,
 				error: null,
+			};
+
+		default:
+			return state;
+	}
+};
+const initialState2 = {
+	loading: true,
+	isLoggedIn: false,
+	user: [],
+};
+
+export const loadUserReducer = (state = initialState2, action) => {
+	switch (action.type) {
+		case 'haha':
+			return {
+				...state,
 			};
 
 		default:

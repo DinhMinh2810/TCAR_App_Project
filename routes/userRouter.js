@@ -36,11 +36,11 @@ router.route('/resetPassword').post(isAuthenticatedUser, resetPassword);
 
 router.route('/logout').get(isAuthenticatedUser, logout);
 
+router.route('/getDetailUser').get(isAuthenticatedUser, getDetailUser);
+
 router
 	.route('/getAllUser')
 	.get(isAuthenticatedUser, authorWithRole('admin'), getAllUser);
-
-router.route('/getDetailUser').get(isAuthenticatedUser, getDetailUser);
 
 router.route('/updateUserSelf').put(isAuthenticatedUser, updateUserSelf);
 

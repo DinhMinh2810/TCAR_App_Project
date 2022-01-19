@@ -2,7 +2,8 @@ const User = require('../models/userModel');
 const sendEmail = require('../utils/sendMail');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const QRCode = require('qrcode');
+const sendTokenCookie = require('../utils/sendTokenCookie');
+// const QRCode = require('qrcode');
 const { google } = require('googleapis');
 const { OAuth2 } = google.auth;
 const fetch = require('node-fetch');
@@ -55,7 +56,7 @@ exports.activateEmailRegister = async (req, res) => {
 			process.env.ACTIVATION_TOKEN_SECRET
 		);
 
-		const { name, email, password, avatar } = user;
+		const { name, email, password } = user;
 
 		const checkEmail = await User.findOne({ email });
 		if (checkEmail) {
@@ -66,12 +67,17 @@ exports.activateEmailRegister = async (req, res) => {
 			name,
 			email,
 			password,
-			avatar,
+			avatar: { id: '1', url: 'img' },
 		});
 
 		await newUser.save();
 
-		res.json({ message: 'Account has been activated successful !!' });
+		sendTokenCookie(
+			newUser,
+			201,
+			res,
+			'Account has been activated successful !!'
+		);
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
@@ -97,45 +103,10 @@ exports.login = async (req, res) => {
 		const isPasswordMatched = await user.comparePassword(password);
 
 		if (!isPasswordMatched) {
-			return res.status(400).json({ message: 'Password is incorrect.' });
+			return res.status(400).json({ message: 'Password is incorrect !!' });
 		}
 
-		const refreshToken = createRefreshToken({ id: user._id });
-		res.cookie('refreshToken', refreshToken, {
-			httpOnly: true,
-			path: '/api/refreshToken',
-			expiresIn: 7 * 24 * 60 * 60 * 1000,
-		});
-
-		let stringData = JSON.stringify(user);
-
-		// Print the QR code to terminal use !!
-		// QRCode.toString(stringData, { type: 'terminal' }, function (err, QRcode) {
-		// 	if (err) return console.log('Error occurred !!');
-
-		// 	// Printing the generated code
-		// 	console.log(QRcode);
-		// });
-
-		// // Converting the data into base64
-		// QRCode.toDataURL(
-		// 	stringdata,
-		// 	{
-		// 		color: {
-		// 			dark: '#00F',
-		// 			light: '#0000',
-		// 		},
-		// 		width: 100,
-		// 	},
-		// 	function (err, code) {
-		// 		if (err) return console.log('error occurred');
-
-		// 		// Printing the code
-		// 		console.log(code);
-		// 	}
-		// );
-
-		res.status(200).json({ message: 'Login success !!' });
+		sendTokenCookie(user, 200, res, 'Login success !!');
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
@@ -327,7 +298,7 @@ exports.resetPassword = async (req, res) => {
 exports.logout = async (req, res) => {
 	try {
 		res.clearCookie('refreshToken', { path: '/api/refreshToken' });
-		res.status(200).json({ message: 'Logout success !!' });
+		res.json({ message: 'Logout success !!' });
 	} catch (error) {
 		return res.status(500).json({ message: err.message });
 	}
@@ -406,11 +377,11 @@ const validateEmail = (email) => {
 
 const createActivationToken = (payload) => {
 	return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
-		expiresIn: '10m',
+		expiresIn: '15m',
 	});
 };
 
-const createAccessToken = (payload) => {
+exports.createAccessToken = (payload) => {
 	return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
 		expiresIn: '30m',
 	});

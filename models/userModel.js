@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema(
 	{
@@ -22,9 +23,14 @@ const userSchema = new mongoose.Schema(
 			select: false,
 		},
 		avatar: {
-			type: String,
-			default:
-				'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+			id: {
+				type: String,
+				required: true,
+			},
+			url: {
+				type: String,
+				required: true,
+			},
 		},
 		role: {
 			type: String,
@@ -34,6 +40,13 @@ const userSchema = new mongoose.Schema(
 	},
 	{ timeStamp: true }
 );
+
+// Create JWT access TOKEN
+userSchema.methods.createAccessToken = function () {
+	return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
+		expiresIn: '30m',
+	});
+};
 
 // Hash password
 userSchema.pre('save', async function () {
