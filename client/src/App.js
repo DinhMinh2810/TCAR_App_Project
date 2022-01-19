@@ -5,7 +5,6 @@ import Header from './components/Layout/Header/Header';
 import Footer from './components/Layout/Footer/Footer';
 import Login from './components/Auth/Login/Login';
 import Register from './components/Auth/Register/Register';
-import Register1 from './components/Auth/Login/Register1';
 import ActiveMailRegister from './components/Auth/Register/ActiveMailRegister';
 import {
 	dispatchGetUser,
@@ -15,8 +14,6 @@ import {
 } from './redux/actions/authAction';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
-import LoginMain from './components/Auth/Login/LoginMain';
-
 
 function App() {
 	const token = useSelector((state) => state.token);
@@ -40,8 +37,7 @@ function App() {
 		<BrowserRouter>
 			<Header />
 			<Routes>
-				<Route path="/" element={<Register1 />} />
-				<Route path="/loginm" element={<LoginMain />} />
+				<Route path="/" element={<>Home</>} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route

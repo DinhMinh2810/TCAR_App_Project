@@ -1,118 +1,94 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { dispatchLogin } from '../../../redux/actions/authAction';
+import React from 'react';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import {
+	login,
+	loginFacebook,
+	loginGoogle,
+} from '../../../redux/actions/authAction';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 
-const initialState = {
-	email: '',
-	password: '',
-	err: '',
-	success: '',
-};
-
-function Login() {
-	const [user, setUser] = useState(initialState);
+const Login = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
-	const { email, password, err, success } = user;
-
-	const handleChangeInput = (e) => {
-		const { name, value } = e.target;
-		setUser({ ...user, [name]: value, err: '', success: '' });
+	const initialValues = {
+		email: '',
+		password: '',
 	};
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			const res = await axios.post('/api/login', { email, password });
-			setUser({ ...user, err: '', success: res.data.msg });
+	const validationSchema = Yup.object({
+		email: Yup.string()
+			.email('Invalid email format !!')
+			.required('Please enter email !!'),
+		password: Yup.string()
+			.required('Please enter password !!')
+			.min(6, 'Password must be at least 6 characters !!'),
+	});
 
-			localStorage.setItem('userLogin', true);
-
-			dispatch(dispatchLogin());
-		} catch (err) {
-			err.response.data.msg &&
-				setUser({ ...user, err: err.response.data.msg, success: '' });
-		}
+	const loginSubmit = (values) => {
+		const { email, password } = values;
+		dispatch(login(email, password));
+		navigate('/');
 	};
 
 	const responseGoogle = async (response) => {
-		try {
-			const res = await axios.post('/api/googleLogin', {
-				tokenId: response.tokenId,
-			});
-
-			setUser({ ...user, error: '', success: res.data.msg });
-			localStorage.setItem('firstLogin', true);
-
-			dispatch(dispatchLogin());
-			console.log('====================================');
-			console.log(user);
-			console.log('====================================');
-		} catch (err) {
-			err.response.data.msg &&
-				setUser({ ...user, err: err.response.data.msg, success: '' });
-		}
+		const tokenId = response.tokenId;
+		dispatch(loginGoogle(tokenId));
 	};
 
 	const responseFacebook = async (response) => {
-		try {
-			const { accessToken, userID } = response;
-			const res = await axios.post('/api/facebookLogin', {
-				accessToken,
-				userID,
-			});
-
-			setUser({ ...user, error: '', success: res.data.msg });
-			localStorage.setItem('userLogin', true);
-
-			dispatch(dispatchLogin());
-		} catch (err) {
-			err.response.data.msg &&
-				setUser({ ...user, err: err.response.data.msg, success: '' });
-		}
+		const { accessToken, userID } = response;
+		dispatch(loginFacebook(accessToken, userID));
 	};
 
 	return (
-		<div className="login_page">
-			<h2>Login</h2>
+		<>
+			<Formik
+				initialValues={initialValues}
+				validationSchema={validationSchema}
+				onSubmit={loginSubmit}
+			>
+				{(formik) => (
+					<form onSubmit={formik.handleSubmit}>
+						<div className="register_form">
+							<h1>Login</h1>
+							<div className="register_form-label">
+								<label htmlFor="email" className="register_form-text">
+									Email
+								</label>
+								<input
+									id="email"
+									type="email"
+									{...formik.getFieldProps('email')}
+								/>
+							</div>
+							{formik.touched.email && formik.errors.email ? (
+								<div className="form_error">{formik.errors.email}</div>
+							) : null}
+							<div className="register_form-label">
+								<label htmlFor="password" className="register_form-text">
+									password
+								</label>
+								<input
+									id="password"
+									type="password"
+									className="register_form-input"
+									{...formik.getFieldProps('password')}
+								/>
+							</div>
+							{formik.touched.password && formik.errors.password ? (
+								<div className="form_error">{formik.errors.password}</div>
+							) : null}
 
-			<form onSubmit={handleSubmit}>
-				<div>
-					<label htmlFor="email">Email Address</label>
-					<input
-						type="text"
-						placeholder="Enter email address"
-						id="email"
-						value={email}
-						name="email"
-						onChange={handleChangeInput}
-					/>
-				</div>
-
-				<div>
-					<label htmlFor="password">Password</label>
-					<input
-						type="password"
-						placeholder="Enter password"
-						id="password"
-						value={password}
-						name="password"
-						onChange={handleChangeInput}
-					/>
-				</div>
-
-				<div className="row">
-					<button type="submit">Login</button>
-					<Link to="/forgot_password">Forgot your password?</Link>
-				</div>
-			</form>
-
-			<div className="hr">Or Login With</div>
-
+							<button type="submit">Submit</button>
+						</div>
+					</form>
+				)}
+			</Formik>
 			<div className="social">
 				<GoogleLogin
 					clientId="1013536877025-ip5p8e6fhvjilej5ln9049isudh7s3k0.apps.googleusercontent.com"
@@ -128,12 +104,8 @@ function Login() {
 					callback={responseFacebook}
 				/>
 			</div>
-
-			<p>
-				New Customer? <Link to="/register">Register</Link>
-			</p>
-		</div>
+		</>
 	);
-}
+};
 
 export default Login;
