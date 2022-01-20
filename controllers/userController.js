@@ -9,6 +9,7 @@ const { OAuth2 } = google.auth;
 const fetch = require('node-fetch');
 const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
 const { CLIENT_URL } = process.env;
+const crypto = require('crypto');
 
 // Register User
 exports.register = async (req, res) => {
@@ -260,18 +261,27 @@ exports.forgotPassword = async (req, res) => {
 		if (!user) {
 			return res.status(404).json({ message: 'User not found !!' });
 		}
-		const accessToken = createAccessToken({ id: user.id });
 
-		const resetPasswordUrl = `${CLIENT_URL}/api/resetPassword/${accessToken}`;
-		sendEmail(
-			email,
-			resetPasswordUrl,
-			'Please click to reset your password !!'
-		);
-		res
-			.status(200)
-			.json({ message: 'Please check your email to reset your password !!' });
-	} catch (error) {
+		const resetPWToken = user.getResetPasswordToken();
+		const resetPasswordUrl = `${CLIENT_URL}/api/resetPassword/${resetPWToken}`;
+		await user.save({ validateBeforeSave: false });
+		try {
+			await sendEmail(
+				email,
+				resetPasswordUrl,
+				'Please click to reset your password !!'
+			);
+
+			res
+				.status(200)
+				.json({ message: 'Please check your email to reset your password !!' });
+		} catch (err) {
+			user.resetPasswordToken = undefined;
+			user.resetPasswordExpireIn = undefined;
+			await user.save({ validateBeforeSave: false });
+			return res.status(500).json({ message: err.message });
+		}
+	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
 };
@@ -279,17 +289,28 @@ exports.forgotPassword = async (req, res) => {
 // Reset Password User
 exports.resetPassword = async (req, res) => {
 	try {
-		const { password } = req.body;
-		const passwordHash = await bcrypt.hash(password, 12);
-		await User.findOneAndUpdate(
-			{ _id: req.user.id },
-			{
-				password: passwordHash,
-			}
-		);
+		const resetPasswordToken = crypto
+			.createHash('sha256')
+			.update(req.params.token)
+			.digest('hex');
 
-		res.status(200).json({ message: 'Password changed success !!' });
-	} catch (error) {
+		const user = await User.findOne({
+			resetPasswordToken,
+			resetPasswordExpire: { $gt: Date.now() },
+		});
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found !!' });
+		}
+
+		user.password = req.body.password;
+		user.resetPasswordToken = undefined;
+		user.resetPasswordExpire = undefined;
+
+		await user.save();
+
+		sendTokenCookie(user, 200, res, 'Password changed successfully !!');
+	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
 };
@@ -297,9 +318,12 @@ exports.resetPassword = async (req, res) => {
 // Logout User
 exports.logout = async (req, res) => {
 	try {
-		res.clearCookie('refreshToken', { path: '/api/refreshToken' });
+		res.cookie('token', null, {
+			expiresIn: new Date(Date.now()),
+			httpOnly: true,
+		});
 		res.json({ message: 'Logout success !!' });
-	} catch (error) {
+	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
 };
@@ -381,7 +405,7 @@ const createActivationToken = (payload) => {
 	});
 };
 
-exports.createAccessToken = (payload) => {
+createAccessToken = (payload) => {
 	return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
 		expiresIn: '30m',
 	});

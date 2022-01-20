@@ -17,7 +17,7 @@ const oauth2Client = new OAuth2(
 	OAUTH_PLAYGROUND
 );
 
-const sendEmail = (to, url, message) => {
+const sendEmail = async (to, url, message) => {
 	oauth2Client.setCredentials({
 		refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
 	});
@@ -54,7 +54,7 @@ const sendEmail = (to, url, message) => {
         `,
 	};
 
-	smtpTransport.sendMail(mailOptions, (err, information) => {
+	await smtpTransport.sendMail(mailOptions, (err, information) => {
 		if (err) return err;
 		return information;
 	});

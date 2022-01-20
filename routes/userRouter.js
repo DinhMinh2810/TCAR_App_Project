@@ -32,9 +32,9 @@ router.route('/refreshToken').post(getAccessToken);
 
 router.route('/forgotPassword').post(forgotPassword);
 
-router.route('/resetPassword').post(isAuthenticatedUser, resetPassword);
+router.route('/resetPassword/:token').put( resetPassword);
 
-router.route('/logout').get(isAuthenticatedUser, logout);
+router.route('/logout').get(logout);
 
 router.route('/getDetailUser').get(isAuthenticatedUser, getDetailUser);
 
