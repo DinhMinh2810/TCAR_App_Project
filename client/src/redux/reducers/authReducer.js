@@ -1,7 +1,4 @@
-const initialState = {
-	user: {},
-	isLoggedIn: false,
-};
+const initialState = { user: {} };
 
 export const authReducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -21,12 +18,7 @@ export const authReducer = (state = initialState, action) => {
 				...state,
 				loading: false,
 				isLoggedIn: true,
-				message: action.payload,
-			};
-		case 'LOGIN':
-			return {
-				...state,
-				isLoggedIn: true,
+				user: action.payload,
 			};
 		case 'REGISTER_FAIL':
 		case 'ACTIVE_MAIL_REGISTER_FAIL':
@@ -38,21 +30,13 @@ export const authReducer = (state = initialState, action) => {
 				user: null,
 				error: action.payload,
 			};
-
 		case 'LOAD_USER_FAIL':
 			return {
 				loading: false,
-				isAuthenticated: false,
+				isLoggedIn: false,
 				user: null,
 				error: action.payload,
 			};
-
-		case 'GET_USER_SUCCESS':
-			return {
-				...state,
-				user: action.payload.user,
-			};
-
 		case 'LOGOUT_SUCCESS':
 			return {
 				...state,
@@ -73,23 +57,6 @@ export const authReducer = (state = initialState, action) => {
 			return {
 				...state,
 				error: null,
-			};
-
-		default:
-			return state;
-	}
-};
-const initialState2 = {
-	loading: true,
-	isLoggedIn: false,
-	user: [],
-};
-
-export const loadUserReducer = (state = initialState2, action) => {
-	switch (action.type) {
-		case 'haha':
-			return {
-				...state,
 			};
 
 		default:

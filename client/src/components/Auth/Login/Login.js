@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
+	clearErrors,
 	login,
 	loginFacebook,
 	loginGoogle,
 } from '../../../redux/actions/authAction';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import Loader from '../../Layout/Loader/Loader';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
+	const { error, loading, isLoggedIn } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -29,10 +33,17 @@ const Login = () => {
 			.min(6, 'Password must be at least 6 characters !!'),
 	});
 
+	useEffect(() => {
+		if (error) {
+			toast.warn(error);
+			dispatch(clearErrors());
+		}
+	}, [dispatch, error]);
+
 	const loginSubmit = (values) => {
 		const { email, password } = values;
 		dispatch(login(email, password));
-		navigate('/');
+		// navigate('/');
 	};
 
 	const responseGoogle = async (response) => {
@@ -47,63 +58,71 @@ const Login = () => {
 
 	return (
 		<>
-			<Formik
-				initialValues={initialValues}
-				validationSchema={validationSchema}
-				onSubmit={loginSubmit}
-			>
-				{(formik) => (
-					<form onSubmit={formik.handleSubmit}>
-						<div className="register_form">
-							<h1>Login</h1>
-							<div className="register_form-label">
-								<label htmlFor="email" className="register_form-text">
-									Email
-								</label>
-								<input
-									id="email"
-									type="email"
-									{...formik.getFieldProps('email')}
-								/>
-							</div>
-							{formik.touched.email && formik.errors.email ? (
-								<div className="form_error">{formik.errors.email}</div>
-							) : null}
-							<div className="register_form-label">
-								<label htmlFor="password" className="register_form-text">
-									password
-								</label>
-								<input
-									id="password"
-									type="password"
-									className="register_form-input"
-									{...formik.getFieldProps('password')}
-								/>
-							</div>
-							{formik.touched.password && formik.errors.password ? (
-								<div className="form_error">{formik.errors.password}</div>
-							) : null}
+			{loading ? (
+				<Loader />
+			) : (
+				<>
+					<ToastContainer className="toastify"  />
 
-							<button type="submit">Submit</button>
-						</div>
-					</form>
-				)}
-			</Formik>
-			<div className="social">
-				<GoogleLogin
-					clientId="1013536877025-ip5p8e6fhvjilej5ln9049isudh7s3k0.apps.googleusercontent.com"
-					buttonText="Login with google"
-					onSuccess={responseGoogle}
-					cookiePolicy={'single_host_origin'}
-				/>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={loginSubmit}
+					>
+						{(formik) => (
+							<form onSubmit={formik.handleSubmit}>
+								<div className="register_form">
+									<h1>Login</h1>
+									<div className="register_form-label">
+										<label htmlFor="email" className="register_form-text">
+											Email
+										</label>
+										<input
+											id="email"
+											type="email"
+											{...formik.getFieldProps('email')}
+										/>
+									</div>
+									{formik.touched.email && formik.errors.email ? (
+										<div className="form_error">{formik.errors.email}</div>
+									) : null}
+									<div className="register_form-label">
+										<label htmlFor="password" className="register_form-text">
+											password
+										</label>
+										<input
+											id="password"
+											type="password"
+											className="register_form-input"
+											{...formik.getFieldProps('password')}
+										/>
+									</div>
+									{formik.touched.password && formik.errors.password ? (
+										<div className="form_error">{formik.errors.password}</div>
+									) : null}
 
-				<FacebookLogin
-					appId="511104760214362"
-					autoLoad={false}
-					fields="name,email,picture"
-					callback={responseFacebook}
-				/>
-			</div>
+									<button type="submit">Submit</button>
+								</div>
+							</form>
+						)}
+					</Formik>
+					<div className="social">
+						<GoogleLogin
+							clientId="1013536877025-ip5p8e6fhvjilej5ln9049isudh7s3k0.apps.googleusercontent.com"
+							buttonText="Login with google"
+							onSuccess={responseGoogle}
+							cookiePolicy={'single_host_origin'}
+						/>
+
+						<FacebookLogin
+							appId="511104760214362"
+							autoLoad={false}
+							fields="name,email,picture"
+							callback={responseFacebook}
+						/>
+					</div>
+				</>
+			)}
 		</>
 	);
 };

@@ -35,9 +35,10 @@ const Register = () => {
 	});
 
 	const registerSubmit = (values) => {
-		const { name, email, password } = values;
-		dispatch(register(name, email, password));
-		navigate('/');
+		const { name, email, password, avatar } = values;
+		// dispatch(register(name, email, password));
+		// navigate('/');
+		console.log(avatar);
 	};
 
 	return (
@@ -109,6 +110,18 @@ const Register = () => {
 												{formik.errors.confirmPassword}
 											</div>
 										) : null}
+
+										<div className="register_form-label">
+											<label htmlFor="password">Avatar</label>
+											<input
+												id="avatar"
+												type="file"
+												accept="image/*"
+												className="register_form-input"
+												{...formik.getFieldProps('avatar')}
+											/>
+										</div>
+
 										<button type="submit">Submit</button>
 									</div>
 								</form>

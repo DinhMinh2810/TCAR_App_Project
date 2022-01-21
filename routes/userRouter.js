@@ -10,7 +10,7 @@ const {
 	forgotPassword,
 	resetPassword,
 	getAllUser,
-	getDetailUser,
+	userDetailExist,
 	logout,
 	updateUserSelf,
 	updateUserRole,
@@ -20,7 +20,7 @@ const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
 router.route('/register').post(register);
 
-router.route('/activateEmail').post(activateEmailRegister);
+// router.route('/activateEmail').post(activateEmailRegister);
 
 router.route('/login').post(login);
 
@@ -32,16 +32,17 @@ router.route('/refreshToken').post(getAccessToken);
 
 router.route('/forgotPassword').post(forgotPassword);
 
-router.route('/resetPassword/:token').put( resetPassword);
+router.route('/resetPassword/:token').put(resetPassword);
 
 router.route('/logout').get(logout);
 
-router.route('/getDetailUser').get(isAuthenticatedUser, getDetailUser);
+router.route('/userDetailExist').get(isAuthenticatedUser, userDetailExist);
 
 router
 	.route('/getAllUser')
 	.get(isAuthenticatedUser, authorWithRole('admin'), getAllUser);
 
+// Tu tu
 router.route('/updateUserSelf').put(isAuthenticatedUser, updateUserSelf);
 
 router

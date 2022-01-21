@@ -8,9 +8,7 @@ import axios from 'axios';
 const Header = () => {
 	const auth = useSelector((state) => state.auth);
 	const { user, isLoggedIn } = auth;
-	console.log('====================================');
-	console.log(auth);
-	console.log('====================================');
+
 	const token = useSelector((state) => state.token);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();

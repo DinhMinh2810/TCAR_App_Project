@@ -3,27 +3,18 @@ const User = require('../models/userModel');
 
 exports.isAuthenticatedUser = async (req, res, next) => {
 	try {
-		const token = req.cookies;
-		if (!token) {
+		const { token } = req.cookies;
+		if (token === 'j:null') {
 			return res
-				.status(400)
-				.json({ message: 'Invalid Authentication !! Please login !!' });
+				.status(401)
+				.json({ message: ' Invalid Authentication !! Please login again' });
 		}
 
-		// const decodedData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+		const decodedData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-		// req.user = await User.findById(decodedData.id);
-		// next();
+		req.user = await User.findById(decodedData.id);
 
-		jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-			if (err) {
-				return res
-					.status(400)
-					.json({ message: 'Invalid Authentication !! Please login !!' });
-			}
-
-			req.user = user;
-		});
+		next();
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
@@ -41,6 +32,6 @@ exports.authorWithRole = (...roles) => {
 			next();
 		};
 	} catch (error) {
-		return res.status(500).json({ message: err.message });
+		return res.status(500).json({ message: error.message });
 	}
 };
