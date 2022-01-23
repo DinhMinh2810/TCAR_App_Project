@@ -39,7 +39,6 @@ export const authReducer = (state = initialState, action) => {
 			};
 		case 'LOGOUT_SUCCESS':
 			return {
-				...state,
 				loading: false,
 				isLoggedIn: false,
 				user: null,
@@ -49,7 +48,6 @@ export const authReducer = (state = initialState, action) => {
 			return {
 				...state,
 				loading: false,
-				isLoggedIn: true,
 				error: action.payload,
 			};
 

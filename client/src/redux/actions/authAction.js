@@ -39,9 +39,8 @@ export const login = (email, password) => async (dispatch) => {
 		const config = { headers: { 'Content-Type': 'application/json' } };
 
 		const res = await axios.post('/api/login', { email, password }, config);
-		localStorage.setItem('userLogin', true);
 
-		dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
+		dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.user });
 	} catch (error) {
 		dispatch({ type: 'LOGIN_FAIL', payload: error.response.data.message });
 	}
@@ -94,38 +93,26 @@ export const getAccessToken = () => async (dispatch) => {
 	}
 };
 
+// Get user is exsting in app
+export const loadUser = () => async (dispatch) => {
+	try {
+		dispatch({ type: 'LOAD_USER_REQUEST' });
+
+		const res = await axios.get('/api/userDetailExist');
+
+		dispatch({ type: 'LOAD_USER_SUCCESS', payload: res.data });
+	} catch (error) {
+		dispatch({ type: 'LOAD_USER_FAIL', payload: error.response.data.message });
+	}
+};
+
 export const logout = () => async (dispatch) => {
 	try {
-		localStorage.removeItem('userLogin');
 		await axios.get('/api/logout');
-
 		dispatch({ type: 'LOGOUT_SUCCESS' });
 	} catch (error) {
 		dispatch({ type: 'LOGOUT_FAIL', payload: error.response.data.message });
 	}
-};
-
-// Get user is exsting in app
-export const loadUser = () => {
-	return {
-		type: 'LOAD_USER_SUCCESS',
-	};
-};
-
-export const fetchUser = async (token) => {
-	const res = await axios.get('/api/getDetailUser', {
-		headers: { Authorization: token },
-	});
-	return res;
-};
-
-export const dispatchGetUser = (res) => {
-	return {
-		type: 'GET_USER_SUCCESS',
-		payload: {
-			user: res.data,
-		},
-	};
 };
 
 // Forgot Password

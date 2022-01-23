@@ -5,18 +5,12 @@ import { Navigate } from 'react-router-dom';
 //Check authentication
 
 const ProtectedRoute = ({ isAdmin, children }) => {
-	const { loading, isAuthenticated, user } = useSelector((state) => state.user);
+	const auth = useSelector((state) => state.auth);
+	
 
 	return (
 		<Fragment>
-			{loading === false &&
-				(isAuthenticated === false ? (
-					<Navigate replace to="/login" />
-				) : isAdmin === true && user.role !== 'admin' ? (
-					<Navigate replace to="/login" />
-				) : (
-					children
-				))}
+			
 		</Fragment>
 	);
 };

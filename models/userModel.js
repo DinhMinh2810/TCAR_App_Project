@@ -24,19 +24,14 @@ const userSchema = new mongoose.Schema(
 			select: false,
 		},
 		avatar: {
-			public_id: {
-				type: String,
-				required: true,
-			},
-			url: {
-				type: String,
-				required: true,
-			},
+			type: String,
+			default:
+				'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png',
 		},
 		role: {
 			type: String,
-			enum: ['admin', 'employee', 'driver', 'user'],
-			default: 'user',
+			enum: ['Admin', 'Employee', 'Driver', 'User'],
+			default: 'User',
 		},
 		resetPasswordToken: String,
 		resetPasswordExpireIn: Date,

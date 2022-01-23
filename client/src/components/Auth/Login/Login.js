@@ -43,7 +43,7 @@ const Login = () => {
 	const loginSubmit = (values) => {
 		const { email, password } = values;
 		dispatch(login(email, password));
-		// navigate('/');
+		navigate('/');
 	};
 
 	const responseGoogle = async (response) => {
@@ -62,8 +62,7 @@ const Login = () => {
 				<Loader />
 			) : (
 				<>
-					<ToastContainer className="toastify"  />
-
+					<ToastContainer className="toastify" />
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}

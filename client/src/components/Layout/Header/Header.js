@@ -3,28 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../../redux/actions/authAction';
 import { Container, Row, Col, Dropdown, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const Header = () => {
 	const auth = useSelector((state) => state.auth);
 	const { user, isLoggedIn } = auth;
 
-	const token = useSelector((state) => state.token);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	// console.log(user);
-
 	const logoutSubmit = async () => {
 		dispatch(logout());
-		// try {
-		// 	localStorage.removeItem('userLogin');
-		// 	await axios.get('/api/logout');
-
-		// 	window.location.href = '/';
-		// } catch (err) {
-		// 	window.location.href = '/';
-		// }
 		navigate('/');
 	};
 
@@ -43,14 +31,16 @@ const Header = () => {
 									</Dropdown.Toggle>
 
 									<Dropdown.Menu>
-										<Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-										<Dropdown.Item href="#/action-2">
-											Another action
+										<Dropdown.Item href="#/action-1">
+											Role: {user.role}
 										</Dropdown.Item>
 
 										<Button onClick={logoutSubmit}>Logout</Button>
 									</Dropdown.Menu>
 								</Dropdown>
+								<>
+									<img src={user.avatar} alt="img" width="100" height="100" />
+								</>
 							</div>
 						) : (
 							<Link to="/login">Login In</Link>

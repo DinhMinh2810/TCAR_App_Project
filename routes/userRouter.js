@@ -20,7 +20,7 @@ const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
 router.route('/register').post(register);
 
-// router.route('/activateEmail').post(activateEmailRegister);
+router.route('/activateEmail').post(activateEmailRegister);
 
 router.route('/login').post(login);
 

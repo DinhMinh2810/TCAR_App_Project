@@ -10,121 +10,77 @@ const fetch = require('node-fetch');
 const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
 const { CLIENT_URL } = process.env;
 const crypto = require('crypto');
-const cloudinary = require('cloudinary').v2;
 
 // Register User
-// exports.register = async (req, res) => {
-// 	try {
-// 		const { name, email, password } = req.body;
-
-// 		if (!name || !email || !password) {
-// 			return res.status(400).json({ message: 'Please enter all fields !!' });
-// 		}
-
-// 		if (!validateEmail(email)) {
-// 			return res.status(400).json({ message: 'Invalid emails !!' });
-// 		}
-// 		const user = await User.findOne({ email });
-// 		if (user) {
-// 			return res.status(400).json({ message: 'This email already exists !!' });
-// 		}
-// 		const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-// 			folder: 'avatars',
-// 			width: 150,
-// 			crop: 'scale',
-// 		});
-
-// 		const newUser = {
-// 			name,
-// 			email,
-// 			password,
-// 			avatar: {
-// 				public_id: myCloud.public_id,
-// 				url: myCloud.secure_url,
-// 			},
-// 		};
-
-// 		const activationToken = createActivationToken(newUser);
-
-// 		const url = `${CLIENT_URL}/api/activate/${activationToken}`;
-// 		sendEmail(email, url, 'Please click to verify your email address');
-
-// 		res.status(200).json({
-// 			message: 'Please check your email to register account !!.',
-// 		});
-// 	} catch (error) {
-// 		return res.status(500).json({ message: error.message });
-// 	}
-// };
-
 exports.register = async (req, res) => {
 	try {
-		const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
-			folder: 'avatars',
-			width: 150,
-			crop: 'scale',
-		});
-
 		const { name, email, password } = req.body;
 
-		const user = await User.create({
+		if (!name || !email || !password) {
+			return res.status(400).json({ message: 'Please enter all fields !!' });
+		}
+
+		if (!validateEmail(email)) {
+			return res.status(400).json({ message: 'Invalid emails !!' });
+		}
+		const user = await User.findOne({ email });
+		if (user) {
+			return res.status(400).json({ message: 'This email already exists !!' });
+		}
+
+		const newUser = {
 			name,
 			email,
 			password,
-			avatar: {
-				public_id: myCloud.public_id,
-				url: myCloud.secure_url,
-			},
-		});
+		};
 
-		sendTokenCookie(user, 200, res, 'res success !!');
+		const activationToken = createActivationToken(newUser);
+
+		const url = `${CLIENT_URL}/api/activate/${activationToken}`;
+		sendEmail(email, url, 'Please click to verify your email address');
+
+		res.status(200).json({
+			message: 'Please check your email to register account !!.',
+		});
 	} catch (error) {
 		return res.status(500).json({ message: error.message });
 	}
 };
 
 // Active email to register User
-// exports.activateEmailRegister = async (req, res) => {
-// 	try {
-// 		const { activationToken } = req.body;
-// 		const user = jwt.verify(
-// 			activationToken,
-// 			process.env.ACTIVATION_TOKEN_SECRET
-// 		);
+exports.activateEmailRegister = async (req, res) => {
+	try {
+		const { activationToken } = req.body;
+		const user = jwt.verify(
+			activationToken,
+			process.env.ACTIVATION_TOKEN_SECRET
+		);
 
-// 		const { name, email, password } = user;
+		const { name, email, password } = user;
 
-// 		const checkEmail = await User.findOne({ email });
-// 		if (checkEmail) {
-// 			return res.status(400).json({ message: 'This email already exists !!' });
-// 		}
-// 		const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-// 			folder: 'avatars',
-// 			width: 150,
-// 			crop: 'scale',
-// 		});
-// 		const newUser = new User({
-// 			name,
-// 			email,
-// 			password,
-// 			avatar: {
-// 				public_id: myCloud.public_id,
-// 				url: myCloud.secure_url,
-// 			},
-// 		});
+		const checkEmail = await User.findOne({ email });
+		if (checkEmail) {
+			return res.status(400).json({ message: 'This email already exists !!' });
+		}
 
-// 		await newUser.save();
+		const newUser = new User({
+			name,
+			email,
+			password,
+		});
 
-// 		sendTokenCookie(
-// 			newUser,
-// 			201,
-// 			res,
-// 			'Account has been activated successful !!'
-// 		);
-// 	} catch (err) {
-// 		return res.status(500).json({ message: err.message });
-// 	}
-// };
+		await newUser.save();
+
+		sendTokenCookie(
+			newUser,
+			201,
+			res,
+			'Account has been activated successful !!'
+		);
+	} catch (err) {
+		return res.status(500).json({ message: err.message });
+	}
+};
 
 // Login user
 exports.login = async (req, res) => {

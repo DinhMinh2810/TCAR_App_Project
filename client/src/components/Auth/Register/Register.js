@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { register } from '../../../redux/actions/authAction';
 import { Container, Row, Col } from 'react-bootstrap';
-
 import './Register.css';
 
 const Register = () => {
@@ -16,7 +15,6 @@ const Register = () => {
 		email: '',
 		password: '',
 		confirmPassword: '',
-		avatar: '',
 	};
 
 	const validationSchema = Yup.object({
@@ -35,10 +33,10 @@ const Register = () => {
 	});
 
 	const registerSubmit = (values) => {
-		const { name, email, password, avatar } = values;
-		// dispatch(register(name, email, password));
-		// navigate('/');
-		console.log(avatar);
+		const { name, email, password } = values;
+
+		dispatch(register(name, email, password));
+		navigate('/');
 	};
 
 	return (
@@ -111,7 +109,7 @@ const Register = () => {
 											</div>
 										) : null}
 
-										<div className="register_form-label">
+										{/* <div className="register_form-label">
 											<label htmlFor="password">Avatar</label>
 											<input
 												id="avatar"
@@ -120,7 +118,7 @@ const Register = () => {
 												className="register_form-input"
 												{...formik.getFieldProps('avatar')}
 											/>
-										</div>
+										</div> */}
 
 										<button type="submit">Submit</button>
 									</div>
