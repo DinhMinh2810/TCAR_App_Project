@@ -35,7 +35,6 @@ router.route('/logout').get(logout);
 
 router.route('/userDetailExist').get(isAuthenticatedUser, userDetailExist);
 
-// Tu tu
 router.route('/updateUserSelf').put(isAuthenticatedUser, updateUserSelf);
 
 module.exports = router;

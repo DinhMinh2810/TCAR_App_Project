@@ -19,9 +19,11 @@ app.use(fileUpload());
 // Routes
 const userRouter = require('./routes/userRouter');
 const adminRouter = require('./routes/adminRouter');
+const carRouter = require('./routes/carRouter');
 
 app.use('/api', userRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api', carRouter);
 
 connectDB();
 
