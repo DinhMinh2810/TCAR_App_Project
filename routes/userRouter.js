@@ -9,12 +9,9 @@ const {
 	getAccessToken,
 	forgotPassword,
 	resetPassword,
-	getAllUser,
 	userDetailExist,
 	logout,
 	updateUserSelf,
-	updateUserRole,
-	deleteUser,
 } = require('../controllers/userController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
@@ -38,19 +35,7 @@ router.route('/logout').get(logout);
 
 router.route('/userDetailExist').get(isAuthenticatedUser, userDetailExist);
 
-router
-	.route('/getAllUser')
-	.get(isAuthenticatedUser, authorWithRole('admin'), getAllUser);
-
 // Tu tu
 router.route('/updateUserSelf').put(isAuthenticatedUser, updateUserSelf);
-
-router
-	.route('/updateUserRole/:id')
-	.put(isAuthenticatedUser, authorWithRole('admin'), updateUserRole);
-
-router
-	.route('/deleteUser/:id')
-	.delete(isAuthenticatedUser, authorWithRole('admin'), deleteUser);
 
 module.exports = router;

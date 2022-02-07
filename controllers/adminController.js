@@ -1,8 +1,27 @@
 const User = require('../models/userModel');
-const cloudinary = require('cloudinary').v2;
+const bcrypt = require('bcrypt');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 
-// CRUD account staff
+// Get all user
+exports.getAllAccount = catchAsyncErrShort(async (req, res) => {
+	const users = await User.find();
+	res.status(200).json(users);
+});
+
+// Update role for user
+exports.updateUserRole = async (req, res) => {
+	try {
+		const { role } = req.body;
+		if (!role) {
+			return res.status(400).json({ message: 'Please enter new role !!' });
+		}
+
+		await User.findOneAndUpdate({ _id: req.params.id }, { role });
+		res.json({ message: 'Update role success !!' });
+	} catch (error) {
+		return res.status(500).json({ message: error.message });
+	}
+};
 
 // Create account staff
 exports.createAccStaff = async (req, res) => {
@@ -26,7 +45,6 @@ exports.createAccStaff = async (req, res) => {
 			password,
 			role: 'Staff',
 		});
-
 		res
 			.status(200)
 			.json({ user, message: 'Admin create account for Staff success !!.' });
@@ -34,6 +52,32 @@ exports.createAccStaff = async (req, res) => {
 		return res.status(500).json({ message: error.message });
 	}
 };
+
+// Get all account staff
+exports.getAccStaff = catchAsyncErrShort(async (req, res) => {
+	const users = await User.find({ role: 'Staff' });
+	if (!users) {
+		return res.status(404).json({
+			message: `User not found or just can delete user with role "Staff" !!`,
+		});
+	}
+
+	return res.status(200).json({ users });
+});
+
+// Update account staff
+exports.changePWAccStaff = catchAsyncErrShort(async (req, res) => {
+	const { password } = req.body;
+	if (!password) {
+		return res.status(400).json({ message: 'Please enter new password !!' });
+	}
+	const hashPassword = await bcrypt.hash(password, 12);
+	await User.findOneAndUpdate(
+		{ _id: req.params.id },
+		{ password: hashPassword }
+	);
+	res.json({ message: 'Change password account staff success !!' });
+});
 
 // Delete account staff
 exports.deleteAccStaff = catchAsyncErrShort(async (req, res) => {

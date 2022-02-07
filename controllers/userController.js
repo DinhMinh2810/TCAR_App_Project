@@ -296,17 +296,6 @@ exports.userDetailExist = async (req, res) => {
 	}
 };
 
-// Get all user -- Admin
-exports.getAllUser = async (req, res) => {
-	try {
-		const users = await User.find();
-
-		res.status(200).json(users);
-	} catch (err) {
-		return res.status(500).json({ message: err.message });
-	}
-};
-
 // UserSelf update
 exports.updateUserSelf = async (req, res) => {
 	try {
@@ -321,31 +310,6 @@ exports.updateUserSelf = async (req, res) => {
 
 		res.json({ message: 'Update UserSelf success !!' });
 	} catch (err) {
-		return res.status(500).json({ message: err.message });
-	}
-};
-
-// Update role for user -- Admin
-exports.updateUserRole = async (req, res) => {
-	try {
-		const { role } = req.body;
-		await User.findOneAndUpdate({ _id: req.params.id }, { role });
-		res.json({ message: 'Update role success !!' });
-	} catch (error) {
-		return res.status(500).json({ message: err.message });
-	}
-};
-
-// Delete user -- Admin
-exports.deleteUser = async (req, res) => {
-	try {
-		const user = await User.findOne({ _id: req.params.id });
-		if (!user) {
-			return res.status(404).json({ message: 'User not found !!' });
-		}
-		await User.deleteOne({ _id: req.params.id });
-		return res.status(200).json({ message: 'Delete user successful !!' });
-	} catch (error) {
 		return res.status(500).json({ message: err.message });
 	}
 };
