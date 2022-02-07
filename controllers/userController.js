@@ -129,44 +129,15 @@ exports.googleLogin = async (req, res) => {
 			return res.status(400).json({ message: 'This email is not exist !!' });
 		}
 
-		const user = await User.findOne({ email });
-		if (user) {
-			const matchPassword = await bcrypt.compare(password, user.password);
-			if (!matchPassword) {
-				return res
-					.status(400)
-					.json({ message: 'Wrong or invalid password !!' });
-			}
+		const newUser = new User({
+			name,
+			email,
+			password: hashPassword,
+			avatar: picture,
+		});
 
-			const refreshToken = createRefreshToken({ id: user._id });
-			res.cookie('refreshToken', refreshToken, {
-				httpOnly: true,
-				path: '/api/refreshToken',
-				expiresIn: 7 * 24 * 60 * 60 * 1000,
-			});
-
-			res.status(200).json({ message: 'Login success !!' });
-		} else {
-			const newUser = new User({
-				name,
-				email,
-				password: hashPassword,
-				avatar: picture,
-			});
-
-			await newUser.save();
-
-			const refreshToken = createRefreshToken({ id: newUser._id });
-			res.cookie('refreshToken', refreshToken, {
-				httpOnly: true,
-				path: '/api/refreshToken',
-				expiresIn: 7 * 24 * 60 * 60 * 1000,
-			});
-
-			res.status(200).json({ message: 'Login success !!' });
-		}
-
-		res.status(200).json({ message: 'Login success !!' });
+		await newUser.save();
+		sendTokenCookie(newUser, 200, res, 'Login success with google !!');
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
@@ -198,13 +169,6 @@ exports.facebookLogin = async (req, res) => {
 			if (!isMatch)
 				return res.status(400).json({ message: 'Password is incorrect !!' });
 
-			const refresh_token = createRefreshToken({ id: user._id });
-			res.cookie('refreshtoken', refresh_token, {
-				httpOnly: true,
-				path: '/user/refresh_token',
-				maxAge: 7 * 24 * 60 * 60 * 1000,
-			});
-
 			res.json({ message: 'Login success !!' });
 		} else {
 			const newUser = new User({
@@ -216,14 +180,7 @@ exports.facebookLogin = async (req, res) => {
 
 			await newUser.save();
 
-			const refresh_token = createRefreshToken({ id: newUser._id });
-			res.cookie('refreshtoken', refresh_token, {
-				httpOnly: true,
-				path: '/user/refresh_token',
-				maxAge: 7 * 24 * 60 * 60 * 1000,
-			});
-
-			res.json({ message: 'Login success !!' });
+			sendTokenCookie(newUser, 200, res, 'Login success with facebook !!');
 		}
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
@@ -261,7 +218,10 @@ exports.forgotPassword = async (req, res) => {
 		}
 
 		const resetPWToken = user.getResetPasswordToken();
-		const resetPasswordUrl = `${CLIENT_URL}/api/resetPassword/${resetPWToken}`;
+		const resetPasswordUrl = `${req.protocol}://${req.get(
+			'host'
+		)}/api/resetPassword/${resetPWToken}`;
+
 		await user.save({ validateBeforeSave: false });
 		try {
 			await sendEmail(
@@ -399,5 +359,11 @@ const validateEmail = (email) => {
 const createActivationToken = (payload) => {
 	return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
 		expiresIn: '15m',
+	});
+};
+
+const createRefreshToken = (payload) => {
+	return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+		expiresIn: '14d',
 	});
 };
