@@ -1,9 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const { createProduct } = require('../controllers/carController');
+const {
+	getAllCars,
+	createCar,
+	updateCar,
+	deleteCar,
+} = require('../controllers/carController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
 router
-	.route('/cars/create')
-	.post(isAuthenticatedUser, authorWithRole('Admin'), createProduct);
+	.route('/getAllCars')
+	.get(isAuthenticatedUser, authorWithRole('Admin'), getAllCars);
+
+router
+	.route('/create')
+	.post(isAuthenticatedUser, authorWithRole('Admin'), createCar);
+
+router
+	.route('/update/:id')
+	.put(isAuthenticatedUser, authorWithRole('Admin'), updateCar);
+
+router
+	.route('/delete/:id')
+	.delete(isAuthenticatedUser, authorWithRole('Admin'), deleteCar);
+
 module.exports = router;

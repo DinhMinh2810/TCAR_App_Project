@@ -187,27 +187,6 @@ exports.facebookLogin = async (req, res) => {
 	}
 };
 
-// create access token
-exports.getAccessToken = (req, res) => {
-	try {
-		const refreshToken = req.cookies.refreshToken;
-		if (!refreshToken) {
-			return res.status(400).json({ message: 'Please login again !!' });
-		}
-
-		jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-			if (err) {
-				return res.status(400).json({ message: 'Please login again !!' });
-			}
-
-			const accessToken = createAccessToken({ id: user.id });
-			res.json({ accessToken });
-		});
-	} catch (err) {
-		return res.status(500).json({ message: err.message });
-	}
-};
-
 // Forgot password user
 exports.forgotPassword = async (req, res) => {
 	try {
@@ -326,8 +305,3 @@ const createActivationToken = (payload) => {
 	});
 };
 
-const createRefreshToken = (payload) => {
-	return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-		expiresIn: '14d',
-	});
-};

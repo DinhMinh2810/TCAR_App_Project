@@ -14,7 +14,9 @@ router
 	.route('/getAllAccount')
 	.get(isAuthenticatedUser, authorWithRole('Admin'), getAllAccount);
 
-router.route('/updateUserRole/:id').put(updateUserRole);
+router
+	.route('/updateUserRole/:id')
+	.put(isAuthenticatedUser, authorWithRole('Admin'), updateUserRole);
 
 router
 	.route('/createAccStaff')

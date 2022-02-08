@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const bodyParser = require('body-parser');
-const cloudinary = require('cloudinary');
+// const cloudinary = require('cloudinary');
 
 const app = express();
 
@@ -23,16 +23,16 @@ const carRouter = require('./routes/carRouter');
 
 app.use('/api', userRouter);
 app.use('/api/admin', adminRouter);
-app.use('/api', carRouter);
+app.use('/api/cars', carRouter);
 
 connectDB();
 
 // Set up upload avatar
-cloudinary.config({
-	cloud_name: process.env.CLOUDINARY_NAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+// cloudinary.config({
+// 	cloud_name: process.env.CLOUDINARY_NAME,
+// 	api_key: process.env.CLOUDINARY_API_KEY,
+// 	api_secret: process.env.CLOUDINARY_API_SECRET,
+// });
 
 // Deploy
 if (process.env.NODE_ENV === 'production') {

@@ -13,7 +13,7 @@ const {
 	logout,
 	updateUserSelf,
 } = require('../controllers/userController');
-const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
+const { isAuthenticatedUser } = require('../middleware/auth');
 
 router.route('/register').post(register);
 
@@ -24,8 +24,6 @@ router.route('/login').post(login);
 router.route('/googleLogin').post(googleLogin);
 
 router.route('/facebookLogin').post(facebookLogin);
-
-router.route('/refreshToken').post(getAccessToken);
 
 router.route('/forgotPassword').post(forgotPassword);
 
