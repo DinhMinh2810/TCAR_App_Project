@@ -16,7 +16,7 @@ function ApiFeatures(query, queryString) {
 		return this;
 	};
 
-	this.filers = () => {
+	this.filter = () => {
 		const queryObjCopy = { ...this.queryString };
 
 		const removeExcludedFields = ['keyword', 'page', 'limit'];
@@ -32,6 +32,22 @@ function ApiFeatures(query, queryString) {
 
 		return this;
 	};
+
+	this.pagination = (resultPerPage) => {
+		const currentPage = Number(this.queryString.page) || 1;
+
+		const skip = resultPerPage * (currentPage - 1);
+
+		this.query = this.query.limit(resultPerPage).skip(skip);
+
+		return this;
+	};
+
+	// this.sorting = () => {
+	// 	const sort = this.queryString.sort || '-createdAt';
+	// 	this.query = this.query.sort(sort);
+	// 	return this;
+	// };
 }
 
 module.exports = ApiFeatures;

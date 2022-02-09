@@ -14,7 +14,11 @@ exports.getAdAllCars = catchAsyncErrShort(async (req, res) => {
 
 // Get all Car with search, pagination -- All
 exports.getAllCars = catchAsyncErrShort(async (req, res) => {
-	const apiFeature = new ApiFeatures(Car.find(), req.query).search().filers();
+	const resultPerPage = 5;
+	const apiFeature = new ApiFeatures(Car.find(), req.query)
+		.search()
+		.filter()
+		.pagination(resultPerPage);
 	const cars = await apiFeature.query;
 	res.status(200).json({ success: true, cars });
 });
