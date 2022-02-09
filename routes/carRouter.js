@@ -6,7 +6,9 @@ const {
 	createCar,
 	updateCar,
 	deleteCar,
-	assignCar,
+	createCarReview,
+	getCarReviews,
+	deleteReview,
 } = require('../controllers/carController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
@@ -28,8 +30,9 @@ router
 	.route('/delete/:id')
 	.delete(isAuthenticatedUser, authorWithRole('Admin'), deleteCar);
 
-router
-	.route('/assign/:id')
-	.post(isAuthenticatedUser, authorWithRole('Admin'), assignCar);
+router.route('/reviewCreate').post(isAuthenticatedUser, createCarReview);
 
+router.route('/review').post(isAuthenticatedUser, getCarReviews);
+
+router.route('/review/delete').delete(isAuthenticatedUser, deleteReview);
 module.exports = router;
