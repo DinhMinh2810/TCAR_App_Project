@@ -14,7 +14,7 @@ exports.getAdAllCars = catchAsyncErrShort(async (req, res) => {
 
 // Get all Car with search, pagination -- All
 exports.getAllCars = catchAsyncErrShort(async (req, res) => {
-	const resultPerPage = 5;
+	const resultPerPage = 8;
 	const apiFeature = new ApiFeatures(Car.find(), req.query)
 		.search()
 		.filter()
@@ -46,6 +46,16 @@ exports.updateCar = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({ success: true, car });
 });
 
+exports.getDetailCar = catchAsyncErrShort(async (req, res) => {
+	const car = await Car.findById({ _id: req.params.id });
+	//Get name driver is assigned
+	// const nameDriver = car.assigns.find((a) => a.name);
+	res.status(200).json({
+		success: true,
+		car,
+	});
+});
+
 // Delete car -- Admin
 exports.deleteCar = catchAsyncErrShort(async (req, res) => {
 	const car = await Car.findByIdAndDelete(req.params.id);
@@ -56,7 +66,7 @@ exports.deleteCar = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({ success: true, message: 'Car deleted success !!' });
 });
 
-// assign car -- Admin chua lam
+// assign car to driver -- Admin
 exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 	const { carId, userId } = req.body;
 	const user = await User.findById(userId);

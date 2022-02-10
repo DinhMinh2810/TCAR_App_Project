@@ -3,6 +3,7 @@ const router = express.Router();
 const {
 	getAllCars,
 	getAdAllCars,
+	getDetailCar,
 	createCar,
 	updateCar,
 	deleteCar,
@@ -22,6 +23,8 @@ router
 router
 	.route('/getAdAllCars')
 	.get(isAuthenticatedUser, authorWithRole('Admin'), getAdAllCars);
+
+router.route('/getDetailCar/:id').get(isAuthenticatedUser, getDetailCar);
 
 router
 	.route('/create')
