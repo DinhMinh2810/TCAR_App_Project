@@ -83,9 +83,7 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 	);
 
 	if (isAssigned) {
-		res
-			.status(400)
-			.json({ success: true, message: 'Car is assigned to driver already !!' });
+		res.status(400).json({ message: 'Car is assigned to driver already !!' });
 	} else {
 		car.assigns.push(assign);
 	}
