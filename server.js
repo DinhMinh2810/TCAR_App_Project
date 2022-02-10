@@ -25,7 +25,7 @@ const bookingRouter = require('./routes/bookingRouter');
 app.use('/api', userRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/cars', carRouter);
-app.use('/api/book', bookingRouter);
+app.use('/api/booking', bookingRouter);
 
 connectDB();
 

@@ -50,12 +50,10 @@ const bookingSchema = new mongoose.Schema(
 			ref: 'User',
 			required: true,
 		},
-		bookedTimeSlots: [
-			{
-				from: { type: String, required: true },
-				to: { type: String, required: true },
-			},
-		],
+		bookedTimeSlots: {
+			from: { type: String, required: true },
+			to: { type: String, required: true },
+		},
 		paymentInfo: {
 			id: {
 				type: String,

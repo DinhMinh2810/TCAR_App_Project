@@ -48,6 +48,12 @@ const carSchema = new mongoose.Schema(
 			required: true,
 			minLength: [8],
 		},
+		available: {
+			type: Number,
+			required: true,
+			maxLength: [3],
+			default: 1,
+		},
 		numOfReviews: {
 			type: Number,
 			default: 0,
