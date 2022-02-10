@@ -25,7 +25,7 @@ exports.getAllCars = catchAsyncErrShort(async (req, res) => {
 
 // Create car -- Admin
 exports.createCar = catchAsyncErrShort(async (req, res) => {
-	req.body.userId = req.user.id;
+	req.body.userCreateId = req.user.id;
 
 	const car = await Car.create(req.body);
 	res.status(201).json({ success: true, car });
@@ -57,20 +57,32 @@ exports.deleteCar = catchAsyncErrShort(async (req, res) => {
 });
 
 // assign car -- Admin chua lam
-// exports.assignCar = catchAsyncErrShort(async (req, res) => {
-// 	let car = await Car.findById(req.params.id);
-// 	let users = await User.find({ role: 'Staff' });
+exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
+	const { carId, userId } = req.body;
+	const user = await User.findById(userId);
+	const car = await Car.findById(carId);
 
-// 	if (!car) {
-// 		res.status(500).json({ message: 'Car not found !!' });
-// 	}
-// 	car = await Car.findByIdAndUpdate(req.params.id, req.body);
-// 	console.log('====================================');
-// 	console.log(users.name);
-// 	console.log('====================================');
+	const assign = {
+		user: user._id,
+		name: user.name,
+		role: user.role,
+	};
 
-// 	res.status(200).json({ success: true, car });
-// });
+	const isAssigned = car.assigns.find(
+		(rev) => rev.user.toString() === user._id.toString()
+	);
+
+	if (isAssigned) {
+		res
+			.status(400)
+			.json({ success: true, message: 'Car is assigned to driver already !!' });
+	} else {
+		car.assigns.push(assign);
+	}
+
+	await car.save({ validateBeforeSave: false });
+	res.status(200).json({ success: true, car });
+});
 
 // Create and update review for car
 exports.createCarReview = catchAsyncErrShort(async (req, res) => {

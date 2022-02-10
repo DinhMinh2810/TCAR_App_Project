@@ -6,6 +6,7 @@ const {
 	createCar,
 	updateCar,
 	deleteCar,
+	assignCarToDriver,
 	createCarReview,
 	getCarReviews,
 	deleteReview,
@@ -13,6 +14,10 @@ const {
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
 router.route('/getAllCars').get(getAllCars);
+
+router
+	.route('/assign')
+	.post(isAuthenticatedUser, authorWithRole('Admin'), assignCarToDriver);
 
 router
 	.route('/getAdAllCars')
@@ -35,4 +40,5 @@ router.route('/reviewCreate').post(isAuthenticatedUser, createCarReview);
 router.route('/review').post(isAuthenticatedUser, getCarReviews);
 
 router.route('/review/delete').delete(isAuthenticatedUser, deleteReview);
+
 module.exports = router;
