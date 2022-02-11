@@ -1,4 +1,5 @@
 const Booking = require('../models/bookingModel');
+const Car = require('../models/carModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 
 // get Single booking -- Admin
@@ -79,24 +80,27 @@ exports.newBooking = catchAsyncErrShort(async (req, res) => {
 // Update booking status -- Admin
 exports.updateBookingStatus = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.findById(req.params.id);
-
 	if (!booking) {
 		res.status(404).json({
 			success: false,
 			message: 'Booking not found !!',
 		});
 	}
-
 	if (booking.bookingStatus === 'Done') {
-		res.status(400).json({
+		res.status(404).json({
 			success: false,
-			message: 'This book has set and done !!',
+			message: 'uou have already delivered this order !!',
 		});
 	}
 
-	if (req.body.status === 'Shipped') {
+	if (req.body.status === 'beConfirm') {
 		booking.bookCars.forEach(async (o) => {
-			await updateStock(o.car._id, o.quantity);
+			await updateAvailableCar(o.car, o.quantity);
+			res.status(404).json({
+				success: false,
+				message:
+					'Cannot update booking because car available <  car quantity book !!',
+			});
 		});
 	}
 
@@ -105,7 +109,6 @@ exports.updateBookingStatus = catchAsyncErrShort(async (req, res) => {
 	if (req.body.status === 'Done') {
 		booking.deliveredAt = Date.now();
 	}
-
 	await booking.save({ validateBeforeSave: false });
 	res.status(200).json({
 		message: 'Update this booking successfully !!',
@@ -113,15 +116,17 @@ exports.updateBookingStatus = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
-async function updateStock(id, quantity) {
-	const booking = await Booking.findById(id);
-	console.log('====================================');
-	console.log(booking.rentPerDay);
-	console.log('====================================');
+async function updateAvailableCar(id, quantity) {
+	const car = await Car.findById(id);
 
-	// booking.available -= quantity;
-
-	await booking.save({ validateBeforeSave: false });
+	if (car.available < quantity) {
+		console.log(
+			'Cannot update booking because car available <  car quantity book!!'
+		);
+	} else {
+		car.available -= quantity;
+		await car.save({ validateBeforeSave: false });
+	}
 }
 
 // delete booking
