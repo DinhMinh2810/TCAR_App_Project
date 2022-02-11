@@ -19,11 +19,13 @@ app.use(fileUpload());
 // Routes
 const userRouter = require('./routes/userRouter');
 const adminRouter = require('./routes/adminRouter');
+const staffRouter = require('./routes/staffRouter');
 const carRouter = require('./routes/carRouter');
 const bookingRouter = require('./routes/bookingRouter');
 
 app.use('/api', userRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/staff', staffRouter);
 app.use('/api/cars', carRouter);
 app.use('/api/booking', bookingRouter);
 
