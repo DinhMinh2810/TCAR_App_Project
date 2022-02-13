@@ -190,39 +190,84 @@ exports.facebookLogin = async (req, res) => {
 // Forgot password user
 exports.forgotPassword = async (req, res) => {
 	try {
-		const { email } = req.body;
+		const { email, method } = req.body;
 		const user = await User.findOne({ email });
 		if (!user) {
 			return res.status(404).json({ message: 'User not found !!' });
 		}
 
 		const resetPWToken = user.getResetPasswordToken();
+		const OTP = user.getResetPassWordOTP();
+
 		const resetPasswordUrl = `${req.protocol}://${req.get(
 			'host'
 		)}/api/resetPassword/${resetPWToken}`;
 
 		await user.save({ validateBeforeSave: false });
-		try {
-			await sendEmail(
-				email,
-				resetPasswordUrl,
-				'Please click to reset your password !!'
-			);
 
-			res
-				.status(200)
-				.json({ message: 'Please check your email to reset your password !!' });
-		} catch (err) {
-			user.resetPasswordToken = undefined;
-			user.resetPasswordExpireIn = undefined;
-			await user.save({ validateBeforeSave: false });
-			return res.status(500).json({ message: err.message });
+		if (method === 'Email') {
+			try {
+				await sendEmail(
+					email,
+					resetPasswordUrl,
+					'Please click to reset your password !!'
+				);
+
+				res.status(200).json({
+					message: 'Please check your email to reset your password !!',
+				});
+			} catch (err) {
+				user.resetPasswordToken = undefined;
+				user.resetPasswordExpireIn = undefined;
+				await user.save({ validateBeforeSave: false });
+				return res.status(500).json({ message: err.message });
+			}
+		} else if (method === 'Phone') {
+			try {
+				const accountSid = process.env.TWILIO_ACC_SID;
+				const authToken = process.env.TWILIO_AUTH_TOKEN;
+				const client = require('twilio')(accountSid, authToken);
+
+				await client.messages.create({
+					body: `${OTP}`,
+					from: '+18126136090',
+					to: '+84905092786',
+				});
+
+				res.status(200).json({
+					message: 'Please check your phone to reset your password !!',
+				});
+			} catch (err) {
+				user.resetPasswordToken = undefined;
+				user.resetPasswordExpireIn = undefined;
+				await user.save({ validateBeforeSave: false });
+				return res.status(500).json({ message: err.message });
+			}
 		}
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
 };
 
+//Confirm OTP
+exports.OtpResetPassword = async (req, res) => {
+	try {
+		const { email, confirmOTP } = req.body;
+		const user = await User.findOne({ email });
+		const OTP = user.resetPasswordOTP;
+		if (confirmOTP === OTP) {
+			res.status(200).json({
+				message: 'Confirm OTP successfully !!',
+			});
+		} else {
+			res.status(404).json({
+				message: 'Your OTP false !!',
+			});
+		}
+	} catch (err) {
+		return res.status(500).json({ message: err.message });
+	}
+};
 // Reset Password User
 exports.resetPassword = async (req, res) => {
 	try {
@@ -304,4 +349,3 @@ const createActivationToken = (payload) => {
 		expiresIn: '15m',
 	});
 };
-

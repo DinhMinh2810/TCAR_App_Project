@@ -89,13 +89,13 @@ exports.updateBookingStatus = catchAsyncErrShort(async (req, res) => {
 	if (booking.bookingStatus === 'Done') {
 		res.status(404).json({
 			success: false,
-			message: 'uou have already delivered this order !!',
+			message: 'You have already choose this booking !!',
 		});
 	}
 
 	if (req.body.status === 'beConfirm') {
-		booking.bookCars.forEach(async (o) => {
-			await updateAvailableCar(o.car, o.quantity);
+		booking.bookCars.forEach(async (book) => {
+			await updateAvailableCar(book.car, book.quantity);
 			res.status(404).json({
 				success: false,
 				message:

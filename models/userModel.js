@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema(
 			default: 'User',
 		},
 		resetPasswordToken: String,
+		resetPasswordOTP: Number,
 		resetPasswordExpireIn: Date,
 	},
 	{ timeStamp: true }
@@ -72,6 +73,15 @@ userSchema.methods.getResetPasswordToken = function () {
 
 	this.resetPasswordExpireIn = 7 * 24 * 60 * 60 * 1000;
 
+	return resetToken;
+};
+
+// Generating Password Reset with phone OTP
+userSchema.methods.getResetPassWordOTP = function () {
+	const resetToken = Math.floor(1000 + Math.random() * 9000);
+	this.resetPasswordOTP = resetToken;
+
+	this.resetPasswordExpireIn = 7 * 24 * 60 * 60 * 1000;
 	return resetToken;
 };
 

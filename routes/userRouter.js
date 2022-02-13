@@ -6,8 +6,8 @@ const {
 	login,
 	googleLogin,
 	facebookLogin,
-	getAccessToken,
 	forgotPassword,
+	OtpResetPassword,
 	resetPassword,
 	userDetailExist,
 	logout,
@@ -26,6 +26,8 @@ router.route('/googleLogin').post(googleLogin);
 router.route('/facebookLogin').post(facebookLogin);
 
 router.route('/forgotPassword').post(forgotPassword);
+
+router.route('/OtpResetPW').post(OtpResetPassword);
 
 router.route('/resetPassword/:token').put(resetPassword);
 

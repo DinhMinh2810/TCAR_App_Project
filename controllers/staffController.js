@@ -32,6 +32,18 @@ exports.createAccDriver = async (req, res) => {
 	}
 };
 
+exports.send = async (req, res) => {
+	try {
+		const { name, email, password } = req.body;
+
+		res
+			.status(200)
+			.json({ message: 'Staff create account for Driver success !!.' }, user);
+	} catch (error) {
+		return res.status(500).json({ message: error.message });
+	}
+};
+
 const validateEmail = (email) => {
 	const getValid =
 		/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
