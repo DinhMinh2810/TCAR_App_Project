@@ -9,6 +9,7 @@ import ActiveMailRegister from './components/Auth/Register/ActiveMailRegister';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
 import { loadUser } from './redux/actions/authAction';
+import Home from './components/Home/Home';
 
 function App() {
 	const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function App() {
 		<BrowserRouter>
 			<Header />
 			<Routes>
-				<Route path="/" element={<h1>body</h1>} />
+				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route

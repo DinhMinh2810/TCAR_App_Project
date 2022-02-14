@@ -48,8 +48,6 @@ exports.updateCar = catchAsyncErrShort(async (req, res) => {
 
 exports.getDetailCar = catchAsyncErrShort(async (req, res) => {
 	const car = await Car.findById({ _id: req.params.id });
-	//Get name driver is assigned
-	// const nameDriver = car.assigns.find((a) => a.name);
 	res.status(200).json({
 		success: true,
 		car,

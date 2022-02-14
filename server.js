@@ -52,19 +52,4 @@ app.listen(PORT, () => {
 	console.log(`Run sever success with ${PORT}`);
 });
 
-// phone otp
-// app.get('/sendSMS', function (req, res) {
-// 	const accountSid = 'AC4a446db682bef159efd5f3e549b3f103';
-// 	const authToken = '8f687c07ae35eb039caf8c9cafe333ff';
-// 	const client = require('twilio')(accountSid, authToken);
-
-// 	client.messages
-// 		.create({
-// 			body: '123minh',
-// 			from: '+18126136090',
-// 			to: '+84905092786',
-// 		})
-// 		.then((message) => console.log('ok'))
-// 		.catch((err) => console.log(err));
-// });
 
