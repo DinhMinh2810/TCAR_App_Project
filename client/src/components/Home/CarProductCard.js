@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Rating } from '@mui/material';
 
-const CarProduct = ({ car }) => {
+const CarProductCard = ({ car }) => {
 	return (
 		<>
 			<Link to={`/car/${car._id}`}>
@@ -16,4 +16,4 @@ const CarProduct = ({ car }) => {
 	);
 };
 
-export default CarProduct;
+export default CarProductCard;

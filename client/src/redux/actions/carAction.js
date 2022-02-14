@@ -1,23 +1,26 @@
 import axios from 'axios';
 
 // Get All car Products
-export const getCars = () => async (dispatch) => {
-	try {
-		dispatch({ type: ' ALL_CAR_REQUEST' });
+export const getCars =
+	(keyword = '', currentPage = 1) =>
+	async (dispatch) => {
+		try {
+			dispatch({ type: ' ALL_CAR_REQUEST' });
 
-		const { data } = await axios.get('/api/cars/getAllCars');
+			let URL = `/api/cars/getAllCars?keyword=${keyword}&page=${currentPage}`;
+			const { data } = await axios.get(URL);
 
-		dispatch({
-			type: 'ALL_CAR_SUCCESS',
-			payload: data,
-		});
-	} catch (error) {
-		dispatch({
-			type: 'ALL_CAR_FAIL',
-			payload: error.response.data.message,
-		});
-	}
-};
+			dispatch({
+				type: 'ALL_CAR_SUCCESS',
+				payload: data,
+			});
+		} catch (error) {
+			dispatch({
+				type: 'ALL_CAR_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
 
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {

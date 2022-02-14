@@ -14,13 +14,22 @@ exports.getAdAllCars = catchAsyncErrShort(async (req, res) => {
 
 // Get all Car with search, pagination -- All
 exports.getAllCars = catchAsyncErrShort(async (req, res) => {
-	const resultPerPage = 8;
+	const resultItemPage = 8;
+	const carsCount = await Car.countDocuments();
 	const apiFeature = new ApiFeatures(Car.find(), req.query)
 		.search()
 		.filter()
-		.pagination(resultPerPage);
+		.pagination(resultItemPage);
+
 	const cars = await apiFeature.query;
-	res.status(200).json({ success: true, cars });
+	// let cars = await apiFeature.query;
+
+	// let filteredCarsCount = cars.length;
+
+	// apiFeature.pagination(resultItemPage);
+
+	// cars = await apiFeature.query;
+	res.status(200).json({ carsCount, resultItemPage, cars });
 });
 
 // Create car -- Admin

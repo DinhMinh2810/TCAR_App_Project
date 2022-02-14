@@ -33,12 +33,12 @@ function ApiFeatures(query, queryString) {
 		return this;
 	};
 
-	this.pagination = (resultPerPage) => {
+	this.pagination = (resultItemPage) => {
 		const currentPage = Number(this.queryString.page) || 1;
 
-		const skip = resultPerPage * (currentPage - 1);
+		const skip = resultItemPage * (currentPage - 1);
 
-		this.query = this.query.limit(resultPerPage).skip(skip);
+		this.query = this.query.limit(resultItemPage).skip(skip);
 
 		return this;
 	};

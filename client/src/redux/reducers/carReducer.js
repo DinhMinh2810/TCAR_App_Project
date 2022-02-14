@@ -10,7 +10,7 @@ export const carsReducer = (state = { cars: [] }, action) => {
 				loading: false,
 				cars: action.payload.cars,
 				carsCount: action.payload.carsCount,
-				resultPerPage: action.payload.resultPerPage,
+				resultItemPage: action.payload.resultItemPage,
 				filteredCarsCount: action.payload.filteredCarsCount,
 			};
 		case 'ALL_CAR_FAIL':
