@@ -19,17 +19,11 @@ exports.getAllCars = catchAsyncErrShort(async (req, res) => {
 	const apiFeature = new ApiFeatures(Car.find(), req.query)
 		.search()
 		.filter()
-		.sortCarNew()
-		.pagination(resultItemPage);
+		.pagination(resultItemPage)
+		.sort();
 
 	const cars = await apiFeature.query;
-	// let cars = await apiFeature.query;
 
-	// let filteredCarsCount = cars.length;
-
-	// apiFeature.pagination(resultItemPage);
-
-	// cars = await apiFeature.query;
 	res.status(200).json({ carsCount, resultItemPage, cars });
 });
 

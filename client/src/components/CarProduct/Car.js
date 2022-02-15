@@ -11,20 +11,26 @@ const Car = () => {
 	const dispatch = useDispatch();
 	const { keyword } = useParams();
 	const [currentPage, setCurrentPage] = useState(1);
+	const [rentPerDay, setRentPerDay] = useState([0, 200000]);
 
-	const { cars, error, carsCount, resultItemPage, filteredCarsCount } =
-		useSelector((state) => state.carsProduct);
+	const { cars, error, carsCount, resultItemPage } = useSelector(
+		(state) => state.carsProduct
+	);
 
 	useEffect(() => {
 		if (error) {
 			toast.warn(error);
 			dispatch(clearErrors());
 		}
-		dispatch(getCars(keyword, currentPage));
-	}, [dispatch, keyword, currentPage, error]);
+		dispatch(getCars(keyword, currentPage, rentPerDay));
+	}, [dispatch, keyword, currentPage, rentPerDay, error]);
 
 	const setCurrentPageNo = (e) => {
 		setCurrentPage(e);
+	};
+
+	const rentPerDayHandler = (event, newRentPerDay) => {
+		setRentPerDay(newRentPerDay);
 	};
 
 	return (
@@ -34,10 +40,12 @@ const Car = () => {
 			</div>
 			<h1>Price</h1>
 			<Slider
+				value={rentPerDay}
+				onChange={rentPerDayHandler}
 				valueLabelDisplay="auto"
 				aria-labelledby="range-slider"
 				min={0}
-				max={25000}
+				max={600000}
 			/>
 			<div>
 				{resultItemPage < carsCount && (

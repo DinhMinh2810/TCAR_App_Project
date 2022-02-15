@@ -43,7 +43,7 @@ function ApiFeatures(query, queryString) {
 		return this;
 	};
 
-	this.sortCarNew = () => {
+	this.sort = () => {
 		const sort = this.queryString.sort || '-createdAt';
 		this.query = this.query.sort(sort);
 		return this;
@@ -51,3 +51,5 @@ function ApiFeatures(query, queryString) {
 }
 
 module.exports = ApiFeatures;
+
+
