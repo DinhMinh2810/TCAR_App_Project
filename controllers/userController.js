@@ -3,17 +3,22 @@ const sendEmail = require('../utils/sendMail');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const sendTokenCookie = require('../utils/sendTokenCookie');
-// const QRCode = require('qrcode');
 const { google } = require('googleapis');
 const { OAuth2 } = google.auth;
 const fetch = require('node-fetch');
 const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
 const { CLIENT_URL } = process.env;
 const crypto = require('crypto');
+const cloudinary = require('cloudinary');
 
 // Register User
 exports.register = async (req, res) => {
 	try {
+		const uploadImage = await cloudinary.v2.uploader.upload(req.body.avatar, {
+			folder: 'avatars',
+			width: 150,
+			crop: 'scale',
+		});
 		const { name, email, password } = req.body;
 
 		if (!name || !email || !password) {
@@ -32,6 +37,10 @@ exports.register = async (req, res) => {
 			name,
 			email,
 			password,
+			avatar: {
+				public_id: uploadImage.public_id,
+				url: uploadImage.secure_url,
+			},
 		};
 
 		const activationToken = createActivationToken(newUser);
@@ -56,7 +65,7 @@ exports.activateEmailRegister = async (req, res) => {
 			process.env.ACTIVATION_TOKEN_SECRET
 		);
 
-		const { name, email, password } = user;
+		const { name, email, password, avatar } = user;
 
 		const checkEmail = await User.findOne({ email });
 		if (checkEmail) {
@@ -67,6 +76,7 @@ exports.activateEmailRegister = async (req, res) => {
 			name,
 			email,
 			password,
+			avatar,
 		});
 
 		await newUser.save();
@@ -323,16 +333,48 @@ exports.userDetailExist = async (req, res) => {
 // UserSelf update
 exports.updateUserSelf = async (req, res) => {
 	try {
-		const { name, avatar } = req.body;
-		await User.findOneAndUpdate(
-			{ _id: req.user.id },
-			{
-				name,
-				avatar,
-			}
-		);
+		// const { name, avatar } = req.body;
+		// await User.findOneAndUpdate(
+		// 	{ _id: req.user.id },
+		// 	{
+		// 		name,
+		// 		avatar,
+		// 	}
+		// );
 
-		res.json({ message: 'Update UserSelf success !!' });
+		// res.json({ message: 'Update UserSelf success !!' });
+		const newUserData = {
+			name: req.body.name,
+		};
+
+		if (req.body.avatar !== '') {
+			const user = await User.findById(req.user.id);
+
+			const imageId = user.avatar.public_id;
+
+			await cloudinary.v2.uploader.destroy(imageId);
+
+			const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+				folder: 'avatars',
+				width: 150,
+				crop: 'scale',
+			});
+
+			newUserData.avatar = {
+				public_id: myCloud.public_id,
+				url: myCloud.secure_url,
+			};
+		}
+
+		const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+			new: true,
+			runValidators: true,
+			useFindAndModify: false,
+		});
+
+		res.status(200).json({
+			success: true,
+		});
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}

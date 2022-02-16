@@ -1,18 +1,35 @@
 import axios from 'axios';
 
-export const register = (name, email, password) => async (dispatch) => {
+// export const register = (name, email, password) => async (dispatch) => {
+// 	try {
+// 		dispatch({ type: 'REGISTER_REQUEST' });
+
+// 		const res = await axios.post('/api/register', {
+// 			name,
+// 			email,
+// 			password,
+// 		});
+
+// 		dispatch({ type: 'REGISTER_SUCCESS', payload: res.data });
+// 	} catch (error) {
+// 		dispatch({ type: 'REGISTER_FAIL', payload: error.response.data.message });
+// 	}
+// };
+
+export const register = (userData) => async (dispatch) => {
 	try {
-		dispatch({ type: 'REGISTER_REQUEST' });
+		dispatch({ type: 'REGISTER_USER_REQUEST' });
 
-		const res = await axios.post('/api/register', {
-			name,
-			email,
-			password,
-		});
+		const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
-		dispatch({ type: 'REGISTER_SUCCESS', payload: res.data });
+		const { data } = await axios.post(`/api/register`, userData, config);
+
+		dispatch({ type: 'REGISTER_USER_SUCCESS', payload: data.user });
 	} catch (error) {
-		dispatch({ type: 'REGISTER_FAIL', payload: error.response.data.message });
+		dispatch({
+			type: 'REGISTER_USER_FAIL',
+			payload: error.response.data.message,
+		});
 	}
 };
 

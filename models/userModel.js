@@ -24,9 +24,14 @@ const userSchema = new mongoose.Schema(
 			select: false,
 		},
 		avatar: {
-			type: String,
-			default:
-				'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png',
+			public_id: {
+				type: String,
+				required: true,
+			},
+			url: {
+				type: String,
+				required: true,
+			},
 		},
 		role: {
 			type: String,

@@ -6,7 +6,7 @@ import { activeMailRegister } from '../../../redux/actions/authAction';
 
 const ActiveMailRegister = () => {
 	const dispatch = useDispatch();
-	const { error } = useSelector((state) => state.auth);
+	// const { error } = useSelector((state) => state.auth);
 	const { activationToken } = useParams();
 
 
@@ -17,7 +17,7 @@ const ActiveMailRegister = () => {
 
 	return (
 		<div className="active_page">
-			<h1>{error}</h1>
+			<h1>create account success</h1>
 		</div>
 	);
 };
