@@ -21,3 +21,16 @@ export const addCarsToCart = (id, quantity) => async (dispatch, getState) => {
 		JSON.stringify(getState().favoriteCart.favoriteCartItems)
 	);
 };
+
+// REMOVE FROM CART
+export const removeCarsFromCart = (id) => async (dispatch, getState) => {
+	dispatch({
+		type: 'REMOVE_CAR_CART',
+		payload: id,
+	});
+
+	localStorage.setItem(
+		'favoriteCartItems',
+		JSON.stringify(getState().favoriteCart.favoriteCartItems)
+	);
+};

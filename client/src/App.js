@@ -13,7 +13,7 @@ import Car from './components/CarProduct/Car';
 import CarDetail from './components/CarProduct/CarDetail';
 import UpdateProfileSelf from './components/User/UpdateProfileSelf';
 import Register from './components/Auth/Register/Register.js';
-import FavouriteCart from './components/FavoriteCart/FavouriteCart';
+import FavoriteCart from './components/FavoriteCart/FavoriteCart';
 
 function App() {
 	const dispatch = useDispatch();
@@ -40,7 +40,7 @@ function App() {
 
 				<Route path="/carProduct" element={<Car />} />
 				<Route path="/carProduct/:id" element={<CarDetail />} />
-				<Route path="/favoriteCart" element={<FavouriteCart />} />
+				<Route path="/favoriteCart" element={<FavoriteCart />} />
 			</Routes>
 
 			<Footer />

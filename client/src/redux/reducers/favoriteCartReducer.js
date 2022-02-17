@@ -21,7 +21,13 @@ export const favoriteCartReducer = (state = initialState, action) => {
 					favoriteCartItems: [...state.favoriteCartItems, item],
 				};
 			}
-
+		case 'REMOVE_CAR_CART':
+			return {
+				...state,
+				favoriteCartItems: state.favoriteCartItems.filter(
+					(i) => i.car !== action.payload
+				),
+			};
 		default:
 			return state;
 	}
