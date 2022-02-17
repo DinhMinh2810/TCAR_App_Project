@@ -14,6 +14,7 @@ import CarDetail from './components/CarProduct/CarDetail';
 import UpdateProfileSelf from './components/User/UpdateProfileSelf';
 import Register from './components/Auth/Register/Register.js';
 import FavoriteCart from './components/FavoriteCart/FavoriteCart';
+import ReceiveCarTo from './components/FavoriteCart/ReceiveCarTo/ReceiveCarTo';
 
 function App() {
 	const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function App() {
 				<Route path="/carProduct" element={<Car />} />
 				<Route path="/carProduct/:id" element={<CarDetail />} />
 				<Route path="/favoriteCart" element={<FavoriteCart />} />
+				<Route path="/receiveCarTo" element={<ReceiveCarTo />} />
 			</Routes>
 
 			<Footer />
