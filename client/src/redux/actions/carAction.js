@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Get All car Products
+// Get All car products
 export const getCars =
 	(keyword = '', currentPage = 1, rentPerDay = [0, 600000]) =>
 	async (dispatch) => {
@@ -22,6 +22,24 @@ export const getCars =
 		}
 	};
 
+// Get Car Details
+export const getCarDetails = (id) => async (dispatch) => {
+	try {
+		dispatch({ type: 'CAR_DETAILS_REQUEST' });
+
+		const { data } = await axios.get(`/api/cars/getDetailCar/${id}`);
+
+		dispatch({
+			type: 'CAR_DETAILS_SUCCESS',
+			payload: data.car,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'CAR_DETAILS_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });

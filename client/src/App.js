@@ -10,8 +10,10 @@ import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
 import { loadUser } from './redux/actions/authAction';
 import Home from './components/Home/Home';
 import Car from './components/CarProduct/Car';
+import CarDetail from './components/CarProduct/CarDetail';
 import UpdateProfileSelf from './components/User/UpdateProfileSelf';
 import Register from './components/Auth/Register/Register.js';
+import FavouriteCart from './components/FavoriteCart/FavouriteCart';
 
 function App() {
 	const dispatch = useDispatch();
@@ -37,8 +39,8 @@ function App() {
 				<Route path="/user/updateProfileSelf" element={<UpdateProfileSelf />} />
 
 				<Route path="/carProduct" element={<Car />} />
-
-				<Route path="/carProduct/:keyword" element={<Car />} />
+				<Route path="/carProduct/:id" element={<CarDetail />} />
+				<Route path="/favoriteCart" element={<FavouriteCart />} />
 			</Routes>
 
 			<Footer />

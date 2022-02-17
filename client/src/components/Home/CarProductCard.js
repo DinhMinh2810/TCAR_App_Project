@@ -6,7 +6,7 @@ const CarProductCard = ({ car }) => {
 	const nameAssignDriver = car.assigns.map((a) => a.name);
 	return (
 		<>
-			<Link to={`/car/${car._id}`}>
+			<Link to={`/carProduct/${car._id}`}>
 				<h2>{car.name}</h2>
 				<Rating defaultValue={car.ratings} readOnly />
 				<h4>{car.seatsCategory}</h4>
