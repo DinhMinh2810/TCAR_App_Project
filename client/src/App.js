@@ -34,7 +34,7 @@ function App() {
 
 	useEffect(() => {
 		dispatch(loadUser());
-		getApiKeyStripe();
+		// getApiKeyStripe();
 	}, [dispatch]);
 
 	return (
@@ -59,7 +59,7 @@ function App() {
 				<Route path="/receiveCarTo" element={<ReceiveCarTo />} />
 				<Route path="/confirmBookCar" element={<ConfirmBookCar />} />
 
-				{stripeApiKey && (
+				{/* {stripeApiKey && (
 					<Route
 						path="/paymentWithStripe"
 						element={
@@ -68,7 +68,7 @@ function App() {
 							</Elements>
 						}
 					/>
-				)}
+				)} */}
 			</Routes>
 
 			<Footer />
