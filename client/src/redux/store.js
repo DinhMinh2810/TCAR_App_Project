@@ -10,6 +10,9 @@ let initialState = {
 		favoriteCartItems: localStorage.getItem('favoriteCartItems')
 			? JSON.parse(localStorage.getItem('favoriteCartItems'))
 			: [],
+		receivingCarTo: localStorage.getItem('receivingCarTo')
+			? JSON.parse(localStorage.getItem('receivingCarTo'))
+			: {},
 	},
 };
 

@@ -1,4 +1,4 @@
-const initialState = { favoriteCartItems: [], shippingInfo: {} };
+const initialState = { favoriteCartItems: [], receivingCarTo: {} };
 
 export const favoriteCartReducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -27,6 +27,12 @@ export const favoriteCartReducer = (state = initialState, action) => {
 				favoriteCartItems: state.favoriteCartItems.filter(
 					(i) => i.car !== action.payload
 				),
+			};
+
+		case 'RECEIVE_CAR_TO':
+			return {
+				...state,
+				receivingCarTo: action.payload,
 			};
 		default:
 			return state;

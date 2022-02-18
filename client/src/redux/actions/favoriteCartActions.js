@@ -34,3 +34,13 @@ export const removeCarsFromCart = (id) => async (dispatch, getState) => {
 		JSON.stringify(getState().favoriteCart.favoriteCartItems)
 	);
 };
+
+// SAVE SHIPPING INFO
+export const receiveCarTo = (data) => async (dispatch) => {
+	dispatch({
+		type: 'RECEIVE_CAR_TO',
+		payload: data,
+	});
+
+	localStorage.setItem('receiveCarTo', JSON.stringify(data));
+};
