@@ -1,6 +1,7 @@
 const Booking = require('../models/bookingModel');
 const Car = require('../models/carModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // get Single booking -- Admin
 exports.getSingleBooking = catchAsyncErrShort(async (req, res) => {
@@ -145,5 +146,24 @@ exports.deleteBooking = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({
 		success: true,
 		message: 'Delete booking successfully !!',
+	});
+});
+
+exports.paymentStripe = catchAsyncErrShort(async (req, res) => {
+	const payment = await stripe.paymentIntents.create({
+		amount: req.body.amount,
+		currency: 'inr',
+		metadata: {
+			company: 'Ecommerce',
+		},
+	});
+
+	res.status(200).json({ success: true, client_secret: payment.client_secret });
+});
+
+exports.sendApiKeyStripe = catchAsyncErrShort(async (req, res) => {
+	res.status(200).json({
+		message: 'Send API Key successfully !!',
+		stripeApiKey: process.env.STRIPE_API_KEY,
 	});
 });

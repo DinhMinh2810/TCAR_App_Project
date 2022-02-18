@@ -7,6 +7,8 @@ const {
 	getAllBooking,
 	deleteBooking,
 	updateBookingStatus,
+	paymentStripe,
+	sendApiKeyStripe,
 } = require('../controllers/bookingController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
@@ -27,5 +29,9 @@ router
 	.put(isAuthenticatedUser, updateBookingStatus);
 
 router.route('/delete/:id').delete(isAuthenticatedUser, deleteBooking);
+
+router.route('/paymentStripe').post(isAuthenticatedUser, paymentStripe);
+
+router.route('/sendApiKeyStripe').get(isAuthenticatedUser, sendApiKeyStripe);
 
 module.exports = router;

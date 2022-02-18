@@ -33,7 +33,7 @@ const ConfirmBookCar = () => {
 
 		sessionStorage.setItem('bookingInfo', JSON.stringify(data));
 
-		navigate('/process/payment');
+		navigate('/paymentWithStripe');
 	};
 	return (
 		<>
