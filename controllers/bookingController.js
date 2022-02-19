@@ -179,15 +179,6 @@ const gateway = new braintree.BraintreeGateway({
 	privateKey: process.env.PRIVETE_KEY,
 });
 
-// exports.generateTokenPayPal = (req, res) => {
-// 	gateway.clientToken
-// 		.generate({})
-// 		.then((response) => {
-// 			res.status(200).send(response.clientToken);
-// 		})
-// 		.catch((err) => res.status(500).send(err));
-// };
-
 exports.generateTokenPayPal = catchAsyncErrShort(async (req, res) => {
 	gateway.clientToken.generate({}).then((response) => {
 		// pass clientToken to your front-end
@@ -198,15 +189,22 @@ exports.generateTokenPayPal = catchAsyncErrShort(async (req, res) => {
 
 exports.paymentPayPal = catchAsyncErrShort(async (req, res) => {
 	const nonceFromTheClient = req.body.payment_method_nonce;
-	const { amount } = req.body;
+	const { amount, id, email, firstName } = req.body;
+
 	gateway.transaction
 		.sale({
 			amount: amount,
 			paymentMethodNonce: nonceFromTheClient,
+			customer: {
+				id: id,
+				email: email,
+				firstName: firstName,
+			},
 			options: {
 				submitForSettlement: true,
 			},
 		})
+
 		.then((result) => {
 			res.status(200).json({ success: true, result });
 		});

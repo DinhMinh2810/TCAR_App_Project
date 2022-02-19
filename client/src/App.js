@@ -9,7 +9,7 @@ import Login from './components/Auth/Login/Login';
 import ActiveMailRegister from './components/Auth/Register/ActiveMailRegister';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
-// import Home from './components/Home/Home';
+import Home from './components/Home/Home';
 import Car from './components/CarProduct/Car';
 import CarDetail from './components/CarProduct/CarDetail';
 import UpdateProfileSelf from './components/User/UpdateProfileSelf';
@@ -17,12 +17,10 @@ import Register from './components/Auth/Register/Register.js';
 import FavoriteCart from './components/FavoriteCart/FavoriteCart';
 import ReceiveCarTo from './components/FavoriteCart/ReceiveCarTo/ReceiveCarTo';
 import ConfirmBookCar from './components/FavoriteCart/ConfirmBookCar/ConfirmBookCar';
-import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-
-import Home from './components/FavoriteCart/ConfirmBookCar/Home';
-import Cart from './components/FavoriteCart/ConfirmBookCar/Cart';
+import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
+import PaymentPayPal from './components/FavoriteCart/Payment/PaymentPayPal';
 
 function App() {
 	const dispatch = useDispatch();
@@ -44,7 +42,7 @@ function App() {
 		<BrowserRouter>
 			<Header />
 			<Routes>
-				{/* <Route path="/" element={<Home />} /> */}
+				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route
@@ -73,8 +71,7 @@ function App() {
 					/>
 				)} */}
 
-				<Route path="/home" element={<Home />} />
-				<Route path="/cart" element={<Cart />} />
+				<Route path="/paymentWithPayPal" element={<PaymentPayPal />} />
 			</Routes>
 
 			<Footer />

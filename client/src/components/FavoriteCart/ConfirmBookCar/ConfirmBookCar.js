@@ -35,6 +35,19 @@ const ConfirmBookCar = () => {
 
 		navigate('/paymentWithStripe');
 	};
+
+	const paymentPayPal = () => {
+		const data = {
+			subtotal,
+			shippingCharges,
+			tax,
+			totalPrice,
+		};
+
+		sessionStorage.setItem('bookingInfo', JSON.stringify(data));
+
+		navigate('/paymentWithPayPal');
+	};
 	return (
 		<>
 			<div className="confirmOrderPage">
@@ -99,7 +112,7 @@ const ConfirmBookCar = () => {
 						</div>
 
 						<button onClick={paymentStripe}>Payment with stripe</button>
-						<button>Payment with PayPal</button>
+						<button onClick={paymentPayPal}>Payment with PayPal</button>
 					</div>
 				</div>
 			</div>
