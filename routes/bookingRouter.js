@@ -9,6 +9,8 @@ const {
 	updateBookingStatus,
 	paymentStripe,
 	sendApiKeyStripe,
+	generateTokenPayPal,
+	paymentPayPal,
 } = require('../controllers/bookingController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
@@ -30,8 +32,14 @@ router
 
 router.route('/delete/:id').delete(isAuthenticatedUser, deleteBooking);
 
+router.route('/sendApiKeyStripe').get(isAuthenticatedUser, sendApiKeyStripe);
+
 router.route('/paymentStripe').post(isAuthenticatedUser, paymentStripe);
 
-router.route('/sendApiKeyStripe').get(isAuthenticatedUser, sendApiKeyStripe);
+router
+	.route('/generateTokenPayPal')
+	.get(isAuthenticatedUser, generateTokenPayPal);
+
+router.route('/paymentPayPal').post(isAuthenticatedUser, paymentPayPal);
 
 module.exports = router;

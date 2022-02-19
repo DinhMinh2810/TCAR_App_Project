@@ -27,9 +27,9 @@ function App() {
 	const [stripeApiKey, setStripeApiKey] = useState('');
 
 	const getApiKeyStripe = async () => {
-		const { data } = await axios.get('/api/booking/sendApiKeyStripe');
+		const res = await axios.get('/api/booking/sendApiKeyStripe');
 
-		setStripeApiKey(data.stripeApiKey);
+		setStripeApiKey(res.data.stripeApiKey);
 	};
 
 	useEffect(() => {

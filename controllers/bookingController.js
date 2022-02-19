@@ -2,6 +2,7 @@ const Booking = require('../models/bookingModel');
 const Car = require('../models/carModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const braintree = require('braintree');
 
 // get Single booking -- Admin
 exports.getSingleBooking = catchAsyncErrShort(async (req, res) => {
@@ -149,6 +150,13 @@ exports.deleteBooking = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
+exports.sendApiKeyStripe = catchAsyncErrShort(async (req, res) => {
+	res.status(200).json({
+		message: 'Send API Key successfully !!',
+		stripeApiKey: process.env.STRIPE_API_KEY,
+	});
+});
+
 exports.paymentStripe = catchAsyncErrShort(async (req, res) => {
 	const payment = await stripe.paymentIntents.create({
 		amount: req.body.amount,
@@ -158,12 +166,48 @@ exports.paymentStripe = catchAsyncErrShort(async (req, res) => {
 		},
 	});
 
-	res.status(200).json({ success: true, client_secret: payment.client_secret });
+	res.status(200).json({
+		message: 'Payment with Stripe success !!',
+		client_secret: payment.client_secret,
+	});
 });
 
-exports.sendApiKeyStripe = catchAsyncErrShort(async (req, res) => {
-	res.status(200).json({
-		message: 'Send API Key successfully !!',
-		stripeApiKey: process.env.STRIPE_API_KEY,
+const gateway = new braintree.BraintreeGateway({
+	environment: braintree.Environment.Sandbox,
+	merchantId: process.env.MERCHENT_ID,
+	publicKey: process.env.PUBLIC_KEY,
+	privateKey: process.env.PRIVETE_KEY,
+});
+
+// exports.generateTokenPayPal = (req, res) => {
+// 	gateway.clientToken
+// 		.generate({})
+// 		.then((response) => {
+// 			res.status(200).send(response.clientToken);
+// 		})
+// 		.catch((err) => res.status(500).send(err));
+// };
+
+exports.generateTokenPayPal = catchAsyncErrShort(async (req, res) => {
+	gateway.clientToken.generate({}).then((response) => {
+		// pass clientToken to your front-end
+		const clientToken = response.clientToken;
+		res.status(200).json({ success: true, clientToken });
 	});
+});
+
+exports.paymentPayPal = catchAsyncErrShort(async (req, res) => {
+	const nonceFromTheClient = req.body.payment_method_nonce;
+	const { amount } = req.body;
+	gateway.transaction
+		.sale({
+			amount: amount,
+			paymentMethodNonce: nonceFromTheClient,
+			options: {
+				submitForSettlement: true,
+			},
+		})
+		.then((result) => {
+			res.status(200).json({ success: true, result });
+		});
 });
