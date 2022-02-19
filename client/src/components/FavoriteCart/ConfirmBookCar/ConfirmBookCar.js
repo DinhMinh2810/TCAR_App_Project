@@ -99,6 +99,7 @@ const ConfirmBookCar = () => {
 						</div>
 
 						<button onClick={paymentStripe}>Payment with stripe</button>
+						<button>Payment with PayPal</button>
 					</div>
 				</div>
 			</div>
