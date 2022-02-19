@@ -174,14 +174,14 @@ exports.paymentStripe = catchAsyncErrShort(async (req, res) => {
 
 const gateway = new braintree.BraintreeGateway({
 	environment: braintree.Environment.Sandbox,
-	merchantId: process.env.MERCHENT_ID,
-	publicKey: process.env.PUBLIC_KEY,
-	privateKey: process.env.PRIVETE_KEY,
+	merchantId: process.env.MERCHENT_BRAINTREE_ID,
+	publicKey: process.env.PUBLIC_BRAINTREE_KEY,
+	privateKey: process.env.PRIVATE_BRAINTREE_KEY,
 });
 
 exports.generateTokenPayPal = catchAsyncErrShort(async (req, res) => {
 	gateway.clientToken.generate({}).then((response) => {
-		// pass clientToken to your front-end
+		// pass clientToken to front-end
 		const clientToken = response.clientToken;
 		res.status(200).json({ success: true, clientToken });
 	});

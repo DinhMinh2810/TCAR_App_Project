@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { loadUser } from './redux/actions/authAction';
+import ProtectedRoute from './components/Route/ProtectedRoute';
 import Header from './components/Layout/Header/Header';
 import Footer from './components/Layout/Footer/Footer';
 import Login from './components/Auth/Login/Login';
@@ -21,6 +22,8 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
 import PaymentPayPal from './components/FavoriteCart/Payment/PaymentPayPal';
+import DashboardAdmin from './components/Admin/Dashboard';
+import DashboardStaff from './components/Staff/Dashboard';
 
 function App() {
 	const dispatch = useDispatch();
@@ -42,6 +45,7 @@ function App() {
 		<BrowserRouter>
 			<Header />
 			<Routes>
+				
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
@@ -72,6 +76,28 @@ function App() {
 				)} */}
 
 				<Route path="/paymentWithPayPal" element={<PaymentPayPal />} />
+
+				{/* <Route path="/admin/dashboard" element={<Dashboard />} /> */}
+
+				<Route
+					exact
+					path="/admin/dashboard"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<DashboardAdmin />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/staff/dashboard"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<DashboardStaff />
+						</ProtectedRoute>
+					}
+				/>
 			</Routes>
 
 			<Footer />
