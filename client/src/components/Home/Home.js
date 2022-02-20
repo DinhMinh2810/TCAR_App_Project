@@ -4,13 +4,14 @@ import { getCars, clearErrors } from '../../redux/actions/carAction';
 import CarProductCard from './CarProductCard';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import TitleBarPage from '../Layout/TitleBarPage';
 
 const Home = () => {
 	const dispatch = useDispatch();
 	const { cars, error } = useSelector((state) => state.carsProduct);
 	const [keyword, setKeyword] = useState('');
 	let navigate = useNavigate();
-	
+
 	const searchSubmitHandler = (e) => {
 		e.preventDefault();
 		if (keyword.trim()) {
@@ -30,6 +31,7 @@ const Home = () => {
 
 	return (
 		<>
+			<TitleBarPage title="Home" />
 			<form className="searchBox" onSubmit={searchSubmitHandler}>
 				<input
 					type="text"

@@ -24,6 +24,7 @@ import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
 import PaymentPayPal from './components/FavoriteCart/Payment/PaymentPayPal';
 import DashboardAdmin from './components/Admin/Dashboard';
 import DashboardStaff from './components/Staff/Dashboard';
+import BarChart from './components/Charts/BarChart';
 
 function App() {
 	const dispatch = useDispatch();
@@ -45,7 +46,6 @@ function App() {
 		<BrowserRouter>
 			<Header />
 			<Routes>
-				
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
@@ -75,10 +75,7 @@ function App() {
 					/>
 				)} */}
 
-				<Route path="/paymentWithPayPal" element={<PaymentPayPal />} />
-
-				{/* <Route path="/admin/dashboard" element={<Dashboard />} /> */}
-
+				{/* <Route path="/paymentWithPayPal" element={<PaymentPayPal />} /> */}
 				<Route
 					exact
 					path="/admin/dashboard"
@@ -98,6 +95,8 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+
+				<Route path="/barChart" element={<BarChart />} />
 			</Routes>
 
 			<Footer />
