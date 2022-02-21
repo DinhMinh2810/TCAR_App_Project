@@ -14,6 +14,9 @@ const Messenger = () => {
 		const getConversations = async () => {
 			try {
 				const { data } = await axios.get(`/api/conversation/${user._id}`);
+				// console.log('====================================');
+				// console.log(data);
+				// console.log('====================================');
 				setConversations(data);
 			} catch (err) {
 				console.log(err);
@@ -27,15 +30,15 @@ const Messenger = () => {
 			<div className="messenger">
 				<div className="chatMenu">
 					<div className="chatMenuWrapper">
-						{/* <input placeholder="Search for friends" className="chatMenuInput" />
+						<input placeholder="Search for friends" className="chatMenuInput" />
 						{conversations.map((c) => (
-							<div onClick={() => setCurrentChat(c)}>
+							<div key={c?._id}>
 								<Conversation conversation={c} currentUser={user} />
 							</div>
-						))} */}
+						))}
+						{/* <Conversation conversations={conversations} />
 						<Conversation />
-						<Conversation />
-						<Conversation />
+						<Conversation /> */}
 					</div>
 				</div>
 				<div className="chatBox">

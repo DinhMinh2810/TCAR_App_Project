@@ -1,5 +1,6 @@
 const Conversation = require('../models/conversationModel');
 const Message = require('../models/messageModel');
+const User = require('../models/userModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 
 // create a new Conversation
@@ -11,7 +12,7 @@ exports.createConversation = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json(savedConversation);
 });
 
-// get conversation of user
+// get conversation of user chat with all user
 exports.getConversationUser = catchAsyncErrShort(async (req, res) => {
 	const conversation = await Conversation.find({
 		members: { $in: [req.params.userId] },
@@ -33,3 +34,9 @@ exports.getMessageUser = catchAsyncErrShort(async (req, res) => {
 	});
 	res.status(200).json(messages);
 });
+
+// get all user detail chat of myself
+exports.userDetailAllChat = async (req, res) => {
+	const user = await User.findOne({ _id: req.params.id });
+	res.status(200).json(user);
+};

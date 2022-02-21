@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema(
 		resetPasswordOTP: Number,
 		resetPasswordExpireIn: Date,
 	},
-	{ timeStamp: true }
+	{ timeStamps: true }
 );
 
 // Hash password

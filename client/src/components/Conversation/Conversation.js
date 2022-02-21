@@ -5,21 +5,25 @@ import { useEffect, useState } from 'react';
 
 const Conversation = ({ conversation, currentUser }) => {
 	const [user, setUser] = useState(null);
-	// useEffect(() => {
-	// 	const getUser = async () => {
-	// 		try {
-	// 			const res = await axios('/api/conversation/');
-	// 			setUser(res.data);
-	// 		} catch (err) {
-	// 			console.log(err);
-	// 		}
-	// 	};
-	// 	getUser();
-	// }, [currentUser, conversation]);
+
+	useEffect(() => {
+		const getUser = async () => {
+			try {
+				const { data } = await axios(
+					`/api/conversation/userDetailAllChat/${conversation.members[1]}`
+				);
+				setUser(data);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		getUser();
+	}, [currentUser, conversation]);
+
 	return (
 		<div className="conversation">
-			<img className="conversationImg" src="" alt="" />
-			<span className="conversationName">ss</span>
+			<img className="conversationImg" src={user?.avatar} alt="" />
+			<span className="conversationName">{user?.name}</span>
 		</div>
 	);
 };

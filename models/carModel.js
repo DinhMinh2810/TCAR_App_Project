@@ -106,7 +106,7 @@ const carSchema = new mongoose.Schema(
 			required: true,
 		},
 	},
-	{ timeStamp: true }
+	{ timeStamps: true }
 );
 
 module.exports = mongoose.model('Car', carSchema);

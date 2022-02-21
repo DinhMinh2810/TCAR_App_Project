@@ -6,6 +6,7 @@ const {
 	getConversationUser,
 	createMessage,
 	getMessageUser,
+	userDetailAllChat,
 } = require('../controllers/conversationController');
 const { isAuthenticatedUser } = require('../middleware/auth');
 
@@ -20,5 +21,9 @@ router.route('/createMessage').post(isAuthenticatedUser, createMessage);
 router
 	.route('/message/:conversationId')
 	.get(isAuthenticatedUser, getMessageUser);
+
+router
+	.route('/userDetailAllChat/:id')
+	.get(isAuthenticatedUser, userDetailAllChat);
 
 module.exports = router;
