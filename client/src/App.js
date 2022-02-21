@@ -98,7 +98,14 @@ function App() {
 				/> */}
 
 				{/* <Route path="/barChart" element={<BarChart />} /> */}
-				<Route path="/messenger" element={<Messenger />} />
+				<Route
+					path="/messenger"
+					element={
+						<ProtectedRoute>
+							<Messenger />
+						</ProtectedRoute>
+					}
+				/>
 			</Routes>
 
 			<Footer />

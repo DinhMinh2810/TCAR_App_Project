@@ -1,10 +1,27 @@
+import { useContext, useEffect, useRef, useState } from 'react';
 import './Messenger.css';
 import axios from 'axios';
 import Conversation from '../Conversation/Conversation';
 import MessengeC from './MessengeC/MessengeC';
 import ChatOnline from './ChatOnline/ChatOnline';
+import { useSelector } from 'react-redux';
 
 const Messenger = () => {
+	const [conversations, setConversations] = useState([]);
+	const { user } = useSelector((state) => state.auth);
+
+	useEffect(() => {
+		const getConversations = async () => {
+			try {
+				const { data } = await axios.get(`/api/conversation/${user._id}`);
+				setConversations(data);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		getConversations();
+	}, [user._id]);
+
 	return (
 		<>
 			<div className="messenger">
@@ -16,6 +33,8 @@ const Messenger = () => {
 								<Conversation conversation={c} currentUser={user} />
 							</div>
 						))} */}
+						<Conversation />
+						<Conversation />
 						<Conversation />
 					</div>
 				</div>
