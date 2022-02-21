@@ -25,6 +25,7 @@ import PaymentPayPal from './components/FavoriteCart/Payment/PaymentPayPal';
 import DashboardAdmin from './components/Admin/Dashboard';
 import DashboardStaff from './components/Staff/Dashboard';
 import BarChart from './components/Charts/BarChart';
+import Messenger from './components/Messenger/Messenger';
 
 function App() {
 	const dispatch = useDispatch();
@@ -76,7 +77,7 @@ function App() {
 				)} */}
 
 				{/* <Route path="/paymentWithPayPal" element={<PaymentPayPal />} /> */}
-				<Route
+				{/* <Route
 					exact
 					path="/admin/dashboard"
 					element={
@@ -94,9 +95,10 @@ function App() {
 							<DashboardStaff />
 						</ProtectedRoute>
 					}
-				/>
+				/> */}
 
-				<Route path="/barChart" element={<BarChart />} />
+				{/* <Route path="/barChart" element={<BarChart />} /> */}
+				<Route path="/messenger" element={<Messenger />} />
 			</Routes>
 
 			<Footer />
