@@ -1,5 +1,6 @@
 import React from 'react';
 import './MessengeC.css';
+import { format } from 'timeago.js';
 
 const MessengeC = ({ message, own }) => {
 	return (
@@ -10,9 +11,9 @@ const MessengeC = ({ message, own }) => {
 					src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
 					alt=""
 				/>
-				<p className="messageText">This is a message</p>
+				<p className="messageText">{message.content}</p>
 			</div>
-			<div className="messageBottom">1h hour ago</div>
+			<div className="messageBottom">{format(message.createdAt)}</div>
 		</div>
 	);
 };
