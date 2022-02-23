@@ -5,8 +5,8 @@ import Conversation from '../Conversation/Conversation';
 import MessengeC from './MessengeC/MessengeC';
 import ChatOnline from './ChatOnline/ChatOnline';
 import { useSelector } from 'react-redux';
-// import { io } from 'socket.io-client';
 const io = require('socket.io-client');
+
 const Messenger = () => {
 	const [conversations, setConversations] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
@@ -14,11 +14,12 @@ const Messenger = () => {
 	const [newMessage, setNewMessage] = useState('');
 	const [arrivalMessage, setArrivalMessage] = useState(null);
 	const { user } = useSelector((state) => state.auth);
-	const socket = useRef();
 	const scrollRef = useRef();
 
+	const socket = useRef();
+
 	useEffect(() => {
-		socket.current = io('http://localhost:8900');
+		socket.current = io('ws://localhost:8900');
 		socket.current.on('getMessage', (data) => {
 			setArrivalMessage({
 				sender: data.senderId,
@@ -27,6 +28,13 @@ const Messenger = () => {
 			});
 		});
 	}, []);
+
+	useEffect(() => {
+		socket.current.emit('addUser', user._id);
+		socket.current.on('getUsers', (users) => {
+			console.log(users);
+		});
+	}, [user]);
 
 	useEffect(() => {
 		arrivalMessage &&
@@ -59,7 +67,6 @@ const Messenger = () => {
 		};
 		getMessages();
 	}, [currentChat]);
-
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

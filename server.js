@@ -7,44 +7,7 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cloudinary = require('cloudinary');
-
-const io = require('socket.io')(8900, {
-	cors: {
-		origin: 'http://localhost:3000',
-	},
-});
-
-let users = [];
-
-const addUser = (userId, socketId) => {
-	!users.some((user) => user.id === userId) && users.push({ userId, socketId });
-};
-
-const getUser = (userId) => {
-	return users.find((user) => user.id === userId);
-};
-
-io.on('connection', (socket) => {
-	//when ceonnect
-	console.log('a user connected.');
-
-	//take userId and socketId from user
-	socket.on('addUser', (userId) => {
-		addUser(userId, socket.id);
-		io.emit('getUsers', users);
-	});
-
-	//send and get message
-	socket.on('sendMessage', ({ senderId, receiverId, content }) => {
-		const user = getUser(receiverId);
-
-		io.to(user.socketId).emit('getMessage', {
-			senderId,
-			content,
-		});
-	});
-});
-
+const socket = require('./socketIO');
 const app = express();
 
 app.use(express.json({ limit: '50mb' }));
