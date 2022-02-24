@@ -12,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/dialogflow": "^4.6.0",
     "@vonage/server-sdk": "^2.10.7-beta-2",
+    "actions-on-google": "^2.6.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
     "braintree": "^3.10.0",
