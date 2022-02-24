@@ -26,7 +26,7 @@ import DashboardAdmin from './components/Admin/Dashboard';
 import DashboardStaff from './components/Staff/Dashboard';
 import BarChart from './components/Charts/BarChart';
 import Messenger from './components/Messenger/Messenger';
-
+import ChatBot from './components/ChatBot/ChatBot';
 
 function App() {
 	const dispatch = useDispatch();
@@ -108,7 +108,7 @@ function App() {
 					}
 				/>
 
-				
+				<Route path="/chatbot" element={<ChatBot />} />
 			</Routes>
 
 			<Footer />
