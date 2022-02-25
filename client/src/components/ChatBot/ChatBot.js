@@ -2,9 +2,19 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveMessage } from '../../redux/actions/chatbotAction';
+import MessageChatBot from './MessageChatBot';
+import { List, Avatar } from 'antd';
+import Icon from '@ant-design/icons';
+import Card from './Card';
 
 const ChatBot = () => {
 	const dispatch = useDispatch();
+	const messagesFromRedux = useSelector((state) => state.chatbot.messages);
+
+	useEffect(() => {
+		eventQuery('Welcometomywebsie');
+	}, []);
+
 	const textQuery = async (text) => {
 		//  First  Need to  take care of the message I sent
 		let conversation = {
@@ -15,8 +25,8 @@ const ChatBot = () => {
 				},
 			},
 		};
-
-		console.log('text i send' + conversation);
+		console.log('text i send', conversation);
+		dispatch(saveMessage(conversation));
 
 		// We need to take care of the message Chatbot sent
 		const textQueryVariables = {
@@ -28,13 +38,15 @@ const ChatBot = () => {
 				'/api/dialogflow/textQuery',
 				textQueryVariables
 			);
-			dispatch(saveMessage(conversation));
-			// for (let content of response.data.fulfillmentMessages) {
-			// 	conversation = {
-			// 		who: 'bot',
-			// 		content: content,
-			// 	};
-			// }
+
+			for (let content of response.data.fulfillmentMessages) {
+				conversation = {
+					who: 'bot',
+					content: content,
+				};
+
+				dispatch(saveMessage(conversation));
+			}
 		} catch (error) {
 			conversation = {
 				who: 'bot',
@@ -48,10 +60,6 @@ const ChatBot = () => {
 		}
 	};
 
-	useEffect(() => {
-		eventQuery('Welcometomywebsies');
-	}, []);
-
 	const eventQuery = async (event) => {
 		// We need to take care of the message Chatbot sent
 		const eventQueryVariables = {
@@ -63,15 +71,15 @@ const ChatBot = () => {
 				'/api/dialogflow/eventQuery',
 				eventQueryVariables
 			);
-			const content = response.data.fulfillmentMessages[0];
-			let conversation = {
-				who: 'bot',
-				content: content,
-			};
 
-			console.log('====================================');
-			console.log(conversation);
-			console.log('====================================');
+			for (let content of response.data.fulfillmentMessages) {
+				let conversation = {
+					who: 'bot',
+					content: content,
+				};
+
+				dispatch(saveMessage(conversation));
+			}
 		} catch (error) {
 			let conversation = {
 				who: 'bot',
@@ -81,6 +89,7 @@ const ChatBot = () => {
 					},
 				},
 			};
+			dispatch(saveMessage(conversation));
 		}
 	};
 
@@ -89,10 +98,63 @@ const ChatBot = () => {
 			if (!e.target.value) {
 				return alert('you need to type somthing first');
 			}
-			//we will send request to text query route
+
 			textQuery(e.target.value);
 
 			e.target.value = '';
+		}
+	};
+
+	const renderCards = (cards) => {
+		return cards.map((card, i) => <Card key={i} cardInfo={card.structValue} />);
+	};
+
+	const renderOneMessage = (message, i) => {
+		console.log('message', message);
+
+		// return text normal
+		// return (
+		// 	<MessageChatBot
+		// 		key={i}
+		// 		who={message.who}
+		// 		text={message.content.text.text}
+		// 	/>
+		// );
+		if (message.content && message.content.text && message.content.text.text) {
+			return (
+				<MessageChatBot
+					key={i}
+					who={message.who}
+					text={message.content.text.text}
+				/>
+			);
+		} else if (message.content && message.content.payload.fields.card) {
+			const AvatarSrc =
+				message.who === 'bot' ? <Icon type="robot" /> : <Icon type="smile" />;
+
+			return (
+				<div>
+					<List.Item style={{ padding: '1rem' }}>
+						<List.Item.Meta
+							avatar={<Avatar icon={AvatarSrc} />}
+							title={message.who}
+							description={renderCards(
+								message.content.payload.fields.card.listValue.values
+							)}
+						/>
+					</List.Item>
+				</div>
+			);
+		}
+	};
+
+	const renderMessage = (returnedMessages) => {
+		if (returnedMessages) {
+			return returnedMessages.map((message, i) => {
+				return renderOneMessage(message, i);
+			});
+		} else {
+			return null;
 		}
 	};
 
@@ -105,7 +167,9 @@ const ChatBot = () => {
 				borderRadius: '7px',
 			}}
 		>
-			<div style={{ height: 644, width: '100%', overflow: 'auto' }}></div>
+			<div style={{ height: 644, width: '100%', overflow: 'auto' }}>
+				{renderMessage(messagesFromRedux)}
+			</div>
 			<input
 				style={{
 					margin: 0,
