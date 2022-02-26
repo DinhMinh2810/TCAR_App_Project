@@ -13,6 +13,7 @@ import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import Loader from '../../Layout/Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
+import './Login.css';
 
 const Login = () => {
 	const { error, loading, isLoggedIn } = useSelector((state) => state.auth);
@@ -62,6 +63,8 @@ const Login = () => {
 				<Loader />
 			) : (
 				<>
+					<h1 className="haha font-bold underline">Hello world!</h1>
+
 					<ToastContainer className="toastify" />
 					<Formik
 						initialValues={initialValues}
