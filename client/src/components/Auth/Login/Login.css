@@ -1,6 +1,58 @@
-.foo {
-    font-size: 20px;
+.login_form {
+    margin-top: 15px;
 }
-.haha {
-    color: blueviolet;
+
+.login_text {
+    text-align: center;
+    color: #141414;
+}
+
+.login_form-label {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 15px;
+}
+
+.login_text_dispatch {
+    padding-bottom: 5px;
+}
+
+.register_form-input {
+    padding: 10px 100px;
+    border-radius: 10px;
+    border: 1px solid #141414;
+}
+
+.form_error {
+    color: red;
+    text-align: center;
+}
+
+.form_button {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    border-radius: 10px;
+    border: 1px solid #141414;
+    padding: 10px 20px;
+}
+
+.social_login {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.kep-login-facebook.metro {
+    border-radius: 20px;
+}
+
+.social_button_gg {
+    padding: 10px;
+    margin: 10px;
 }

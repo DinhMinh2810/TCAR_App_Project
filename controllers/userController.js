@@ -131,7 +131,7 @@ exports.googleLogin = async (req, res) => {
 			audience: process.env.MAILING_SERVICE_CLIENT_ID,
 		});
 
-		const { email_verified, email, name, picture } = dataVerify.payload;
+		const { email_verified, email, name, picture, sub } = dataVerify.payload;
 		const password = email + process.env.GOOGLE_SECRET;
 		const hashPassword = await bcrypt.hash(password, 12);
 
@@ -143,7 +143,10 @@ exports.googleLogin = async (req, res) => {
 			name,
 			email,
 			password: hashPassword,
-			avatar: picture,
+			avatar: {
+				public_id: sub,
+				url: picture,
+			},
 		});
 
 		await newUser.save();
@@ -185,7 +188,10 @@ exports.facebookLogin = async (req, res) => {
 				name,
 				email,
 				password: passwordHash,
-				avatar: picture.data.url,
+				avatar: {
+					public_id: picture.data.width,
+					url: picture.data.url,
+				},
 			});
 
 			await newUser.save();

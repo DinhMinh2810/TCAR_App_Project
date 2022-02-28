@@ -1,4 +1,3 @@
-import React, { Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../../redux/actions/authAction';
 import { Container, Navbar, NavDropdown, Nav } from 'react-bootstrap';
@@ -26,33 +25,61 @@ const Header = () => {
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
-						<Nav className="me-auto">
-							<Nav.Link href="#features">Features</Nav.Link>
+						<Nav className="me-auto hide-on-mobile">
+							<Nav.Link href="#features">Home</Nav.Link>
 							<Nav.Link href="#pricing">Pricing</Nav.Link>
-							<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-								<NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-								<NavDropdown.Item href="#action/3.2">
-									Another action
-								</NavDropdown.Item>
-								<NavDropdown.Item href="#action/3.3">
-									Something
-								</NavDropdown.Item>
-								<NavDropdown.Divider />
-								<NavDropdown.Item href="#action/3.4">
-									Separated link
-								</NavDropdown.Item>
-							</NavDropdown>
+							<Nav.Link href="#pricing">Features</Nav.Link>
 						</Nav>
 
 						{isLoggedIn ? (
 							<>
-								<img src={user.avatar} />
-								<NavDropdown title={user.name} id="collasible-nav-dropdown">
-									<NavDropdown.Item href="#">My Profile</NavDropdown.Item>
-									<NavDropdown.Item href="#">My favorite car</NavDropdown.Item>
-									<NavDropdown.Item href="#">Something</NavDropdown.Item>
+								<div className="header_res hide-on-pc">
+									<img
+										src={user?.avatar?.url}
+										width="50"
+										height="50"
+										className="img-responsive"
+									/>
+									<span className="header_name">{user?.name}</span>
+								</div>
+
+								<div className="header_res hide-on-pc">
+									<a href="#" className="header_name">
+										Profile
+									</a>
+								</div>
+								<div className="header_res hide-on-pc">
+									<a className="header_name">Profile</a>
+								</div>
+								<div
+									className="header_res logout hide-on-pc"
+									onClick={logoutSubmit}
+								>
+									<a className="header_name">Logout</a>
+								</div>
+
+								<img
+									src={user?.avatar?.url}
+									width="50"
+									height="50"
+									className="img-responsive hide-on-mobile-tablet"
+								/>
+								<NavDropdown
+									title={user?.name}
+									id="collasible-nav-dropdown"
+									className="hide-on-mobile-tablet"
+								>
+									<NavDropdown.Item href="#action/3.1">
+										Profile
+									</NavDropdown.Item>
+									<NavDropdown.Item href="#action/3.2">
+										Profile
+									</NavDropdown.Item>
+									<NavDropdown.Item href="#action/3.3">
+										Something
+									</NavDropdown.Item>
 									<NavDropdown.Divider />
-									<NavDropdown.Item href="#" onClick={logoutSubmit}>
+									<NavDropdown.Item onClick={logoutSubmit}>
 										Logout
 									</NavDropdown.Item>
 								</NavDropdown>
