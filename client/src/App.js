@@ -28,6 +28,7 @@ import BarChart from './components/Charts/BarChart';
 import Messenger from './components/Messenger/Messenger';
 import ChatBot from './components/ChatBot/ChatBot';
 import NotFound from './components/Layout/NotFound/NotFound';
+import OutLetRoute from './components/Route/OutLetRoute';
 
 function App() {
 	const dispatch = useDispatch();

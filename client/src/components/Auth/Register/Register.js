@@ -1,18 +1,19 @@
-import React, { Fragment, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../../redux/actions/authAction';
+import './register.css';
+import TitleBarPage from './../../Layout/TitleBarPage';
 
 const Register = () => {
 	const dispatch = useDispatch();
-
 	const [user, setUser] = useState({
 		name: '',
 		email: '',
 		password: '',
 	});
 
-	const [avatar, setAvatar] = useState('/123');
+	const [avatar, setAvatar] = useState('');
 	const [avatarPreview, setAvatarPreview] = useState('Profile');
 
 	const { name, email, password } = user;
@@ -47,46 +48,64 @@ const Register = () => {
 
 	return (
 		<>
-			<Fragment>
-				<div className="LoginSignUpContainer">
-					<div className="LoginSignUpBox">
+			<Container>
+				<Row lg={1} md={1} sm={1} xs={1}>
+					<Col>
+						<TitleBarPage title="Register" />
+
 						<form
-							className="signUpForm"
+							className="form_container"
 							encType="multipart/form-data"
 							onSubmit={registerSubmit}
 						>
-							<div className="signUpName">
+							<h3 className="form_title">Register</h3>
+							<div className="form_label">
+								<label htmlFor="name" className="form_text">
+									Name
+								</label>
 								<input
 									type="text"
-									placeholder="Name"
+									placeholder="Please enter your name"
 									required
 									name="name"
 									value={name}
 									onChange={registerDataChange}
+									className="form_input"
 								/>
 							</div>
-							<div className="signUpEmail">
+							<div className="form_label">
+								<label htmlFor="email" className="form_text">
+									Email
+								</label>
 								<input
 									type="email"
-									placeholder="Email"
+									placeholder="Please enter your Email"
 									required
 									name="email"
 									value={email}
 									onChange={registerDataChange}
+									className="form_input"
 								/>
 							</div>
-							<div className="signUpPassword">
+							<div className="form_label">
+								<label htmlFor="name" className="form_text">
+									Password
+								</label>
 								<input
 									type="password"
-									placeholder="Password"
+									placeholder="Please enter your password"
 									required
 									name="password"
 									value={password}
 									onChange={registerDataChange}
+									className="form_input"
 								/>
 							</div>
 
-							<div id="registerImage">
+							<div className="form_label">
+								<label htmlFor="name" className="form_text">
+									Choose avatar
+								</label>
 								<input
 									type="file"
 									name="avatar"
@@ -94,11 +113,11 @@ const Register = () => {
 									onChange={registerDataChange}
 								/>
 							</div>
-							<input type="submit" value="Register" className="signUpBtn" />
+							<input type="submit" value="Register" className="formBtn" />
 						</form>
-					</div>
-				</div>
-			</Fragment>
+					</Col>
+				</Row>
+			</Container>
 		</>
 	);
 };
