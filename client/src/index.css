@@ -2,19 +2,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --pirmary-color: #ee4d2d;
+  --white-color: #f4f4f4;
+  --black-color: #000;
+  --text-color: #333;
+  --border-color: #dbdbdb;
+}
+
 * {
   box-sizing: inherit;
 }
 
-html {
-  font-size: 62.5%; /* => 1rem = 10px */
+/* => 1rem = 10px */
+/* html {
+  font-size: 62.5%;
   line-height: 1.6rem;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   box-sizing: border-box;
-}
+} */
 
 body {
-  background: #f4f4f4;
+  background: var(--white-color);
 }
 
 ul {
@@ -24,6 +34,10 @@ ul {
 
 a {
   text-decoration: none !important;
+}
+
+.padding_page {
+  padding: 40 0;
 }
 
 .toastify {

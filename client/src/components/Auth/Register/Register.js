@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { register } from '../../../redux/actions/authAction';
-
 
 const Register = () => {
 	const dispatch = useDispatch();

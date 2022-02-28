@@ -27,6 +27,7 @@ import DashboardStaff from './components/Staff/Dashboard';
 import BarChart from './components/Charts/BarChart';
 import Messenger from './components/Messenger/Messenger';
 import ChatBot from './components/ChatBot/ChatBot';
+import NotFound from './components/Layout/NotFound/NotFound';
 
 function App() {
 	const dispatch = useDispatch();
@@ -109,9 +110,11 @@ function App() {
 				/>
 
 				<Route path="/chatbot" element={<ChatBot />} />
+
+				<Route path="/notFound" element={<NotFound />} />
 			</Routes>
 
-			<Footer />
+			{/* <Footer /> */}
 		</BrowserRouter>
 	);
 }
