@@ -1,3 +1,23 @@
+.form_error {
+    color: red;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.kep-login-facebook.metro {
+    display: inline-flex;
+    align-items: center;
+    box-shadow: rgb(0 0 0 / 24%) 0px 2px 2px 0px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+    padding: 10px;
+    border-radius: 3px !important;
+    border: 1px solid transparent;
+    font-size: 14px;
+    font-weight: 300;
+    margin-left: 15px;
+}
+
+/* Not use */
+
 .login_form {
     margin-top: 15px;
 }
@@ -24,11 +44,6 @@
     border: 1px solid #141414;
 }
 
-.form_error {
-    color: red;
-    text-align: center;
-}
-
 .form_button {
     text-align: center;
     display: flex;
@@ -46,10 +61,6 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
-}
-
-.kep-login-facebook.metro {
-    border-radius: 20px;
 }
 
 .social_button_gg {

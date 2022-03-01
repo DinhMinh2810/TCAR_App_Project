@@ -29,6 +29,8 @@
 
 .img-responsive {
     border-radius: 50%;
+    width: 50px;
+    height: 35px;
 }
 
 .header_res {

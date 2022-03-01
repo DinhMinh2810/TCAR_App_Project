@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { loadUser } from './redux/actions/authAction';
 import ProtectedRoute from './components/Route/ProtectedRoute';
@@ -28,16 +28,16 @@ import BarChart from './components/Charts/BarChart';
 import Messenger from './components/Messenger/Messenger';
 import ChatBot from './components/ChatBot/ChatBot';
 import NotFound from './components/Layout/NotFound/NotFound';
-import OutLetRoute from './components/Route/OutLetRoute';
+import HeaderAdmin from './components/Admin/HeaderAdmin';
+import DirectRoleHome from './components/Route/DirectRoleHome';
 
 function App() {
 	const dispatch = useDispatch();
-
+	const { user, isLoggedIn } = useSelector((state) => state.auth);
 	const [stripeApiKey, setStripeApiKey] = useState('');
 
 	const getApiKeyStripe = async () => {
 		const res = await axios.get('/api/booking/sendApiKeyStripe');
-
 		setStripeApiKey(res.data.stripeApiKey);
 	};
 
@@ -48,9 +48,22 @@ function App() {
 
 	return (
 		<BrowserRouter>
-			<Header />
+			{user?.role === 'User' ||
+			user?.role === 'Driver' ||
+			isLoggedIn === false ? (
+				<Header />
+			) : null}
+			{user?.role === 'Admin' ? <HeaderAdmin /> : null}
+
 			<Routes>
-				<Route path="/" element={<Home />} />
+				<Route
+					path="/"
+					element={
+						<DirectRoleHome>
+							<Home />
+						</DirectRoleHome>
+					}
+				/>
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route
@@ -80,7 +93,7 @@ function App() {
 				)} */}
 
 				{/* <Route path="/paymentWithPayPal" element={<PaymentPayPal />} /> */}
-				{/* <Route
+				<Route
 					exact
 					path="/admin/dashboard"
 					element={
@@ -98,7 +111,7 @@ function App() {
 							<DashboardStaff />
 						</ProtectedRoute>
 					}
-				/> */}
+				/>
 
 				{/* <Route path="/barChart" element={<BarChart />} /> */}
 				<Route
@@ -113,9 +126,14 @@ function App() {
 				<Route path="/chatbot" element={<ChatBot />} />
 
 				<Route path="/notFound" element={<NotFound />} />
+				<Route path="/notFound" element={<HeaderAdmin />} />
 			</Routes>
 
-			{/* <Footer /> */}
+			{user?.role === 'User' ||
+			user?.role === 'Driver' ||
+			isLoggedIn === false ? (
+				<Footer />
+			) : null}
 		</BrowserRouter>
 	);
 }

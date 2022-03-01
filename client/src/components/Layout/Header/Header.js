@@ -34,12 +34,7 @@ const Header = () => {
 						{isLoggedIn ? (
 							<>
 								<div className="header_res hide-on-pc">
-									<img
-										src={user?.avatar?.url}
-										width="50"
-										height="50"
-										className="img-responsive"
-									/>
+									<img src={user?.avatar?.url} className="img-responsive" />
 									<span className="header_name">{user?.name}</span>
 								</div>
 

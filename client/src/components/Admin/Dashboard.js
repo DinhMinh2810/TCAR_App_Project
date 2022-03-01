@@ -1,10 +1,10 @@
 import React from 'react';
+import HeaderAdmin from './HeaderAdmin';
 
 const Dashboard = () => {
 	return (
 		<>
-
-			<div>Dashboard Admin</div>
+			<HeaderAdmin />
 		</>
 	);
 };

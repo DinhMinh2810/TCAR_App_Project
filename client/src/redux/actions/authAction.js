@@ -39,9 +39,13 @@ export const login = (email, password) => async (dispatch) => {
 		dispatch({ type: 'LOGIN_REQUEST' });
 		const config = { headers: { 'Content-Type': 'application/json' } };
 
-		const res = await axios.post('/api/login', { email, password }, config);
+		const { data } = await axios.post(
+			'/api/login',
+			{ email, password },
+			config
+		);
 
-		dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.user });
+		dispatch({ type: 'LOGIN_SUCCESS', payload: data.user });
 	} catch (error) {
 		dispatch({ type: 'LOGIN_FAIL', payload: error.response.data.message });
 	}

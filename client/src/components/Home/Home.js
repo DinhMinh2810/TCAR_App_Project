@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getCars, clearErrors } from '../../redux/actions/carAction';
 import CarProductCard from './CarProductCard';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import TitleBarPage from '../Layout/TitleBarPage';
 
 const Home = () => {
