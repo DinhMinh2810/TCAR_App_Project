@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
 import { activeMailRegister } from '../../../redux/actions/authAction';
-import './register.css';
 
 const ActiveMailRegister = () => {
 	const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate, Redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	clearErrors,
@@ -182,61 +182,6 @@ const Login = () => {
 									</div>
 								</div>
 							</section>
-							// <form onSubmit={formik.handleSubmit}>
-							// 	<div className="login_form">
-							// 		<h2 className="login_text">Login</h2>
-							// 		<div className="login_form-label">
-							// 			<div className="login_text_dispatch">
-							// 				<label
-							// 					htmlFor="email"
-							// 					className="register_form-text"
-							// 				>
-							// 					Email
-							// 				</label>
-							// 			</div>
-							// 			<input
-							// 				id="email"
-							// 				type="email"
-							// 				className="register_form-input"
-							// 				placeholder="Please enter your email"
-							// 				{...formik.getFieldProps('email')}
-							// 			/>
-							// 		</div>
-							// 		{formik.touched.email && formik.errors.email ? (
-							// 			<div className="form_error">
-							// 				{formik.errors.email}
-							// 			</div>
-							// 		) : null}
-
-							// 		<div className="login_form-label">
-							// 			<div className="login_text_dispatch">
-							// 				<label
-							// 					htmlFor="password"
-							// 					className="register_form-text"
-							// 				>
-							// 					Password
-							// 				</label>
-							// 			</div>
-							// 			<input
-							// 				id="password"
-							// 				type="password"
-							// 				className="register_form-input"
-							// 				placeholder="Please enter your password !"
-							// 				{...formik.getFieldProps('password')}
-							// 			/>
-							// 		</div>
-							// 		{formik.touched.password && formik.errors.password ? (
-							// 			<div className="form_error">
-							// 				{formik.errors.password}
-							// 			</div>
-							// 		) : null}
-							// 		<div className="form_button">
-							// 			<button type="submit" className="button">
-							// 				Submit
-							// 			</button>
-							// 		</div>
-							// 	</div>
-							// </form>
 						)}
 					</Formik>
 				</>
