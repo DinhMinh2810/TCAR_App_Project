@@ -6,6 +6,9 @@ module.exports = {
 				purple: '#3f3cbb',
 				midnight: '#121063',
 			},
+			minHeight: {
+				eightVH: '80vh',
+			},
 		},
 	},
 };

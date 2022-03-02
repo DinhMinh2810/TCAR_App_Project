@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const register = (userData) => async (dispatch) => {
 	try {
@@ -6,9 +7,12 @@ export const register = (userData) => async (dispatch) => {
 
 		const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
-		const { data } = await axios.post(`/api/register`, userData, config);
+		const res = await axios.post(`/api/register`, userData, config);
+		console.log('====================================');
+		console.log(res.data);
+		console.log('====================================');
 
-		dispatch({ type: 'REGISTER_USER_SUCCESS', payload: data });
+		dispatch({ type: 'REGISTER_USER_SUCCESS', payload: res.data });
 	} catch (error) {
 		dispatch({
 			type: 'REGISTER_USER_FAIL',
@@ -81,21 +85,6 @@ export const loginFacebook = (accessToken, userID) => async (dispatch) => {
 	}
 };
 
-export const getAccessToken = () => async (dispatch) => {
-	try {
-		const userLogin = localStorage.getItem('userLogin');
-		if (userLogin) {
-			const getToken = async () => {
-				const res = await axios.post('/api/refreshToken', null);
-				dispatch({ type: 'GET_TOKEN_SUCCESS', payload: res.data.accessToken });
-			};
-			getToken();
-		}
-	} catch (error) {
-		dispatch({ type: 'GET_TOKEN_FAIL', payload: error.response.data.message });
-	}
-};
-
 // Get user is exsting in app
 export const loadUser = () => async (dispatch) => {
 	try {
@@ -119,22 +108,27 @@ export const logout = () => async (dispatch) => {
 };
 
 // Forgot Password
-export const forgotPassword = (email) => async (dispatch) => {
-	try {
-		dispatch({ type: 'FORGOT_PASSWORD_REQUEST' });
+export const forgotPassword =
+	(email, phoneNumber, method) => async (dispatch) => {
+		try {
+			dispatch({ type: 'FORGOT_PASSWORD_REQUEST' });
 
-		const config = { headers: { 'Content-Type': 'application/json' } };
+			const config = { headers: { 'Content-Type': 'application/json' } };
 
-		const { data } = await axios.post(`/api/forgotPassword`, email, config);
+			const { data } = await axios.post(
+				`/api/forgotPassword`,
+				{ email, phoneNumber, method },
+				config
+			);
 
-		dispatch({ type: 'FORGOT_PASSWORD_SUCCESS', payload: data.message });
-	} catch (error) {
-		dispatch({
-			type: 'FORGOT_PASSWORD_FAIL',
-			payload: error.response.data.message,
-		});
-	}
-};
+			dispatch({ type: 'FORGOT_PASSWORD_SUCCESS', payload: data.message });
+		} catch (error) {
+			dispatch({
+				type: 'FORGOT_PASSWORD_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
 
 // Reset Password
 export const resetPassword = (token, passwords) => async (dispatch) => {

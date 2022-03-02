@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../../redux/actions/authAction';
+import { loadUser, logout } from '../../../redux/actions/authAction';
 import { Container, Navbar, NavDropdown, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './header.css';
@@ -10,6 +11,10 @@ const Header = () => {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		dispatch(loadUser());
+	}, [dispatch]);
 
 	const logoutSubmit = async () => {
 		dispatch(logout());
@@ -26,9 +31,9 @@ const Header = () => {
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="me-auto hide-on-mobile">
-							<Nav.Link href="#features">Home</Nav.Link>
-							<Nav.Link href="#pricing">Pricing</Nav.Link>
-							<Nav.Link href="#pricing">Features</Nav.Link>
+							<Nav.Link href="#">Home</Nav.Link>
+							<Nav.Link href="#">Pricing</Nav.Link>
+							<Nav.Link href="#">Features</Nav.Link>
 						</Nav>
 
 						{isLoggedIn ? (
@@ -39,18 +44,18 @@ const Header = () => {
 								</div>
 
 								<div className="header_res hide-on-pc">
-									<a href="#" className="header_name">
+									<span href="#" className="header_name">
 										Profile
-									</a>
+									</span>
 								</div>
 								<div className="header_res hide-on-pc">
-									<a className="header_name">Profile</a>
+									<span className="header_name">Profile</span>
 								</div>
 								<div
 									className="header_res logout hide-on-pc"
 									onClick={logoutSubmit}
 								>
-									<a className="header_name">Logout</a>
+									<span className="header_name">Logout</span>
 								</div>
 
 								<img

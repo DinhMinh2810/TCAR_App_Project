@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../../../redux/actions/authAction';
 import TitleBarPage from './../../Layout/TitleBarPage';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
 	const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const Register = () => {
 		formData.set('password', password);
 		formData.set('avatar', avatar);
 		dispatch(register(formData));
+		toast.success('Please check your email to register account !!');
 	};
 
 	const addDataForm = (e) => {
@@ -46,6 +48,7 @@ const Register = () => {
 	return (
 		<>
 			<TitleBarPage title="Register" />
+			<ToastContainer className="toastify" />
 			<form
 				className="min-w-screen min-h-screen flex items-center justify-center px-5 pt-3"
 				encType="multipart/form-data"
@@ -57,7 +60,7 @@ const Register = () => {
 							<img
 								className="w-full h-full rounded-lg"
 								alt="register"
-								src="https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&fit=crop"
+								src="https://assets.gaadi.com/production/img/gaadistore/sell-car.png"
 							/>
 						</div>
 						<div className="w-full md:w-1/2 py-10 px-5 md:px-10">
@@ -68,7 +71,7 @@ const Register = () => {
 							<div>
 								<div className="flex -mx-3">
 									<div className="w-1/2 px-3 mb-5">
-										<label for="" className="text-xs font-semibold px-1">
+										<label htmlFor="" className="text-xs font-semibold px-1">
 											User Name
 										</label>
 										<div className="flex">
@@ -87,7 +90,7 @@ const Register = () => {
 										</div>
 									</div>
 									<div className="w-1/2 px-3 mb-5">
-										<label for="ss" className="text-xs font-semibold px-1">
+										<label htmlFor="" className="text-xs font-semibold px-1">
 											Email
 										</label>
 										<div className="flex">
@@ -109,7 +112,7 @@ const Register = () => {
 
 								<div className="flex -mx-3">
 									<div className="w-full px-3 mb-5">
-										<label for="" className="text-xs font-semibold px-1">
+										<label htmlFor="" className="text-xs font-semibold px-1">
 											Password
 										</label>
 										<div className="flex">
@@ -130,19 +133,19 @@ const Register = () => {
 								</div>
 								<div className="flex -mx-3">
 									<div className="w-full px-3 mb-12">
-										<label for="" className="text-xs font-semibold px-1">
+										<label htmlFor="" className="text-xs font-semibold px-1">
 											Avatar
 										</label>
-										<label class="flex flex-col w-full h-32 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
-											<div class="flex flex-col items-center justify-center pt-7">
+										<label className="flex flex-col w-full h-32 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
+											<div className="flex flex-col items-center justify-center pt-7">
 												{avatar ? (
 													<>
 														<img
-															class="w-12 h-12 text-gray-400 group-hover:text-gray-600 rounded-lg"
+															className="w-12 h-12 text-gray-400 group-hover:text-gray-600 rounded-lg"
 															src={avatar}
 															alt="avatar"
 														/>
-														<p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
+														<p className="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
 															Choose photo successfully !!
 														</p>
 													</>
@@ -150,17 +153,17 @@ const Register = () => {
 													<>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
-															class="w-12 h-12 text-gray-400 group-hover:text-gray-600"
+															className="w-12 h-12 text-gray-400 group-hover:text-gray-600"
 															viewBox="0 0 20 20"
 															fill="currentColor"
 														>
 															<path
-																fill-rule="evenodd"
+																fillRule="evenodd"
 																d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-																clip-rule="evenodd"
+																clipRule="evenodd"
 															/>
 														</svg>
-														<p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
+														<p className="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
 															Please select a photo
 														</p>
 													</>
@@ -170,7 +173,7 @@ const Register = () => {
 												type="file"
 												name="avatar"
 												required
-												class="opacity-0"
+												className="opacity-0"
 												accept="image/*"
 												onChange={addDataForm}
 											/>

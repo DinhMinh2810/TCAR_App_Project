@@ -206,7 +206,7 @@ exports.facebookLogin = async (req, res) => {
 // Forgot password user
 exports.forgotPassword = async (req, res) => {
 	try {
-		const { email, method } = req.body;
+		const { email, method, phoneNumber } = req.body;
 		const user = await User.findOne({ email });
 		if (!user) {
 			return res.status(404).json({ message: 'User not found !!' });
@@ -247,7 +247,8 @@ exports.forgotPassword = async (req, res) => {
 				await client.messages.create({
 					body: `${OTP}`,
 					from: '+18126136090',
-					to: '+84905092786',
+					to: phoneNumber,
+					// to: '+84905092786',
 				});
 
 				res.status(200).json({

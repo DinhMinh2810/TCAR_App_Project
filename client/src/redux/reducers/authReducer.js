@@ -10,7 +10,6 @@ export const authReducer = (state = initialState, action) => {
 				isLoggedIn: false,
 			};
 
-		case 'REGISTER_SUCCESS':
 		case 'ACTIVE_MAIL_REGISTER_SUCCESS':
 		case 'LOGIN_SUCCESS':
 		case 'LOAD_USER_SUCCESS':
@@ -20,6 +19,14 @@ export const authReducer = (state = initialState, action) => {
 				isLoggedIn: true,
 				user: action.payload,
 			};
+
+		case 'REGISTER_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				message: action.payload,
+			};
+
 		case 'REGISTER_FAIL':
 		case 'ACTIVE_MAIL_REGISTER_FAIL':
 		case 'LOGIN_FAIL':
@@ -77,7 +84,6 @@ export const forgotPasswordReducer = (state = {}, action) => {
 				loading: false,
 				message: action.payload,
 			};
-
 		case 'RESET_PASSWORD_SUCCESS':
 			return {
 				...state,
