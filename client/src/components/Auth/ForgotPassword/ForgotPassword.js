@@ -6,9 +6,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import TitleBarPage from './../../Layout/TitleBarPage';
 import { useEffect } from 'react';
 import Loader from '../../Layout/Loader/Loader';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { error, message, loading } = useSelector(
 		(state) => state.forgotPassword
 	);
@@ -28,7 +30,13 @@ const ForgotPassword = () => {
 
 	const forgotSubmit = (values) => {
 		const { email, phoneNumber, method } = values;
-		dispatch(forgotPassword(email, phoneNumber, method));
+		if (method === 'Phone') {
+			console.log(email);
+			navigate('/forgotPassword/confirmOTP');
+			dispatch(forgotPassword(email, phoneNumber, method));
+		} else {
+			dispatch(forgotPassword(email, phoneNumber, method));
+		}
 	};
 
 	useEffect(() => {
@@ -37,7 +45,7 @@ const ForgotPassword = () => {
 			dispatch(clearErrors());
 		}
 		if (message) {
-			toast.warn(message);
+			toast.warn(message.message);
 		}
 	}, [dispatch, error, message]);
 
@@ -56,7 +64,9 @@ const ForgotPassword = () => {
 					{(formik) => (
 						<div className="flex items-center justify-center min-h-eightVH">
 							<div className="px-8 py-6 mx-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
-								<h3 className="text-2xl font-bold text-center">Forgot password</h3>
+								<h3 className="text-2xl font-bold text-center">
+									Forgot password
+								</h3>
 								<form onSubmit={formik.handleSubmit}>
 									<div className="mt-4">
 										<div>

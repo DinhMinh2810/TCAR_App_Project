@@ -121,7 +121,7 @@ export const forgotPassword =
 				config
 			);
 
-			dispatch({ type: 'FORGOT_PASSWORD_SUCCESS', payload: data.message });
+			dispatch({ type: 'FORGOT_PASSWORD_SUCCESS', payload: data });
 		} catch (error) {
 			dispatch({
 				type: 'FORGOT_PASSWORD_FAIL',
@@ -130,14 +130,39 @@ export const forgotPassword =
 		}
 	};
 
+export const confirmOTP = (email, phoneNumber, method) => async (dispatch) => {
+	try {
+		dispatch({ type: 'CONFIRM_OTP_REQUEST' });
+
+		const config = { headers: { 'Content-Type': 'application/json' } };
+
+		const { data } = await axios.post(
+			`/api/forgotPassword`,
+			{ email, phoneNumber, method },
+			config
+		);
+
+		dispatch({ type: 'CONFIRM_OTP_SUCCESS', payload: data });
+	} catch (error) {
+		dispatch({
+			type: 'CONFIRM_OTP_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Reset Password
-export const resetPassword = (token, passwords) => async (dispatch) => {
+export const resetPassword = (token, password) => async (dispatch) => {
 	try {
 		dispatch({ type: 'RESET_PASSWORD_REQUEST' });
 
 		const config = { headers: { Authorization: token } };
 
-		const { data } = await axios.put(`/api/resetPassword`, passwords, config);
+		const { data } = await axios.put(
+			`/api/resetPassword/${token}`,
+			password,
+			config
+		);
 
 		dispatch({ type: 'RESET_PASSWORD_SUCCESS', payload: data.success });
 	} catch (error) {

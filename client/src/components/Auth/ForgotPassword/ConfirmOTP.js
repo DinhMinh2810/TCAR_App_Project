@@ -6,45 +6,37 @@ import { ToastContainer, toast } from 'react-toastify';
 import TitleBarPage from './../../Layout/TitleBarPage';
 import { useEffect } from 'react';
 import Loader from '../../Layout/Loader/Loader';
-import { useNavigate, useParams } from 'react-router-dom';
 
-function ResetPassword() {
+const ConfirmOTP = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const { token } = useParams();
 	const { error, message, loading } = useSelector(
 		(state) => state.forgotPassword
 	);
 
 	const initialValues = {
-		email: '',
-		phoneNumber: '',
-		method: '',
+		email: message?.email,
+		OTP: '',
 	};
 
 	const validationSchema = Yup.object({
-		email: Yup.string()
-			.email('Invalid email format !!')
-			.required('Please enter email !!'),
-		phoneNumber: Yup.string().required('Please enter phone !!'),
+		OTP: Yup.string().required('Please enter phone !!'),
 	});
 
-	const forgotSubmit = (values) => {
+	const confirmOtpSubmit = (values) => {
 		const { email, phoneNumber, method } = values;
-		if (method === 'Phone') {
-			console.log(email);
-
-			dispatch(forgotPassword(email, phoneNumber, method));
-		} else {
-			dispatch(forgotPassword(email, phoneNumber, method));
-		}
+		// dispatch(forgotPassword(email, phoneNumber, method));
+		// navigate('/api/resetPassword/:token');
 	};
 
 	useEffect(() => {
-		console.log('====================================');
-		console.log(token);
-		console.log('====================================');
-	});
+		if (error) {
+			toast.warn(error);
+			dispatch(clearErrors());
+		}
+		if (message) {
+			toast.warn(message);
+		}
+	}, [dispatch, error, message]);
 
 	return (
 		<>
@@ -56,17 +48,15 @@ function ResetPassword() {
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
-					onSubmit={forgotSubmit}
+					onSubmit={confirmOtpSubmit}
 				>
 					{(formik) => (
 						<div className="flex items-center justify-center min-h-eightVH">
 							<div className="px-8 py-6 mx-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
-								<h3 className="text-2xl font-bold text-center">
-									Reset password
-								</h3>
+								<h3 className="text-2xl font-bold text-center">Confirm OTP</h3>
 								<form onSubmit={formik.handleSubmit}>
 									<div className="mt-4">
-										<div>
+										{/* <div>
 											<label className="block" htmlFor="email">
 												Email
 											</label>
@@ -80,25 +70,23 @@ function ResetPassword() {
 											{formik.touched.email && formik.errors.email ? (
 												<div className="form_error">{formik.errors.email}</div>
 											) : null}
-										</div>
+										</div> */}
 										<div className="mt-4">
 											<label className="block" htmlFor="email">
-												Phone
+												OTP
 											</label>
 											<input
-												id="phoneNumber"
-												type="phoneNumber"
-												placeholder="+84905092786"
+												id="OTP"
+												type="OTP"
+												placeholder="Please enter OTP"
 												className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-												{...formik.getFieldProps('phoneNumber')}
+												{...formik.getFieldProps('OTP')}
 											/>
-											{formik.touched.phoneNumber &&
-											formik.errors.phoneNumber ? (
-												<div className="form_error">
-													{formik.errors.phoneNumber}
-												</div>
+											{formik.touched.OTP && formik.errors.OTP ? (
+												<div className="form_error">{formik.errors.OTP}</div>
 											) : null}
 										</div>
+
 										<div className="flex">
 											<button
 												type="submit"
@@ -116,6 +104,6 @@ function ResetPassword() {
 			)}
 		</>
 	);
-}
+};
 
-export default ResetPassword;
+export default ConfirmOTP;

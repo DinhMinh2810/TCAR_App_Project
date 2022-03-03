@@ -72,6 +72,7 @@ export const authReducer = (state = initialState, action) => {
 export const forgotPasswordReducer = (state = {}, action) => {
 	switch (action.type) {
 		case 'FORGOT_PASSWORD_REQUEST':
+		case 'CONFIRM_OTP_REQUEST':
 		case 'RESET_PASSWORD_REQUEST':
 			return {
 				...state,
@@ -79,6 +80,7 @@ export const forgotPasswordReducer = (state = {}, action) => {
 				error: null,
 			};
 		case 'FORGOT_PASSWORD_SUCCESS':
+		case 'CONFIRM_OTP_SUCCESS':
 			return {
 				...state,
 				loading: false,
@@ -90,8 +92,8 @@ export const forgotPasswordReducer = (state = {}, action) => {
 				loading: false,
 				success: action.payload,
 			};
-
 		case 'FORGOT_PASSWORD_FAIL':
+		case 'CONFIRM_OTP_FAIL':
 		case 'RESET_PASSWORD_FAIL':
 			return {
 				...state,

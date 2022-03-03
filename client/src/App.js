@@ -30,6 +30,7 @@ import ChatBot from './components/ChatBot/ChatBot';
 import NotFound from './components/Layout/NotFound/NotFound';
 import HeaderAdmin from './components/Admin/HeaderAdmin';
 import DirectRoleHome from './components/Route/DirectRoleHome';
+import ConfirmOTP from './components/Auth/ForgotPassword/ConfirmOTP';
 
 function App() {
 	const dispatch = useDispatch();
@@ -71,7 +72,10 @@ function App() {
 					element={<ActiveMailRegister />}
 				/>
 				<Route exact path="/forgotPassword" element={<ForgotPassword />} />
-				<Route path="/api/resetPassword/:token" element={<ResetPassword />} />
+				<Route exact path="/forgotPassword/confirmOTP" element={<ConfirmOTP />} />
+
+				{/* <Route path="/api/resetPassword/:token" element={<ResetPassword />} /> */}
+				<Route path="/resetPassword/:token" element={<ResetPassword />} />
 
 				<Route path="/user/updateProfileSelf" element={<UpdateProfileSelf />} />
 

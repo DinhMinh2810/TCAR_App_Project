@@ -215,9 +215,7 @@ exports.forgotPassword = async (req, res) => {
 		const resetPWToken = user.getResetPasswordToken();
 		const OTP = user.getResetPassWordOTP();
 
-		const resetPasswordUrl = `${req.protocol}://${req.get(
-			'host'
-		)}/api/resetPassword/${resetPWToken}`;
+		const resetPasswordUrl = `${'http://localhost:3000'}/resetPassword/${resetPWToken}`;
 
 		await user.save({ validateBeforeSave: false });
 
@@ -252,6 +250,7 @@ exports.forgotPassword = async (req, res) => {
 				});
 
 				res.status(200).json({
+					email,
 					message: 'Please check your phone to reset your password !!',
 				});
 			} catch (err) {
