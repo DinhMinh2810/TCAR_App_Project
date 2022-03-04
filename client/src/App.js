@@ -22,25 +22,25 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
 import PaymentPayPal from './components/FavoriteCart/Payment/PaymentPayPal';
-import DashboardAdmin from './components/Admin/Dashboard';
 import DashboardStaff from './components/Staff/Dashboard';
 import BarChart from './components/Charts/BarChart';
 import Messenger from './components/Messenger/Messenger';
 import ChatBot from './components/ChatBot/ChatBot';
 import NotFound from './components/Layout/NotFound/NotFound';
-import HeaderAdmin from './components/Admin/HeaderAdmin';
 import DirectRoleHome from './components/Route/DirectRoleHome';
 import ConfirmOTP from './components/Auth/ForgotPassword/ConfirmOTP';
+import DashBoard from './components/Admin/DashBoard/DashBoard';
+import HeaderBarAdmin from './components/Admin/HeaderBarAdmin/HeaderBarAdmin';
 
 function App() {
 	const dispatch = useDispatch();
 	const { user, isLoggedIn } = useSelector((state) => state.auth);
 	const [stripeApiKey, setStripeApiKey] = useState('');
 
-	const getApiKeyStripe = async () => {
-		const res = await axios.get('/api/booking/sendApiKeyStripe');
-		setStripeApiKey(res.data.stripeApiKey);
-	};
+	// const getApiKeyStripe = async () => {
+	// 	const res = await axios.get('/api/booking/sendApiKeyStripe');
+	// 	setStripeApiKey(res.data.stripeApiKey);
+	// };
 
 	useEffect(() => {
 		dispatch(loadUser());
@@ -54,7 +54,14 @@ function App() {
 			isLoggedIn === false ? (
 				<Header />
 			) : null}
-			{user?.role === 'Admin' ? <HeaderAdmin /> : null}
+			{user?.role === 'Admin' || user?.role === 'Staff' ? null : null}
+			{/* 
+			{user?.role === 'User' ||
+			user?.role === 'Driver' ||
+			isLoggedIn === false ? (
+				<Header />
+			) : null}
+			{user?.role === 'Admin' ? <HeaderBarAdmin /> : null} */}
 
 			<Routes>
 				<Route
@@ -66,16 +73,24 @@ function App() {
 					}
 				/>
 				<Route path="/login" element={<Login />} />
+
 				<Route path="/register" element={<Register />} />
 				<Route
 					path="/api/activate/:activationToken"
 					element={<ActiveMailRegister />}
 				/>
-				<Route exact path="/forgotPassword" element={<ForgotPassword />} />
-				<Route exact path="/forgotPassword/confirmOTP" element={<ConfirmOTP />} />
 
-				{/* <Route path="/api/resetPassword/:token" element={<ResetPassword />} /> */}
+				<Route exact path="/forgotPassword" element={<ForgotPassword />} />
+
+				<Route
+					exact
+					path="/forgotPassword/confirmOTP"
+					element={<ConfirmOTP />}
+				/>
+
 				<Route path="/resetPassword/:token" element={<ResetPassword />} />
+
+				{/* here */}
 
 				<Route path="/user/updateProfileSelf" element={<UpdateProfileSelf />} />
 
@@ -102,7 +117,7 @@ function App() {
 					path="/admin/dashboard"
 					element={
 						<ProtectedRoute isAdmin={true}>
-							<DashboardAdmin />
+							<DashBoard />
 						</ProtectedRoute>
 					}
 				/>
@@ -130,7 +145,6 @@ function App() {
 				<Route path="/chatbot" element={<ChatBot />} />
 
 				<Route path="/notFound" element={<NotFound />} />
-				<Route path="/notFound" element={<HeaderAdmin />} />
 			</Routes>
 
 			{user?.role === 'User' ||

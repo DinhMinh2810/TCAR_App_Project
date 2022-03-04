@@ -1,0 +1,41 @@
+.header_sideBar {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.header_sideBar_img {
+}
+
+.header_sideBar > a > img {
+    width: 100%;
+    transition: all 0.5s;
+}
+
+.header_sideBar a {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.493);
+    padding: 1rem;
+    transition: all 0.5s;
+}
+
+.header_sideBar a:hover {
+    color: #00bcd4;
+    transform: scale(1);
+}
+
+.header_sideBar a > P {
+    display: flex;
+    align-items: center;
+}
+
+.header_sideBar_btn {
+    border-radius: 10px;
+    background-color: #00bcd4;
+    padding: 12px 20px;
+}
+
+.header_sideBar a > p > svg {
+    margin-right: 0.5rem;
+}
