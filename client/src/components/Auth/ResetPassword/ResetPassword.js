@@ -1,54 +1,37 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrors, forgotPassword } from '../../../redux/actions/authAction';
+import { resetPassword } from '../../../redux/actions/authAction';
 import { ToastContainer, toast } from 'react-toastify';
 import TitleBarPage from './../../Layout/TitleBarPage';
-import { useEffect } from 'react';
 import Loader from '../../Layout/Loader/Loader';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function ResetPassword() {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const { token } = useParams();
-	const { error, message, loading } = useSelector(
-		(state) => state.forgotPassword
-	);
+	const { loading } = useSelector((state) => state.forgotPassword);
 
 	const initialValues = {
-		email: '',
-		phoneNumber: '',
-		method: '',
+		password: '',
+		cfPassword: '',
 	};
 
 	const validationSchema = Yup.object({
-		email: Yup.string()
-			.email('Invalid email format !!')
-			.required('Please enter email !!'),
-		phoneNumber: Yup.string().required('Please enter phone !!'),
+		password: Yup.string().required('Please enter password !!'),
+		cfPassword: Yup.string()
+			.required('Please enter password !!')
+			.oneOf([Yup.ref('password'), null], 'Passwords must match !!'),
 	});
 
-	const forgotSubmit = (values) => {
-		const { email, phoneNumber, method } = values;
-		if (method === 'Phone') {
-			console.log(email);
-
-			dispatch(forgotPassword(email, phoneNumber, method));
-		} else {
-			dispatch(forgotPassword(email, phoneNumber, method));
-		}
+	const resetPWSubmit = (values) => {
+		dispatch(resetPassword(token, values));
+		toast.success('Reset password successfully !! Please login again !!');
 	};
-
-	useEffect(() => {
-		console.log('====================================');
-		console.log(token);
-		console.log('====================================');
-	});
 
 	return (
 		<>
-			<TitleBarPage title="Forgot Password" />
+			<TitleBarPage title="Reset Password" />
 			<ToastContainer className="toastify" />
 			{loading ? (
 				<Loader />
@@ -56,7 +39,7 @@ function ResetPassword() {
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
-					onSubmit={forgotSubmit}
+					onSubmit={resetPWSubmit}
 				>
 					{(formik) => (
 						<div className="flex items-center justify-center min-h-eightVH">
@@ -68,34 +51,35 @@ function ResetPassword() {
 									<div className="mt-4">
 										<div>
 											<label className="block" htmlFor="email">
-												Email
+												Password
 											</label>
 											<input
-												id="email"
-												type="email"
-												placeholder="Please enter email"
+												id="password"
+												type="password"
+												placeholder="Please enter password"
 												className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-												{...formik.getFieldProps('email')}
+												{...formik.getFieldProps('password')}
 											/>
-											{formik.touched.email && formik.errors.email ? (
-												<div className="form_error">{formik.errors.email}</div>
+											{formik.touched.password && formik.errors.password ? (
+												<div className="form_error">
+													{formik.errors.password}
+												</div>
 											) : null}
 										</div>
 										<div className="mt-4">
 											<label className="block" htmlFor="email">
-												Phone
+												Confirm Password
 											</label>
 											<input
-												id="phoneNumber"
-												type="phoneNumber"
-												placeholder="+84905092786"
+												id="cfPassword"
+												type="password"
+												placeholder="Please enter confirm password"
 												className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-												{...formik.getFieldProps('phoneNumber')}
+												{...formik.getFieldProps('cfPassword')}
 											/>
-											{formik.touched.phoneNumber &&
-											formik.errors.phoneNumber ? (
+											{formik.touched.cfPassword && formik.errors.cfPassword ? (
 												<div className="form_error">
-													{formik.errors.phoneNumber}
+													{formik.errors.cfPassword}
 												</div>
 											) : null}
 										</div>

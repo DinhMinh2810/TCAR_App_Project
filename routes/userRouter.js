@@ -27,7 +27,7 @@ router.route('/facebookLogin').post(facebookLogin);
 
 router.route('/forgotPassword').post(forgotPassword);
 
-router.route('/OtpResetPW').post(OtpResetPassword);
+router.route('/OtpResetPassword').post(OtpResetPassword);
 
 router.route('/resetPassword/:token').put(resetPassword);
 

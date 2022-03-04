@@ -130,15 +130,15 @@ export const forgotPassword =
 		}
 	};
 
-export const confirmOTP = (email, phoneNumber, method) => async (dispatch) => {
+export const confirmOTP = (email, otp) => async (dispatch) => {
 	try {
 		dispatch({ type: 'CONFIRM_OTP_REQUEST' });
 
 		const config = { headers: { 'Content-Type': 'application/json' } };
 
 		const { data } = await axios.post(
-			`/api/forgotPassword`,
-			{ email, phoneNumber, method },
+			`/api/OtpResetPassword`,
+			{ email, otp },
 			config
 		);
 

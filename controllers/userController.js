@@ -268,18 +268,15 @@ exports.forgotPassword = async (req, res) => {
 //Confirm OTP
 exports.OtpResetPassword = async (req, res) => {
 	try {
+		// const OTP = user.resetPasswordOTP;
 		const { email, confirmOTP } = req.body;
 		const user = await User.findOne({ email });
-		const OTP = user.resetPasswordOTP;
-		if (confirmOTP === OTP) {
-			res.status(200).json({
-				message: 'Confirm OTP successfully !!',
-			});
-		} else {
-			res.status(404).json({
-				message: 'Your OTP false !!',
-			});
-		}
+		const resetPWToken = user.getResetPasswordToken();
+		await user.save({ validateBeforeSave: false });
+
+		res
+			.status(200)
+			.json({ message: 'Confirm OTP successfully !!', resetPWToken });
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
@@ -307,7 +304,11 @@ exports.resetPassword = async (req, res) => {
 
 		await user.save();
 
-		sendTokenCookie(user, 200, res, 'Password changed successfully !!');
+		return res
+			.status(200)
+			.json({ message: 'Password changed successfully !!' });
+
+		// sendTokenCookie(user, 200, res, 'Password changed successfully !!');
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
