@@ -3,9 +3,10 @@
     display: flex;
     flex-direction: column;
     padding: 0;
-}
-
-.header_sideBar_img {
+    border-right: 1px solid #00bcd4;
+    border-bottom: 1px solid #00bcd4;
+    padding-bottom: 15px;
+    border-radius: 10px;
 }
 
 .header_sideBar > a > img {

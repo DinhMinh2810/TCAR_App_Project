@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 export const register = (userData) => async (dispatch) => {
 	try {
@@ -8,9 +7,6 @@ export const register = (userData) => async (dispatch) => {
 		const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
 		const res = await axios.post(`/api/register`, userData, config);
-		console.log('====================================');
-		console.log(res.data);
-		console.log('====================================');
 
 		dispatch({ type: 'REGISTER_USER_SUCCESS', payload: res.data });
 	} catch (error) {

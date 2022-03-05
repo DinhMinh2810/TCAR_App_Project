@@ -3,6 +3,7 @@ import { authReducer, forgotPasswordReducer } from './authReducer';
 import { carsReducer, carDetailsReducer } from './carReducer';
 import { chatBotReducer } from './chatbotReducer';
 import { favoriteCartReducer } from './favoriteCartReducer';
+import { allAccStaffReducer, allAccUsersReducer } from './adminReducer';
 
 export default combineReducers({
 	auth: authReducer,
@@ -11,4 +12,6 @@ export default combineReducers({
 	carProductDetails: carDetailsReducer,
 	favoriteCart: favoriteCartReducer,
 	chatbot: chatBotReducer,
+	allAccUsers: allAccUsersReducer,
+	admin: allAccStaffReducer,
 });

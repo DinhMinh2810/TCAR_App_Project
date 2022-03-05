@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const cloudinary = require('cloudinary');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 
 // Get all user
@@ -16,12 +17,41 @@ exports.updateUserRole = async (req, res) => {
 			return res.status(400).json({ message: 'Please enter new role !!' });
 		}
 
-		await User.findOneAndUpdate({ _id: req.params.id }, { role });
+		await User.findOneAndUpdate(
+			{ _id: req.params.id },
+			{ role },
+			{
+				new: true,
+				runValidators: true,
+				useFindAndModify: false,
+			}
+		);
+
 		res.json({ message: 'Update role success !!' });
 	} catch (error) {
 		return res.status(500).json({ message: error.message });
 	}
 };
+
+// Delete Account User --Admin
+exports.deleteAccUser = catchAsyncErrShort(async (req, res, next) => {
+	const user = await User.findById(req.params.id);
+
+	if (!user) {
+		return res.status(400).json({ message: 'User not found !!' });
+	}
+
+	const imageId = user.avatar.public_id;
+
+	await cloudinary.v2.uploader.destroy(imageId);
+
+	await user.remove();
+
+	res.status(200).json({
+		success: true,
+		message: 'Deleted account user successfully !!',
+	});
+});
 
 // Create account staff
 exports.createAccStaff = async (req, res) => {

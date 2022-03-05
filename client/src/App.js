@@ -31,6 +31,8 @@ import DirectRoleHome from './components/Route/DirectRoleHome';
 import ConfirmOTP from './components/Auth/ForgotPassword/ConfirmOTP';
 import DashBoard from './components/Admin/DashBoard/DashBoard';
 import HeaderBarAdmin from './components/Admin/HeaderBarAdmin/HeaderBarAdmin';
+import ListAccStaff from './components/Admin/ManagerAccStaff/ListAccStaff';
+import AllAccUser from './components/Admin/AllAccUser/AllAccUser';
 
 function App() {
 	const dispatch = useDispatch();
@@ -112,6 +114,8 @@ function App() {
 				)} */}
 
 				{/* <Route path="/paymentWithPayPal" element={<PaymentPayPal />} /> */}
+
+				{/* Admin  */}
 				<Route
 					exact
 					path="/admin/dashboard"
@@ -122,6 +126,27 @@ function App() {
 					}
 				/>
 
+				<Route
+					exact
+					path="/admin/manager/allAccount"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<AllAccUser />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/admin/manager/accStaff"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<ListAccStaff />
+						</ProtectedRoute>
+					}
+				/>
+
+				{/* Staff  */}
 				<Route
 					exact
 					path="/staff/dashboard"

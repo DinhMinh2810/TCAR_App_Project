@@ -39,18 +39,16 @@ const HeaderBarAdmin = () => {
 					</TreeItem>
 				</TreeView>
 			</Link>
-			<Link to="/admin/orders">
-				<p>Orders</p>
+			<Link to="/admin/manager/allAccount">
+				<p>Manager all account</p>
 			</Link>
-			<Link to="/admin/users">
-				<p>Users</p>
+			<Link to="/admin/manager/accStaff">
+				<p>Manager account staff</p>
 			</Link>
 			<Link to="/admin/reviews">
 				<p>Reviews</p>
 			</Link>
-			{/* <div onClick={logoutSubmit} className="header_sideBar_btn">
-				<button>Logout</button>
-			</div> */}
+
 			<div class="text-center bottom-0 w-full">
 				<button
 					class="py-2 text-sm text-gray-700 header_sideBar_btn"

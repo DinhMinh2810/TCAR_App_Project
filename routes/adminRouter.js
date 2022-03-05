@@ -3,6 +3,7 @@ const router = express.Router();
 const {
 	getAllAccount,
 	updateUserRole,
+	deleteAccUser,
 	createAccStaff,
 	getAccStaff,
 	changePWAccStaff,
@@ -17,6 +18,10 @@ router
 router
 	.route('/updateUserRole/:id')
 	.put(isAuthenticatedUser, authorWithRole('Admin'), updateUserRole);
+
+router
+	.route('/deleteAccUser/:id')
+	.delete(isAuthenticatedUser, authorWithRole('Admin'), deleteAccUser);
 
 router
 	.route('/createAccStaff')
