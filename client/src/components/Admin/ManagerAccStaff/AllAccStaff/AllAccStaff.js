@@ -2,23 +2,55 @@ import React, { useEffect, useState } from 'react';
 import TitleBarPage from '../../../Layout/TitleBarPage';
 import HeaderBarAdmin from '../../HeaderBarAdmin/HeaderBarAdmin';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllAccStaff } from '../../../../redux/actions/adminAction';
+import {
+	deleteAccUser,
+	getAllAccStaff,
+} from '../../../../redux/actions/adminAction';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../../../Layout/Loader/Loader';
+import { clearErrors } from '../../../../redux/actions/authAction';
 
 const AllAccStaff = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const { loading, users } = useSelector((state) => state.allAccStaff);
 
-	const { loading: loadingCRUD, users: userCRUD } = useSelector(
-		(state) => state.CRUDAccStaff
-	);
+	const {
+		error: deleteAccUserError,
+		isDeleted,
+		message,
+	} = useSelector((state) => state.deleteAccUsers);
+
+	const { isUpdated } = useSelector((state) => state.profileUser);
 
 	useEffect(() => {
 		dispatch(getAllAccStaff());
-	}, [dispatch]);
+
+		if (deleteAccUserError) {
+			toast.warn(deleteAccUserError);
+			dispatch(clearErrors());
+		}
+
+		if (isDeleted) {
+			toast.success(message);
+			navigate('/admin/manager/accStaff');
+			dispatch({ type: 'DELETE_USER_RESET' });
+		}
+
+		if (isUpdated) {
+			toast.success(isUpdated);
+		}
+	}, [dispatch, isDeleted, deleteAccUserError, navigate, message, isUpdated]);
+
+	const changePasswordHandle = (userID) => {
+		navigate(`/admin/manager/accStaff/changePassword/${userID}`);
+	};
+
+	const deleteAccUserHandle = (userID) => {
+		dispatch(deleteAccUser(userID));
+	};
 
 	return (
 		<>
@@ -76,7 +108,7 @@ const AllAccStaff = () => {
 										</thead>
 										<tbody className="bg-white divide-y divide-gray-200">
 											{users?.map((user) => (
-												<tr key={user?.id}>
+												<tr key={user?._id}>
 													<td className="px-6 py-4 whitespace-nowrap">
 														<div className="flex items-center">
 															<div className="flex-shrink-0 h-10 w-10">
@@ -105,10 +137,16 @@ const AllAccStaff = () => {
 														{user?.role}
 													</td>
 													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
-														<button className="border-1 p-2 rounded bg-cyan-300 mr-2">
+														<button
+															onClick={() => changePasswordHandle(user?._id)}
+															className="border-1 p-2 rounded bg-cyan-300 mr-2"
+														>
 															Change Password
 														</button>
-														<button className="border-1 p-2 rounded bg-red-500 text-white">
+														<button
+															onClick={() => deleteAccUserHandle(user?._id)}
+															className="border-1 p-2 rounded bg-red-500 text-white"
+														>
 															Delete
 														</button>
 													</td>

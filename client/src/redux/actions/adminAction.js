@@ -85,6 +85,46 @@ export const CreateAccountStaff = (formData) => async (dispatch) => {
 	}
 };
 
+// Change password acc staff
+export const changePasswordAccStaff = (id, password) => async (dispatch) => {
+	try {
+		dispatch({ type: 'UPDATE_PASSWORD_REQUEST' });
+
+		const config = {
+			headers: { 'Content-Type': 'application/json' },
+		};
+
+		const { data } = await axios.put(
+			`/api/admin/changePWAccStaff/${id}`,
+			{ password },
+			config
+		);
+
+		dispatch({ type: 'UPDATE_PASSWORD_SUCCESS', payload: data.message });
+	} catch (error) {
+		dispatch({
+			type: 'UPDATE_PASSWORD_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
+// Delete account user
+export const deleteAccStaff = (id) => async (dispatch) => {
+	try {
+		dispatch({ type: 'DELETE_USER_REQUEST' });
+
+		const res = await axios.delete(`/api/admin/deleteAccStaff/${id}`);
+
+		dispatch({ type: 'DELETE_USER_SUCCESS', payload: res.data });
+	} catch (error) {
+		dispatch({
+			type: 'DELETE_USER_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });

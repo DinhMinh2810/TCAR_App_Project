@@ -13,7 +13,7 @@ const CreateAccStaff = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const { loading, users, error } = useSelector((state) => state.CRUDAccStaff);
+	const { users, error } = useSelector((state) => state.CRUDAccStaff);
 
 	const [user, setUser] = useState({
 		name: '',

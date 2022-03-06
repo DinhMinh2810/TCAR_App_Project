@@ -35,6 +35,8 @@ import AllAccStaff from './components/Admin/ManagerAccStaff/AllAccStaff/AllAccSt
 import AllAccUser from './components/Admin/AllAccUser/AllAccUser';
 import EditRole from './components/Admin/AllAccUser/EditRole';
 import CreateAccStaff from './components/Admin/ManagerAccStaff/CreateAccStaff/CreateAccStaff';
+import ChangePasswordStaff from './components/Admin/ManagerAccStaff/ChangePasswordStaff/ChangePasswordStaff';
+import Profile from './components/User/Profile';
 
 function App() {
 	const dispatch = useDispatch();
@@ -93,6 +95,15 @@ function App() {
 				/>
 
 				<Route path="/resetPassword/:token" element={<ResetPassword />} />
+
+				<Route
+					path="/myProfile"
+					element={
+						<ProtectedRoute>
+							<Profile />
+						</ProtectedRoute>
+					}
+				/>
 
 				{/* here */}
 
@@ -164,6 +175,16 @@ function App() {
 					element={
 						<ProtectedRoute isAdmin={true}>
 							<CreateAccStaff />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/admin/manager/accStaff/changePassword/:id"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<ChangePasswordStaff />
 						</ProtectedRoute>
 					}
 				/>

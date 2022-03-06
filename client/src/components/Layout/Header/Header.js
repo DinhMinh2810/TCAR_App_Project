@@ -39,17 +39,21 @@ const Header = () => {
 						{isLoggedIn ? (
 							<>
 								<div className="header_res hide-on-pc">
-									<img src={user?.avatar?.url} className="img-responsive" />
+									<img
+										src={user?.avatar?.url}
+										alt=""
+										className="img-responsive"
+									/>
 									<span className="header_name">{user?.name}</span>
 								</div>
 
 								<div className="header_res hide-on-pc">
-									<span href="#" className="header_name">
+									<span href="/myProfile" className="header_name">
 										Profile
 									</span>
 								</div>
 								<div className="header_res hide-on-pc">
-									<span className="header_name">Profile</span>
+									<span className="header_name">Cart</span>
 								</div>
 								<div
 									className="header_res logout hide-on-pc"
@@ -63,18 +67,15 @@ const Header = () => {
 									width="50"
 									height="50"
 									className="img-responsive hide-on-mobile-tablet"
+									alt=""
 								/>
 								<NavDropdown
 									title={user?.name}
 									id="collasible-nav-dropdown"
 									className="hide-on-mobile-tablet"
 								>
-									<NavDropdown.Item href="#action/3.1">
-										Profile
-									</NavDropdown.Item>
-									<NavDropdown.Item href="#action/3.2">
-										Profile
-									</NavDropdown.Item>
+									<NavDropdown.Item href="/myProfile">Profile</NavDropdown.Item>
+									<NavDropdown.Item href="#action/3.2">Cart</NavDropdown.Item>
 									<NavDropdown.Item href="#action/3.3">
 										Something
 									</NavDropdown.Item>
