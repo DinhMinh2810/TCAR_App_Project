@@ -337,6 +337,25 @@ exports.userDetailExist = async (req, res) => {
 	}
 };
 
+// Get single user detail -- Admin
+exports.getSingleUserDetail = async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id);
+		if (!user) {
+			return res.status(404).json({
+				message: `User does not exist with this Id: ${req.params.id}`,
+			});
+		}
+
+		res.status(200).json({
+			success: true,
+			user,
+		});
+	} catch (error) {
+		return res.status(500).json({ message: error.message });
+	}
+};
+
 // UserSelf update
 exports.updateUserSelf = async (req, res) => {
 	try {

@@ -33,6 +33,7 @@ import DashBoard from './components/Admin/DashBoard/DashBoard';
 import HeaderBarAdmin from './components/Admin/HeaderBarAdmin/HeaderBarAdmin';
 import ListAccStaff from './components/Admin/ManagerAccStaff/ListAccStaff';
 import AllAccUser from './components/Admin/AllAccUser/AllAccUser';
+import EditRole from './components/Admin/AllAccUser/EditRole';
 
 function App() {
 	const dispatch = useDispatch();
@@ -132,6 +133,16 @@ function App() {
 					element={
 						<ProtectedRoute isAdmin={true}>
 							<AllAccUser />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/admin/manager/allAccount/editRole/:id"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<EditRole />
 						</ProtectedRoute>
 					}
 				/>

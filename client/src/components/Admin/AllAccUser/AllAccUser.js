@@ -1,29 +1,63 @@
 import React, { useEffect } from 'react';
-import { Table } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { allAccUsers } from '../../../redux/actions/adminAction';
+import {
+	allAccUsers,
+	clearErrors,
+	deleteAccUser,
+} from '../../../redux/actions/adminAction';
 import TitleBarPage from '../../Layout/TitleBarPage';
 import HeaderBarAdmin from '../HeaderBarAdmin/HeaderBarAdmin';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const AllAccUser = () => {
 	const dispatch = useDispatch();
-
+	const navigate = useNavigate();
 	const { error, users } = useSelector((state) => state.allAccUsers);
 
+	const {
+		error: deleteAccUserError,
+		isDeleted,
+		message,
+	} = useSelector((state) => state.deleteAccUsers);
+
 	useEffect(() => {
+		if (error) {
+			toast.warn(error);
+			dispatch(clearErrors());
+		}
+
+		if (deleteAccUserError) {
+			toast.warn(deleteAccUserError);
+			dispatch(clearErrors());
+		}
+
+		if (isDeleted) {
+			toast.success(message);
+			navigate('/admin/manager/allAccount');
+			dispatch({ type: 'DELETE_USER_RESET' });
+		}
 		dispatch(allAccUsers());
-	}, [dispatch]);
+	}, [dispatch, isDeleted, navigate, error, message, deleteAccUserError]);
+
+	const deleteAccUserHandle = (userID) => {
+		dispatch(deleteAccUser(userID));
+	};
+
+	const updateRoleUserHandle = (userID) => {
+		navigate(`/admin/manager/allAccount/editRole/${userID}`);
+	};
 
 	return (
 		<div className="dashboard">
 			<HeaderBarAdmin />
-			{/* <h2 className="text-center pb-3">Manager account staff</h2> */}
 			<TitleBarPage title="Manager all account" />
-
 			<div className="flex flex-col">
+				<ToastContainer className="toastify text-xs" />
 				<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+							<h2 className="text-center pb-3">Manager all account users</h2>
 							<table className="min-w-full divide-y divide-gray-200">
 								<thead className="bg-gray-50">
 									<tr>
@@ -87,8 +121,12 @@ const AllAccUser = () => {
 												{user.role}
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-												<div>Edit role</div>
-												<div>Delete</div>
+												<button onClick={() => updateRoleUserHandle(user?._id)}>
+													Edit role
+												</button>
+												<button onClick={() => deleteAccUserHandle(user?._id)}>
+													Delete
+												</button>
 											</td>
 										</tr>
 									))}

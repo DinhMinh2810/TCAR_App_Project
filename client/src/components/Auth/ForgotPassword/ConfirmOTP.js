@@ -37,7 +37,7 @@ const ConfirmOTP = () => {
 		if (data) {
 			toast.success(data.message);
 		}
-	}, [dispatch, error]);
+	}, [dispatch, error, data]);
 
 	return (
 		<>

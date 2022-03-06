@@ -12,8 +12,9 @@ const {
 	userDetailExist,
 	logout,
 	updateUserSelf,
+	getSingleUserDetail,
 } = require('../controllers/userController');
-const { isAuthenticatedUser } = require('../middleware/auth');
+const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
 router.route('/register').post(register);
 
@@ -36,5 +37,9 @@ router.route('/logout').get(logout);
 router.route('/userDetailExist').get(isAuthenticatedUser, userDetailExist);
 
 router.route('/updateUserSelf').put(isAuthenticatedUser, updateUserSelf);
+
+router
+	.route('/singleUserDetail/:id')
+	.get(isAuthenticatedUser, authorWithRole('Admin'), getSingleUserDetail);
 
 module.exports = router;
