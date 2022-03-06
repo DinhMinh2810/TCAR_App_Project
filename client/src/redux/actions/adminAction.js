@@ -17,15 +17,17 @@ export const updateRoleUser = (id, role) => async (dispatch) => {
 	try {
 		dispatch({ type: 'UPDATE_USER_REQUEST' });
 
-		const config = { headers: { 'Content-Type': 'application/json' } };
+		const config = {
+			headers: { 'Content-Type': 'application/json' },
+		};
 
 		const { data } = await axios.put(
 			`/api/admin/updateUserRole/${id}`,
-			role,
+			{ role },
 			config
 		);
 
-		dispatch({ type: 'UPDATE_USER_SUCCESS', payload: data.success });
+		dispatch({ type: 'UPDATE_USER_SUCCESS', payload: data.message });
 	} catch (error) {
 		dispatch({
 			type: 'UPDATE_USER_FAIL',

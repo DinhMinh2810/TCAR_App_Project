@@ -52,7 +52,7 @@ const AllAccUser = () => {
 		<div className="dashboard">
 			<HeaderBarAdmin />
 			<TitleBarPage title="Manager all account" />
-			<div className="flex flex-col">
+			<div className="flex flex-col p-1">
 				<ToastContainer className="toastify text-xs" />
 				<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -120,11 +120,17 @@ const AllAccUser = () => {
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 												{user.role}
 											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-												<button onClick={() => updateRoleUserHandle(user?._id)}>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
+												<button
+													className="border-1 p-2 rounded bg-cyan-300 mr-2"
+													onClick={() => updateRoleUserHandle(user?._id)}
+												>
 													Edit role
 												</button>
-												<button onClick={() => deleteAccUserHandle(user?._id)}>
+												<button
+													className="border-1 p-2 rounded bg-red-500 text-white"
+													onClick={() => deleteAccUserHandle(user?._id)}
+												>
 													Delete
 												</button>
 											</td>

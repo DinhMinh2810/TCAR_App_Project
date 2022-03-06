@@ -27,7 +27,7 @@ exports.updateUserRole = async (req, res) => {
 			}
 		);
 
-		res.json({ message: 'Update role success !!' });
+		res.status(200).json({ message: 'Update role success !!' });
 	} catch (error) {
 		return res.status(500).json({ message: error.message });
 	}

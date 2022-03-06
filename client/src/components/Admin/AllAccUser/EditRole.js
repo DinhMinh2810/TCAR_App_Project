@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
 	clearErrors,
 	userSingleDetail,
@@ -14,9 +14,16 @@ import { updateRoleUser } from '../../../redux/actions/adminAction';
 
 const EditRole = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { loading, error, user } = useSelector(
 		(state) => state.userSingleDetail
 	);
+
+	const {
+		loading: updateLoading,
+		error: updateError,
+		isUpdated,
+	} = useSelector((state) => state.profileUser);
 
 	const { id } = useParams();
 	const userID = id;
@@ -35,12 +42,26 @@ const EditRole = () => {
 	};
 
 	useEffect(() => {
-		dispatch(userSingleDetail(userID));
+		if (user && user._id !== userID) {
+			dispatch(userSingleDetail(userID));
+		}
+
 		if (error) {
 			toast.warn(error);
 			dispatch(clearErrors());
 		}
-	}, [dispatch, userID, error]);
+
+		if (updateError) {
+			toast.warn(error);
+			dispatch(clearErrors());
+		}
+
+		if (isUpdated) {
+			toast.success(isUpdated);
+			navigate('/admin/manager/allAccount');
+			dispatch({ type: 'UPDATE_USER_RESET' });
+		}
+	}, [dispatch, userID, error, user, isUpdated, navigate, updateError]);
 
 	return (
 		<div className="dashboard">
