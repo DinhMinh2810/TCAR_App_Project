@@ -49,16 +49,15 @@ const HeaderBarAdmin = () => {
 				<p>Reviews</p>
 			</Link>
 
-			<div class="text-center bottom-0 w-full">
+			<div className="text-center bottom-0 w-full">
 				<button
-					class="py-2 text-sm text-gray-700 header_sideBar_btn"
+					className="py-2 text-sm text-gray-700 header_sideBar_btn"
 					onClick={logoutSubmit}
 				>
 					Logout
 				</button>
 			</div>
 		</div>
-
 	);
 };
 

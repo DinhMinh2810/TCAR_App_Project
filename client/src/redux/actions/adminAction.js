@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// get All Users -- Admin
+// get All Users account -- Admin
 export const allAccUsers = () => async (dispatch) => {
 	try {
 		dispatch({ type: 'ALL_USERS_REQUEST' });
@@ -52,6 +52,7 @@ export const deleteAccUser = (id) => async (dispatch) => {
 	}
 };
 
+// Get all account staff - Admin
 export const getAllAccStaff = () => async (dispatch) => {
 	try {
 		dispatch({ type: 'ACC_STAFF_REQUEST' });
@@ -62,6 +63,23 @@ export const getAllAccStaff = () => async (dispatch) => {
 	} catch (error) {
 		dispatch({
 			type: 'ACC_STAFF_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
+// Get all account staff - Admin
+export const CreateAccountStaff = (formData) => async (dispatch) => {
+	try {
+		dispatch({ type: 'CREATE_ACC_STAFF_REQUEST' });
+		const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+		const res = await axios.post('/api/admin/createAccStaff', formData, config);
+
+		dispatch({ type: 'CREATE_ACC_STAFF_SUCCESS', payload: res.data });
+	} catch (error) {
+		dispatch({
+			type: 'CREATE_ACC_STAFF_FAIL',
 			payload: error.response.data.message,
 		});
 	}

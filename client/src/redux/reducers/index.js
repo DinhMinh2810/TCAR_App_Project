@@ -1,11 +1,16 @@
 import { combineReducers } from 'redux';
-import { authReducer, forgotPasswordReducer, userSingleDetailsReducer } from './authReducer';
+import {
+	authReducer,
+	forgotPasswordReducer,
+	userSingleDetailsReducer,
+} from './authReducer';
 import { carsReducer, carDetailsReducer } from './carReducer';
 import { chatBotReducer } from './chatbotReducer';
 import { favoriteCartReducer } from './favoriteCartReducer';
 import {
 	allAccStaffReducer,
 	allAccUsersReducer,
+	CRUDAccStaffReducer,
 	deleteAccUserReducer,
 	profileReducer,
 } from './adminReducer';
@@ -17,7 +22,8 @@ export default combineReducers({
 	userSingleDetail: userSingleDetailsReducer,
 	allAccUsers: allAccUsersReducer,
 	deleteAccUsers: deleteAccUserReducer,
-	admin: allAccStaffReducer,
+	allAccStaff: allAccStaffReducer,
+	CRUDAccStaff: CRUDAccStaffReducer,
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,
 	favoriteCart: favoriteCartReducer,

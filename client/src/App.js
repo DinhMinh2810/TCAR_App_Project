@@ -31,9 +31,10 @@ import DirectRoleHome from './components/Route/DirectRoleHome';
 import ConfirmOTP from './components/Auth/ForgotPassword/ConfirmOTP';
 import DashBoard from './components/Admin/DashBoard/DashBoard';
 import HeaderBarAdmin from './components/Admin/HeaderBarAdmin/HeaderBarAdmin';
-import ListAccStaff from './components/Admin/ManagerAccStaff/ListAccStaff';
+import AllAccStaff from './components/Admin/ManagerAccStaff/AllAccStaff/AllAccStaff';
 import AllAccUser from './components/Admin/AllAccUser/AllAccUser';
 import EditRole from './components/Admin/AllAccUser/EditRole';
+import CreateAccStaff from './components/Admin/ManagerAccStaff/CreateAccStaff/CreateAccStaff';
 
 function App() {
 	const dispatch = useDispatch();
@@ -152,7 +153,17 @@ function App() {
 					path="/admin/manager/accStaff"
 					element={
 						<ProtectedRoute isAdmin={true}>
-							<ListAccStaff />
+							<AllAccStaff />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/admin/manager/accStaff/create"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<CreateAccStaff />
 						</ProtectedRoute>
 					}
 				/>

@@ -53,36 +53,6 @@ exports.deleteAccUser = catchAsyncErrShort(async (req, res, next) => {
 	});
 });
 
-// Create account staff
-exports.createAccStaff = async (req, res) => {
-	try {
-		const { name, email, password } = req.body;
-
-		if (!name || !email || !password) {
-			return res.status(400).json({ message: 'Please enter all fields !!' });
-		}
-
-		if (!validateEmail(email)) {
-			return res.status(400).json({ message: 'Invalid emails !!' });
-		}
-		const checkUser = await User.findOne({ email });
-		if (checkUser) {
-			return res.status(400).json({ message: 'This email already exists !!' });
-		}
-		const user = await User.create({
-			name,
-			email,
-			password,
-			role: 'Staff',
-		});
-		res
-			.status(200)
-			.json({ user, message: 'Admin create account for Staff success !!.' });
-	} catch (error) {
-		return res.status(500).json({ message: error.message });
-	}
-};
-
 // Get all account staff
 exports.getAccStaff = catchAsyncErrShort(async (req, res) => {
 	const users = await User.find({ role: 'Staff' });
@@ -92,7 +62,42 @@ exports.getAccStaff = catchAsyncErrShort(async (req, res) => {
 		});
 	}
 
-	return res.status(200).json({ users });
+	return res.status(200).json(users);
+});
+
+// Create account staff
+exports.createAccStaff = catchAsyncErrShort(async (req, res) => {
+	const uploadImage = await cloudinary.v2.uploader.upload(req.body.avatar, {
+		folder: 'avatars',
+		width: 150,
+		crop: 'scale',
+	});
+	const { name, email, password } = req.body;
+
+	if (!name || !email || !password) {
+		return res.status(400).json({ message: 'Please enter all fields !!' });
+	}
+
+	if (!validateEmail(email)) {
+		return res.status(400).json({ message: 'Invalid emails !!' });
+	}
+	const checkUser = await User.findOne({ email });
+	if (checkUser) {
+		return res.status(400).json({ message: 'This email already exists !!' });
+	}
+	const user = await User.create({
+		name,
+		email,
+		password,
+		role: 'Staff',
+		avatar: {
+			public_id: uploadImage.public_id,
+			url: uploadImage.secure_url,
+		},
+	});
+	res
+		.status(200)
+		.json({ user, message: 'Admin create account for Staff success !!.' });
 });
 
 // Update account staff
@@ -117,6 +122,10 @@ exports.deleteAccStaff = catchAsyncErrShort(async (req, res) => {
 			message: `User not found or just can delete user with role "Staff" !!`,
 		});
 	}
+	const imageId = user.avatar.public_id;
+
+	await cloudinary.v2.uploader.destroy(imageId);
+
 	await User.deleteOne({ _id: req.params.id });
 	return res.status(200).json({ message: 'Delete user successful !!' });
 });
