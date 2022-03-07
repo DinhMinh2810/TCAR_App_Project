@@ -18,7 +18,7 @@ router.route('/getAllCars').get(getAllCars);
 
 router
 	.route('/assign')
-	.post(isAuthenticatedUser, authorWithRole('Admin'), assignCarToDriver);
+	.post(isAuthenticatedUser, authorWithRole('Staff'), assignCarToDriver);
 
 router
 	.route('/getAdAllCars')

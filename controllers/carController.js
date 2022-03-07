@@ -27,9 +27,42 @@ exports.getAllCars = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({ carsCount, resultItemPage, cars });
 });
 
+// Get car detail
+exports.getDetailCar = catchAsyncErrShort(async (req, res) => {
+	const car = await Car.findById({ _id: req.params.id });
+	res.status(200).json({
+		success: true,
+		car,
+	});
+});
+
 // Create car -- Admin
 exports.createCar = catchAsyncErrShort(async (req, res) => {
-	req.body.userCreateId = req.user.id;
+	let images = [];
+
+	const checkImgType = typeof req.body.images === 'string';
+
+	if (checkImgType) {
+		images.push(req.body.images);
+	} else {
+		images = req.body.images;
+	}
+
+	const addImgToLink = [];
+
+	for (let i = 0; i < images.length; i++) {
+		const uploadImage = await cloudinary.v2.uploader.upload(images[i], {
+			folder: 'cars',
+		});
+
+		addImgToLink.push({
+			public_id: uploadImage.public_id,
+			url: uploadImage.secure_url,
+		});
+	}
+
+	req.body.images = addImgToLink;
+	req.body.user = req.user.id;
 
 	const car = await Car.create(req.body);
 	res.status(201).json({ success: true, car });
@@ -42,6 +75,35 @@ exports.updateCar = catchAsyncErrShort(async (req, res) => {
 		return res.status(404).json('Car not found !!');
 	}
 
+	let images = [];
+
+	const checkTypeImg = typeof req.body.images === 'string';
+	if (checkTypeImg) {
+		images.push(req.body.images);
+	} else {
+		images = req.body.images;
+	}
+
+	if (images !== undefined) {
+		for (let i = 0; i < product.images.length; i++) {
+			await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+		}
+		const imagesLinks = [];
+
+		for (let i = 0; i < images.length; i++) {
+			const uploadImg = await cloudinary.v2.uploader.upload(images[i], {
+				folder: 'products',
+			});
+
+			imagesLinks.push({
+				public_id: uploadImg.public_id,
+				url: uploadImg.secure_url,
+			});
+		}
+
+		req.body.images = imagesLinks;
+	}
+
 	car = await Car.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true,
@@ -50,20 +112,18 @@ exports.updateCar = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({ success: true, car });
 });
 
-exports.getDetailCar = catchAsyncErrShort(async (req, res) => {
-	const car = await Car.findById({ _id: req.params.id });
-	res.status(200).json({
-		success: true,
-		car,
-	});
-});
-
 // Delete car -- Admin
 exports.deleteCar = catchAsyncErrShort(async (req, res) => {
-	const car = await Car.findByIdAndDelete(req.params.id);
+	const car = await Car.findById(req.params.id);
 	if (!car) {
 		res.status(500).json({ message: 'Car not found !!' });
 	}
+
+	for (let i = 0; i < car.images.length; i++) {
+		await cloudinary.v2.uploader.destroy(car.images[i].public_id);
+	}
+
+	await car.remove();
 
 	res.status(200).json({ success: true, message: 'Car deleted success !!' });
 });
