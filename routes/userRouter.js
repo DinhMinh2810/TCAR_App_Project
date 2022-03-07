@@ -39,7 +39,7 @@ router.route('/userDetailExist').get(isAuthenticatedUser, userDetailExist);
 
 router.route('/changePassword').put(isAuthenticatedUser, changePassword);
 
-router.route('/editUserProfile').put(isAuthenticatedUser, editUserProfile);
+router.route('/editUserProfile/me').put(isAuthenticatedUser, editUserProfile);
 
 router
 	.route('/singleUserDetail/:id')

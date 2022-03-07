@@ -406,13 +406,13 @@ exports.editUserProfile = async (req, res) => {
 				crop: 'scale',
 			});
 
-			newUserData.avatar = {
+			newDataUser.avatar = {
 				public_id: uploadImage.public_id,
 				url: uploadImage.secure_url,
 			};
 		}
 
-		await User.findByIdAndUpdate(req.user.id, newUserData, {
+		await User.findByIdAndUpdate(req.user.id, newDataUser, {
 			new: true,
 			runValidators: true,
 			useFindAndModify: false,

@@ -42,7 +42,7 @@ const ChangePassword = () => {
 	useEffect(() => {
 		if (error) {
 			toast.warn(error);
-            dispatch(clearErrors());
+			dispatch(clearErrors());
 		}
 
 		if (isUpdated) {
