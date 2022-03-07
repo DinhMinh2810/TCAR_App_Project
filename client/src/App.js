@@ -13,7 +13,6 @@ import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
 import Home from './components/Home/Home';
 import Car from './components/CarProduct/Car';
 import CarDetail from './components/CarProduct/CarDetail';
-import UpdateProfileSelf from './components/User/UpdateProfileSelf';
 import Register from './components/Auth/Register/Register.js';
 import FavoriteCart from './components/FavoriteCart/FavoriteCart';
 import ReceiveCarTo from './components/FavoriteCart/ReceiveCarTo/ReceiveCarTo';
@@ -37,6 +36,8 @@ import EditRole from './components/Admin/AllAccUser/EditRole';
 import CreateAccStaff from './components/Admin/ManagerAccStaff/CreateAccStaff/CreateAccStaff';
 import ChangePasswordStaff from './components/Admin/ManagerAccStaff/ChangePasswordStaff/ChangePasswordStaff';
 import Profile from './components/User/Profile';
+import EditProfile from './components/User/EditProfile';
+import ChangePassword from './components/User/ChangePassword';
 
 function App() {
 	const dispatch = useDispatch();
@@ -105,9 +106,25 @@ function App() {
 					}
 				/>
 
-				{/* here */}
+				<Route
+					path="/user/editProfile"
+					element={
+						<ProtectedRoute>
+							<EditProfile />
+						</ProtectedRoute>
+					}
+				/>
 
-				<Route path="/user/updateProfileSelf" element={<UpdateProfileSelf />} />
+				<Route
+					path="/user/changePassword"
+					element={
+						<ProtectedRoute>
+							<ChangePassword />
+						</ProtectedRoute>
+					}
+				/>
+
+				{/* here */}
 
 				<Route path="/carProduct" element={<Car />} />
 				<Route path="/carProduct/:id" element={<CarDetail />} />

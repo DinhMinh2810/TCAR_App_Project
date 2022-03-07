@@ -34,7 +34,9 @@ const ChangePasswordStaff = () => {
 	};
 
 	const validationSchema = Yup.object({
-		password: Yup.string().required('Please enter password !!'),
+		password: Yup.string()
+			.required('Please enter password !!')
+			.min(6, 'Password must be at least 6 characters !!'),
 		cfPassword: Yup.string()
 			.required('Please enter password !!')
 			.oneOf([Yup.ref('password'), null], 'Passwords must match !!'),

@@ -356,21 +356,41 @@ exports.getSingleUserDetail = async (req, res) => {
 	}
 };
 
-// UserSelf update
-exports.updateUserSelf = async (req, res) => {
+// User edit password
+exports.changePassword = async (req, res) => {
 	try {
-		// const { name, avatar } = req.body;
-		// await User.findOneAndUpdate(
-		// 	{ _id: req.user.id },
-		// 	{
-		// 		name,
-		// 		avatar,
-		// 	}
-		// );
+		const user = await User.findById(req.user.id).select('+password');
 
-		// res.json({ message: 'Update UserSelf success !!' });
-		const newUserData = {
+		const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+		if (!isPasswordMatched) {
+			return res.status(400).json({
+				message: `Old password is incorrect !!`,
+			});
+		}
+
+		if (req.body.newPassword !== req.body.confirmPassword) {
+			return res.status(400).json({
+				message: `Password does not match !!`,
+			});
+		}
+
+		user.password = req.body.newPassword;
+
+		await user.save();
+
+		sendTokenCookie(user, 200, res, 'Password changed successfully !!');
+	} catch (error) {
+		return res.status(500).json({ message: error.message });
+	}
+};
+
+// UserSelf update
+exports.editUserProfile = async (req, res) => {
+	try {
+		const newDataUser = {
 			name: req.body.name,
+			email: req.body.email,
 		};
 
 		if (req.body.avatar !== '') {
@@ -380,19 +400,19 @@ exports.updateUserSelf = async (req, res) => {
 
 			await cloudinary.v2.uploader.destroy(imageId);
 
-			const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+			const uploadImage = await cloudinary.v2.uploader.upload(req.body.avatar, {
 				folder: 'avatars',
 				width: 150,
 				crop: 'scale',
 			});
 
 			newUserData.avatar = {
-				public_id: myCloud.public_id,
-				url: myCloud.secure_url,
+				public_id: uploadImage.public_id,
+				url: uploadImage.secure_url,
 			};
 		}
 
-		const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+		await User.findByIdAndUpdate(req.user.id, newUserData, {
 			new: true,
 			runValidators: true,
 			useFindAndModify: false,
@@ -400,6 +420,7 @@ exports.updateUserSelf = async (req, res) => {
 
 		res.status(200).json({
 			success: true,
+			message: 'User update profile success !!',
 		});
 	} catch (err) {
 		return res.status(500).json({ message: err.message });

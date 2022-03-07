@@ -11,7 +11,8 @@ const {
 	resetPassword,
 	userDetailExist,
 	logout,
-	updateUserSelf,
+	editUserProfile,
+	changePassword,
 	getSingleUserDetail,
 } = require('../controllers/userController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
@@ -36,7 +37,9 @@ router.route('/logout').get(logout);
 
 router.route('/userDetailExist').get(isAuthenticatedUser, userDetailExist);
 
-router.route('/updateUserSelf').put(isAuthenticatedUser, updateUserSelf);
+router.route('/changePassword').put(isAuthenticatedUser, changePassword);
+
+router.route('/editUserProfile').put(isAuthenticatedUser, editUserProfile);
 
 router
 	.route('/singleUserDetail/:id')

@@ -3,7 +3,7 @@ const Footer = () => {
 	const [mode, setMode] = useState('auto');
 	return (
 		<>
-			<div className="pt-12">
+			<div className="pt-2">
 				<footer id="footer" className="relative z-50 dark:bg-gray-900 pt-24">
 					<div className=" border-t border-b border-gray-200 dark:border-gray-700 py-16">
 						<div className="mx-auto container px-4 xl:px-12 2xl:px-4">
