@@ -30,11 +30,8 @@ const Header = () => {
 	}, [dispatch]);
 
 	const logoutSubmit = async () => {
-		// dispatch(logout());
-		// navigate('/');
-		console.log('====================================');
-		console.log(123);
-		console.log('====================================');
+		dispatch(logout());
+		navigate('/');
 	};
 
 	return (
@@ -83,96 +80,110 @@ const Header = () => {
 								</div>
 							</div>
 							<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-								<Link
-									to="/register"
-									className="bg-gray-800 p-1 text-gray-400 hover:text-white mr-4"
-								>
-									Register
-								</Link>
-								<Link
-									to="/login"
-									className="bg-gray-800 p-1 text-gray-400 hover:text-white"
-								>
-									Login
-								</Link>
-
 								{/* Profile dropdown */}
-								{/* <Menu as="div" className="ml-3 relative">
-									<div>
-										<Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-											<span className="sr-only">Open user menu</span>
-											<img
-												className="h-8 w-8 rounded-full"
-												src={user?.avatar?.url}
-												alt=""
-											/>
-										</Menu.Button>
-									</div>
-									<Transition
-										as={Fragment}
-										enter="transition ease-out duration-100"
-										enterFrom="transform opacity-0 scale-95"
-										enterTo="transform opacity-100 scale-100"
-										leave="transition ease-in duration-75"
-										leaveFrom="transform opacity-100 scale-100"
-										leaveTo="transform opacity-0 scale-95"
-									>
-										<Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-											<Menu.Item>
-												{({ active }) => (
-													<a
-														href="#s"
-														className={classNames(
-															active ? 'bg-gray-100' : '',
-															'block px-4 py-2 text-sm text-gray-700'
+								{isLoggedIn ? (
+									<>
+										<button
+											type="button"
+											className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+										>
+											<span className="sr-only">View notifications</span>
+											<BellIcon className="h-6 w-6" aria-hidden="true" />
+										</button>
+										<Menu as="div" className="ml-3 relative">
+											<div>
+												<Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+													<span className="sr-only">Open user menu</span>
+													<img
+														className="h-8 w-8 rounded-full"
+														src={user?.avatar?.url}
+														alt=""
+													/>
+												</Menu.Button>
+											</div>
+											<Transition
+												as={Fragment}
+												enter="transition ease-out duration-100"
+												enterFrom="transform opacity-0 scale-95"
+												enterTo="transform opacity-100 scale-100"
+												leave="transition ease-in duration-75"
+												leaveFrom="transform opacity-100 scale-100"
+												leaveTo="transform opacity-0 scale-95"
+											>
+												<Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+													<Menu.Item>
+														{({ active }) => (
+															<Link
+																to="/myProfile"
+																className={classNames(
+																	active ? 'bg-gray-100' : '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
+															>
+																My Profile
+															</Link>
 														)}
-													>
-														My Profile
-													</a>
-												)}
-											</Menu.Item>
-											<Menu.Item>
-												{({ active }) => (
-													<a
-														href="#s"
-														className={classNames(
-															active ? 'bg-gray-100' : '',
-															'block px-4 py-2 text-sm text-gray-700'
+													</Menu.Item>
+													<Menu.Item>
+														{({ active }) => (
+															<Link
+																to=""
+																className={classNames(
+																	active ? 'bg-gray-100' : '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
+															>
+																Favorite car
+															</Link>
 														)}
-													>
-														Favorite car
-													</a>
-												)}
-											</Menu.Item>
-											<Menu.Item>
-												{({ active }) => (
-													<a
-														href="#s"
-														className={classNames(
-															active ? 'bg-gray-100' : '',
-															'block px-4 py-2 text-sm text-gray-700'
+													</Menu.Item>
+													<Menu.Item>
+														{({ active }) => (
+															<Link
+																to=""
+																className={classNames(
+																	active ? 'bg-gray-100' : '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
+															>
+																Settings
+															</Link>
 														)}
-													>
-														Settings
-													</a>
-												)}
-											</Menu.Item>
-											<Menu.Item>
-												{({ active }) => (
-													<a
-														href="##"
-														className={classNames(
-															active ? 'bg-gray-100' : '',
-															'block px-4 py-2 text-sm text-gray-700'
+													</Menu.Item>
+													<Menu.Item>
+														{({ active }) => (
+															<button
+																onClick={logoutSubmit}
+																className={classNames(
+																	active ? 'bg-gray-100' : '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
+															>
+																Logout
+															</button>
 														)}
-													>
-														Logout
-													</a>
-												)}
-											</Menu.Item>
-										</Menu.Items>
-									</Transition>
-								</Menu> */}
+													</Menu.Item>
+												</Menu.Items>
+											</Transition>
+										</Menu>
+									</>
+								) : (
+									<>
+										{' '}
+										<Link
+											to="/register"
+											className="bg-gray-800 p-1 text-gray-400 hover:text-white mr-4"
+										>
+											Register
+										</Link>
+										<Link
+											to="/login"
+											className="bg-gray-800 p-1 text-gray-400 hover:text-white"
+										>
+											Login
+										</Link>
+									</>
+								)}
 							</div>
 						</div>
 					</div>
@@ -200,81 +211,6 @@ const Header = () => {
 				</>
 			)}
 		</Disclosure>
-		// <div className="header">
-		// 	<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-		// 		<Container className="login">
-		// 			<Navbar.Brand className="navbar-brand1" href="#home">
-		// 				React-Bootstrap
-		// 			</Navbar.Brand>
-		// 			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-		// 			<Navbar.Collapse id="responsive-navbar-nav">
-		// 				<Nav className="me-auto hide-on-mobile">
-		// 					<Nav.Link href="#">Home</Nav.Link>
-		// 					<Nav.Link href="#">Pricing</Nav.Link>
-		// 					<Nav.Link href="#">Features</Nav.Link>
-		// 				</Nav>
-
-		// 				{isLoggedIn ? (
-		// 					<>
-		// 						<div className="header_res hide-on-pc">
-		// 							<img
-		// 								src={user?.avatar?.url}
-		// 								alt=""
-		// 								className="img-responsive"
-		// 							/>
-		// 							<span className="header_name">{user?.name}</span>
-		// 						</div>
-
-		// 						<div className="header_res hide-on-pc">
-		// 							<span href="/myProfile" className="header_name">
-		// 								Profile
-		// 							</span>
-		// 						</div>
-		// 						<div className="header_res hide-on-pc">
-		// 							<span className="header_name">Cart</span>
-		// 						</div>
-		// 						<div
-		// 							className="header_res logout hide-on-pc"
-		// 							onClick={logoutSubmit}
-		// 						>
-		// 							<span className="header_name">Logout</span>
-		// 						</div>
-
-		// 						<img
-		// 							src={user?.avatar?.url}
-		// 							width="50"
-		// 							height="50"
-		// 							className="img-responsive hide-on-mobile-tablet"
-		// 							alt=""
-		// 						/>
-		// 						<NavDropdown
-		// 							title={user?.name}
-		// 							id="collasible-nav-dropdown"
-		// 							className="hide-on-mobile-tablet"
-		// 						>
-		// 							<NavDropdown.Item href="/myProfile">Profile</NavDropdown.Item>
-		// 							<NavDropdown.Item href="#action/3.2">Cart</NavDropdown.Item>
-		// 							<NavDropdown.Item href="#action/3.3">
-		// 								Something
-		// 							</NavDropdown.Item>
-		// 							<NavDropdown.Divider />
-		// 							<NavDropdown.Item onClick={logoutSubmit}>
-		// 								Logout
-		// 							</NavDropdown.Item>
-		// 						</NavDropdown>
-		// 					</>
-		// 				) : (
-		// 					<Nav>
-		// 						<Nav.Link href="/register">Register</Nav.Link>
-		// 						<Nav.Link eventKey={2} href="/login">
-		// 							Login
-		// 						</Nav.Link>
-		// 					</Nav>
-		// 				)}
-		// 			</Navbar.Collapse>
-		// 		</Container>
-		// 	</Navbar>
-		// </div>
 	);
 };
 

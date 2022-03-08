@@ -1,56 +1,18 @@
 import React, { useEffect } from 'react';
-import TitleBarPage from '../../../Layout/TitleBarPage';
-import HeaderBarAdmin from '../../HeaderBarAdmin/HeaderBarAdmin';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	deleteAccUser,
-	getAllAccStaff,
-} from '../../../../redux/actions/adminAction';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-import Loader from '../../../Layout/Loader/Loader';
-import { clearErrors } from '../../../../redux/actions/authAction';
+import Loader from '../../Layout/Loader/Loader';
+import HeaderBarAdmin from '../HeaderBarAdmin/HeaderBarAdmin';
+import TitleBarPage from '../../Layout/TitleBarPage';
 
-const AllAccStaff = () => {
+const AllCar = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const { loading, users } = useSelector((state) => state.allAccStaff);
 
-	const {
-		error: deleteAccUserError,
-		isDeleted,
-		message,
-	} = useSelector((state) => state.deleteAccUsers);
-
-	const { isUpdated } = useSelector((state) => state.profileUser);
-
-	useEffect(() => {
-		dispatch(getAllAccStaff());
-
-		if (deleteAccUserError) {
-			toast.warn(deleteAccUserError);
-			dispatch(clearErrors());
-		}
-
-		if (isDeleted) {
-			toast.success(message);
-			navigate('/admin/manager/accStaff');
-			dispatch({ type: 'DELETE_USER_RESET' });
-		}
-
-		if (isUpdated) {
-			toast.success(isUpdated);
-		}
-	}, [dispatch, isDeleted, deleteAccUserError, navigate, message, isUpdated]);
-
-	const changePasswordHandle = (userID) => {
-		navigate(`/admin/manager/accStaff/changePassword/${userID}`);
-	};
-
-	const deleteAccUserHandle = (userID) => {
-		dispatch(deleteAccUser(userID));
-	};
+	useEffect(() => {}, []);
 
 	return (
 		<>
@@ -59,20 +21,20 @@ const AllAccStaff = () => {
 			) : (
 				<div className="dashboard">
 					<HeaderBarAdmin />
-					<TitleBarPage title="Manager all staff" />
+					<TitleBarPage title="Manager all car" />
 					<div className="flex flex-col p-3">
 						<ToastContainer className="toastify text-xs" />
 						<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 							<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 								<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
 									<h2 className="text-center pb-3">
-										Manager all account staff
+										Manager all car 
 									</h2>
 									<Link
-										to="/admin/manager/accStaff/create"
+										to="/admin/manager/allCar/create"
 										className="border-1 p-2 rounded bg-emerald-500 text-white ml-3 mb-3 inline-block"
 									>
-										Create a new account
+										Create a new car
 									</Link>
 									<table className="min-w-full divide-y divide-gray-200">
 										<thead className="bg-gray-50">
@@ -137,16 +99,10 @@ const AllAccStaff = () => {
 														{user?.role}
 													</td>
 													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
-														<button
-															onClick={() => changePasswordHandle(user?._id)}
-															className="border-1 p-2 rounded bg-cyan-300 mr-2"
-														>
+														<button className="border-1 p-2 rounded bg-cyan-300 mr-2">
 															Change Password
 														</button>
-														<button
-															onClick={() => deleteAccUserHandle(user?._id)}
-															className="border-1 p-2 rounded bg-red-500 text-white"
-														>
+														<button className="border-1 p-2 rounded bg-red-500 text-white">
 															Delete
 														</button>
 													</td>
@@ -164,4 +120,4 @@ const AllAccStaff = () => {
 	);
 };
 
-export default AllAccStaff;
+export default AllCar;

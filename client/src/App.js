@@ -38,6 +38,8 @@ import ChangePasswordStaff from './components/Admin/ManagerAccStaff/ChangePasswo
 import Profile from './components/User/Profile';
 import EditProfile from './components/User/EditProfile';
 import ChangePassword from './components/User/ChangePassword';
+import AllCar from './components/Admin/ManagerCar/AllCar';
+import CreateCar from './components/Admin/ManagerCar/CreateCar';
 
 function App() {
 	const dispatch = useDispatch();
@@ -202,6 +204,26 @@ function App() {
 					element={
 						<ProtectedRoute isAdmin={true}>
 							<ChangePasswordStaff />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/admin/manager/allCar"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<AllCar />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/admin/manager/allCar/create"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<CreateCar />
 						</ProtectedRoute>
 					}
 				/>

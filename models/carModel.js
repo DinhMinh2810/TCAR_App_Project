@@ -37,12 +37,20 @@ const carSchema = new mongoose.Schema(
 			type: String,
 			required: [true],
 		},
-		bookedTimeSlots: [
-			{
-				from: { type: String, required: true },
-				to: { type: String, required: true },
-			},
-		],
+		// bookedTimeSlots: [
+		// 	{
+		// 		from: { type: String, required: true },
+		// 		to: { type: String, required: true },
+		// 	},
+		// ],
+		startDay: {
+			type: String,
+			required: true,
+		},
+		endDay: {
+			type: String,
+			required: true,
+		},
 		rentPerDay: {
 			type: Number,
 			required: true,

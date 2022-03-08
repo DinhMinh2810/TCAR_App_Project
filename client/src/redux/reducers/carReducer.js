@@ -54,3 +54,37 @@ export const carDetailsReducer = (state = { car: {} }, action) => {
 			return state;
 	}
 };
+
+export const newCarReducer = (state = { car: {} }, action) => {
+	switch (action.type) {
+		case 'NEW_CAR_REQUEST':
+			return {
+				...state,
+				loading: true,
+			};
+		case 'NEW_CAR_SUCCESS':
+			return {
+				loading: false,
+				success: action.payload.success,
+				car: action.payload.car,
+			};
+		case 'NEW_CAR_FAIL':
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		case 'NEW_CAR_RESET':
+			return {
+				...state,
+				success: false,
+			};
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+		default:
+			return state;
+	}
+};

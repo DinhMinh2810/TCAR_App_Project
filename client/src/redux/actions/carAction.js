@@ -40,6 +40,30 @@ export const getCarDetails = (id) => async (dispatch) => {
 		});
 	}
 };
+
+// Create new car
+export const createCar = (formData) => async (dispatch) => {
+	try {
+		dispatch({ type: 'NEW_CAR_REQUEST' });
+
+		const config = {
+			headers: { 'Content-Type': 'application/json' },
+		};
+
+		const { data } = await axios.post(`/api/cars/create`, formData, config);
+
+		dispatch({
+			type: 'NEW_CAR_SUCCESS',
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'NEW_CAR_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });

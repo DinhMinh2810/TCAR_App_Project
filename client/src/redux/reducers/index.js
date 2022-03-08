@@ -4,7 +4,7 @@ import {
 	forgotPasswordReducer,
 	userSingleDetailsReducer,
 } from './authReducer';
-import { carsReducer, carDetailsReducer } from './carReducer';
+import { carsReducer, carDetailsReducer, newCarReducer } from './carReducer';
 import { chatBotReducer } from './chatbotReducer';
 import { favoriteCartReducer } from './favoriteCartReducer';
 import {
@@ -24,6 +24,8 @@ export default combineReducers({
 	deleteAccUsers: deleteAccUserReducer,
 	allAccStaff: allAccStaffReducer,
 	CRUDAccStaff: CRUDAccStaffReducer,
+	newCar: newCarReducer,
+	// not
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,
 	favoriteCart: favoriteCartReducer,
