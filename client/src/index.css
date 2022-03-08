@@ -44,3 +44,11 @@ a {
   font-size: 20px;
   padding: 2px;
 }
+
+/* hide arrow form number */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

@@ -3,6 +3,7 @@ import TitleBarPage from '../../Layout/TitleBarPage';
 import HeaderBarAdmin from '../HeaderBarAdmin/HeaderBarAdmin';
 import './newProduct.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { Country, State } from 'country-state-city';
 
 const CreateCar = () => {
 	const registerSubmit = (e) => {
@@ -33,9 +34,8 @@ const CreateCar = () => {
 											</label>
 											<input
 												type="text"
-												name="email-address"
-												id="email-address"
-												autoComplete="email"
+												placeholder="Pleaser enter name"
+												required
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											/>
 										</div>
@@ -48,9 +48,8 @@ const CreateCar = () => {
 											</label>
 											<input
 												type="text"
-												name="email-address"
-												id="email-address"
-												autoComplete="email"
+												placeholder="Pleaser enter description"
+												required
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											/>
 										</div>
@@ -59,15 +58,19 @@ const CreateCar = () => {
 												htmlFor="first-name"
 												className="block text-sm font-medium text-gray-700"
 											>
-												Name Car
+												Seat category
 											</label>
-											<input
-												type="text"
-												name="first-name"
-												id="first-name"
-												autoComplete="given-name"
+											<select
+												name="method"
+												id="method"
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-											/>
+											>
+												<option value="">Please choose seat category</option>
+												<option value="5">5</option>
+												<option value="7">7</option>
+												<option value="16">16</option>
+												<option value="30">30</option>
+											</select>
 										</div>
 
 										<div className="col-span-6 sm:col-span-3">
@@ -75,7 +78,7 @@ const CreateCar = () => {
 												htmlFor="last-name"
 												className="block text-sm font-medium text-gray-700"
 											>
-												Last name
+												Location
 											</label>
 											<input
 												type="text"
@@ -86,39 +89,60 @@ const CreateCar = () => {
 											/>
 										</div>
 
-										<div className="col-span-6 sm:col-span-4">
+										<div className="col-span-6 sm:col-span-3">
 											<label
-												htmlFor="email-address"
+												htmlFor="first-name"
 												className="block text-sm font-medium text-gray-700"
 											>
-												Email address
+												Start day
 											</label>
 											<input
-												type="text"
-												name="email-address"
-												id="email-address"
-												autoComplete="email"
+												type="datetime-local"
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											/>
 										</div>
 
 										<div className="col-span-6 sm:col-span-3">
 											<label
-												htmlFor="country"
+												htmlFor="last-name"
 												className="block text-sm font-medium text-gray-700"
 											>
-												Country
+												End day
 											</label>
-											<select
-												id="country"
-												name="country"
-												autoComplete="country-name"
-												className="mt-1 p-2 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+											<input
+												type="datetime-local"
+												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+											/>
+										</div>
+
+										<div className="col-span-6 sm:col-span-3">
+											<label
+												htmlFor="first-name"
+												className="block text-sm font-medium text-gray-700"
 											>
-												<option>United States</option>
-												<option>Canada</option>
-												<option>Mexico</option>
-											</select>
+												Rent per day
+											</label>
+											<input
+												type="text"
+												placeholder="Pleaser enter rent per day ($)"
+												required
+												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+											/>
+										</div>
+
+										<div className="col-span-6 sm:col-span-3">
+											<label
+												htmlFor="last-name"
+												className="block text-sm font-medium text-gray-700"
+											>
+												Available
+											</label>
+											<input
+												type="number"
+												placeholder="Pleaser enter available"
+												required
+												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+											/>
 										</div>
 
 										<div className="col-span-6">
@@ -126,61 +150,13 @@ const CreateCar = () => {
 												htmlFor="street-address"
 												className="block text-sm font-medium text-gray-700"
 											>
-												Street address
+												Images
 											</label>
 											<input
-												type="text"
-												name="street-address"
-												id="street-address"
-												autoComplete="street-address"
-												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-											/>
-										</div>
-
-										<div className="col-span-6 sm:col-span-6 lg:col-span-2">
-											<label
-												htmlFor="city"
-												className="block text-sm font-medium text-gray-700"
-											>
-												City
-											</label>
-											<input
-												type="text"
-												name="city"
-												id="city"
-												autoComplete="address-level2"
-												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-											/>
-										</div>
-
-										<div className="col-span-6 sm:col-span-3 lg:col-span-2">
-											<label
-												htmlFor="region"
-												className="block text-sm font-medium text-gray-700"
-											>
-												State / Province
-											</label>
-											<input
-												type="text"
-												name="region"
-												id="region"
-												autoComplete="address-level1"
-												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-											/>
-										</div>
-
-										<div className="col-span-6 sm:col-span-3 lg:col-span-2">
-											<label
-												htmlFor="postal-code"
-												className="block text-sm font-medium text-gray-700"
-											>
-												ZIP / Postal code
-											</label>
-											<input
-												type="text"
-												name="postal-code"
-												id="postal-code"
-												autoComplete="postal-code"
+												type="file"
+												name="avatar"
+												accept="image/*"
+												multiple
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											/>
 										</div>
