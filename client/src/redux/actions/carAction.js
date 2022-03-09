@@ -46,11 +46,10 @@ export const createCar = (formData) => async (dispatch) => {
 	try {
 		dispatch({ type: 'NEW_CAR_REQUEST' });
 
-		const config = {
-			headers: { 'Content-Type': 'application/json' },
-		};
+		const config = { headers: { 'Content-Type': 'application/json' } };
 
 		const { data } = await axios.post(`/api/cars/create`, formData, config);
+		console.log(data);
 
 		dispatch({
 			type: 'NEW_CAR_SUCCESS',

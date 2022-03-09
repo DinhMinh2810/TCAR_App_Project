@@ -5,8 +5,6 @@ const carSchema = new mongoose.Schema(
 		name: {
 			type: String,
 			required: [true, 'Please Enter car Name !!'],
-			trim: true,
-			unique: true,
 		},
 		description: {
 			type: String,
@@ -35,7 +33,7 @@ const carSchema = new mongoose.Schema(
 		},
 		location: {
 			type: String,
-			required: [true],
+			required: true,
 		},
 		// bookedTimeSlots: [
 		// 	{
@@ -54,7 +52,6 @@ const carSchema = new mongoose.Schema(
 		rentPerDay: {
 			type: Number,
 			required: true,
-			minLength: [8],
 		},
 		available: {
 			type: Number,

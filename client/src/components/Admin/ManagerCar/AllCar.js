@@ -10,6 +10,7 @@ const AllCar = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	const { error } = useSelector((state) => state.newCar);
 	const { loading, users } = useSelector((state) => state.allAccStaff);
 
 	useEffect(() => {}, []);
@@ -27,9 +28,7 @@ const AllCar = () => {
 						<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 							<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 								<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-									<h2 className="text-center pb-3">
-										Manager all car 
-									</h2>
+									<h2 className="text-center pb-3">Manager all car</h2>
 									<Link
 										to="/admin/manager/allCar/create"
 										className="border-1 p-2 rounded bg-emerald-500 text-white ml-3 mb-3 inline-block"

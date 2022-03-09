@@ -2,6 +2,7 @@ const Car = require('../models/carModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 const User = require('../models/userModel');
 const ApiFeatures = require('../utils/ApiFeatures');
+const cloudinary = require('cloudinary');
 
 // Get all Car -- Admin
 exports.getAdAllCars = catchAsyncErrShort(async (req, res) => {
@@ -40,21 +41,17 @@ exports.getDetailCar = catchAsyncErrShort(async (req, res) => {
 exports.createCar = catchAsyncErrShort(async (req, res) => {
 	let images = [];
 
-	const checkImgType = typeof req.body.images === 'string';
-
-	if (checkImgType) {
+	if (typeof req.body.images === 'string') {
 		images.push(req.body.images);
 	} else {
 		images = req.body.images;
 	}
-
 	const addImgToLink = [];
 
 	for (let i = 0; i < images.length; i++) {
 		const uploadImage = await cloudinary.v2.uploader.upload(images[i], {
 			folder: 'cars',
 		});
-
 		addImgToLink.push({
 			public_id: uploadImage.public_id,
 			url: uploadImage.secure_url,
@@ -62,7 +59,7 @@ exports.createCar = catchAsyncErrShort(async (req, res) => {
 	}
 
 	req.body.images = addImgToLink;
-	req.body.user = req.user.id;
+	req.body.userCreateId = req.user.id;
 
 	const car = await Car.create(req.body);
 	res.status(201).json({ success: true, car });
