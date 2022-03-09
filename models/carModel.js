@@ -5,6 +5,7 @@ const carSchema = new mongoose.Schema(
 		name: {
 			type: String,
 			required: [true, 'Please Enter car Name !!'],
+			trim: true,
 		},
 		description: {
 			type: String,

@@ -3,15 +3,17 @@ import TitleBarPage from '../../Layout/TitleBarPage';
 import HeaderBarAdmin from '../HeaderBarAdmin/HeaderBarAdmin';
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrors, createCar } from '../../../redux/actions/carAction';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getCarDetails } from '../../../redux/actions/carAction';
+import { updateCar, clearErrors } from './../../../redux/actions/carAction';
 
-const CreateCar = () => {
+const UpdateCar = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { error, success: successCreate } = useSelector(
-		(state) => state.newCar
-	);
+	const { id } = useParams();
+	const carId = id;
+	const { car } = useSelector((state) => state.carProductDetails);
+	const { isUpdated, error } = useSelector((state) => state.updateOrDeleteCar);
 
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
@@ -22,6 +24,7 @@ const CreateCar = () => {
 	const [rentPerDay, setRentPerDay] = useState(1000);
 	const [available, setAvailable] = useState(1);
 	const [images, setImages] = useState([]);
+	const [oldImages, setOldImages] = useState([]);
 
 	const locations = [
 		'Da Nang',
@@ -38,6 +41,7 @@ const CreateCar = () => {
 		const files = Array.from(e.target.files);
 
 		setImages([]);
+		setOldImages([]);
 
 		files.forEach((file) => {
 			const reader = new FileReader();
@@ -68,35 +72,46 @@ const CreateCar = () => {
 			formData.append('images', image);
 		});
 
-		dispatch(createCar(formData));
-		// console.log(Object.fromEntries(formData));
+		dispatch(updateCar(carId, formData));
 	};
 
 	useEffect(() => {
+		if (car && car?._id !== carId) {
+			dispatch(getCarDetails(carId));
+		} else {
+			setName(car.name);
+			setDescription(car.description);
+			setSeatCategory(car.seatsCategory);
+			setLocation(car.location);
+			setStartDay(car.startDay);
+			setEndDay(car.endDay);
+			setRentPerDay(car.rentPerDay);
+			setAvailable(car.available);
+			setOldImages(car.images);
+		}
+
 		if (error) {
-			toast.warn('Create not successful !! Duplicate car !!');
+			toast.error(error);
 			dispatch(clearErrors());
 		}
 
-		if (successCreate) {
-			toast.success('Create car successfully !!');
+		if (isUpdated) {
+			toast.success('Update car successfully !!');
 			navigate('/admin/manager/allCar');
 		}
-	}, [dispatch, error, successCreate, navigate]);
+	}, [dispatch, id, carId, car, isUpdated, error, navigate]);
 
 	return (
 		<div className="dashboard">
 			<HeaderBarAdmin />
-			<TitleBarPage title="Create a new car" />
+			<TitleBarPage title="Update car" />
 			<div className="mt-10 sm:mt-0 p-4">
 				<div className="md:grid md:grid-cols-1 md:gap-6">
 					<div className="md:mt-0 md:col-span-2">
 						<form encType="multipart/form-data" onSubmit={createCarSubmit}>
 							<div className="shadow overflow-hidden sm:rounded-md">
 								<div className="px-4 bg-white sm:p-6">
-									<h3 className="text-2xl font-bold text-center">
-										Create a new car
-									</h3>
+									<h3 className="text-2xl font-bold text-center">Update car</h3>
 									<ToastContainer className="toastify text-xs" />
 									<div className="grid grid-cols-6 gap-6">
 										<div className="col-span-6 sm:col-span-4">
@@ -139,8 +154,7 @@ const CreateCar = () => {
 												Seat category
 											</label>
 											<select
-												name="method"
-												id="method"
+												value={seatCategory}
 												onChange={(e) => setSeatCategory(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											>
@@ -160,6 +174,7 @@ const CreateCar = () => {
 												Location
 											</label>
 											<select
+												value={location}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 												onChange={(e) => setLocation(e.target.value)}
 											>
@@ -271,4 +286,4 @@ const CreateCar = () => {
 	);
 };
 
-export default CreateCar;
+export default UpdateCar;

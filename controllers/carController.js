@@ -74,31 +74,30 @@ exports.updateCar = catchAsyncErrShort(async (req, res) => {
 
 	let images = [];
 
-	const checkTypeImg = typeof req.body.images === 'string';
-	if (checkTypeImg) {
+	if (typeof req.body.images === 'string') {
 		images.push(req.body.images);
 	} else {
 		images = req.body.images;
 	}
 
 	if (images !== undefined) {
-		for (let i = 0; i < product.images.length; i++) {
-			await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+		for (let i = 0; i < car.images.length; i++) {
+			await cloudinary.v2.uploader.destroy(car.images[i].public_id);
 		}
-		const imagesLinks = [];
+		const addImgToLink = [];
 
 		for (let i = 0; i < images.length; i++) {
 			const uploadImg = await cloudinary.v2.uploader.upload(images[i], {
-				folder: 'products',
+				folder: 'cars',
 			});
 
-			imagesLinks.push({
+			addImgToLink.push({
 				public_id: uploadImg.public_id,
 				url: uploadImg.secure_url,
 			});
 		}
 
-		req.body.images = imagesLinks;
+		req.body.images = addImgToLink;
 	}
 
 	car = await Car.findByIdAndUpdate(req.params.id, req.body, {

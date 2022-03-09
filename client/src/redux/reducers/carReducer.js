@@ -1,6 +1,7 @@
 export const carsReducer = (state = { cars: [] }, action) => {
 	switch (action.type) {
 		case 'ALL_CAR_REQUEST':
+		case 'ADMIN_CAR_REQUEST':
 			return {
 				loading: true,
 				cars: [],
@@ -12,7 +13,13 @@ export const carsReducer = (state = { cars: [] }, action) => {
 				carsCount: action.payload.carsCount,
 				resultItemPage: action.payload.resultItemPage,
 			};
+		case 'ADMIN_CAR_SUCCESS':
+			return {
+				loading: false,
+				cars: action.payload,
+			};
 		case 'ALL_CAR_FAIL':
+		case 'ADMIN_CAR_FAIL':
 			return {
 				loading: false,
 				error: action.payload,
@@ -72,12 +79,60 @@ export const newCarReducer = (state = { car: {} }, action) => {
 			return {
 				...state,
 				loading: false,
-				error: action.payload,
+				error: true,
 			};
 		case 'NEW_CAR_RESET':
 			return {
 				...state,
 				success: false,
+			};
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+		default:
+			return state;
+	}
+};
+
+export const updateOrDeleteCarReducer = (state = {}, action) => {
+	switch (action.type) {
+		case 'DELETE_CAR_REQUEST':
+		case 'UPDATE_CAR_REQUEST':
+			return {
+				...state,
+				loading: true,
+			};
+		case 'DELETE_CAR_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				isDeleted: action.payload,
+			};
+
+		case 'UPDATE_CAR_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				isUpdated: action.payload,
+			};
+		case 'DELETE_CAR_FAIL':
+		case 'UPDATE_CAR_FAIL':
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		case 'DELETE_CAR_RESET':
+			return {
+				...state,
+				isDeleted: false,
+			};
+		case 'UPDATE_CAR_RESET':
+			return {
+				...state,
+				isUpdated: false,
 			};
 		case 'CLEAR_ERRORS':
 			return {

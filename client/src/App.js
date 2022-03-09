@@ -40,6 +40,7 @@ import EditProfile from './components/User/EditProfile';
 import ChangePassword from './components/User/ChangePassword';
 import AllCar from './components/Admin/ManagerCar/AllCar';
 import CreateCar from './components/Admin/ManagerCar/CreateCar';
+import UpdateCar from './components/Admin/ManagerCar/UpdateCar';
 
 function App() {
 	const dispatch = useDispatch();
@@ -224,6 +225,16 @@ function App() {
 					element={
 						<ProtectedRoute isAdmin={true}>
 							<CreateCar />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/admin/manager/allCar/update/:id"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<UpdateCar />
 						</ProtectedRoute>
 					}
 				/>
