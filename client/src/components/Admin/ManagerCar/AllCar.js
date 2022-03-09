@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-import Loader from '../../Layout/Loader/Loader';
 import HeaderBarAdmin from '../HeaderBarAdmin/HeaderBarAdmin';
 import TitleBarPage from '../../Layout/TitleBarPage';
 import {
