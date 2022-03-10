@@ -162,6 +162,7 @@ export const CRUDAccStaffReducer = (state = {}, action) => {
 				...state,
 				loading: false,
 				users: action.payload,
+				isCreated: action.payload.success,
 			};
 
 		case 'CREATE_ACC_STAFF_FAIL':
@@ -169,6 +170,13 @@ export const CRUDAccStaffReducer = (state = {}, action) => {
 				...state,
 				loading: false,
 				error: action.payload,
+			};
+
+		case 'CREATE_ACC_STAFF_RESET':
+			return {
+				...state,
+				users: null,
+				isCreated: false,
 			};
 
 		case 'CLEAR_ERRORS':

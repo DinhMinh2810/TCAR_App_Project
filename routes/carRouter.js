@@ -22,7 +22,7 @@ router
 
 router
 	.route('/getAdAllCars')
-	.get(isAuthenticatedUser, authorWithRole('Admin'), getAdAllCars);
+	.get(isAuthenticatedUser, authorWithRole('Admin', 'Staff'), getAdAllCars);
 
 router.route('/getDetailCar/:id').get(isAuthenticatedUser, getDetailCar);
 

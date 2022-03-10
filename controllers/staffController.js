@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Car = require('../models/carModel');
 // const bcrypt = require('bcrypt');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 
@@ -43,6 +44,33 @@ exports.send = async (req, res) => {
 		return res.status(500).json({ message: error.message });
 	}
 };
+
+// Get all account driver
+exports.getAccDriver = catchAsyncErrShort(async (req, res) => {
+	const users = await User.find({ role: 'Driver' });
+	if (!users) {
+		return res.status(404).json({
+			message: `User not found or just can delete user with role "Driver" !!`,
+		});
+	}
+
+	return res.status(200).json(users);
+});
+
+// Get all account driver
+exports.getAccDriversss = catchAsyncErrShort(async (req, res) => {
+	const users = await User.find({ role: 'Driver' });
+	const car = await Car.find({});
+	console.log(car.assign.indexOf(users));
+	// if (car.assign.indexOf(users) !== -1) {
+	// 	console.log('====================================');
+
+	// 	console.log('====================================');
+	// } else {
+	// 	alert('Value does not exists!');
+	// }
+	return res.status(200).json(a);
+});
 
 const validateEmail = (email) => {
 	const getValid =

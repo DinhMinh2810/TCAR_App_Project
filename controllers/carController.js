@@ -129,6 +129,7 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 	const { carId, userId } = req.body;
 	const user = await User.findById(userId);
 	const car = await Car.findById(carId);
+	const carAll = await Car.find({});
 
 	const assign = {
 		user: user._id,
@@ -136,17 +137,29 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 		role: user.role,
 	};
 
-	const isAssigned = car.assigns.find(
-		(rev) => rev.user.toString() === user._id.toString()
-	);
+	const isAssigned = Object.keys(car.assigns).some(function (k) {
+		return car.assigns[k];
+	});
 
-	if (isAssigned) {
-		res.status(400).json({ message: 'Car is assigned to driver already !!' });
-	}
+	const assignedCarToAnotherDriver = carAll.map((car) => {
+		car.assigns.user;
+	});
+
 	if (user.role !== 'Driver') {
 		res.status(400).json({ message: 'Just assign car to driver !!' });
+	}
+
+	if (isAssigned) {
+		res.status(400).json({
+			message: 'This car has already been assigned to this driver already !!',
+		});
+	}
+	if (assignedCarToAnotherDriver) {
+		res.status(400).json({
+			message: 'This car has already been assigned to another driver !!',
+		});
 	} else {
-		car.assigns.push(assign);
+		Object.assign(car.assigns, assign);
 	}
 
 	await car.save({ validateBeforeSave: false });

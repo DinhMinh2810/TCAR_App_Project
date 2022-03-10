@@ -12,6 +12,9 @@ const DirectRoleHome = ({ children }) => {
 				(() => {
 					if (user?.role === 'Admin') {
 						return <Navigate replace to="/admin/dashboard" />;
+					}
+					if (user?.role === 'Staff') {
+						return <Navigate replace to="/staff/dashboard" />;
 					} else {
 						return children;
 					}

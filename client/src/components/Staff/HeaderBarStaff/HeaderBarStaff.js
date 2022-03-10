@@ -40,7 +40,7 @@ const HeaderBarStaff = () => {
 			<Link to="/admin/manager/accStaff">
 				<p className="header_sideBar_text">Manager account driver</p>
 			</Link>
-			<Link to="/admin/manager/allCar">
+			<Link to="/staff/assignCar">
 				<p className="header_sideBar_text">Assign car</p>
 			</Link>
 			<Link to="/admin/reviews">

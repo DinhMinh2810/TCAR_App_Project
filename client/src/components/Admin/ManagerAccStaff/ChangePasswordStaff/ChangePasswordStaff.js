@@ -64,8 +64,8 @@ const ChangePasswordStaff = () => {
 
 		if (isUpdated) {
 			toast.success(isUpdated);
-			navigate('/admin/manager/accStaff');
 			dispatch({ type: 'UPDATE_PASSWORD_RESET' });
+			navigate('/admin/manager/accStaff');
 		}
 	}, [dispatch, userID, error, user, isUpdated, navigate, updateError]);
 

@@ -60,7 +60,7 @@ export const getCarDetails = (id) => async (dispatch) => {
 	}
 };
 
-// Create new car
+// Create new car -- Admin
 export const createCar = (formData) => async (dispatch) => {
 	try {
 		dispatch({ type: 'NEW_CAR_REQUEST' });
@@ -81,7 +81,7 @@ export const createCar = (formData) => async (dispatch) => {
 	}
 };
 
-// Update Product
+// Update car -- Admin
 export const updateCar = (id, formData) => async (dispatch) => {
 	try {
 		dispatch({ type: 'UPDATE_CAR_REQUEST ' });
@@ -122,6 +122,31 @@ export const deleteCar = (id) => async (dispatch) => {
 	} catch (error) {
 		dispatch({
 			type: 'DELETE_CAR_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
+// assign car -- Staff
+export const assignCar = (carId, userId) => async (dispatch) => {
+	try {
+		dispatch({ type: 'ASSIGN_CAR_REQUEST' });
+
+		const config = { headers: { 'Content-Type': 'application/json' } };
+
+		const { data } = await axios.post(
+			`/api/cars/assign`,
+			{ carId, userId },
+			config
+		);
+
+		dispatch({
+			type: 'ASSIGN_CAR_SUCCESS',
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'ASSIGN_CAR_FAIL',
 			payload: error.response.data.message,
 		});
 	}

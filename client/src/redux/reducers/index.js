@@ -4,7 +4,13 @@ import {
 	forgotPasswordReducer,
 	userSingleDetailsReducer,
 } from './authReducer';
-import { carsReducer, carDetailsReducer, newCarReducer, updateOrDeleteCarReducer } from './carReducer';
+import {
+	carsReducer,
+	carDetailsReducer,
+	newCarReducer,
+	updateOrDeleteCarReducer,
+	assignCarReducer,
+} from './carReducer';
 import { chatBotReducer } from './chatbotReducer';
 import { favoriteCartReducer } from './favoriteCartReducer';
 import {
@@ -14,6 +20,7 @@ import {
 	deleteAccUserReducer,
 	profileReducer,
 } from './adminReducer';
+import { allAccDriverReducer } from './staffReducer';
 
 export default combineReducers({
 	auth: authReducer,
@@ -26,6 +33,8 @@ export default combineReducers({
 	CRUDAccStaff: CRUDAccStaffReducer,
 	newCar: newCarReducer,
 	updateOrDeleteCar: updateOrDeleteCarReducer,
+	allAccDriver: allAccDriverReducer,
+	assignCar: assignCarReducer,
 	// not
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,

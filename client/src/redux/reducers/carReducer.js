@@ -143,3 +143,37 @@ export const updateOrDeleteCarReducer = (state = {}, action) => {
 			return state;
 	}
 };
+
+export const assignCarReducer = (state = { car: {} }, action) => {
+	switch (action.type) {
+		case 'ASSIGN_CAR_REQUEST':
+			return {
+				...state,
+				loading: true,
+			};
+		case 'ASSIGN_CAR_SUCCESS':
+			return {
+				loading: false,
+				success: action.payload.success,
+				car: action.payload.car,
+			};
+		case 'ASSIGN_CAR_FAIL':
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		case 'ASSIGN_CAR_RESET':
+			return {
+				...state,
+				success: false,
+			};
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+		default:
+			return state;
+	}
+};

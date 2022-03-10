@@ -21,7 +21,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
 import PaymentPayPal from './components/FavoriteCart/Payment/PaymentPayPal';
-import DashboardStaff from './components/Staff/Dashboard';
+import DashboardStaff from './components/Staff/DashBoard/DashBoard';
 import BarChart from './components/Charts/BarChart';
 import Messenger from './components/Messenger/Messenger';
 import ChatBot from './components/ChatBot/ChatBot';
@@ -41,6 +41,8 @@ import ChangePassword from './components/User/ChangePassword';
 import AllCar from './components/Admin/ManagerCar/AllCar';
 import CreateCar from './components/Admin/ManagerCar/CreateCar';
 import UpdateCar from './components/Admin/ManagerCar/UpdateCar';
+import AssignCar from './components/Staff/AssignCar/AssignCar';
+import AssignCarToDriver from './components/Staff/AssignCar/AssignCarToDriver';
 
 function App() {
 	const dispatch = useDispatch();
@@ -83,23 +85,18 @@ function App() {
 					}
 				/>
 				<Route path="/login" element={<Login />} />
-
 				<Route path="/register" element={<Register />} />
 				<Route
 					path="/api/activate/:activationToken"
 					element={<ActiveMailRegister />}
 				/>
-
 				<Route exact path="/forgotPassword" element={<ForgotPassword />} />
-
 				<Route
 					exact
 					path="/forgotPassword/confirmOTP"
 					element={<ConfirmOTP />}
 				/>
-
 				<Route path="/resetPassword/:token" element={<ResetPassword />} />
-
 				<Route
 					path="/myProfile"
 					element={
@@ -108,7 +105,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					path="/user/editProfile"
 					element={
@@ -117,7 +113,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					path="/user/changePassword"
 					element={
@@ -126,15 +121,12 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				{/* here */}
-
 				<Route path="/carProduct" element={<Car />} />
 				<Route path="/carProduct/:id" element={<CarDetail />} />
 				<Route path="/favoriteCart" element={<FavoriteCart />} />
 				<Route path="/receiveCarTo" element={<ReceiveCarTo />} />
 				<Route path="/confirmBookCar" element={<ConfirmBookCar />} />
-
 				{/* {stripeApiKey && (
 					<Route
 						path="/paymentWithStripe"
@@ -145,9 +137,7 @@ function App() {
 						}
 					/>
 				)} */}
-
 				{/* <Route path="/paymentWithPayPal" element={<PaymentPayPal />} /> */}
-
 				{/* Admin  */}
 				<Route
 					exact
@@ -158,7 +148,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/manager/allAccount"
@@ -168,7 +157,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/manager/allAccount/editRole/:id"
@@ -178,7 +166,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/manager/accStaff"
@@ -188,7 +175,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/manager/accStaff/create"
@@ -198,7 +184,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/manager/accStaff/changePassword/:id"
@@ -208,7 +193,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/manager/allCar"
@@ -218,7 +202,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/manager/allCar/create"
@@ -228,7 +211,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/manager/allCar/update/:id"
@@ -238,7 +220,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				{/* Staff  */}
 				<Route
 					exact
@@ -249,7 +230,26 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+				<Route
+					exact
+					path="/staff/assignCar"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<AssignCar />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					exact
+					path="/staff/assignCarToDriver/:id"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<AssignCarToDriver />
+						</ProtectedRoute>
+					}
+				/>
 
+				{/* Driver  */}
 				{/* <Route path="/barChart" element={<BarChart />} /> */}
 				<Route
 					path="/messenger"
@@ -259,9 +259,7 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route path="/chatbot" element={<ChatBot />} />
-
 				<Route path="/notFound" element={<NotFound />} />
 			</Routes>
 

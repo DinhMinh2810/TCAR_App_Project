@@ -64,23 +64,38 @@ const carSchema = new mongoose.Schema(
 			type: Number,
 			default: 0,
 		},
-		assigns: [
-			{
-				user: {
-					type: mongoose.Schema.ObjectId,
-					ref: 'User',
-					required: true,
-				},
-				name: {
-					type: String,
-					required: true,
-				},
-				role: {
-					type: String,
-					required: true,
-				},
+		// assigns: [
+		// 	{
+		// 		user: {
+		// 			type: mongoose.Schema.ObjectId,
+		// 			ref: 'User',
+		// 			required: true,
+		// 		},
+		// 		name: {
+		// 			type: String,
+		// 			required: true,
+		// 		},
+		// 		role: {
+		// 			type: String,
+		// 			required: true,
+		// 		},
+		// 	},
+		// ],
+		assigns: {
+			user: {
+				type: mongoose.Schema.ObjectId,
+				ref: 'User',
+				required: true,
 			},
-		],
+			name: {
+				type: String,
+				required: true,
+			},
+			role: {
+				type: String,
+				required: true,
+			},
+		},
 		reviews: [
 			{
 				user: {

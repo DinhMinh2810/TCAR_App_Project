@@ -1,73 +1,38 @@
 import React, { useEffect } from 'react';
-import TitleBarPage from '../../../Layout/TitleBarPage';
-import HeaderBarAdmin from '../../HeaderBarAdmin/HeaderBarAdmin';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-	deleteAccUser,
-	getAllAccStaff,
-} from '../../../../redux/actions/adminAction';
+import TitleBarPage from '../../Layout/TitleBarPage';
+import HeaderBarStaff from '../HeaderBarStaff/HeaderBarStaff';
 import { ToastContainer, toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
-import Loader from '../../../Layout/Loader/Loader';
-import { clearErrors } from '../../../../redux/actions/authAction';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllAccDriver } from '../../../redux/actions/staffAction';
+import { assignCar } from '../../../redux/actions/carAction';
 
-const AllAccStaff = () => {
+const AssignCarToDriver = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { id } = useParams();
+	const carId = id;
 
-	const { users } = useSelector((state) => state.allAccStaff);
-	const { isCreated } = useSelector((state) => state.CRUDAccStaff);
-	const {
-		error: deleteAccUserError,
-		isDeleted,
-		message,
-	} = useSelector((state) => state.deleteAccUsers);
-
-	const { isUpdated } = useSelector((state) => state.profileUser);
+	const { users } = useSelector((state) => state.allAccDriver);
+	const { success } = useSelector((state) => state.assignCar);
 
 	useEffect(() => {
-		dispatch(getAllAccStaff());
+		dispatch(getAllAccDriver());
 
-		if (deleteAccUserError) {
-			toast.warn(deleteAccUserError);
-			dispatch(clearErrors());
+		if (success) {
+			toast.success('Assign this user to car successfully !!');
+			navigate('/staff/assignCar');
 		}
+	}, [dispatch, success, navigate]);
 
-		if (isDeleted) {
-			toast.success(message);
-			navigate('/admin/manager/accStaff');
-			dispatch({ type: 'DELETE_USER_RESET' });
-		}
-
-		if (isCreated) {
-			toast.success('Admin create account for Staff success !!."');
-		}
-
-		if (isUpdated) {
-			toast.success(isUpdated);
-		}
-	}, [
-		dispatch,
-		isDeleted,
-		deleteAccUserError,
-		navigate,
-		message,
-		isUpdated,
-		isCreated,
-	]);
-
-	const changePasswordHandle = (userID) => {
-		navigate(`/admin/manager/accStaff/changePassword/${userID}`);
-	};
-
-	const deleteAccUserHandle = (userID) => {
-		dispatch(deleteAccUser(userID));
+	const assignUserToCarHandle = (userId) => {
+		dispatch(assignCar(carId, userId));
 	};
 
 	return (
 		<div className="dashboard">
-			<HeaderBarAdmin />
-			<TitleBarPage title="Manager all staff" />
+			<HeaderBarStaff />
+			<TitleBarPage title="Assign Car to driver" />
 			<div className="flex flex-col p-3">
 				<ToastContainer className="toastify text-xs" />
 				<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -144,15 +109,12 @@ const AllAccStaff = () => {
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
 												<button
-													onClick={() => changePasswordHandle(user?._id)}
+													onClick={() => assignUserToCarHandle(user?._id)}
 													className="border-1 p-2 rounded bg-cyan-300 mr-2"
 												>
-													Change Password
+													Assign this user to car
 												</button>
-												<button
-													onClick={() => deleteAccUserHandle(user?._id)}
-													className="border-1 p-2 rounded bg-red-500 text-white"
-												>
+												<button className="border-1 p-2 rounded bg-red-500 text-white">
 													Delete
 												</button>
 											</td>
@@ -168,4 +130,4 @@ const AllAccStaff = () => {
 	);
 };
 
-export default AllAccStaff;
+export default AssignCarToDriver;

@@ -97,7 +97,11 @@ exports.createAccStaff = catchAsyncErrShort(async (req, res) => {
 	});
 	res
 		.status(200)
-		.json({ user, message: 'Admin create account for Staff success !!.' });
+		.json({
+			user,
+			message: 'Admin create account for Staff success !!.',
+			success: true,
+		});
 });
 
 // Update account staff

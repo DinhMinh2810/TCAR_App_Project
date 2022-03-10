@@ -1,85 +1,40 @@
 import React, { useEffect } from 'react';
-import TitleBarPage from '../../../Layout/TitleBarPage';
-import HeaderBarAdmin from '../../HeaderBarAdmin/HeaderBarAdmin';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	deleteAccUser,
-	getAllAccStaff,
-} from '../../../../redux/actions/adminAction';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-import Loader from '../../../Layout/Loader/Loader';
-import { clearErrors } from '../../../../redux/actions/authAction';
+import HeaderBarStaff from './../HeaderBarStaff/HeaderBarStaff';
+import TitleBarPage from './../../Layout/TitleBarPage';
+import { getAdminCar } from '../../../redux/actions/carAction';
 
-const AllAccStaff = () => {
+const AssignCar = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
-	const { users } = useSelector((state) => state.allAccStaff);
-	const { isCreated } = useSelector((state) => state.CRUDAccStaff);
-	const {
-		error: deleteAccUserError,
-		isDeleted,
-		message,
-	} = useSelector((state) => state.deleteAccUsers);
-
-	const { isUpdated } = useSelector((state) => state.profileUser);
+	const { cars } = useSelector((state) => state.carsProduct);
+	const { success } = useSelector((state) => state.assignCar);
 
 	useEffect(() => {
-		dispatch(getAllAccStaff());
+		dispatch(getAdminCar());
 
-		if (deleteAccUserError) {
-			toast.warn(deleteAccUserError);
-			dispatch(clearErrors());
+		if (success) {
+			toast.success('Assign this user to car successfully !!');
+			dispatch({ type: 'ASSIGN_CAR_RESET' });
 		}
+	}, [dispatch, success]);
 
-		if (isDeleted) {
-			toast.success(message);
-			navigate('/admin/manager/accStaff');
-			dispatch({ type: 'DELETE_USER_RESET' });
-		}
-
-		if (isCreated) {
-			toast.success('Admin create account for Staff success !!."');
-		}
-
-		if (isUpdated) {
-			toast.success(isUpdated);
-		}
-	}, [
-		dispatch,
-		isDeleted,
-		deleteAccUserError,
-		navigate,
-		message,
-		isUpdated,
-		isCreated,
-	]);
-
-	const changePasswordHandle = (userID) => {
-		navigate(`/admin/manager/accStaff/changePassword/${userID}`);
-	};
-
-	const deleteAccUserHandle = (userID) => {
-		dispatch(deleteAccUser(userID));
+	const assignCarHandle = (id) => {
+		navigate(`/staff/assignCarToDriver/${id}`);
 	};
 
 	return (
 		<div className="dashboard">
-			<HeaderBarAdmin />
-			<TitleBarPage title="Manager all staff" />
+			<HeaderBarStaff />
+			<TitleBarPage title="Assign Car" />
 			<div className="flex flex-col p-3">
 				<ToastContainer className="toastify text-xs" />
 				<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-							<h2 className="text-center pb-3">Manager all account staff</h2>
-							<Link
-								to="/admin/manager/accStaff/create"
-								className="border-1 p-2 rounded bg-emerald-500 text-white ml-3 mb-3 inline-block"
-							>
-								Create a new account
-							</Link>
+							<h2 className="text-center pb-3">Assign car for driver</h2>
 							<table className="min-w-full divide-y divide-gray-200">
 								<thead className="bg-gray-50">
 									<tr>
@@ -87,19 +42,37 @@ const AllAccStaff = () => {
 											scope="col"
 											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 										>
-											Name
+											Name car
 										</th>
 										<th
 											scope="col"
 											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 										>
-											Status
+											Description
 										</th>
 										<th
 											scope="col"
 											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 										>
-											Role
+											Rent per day
+										</th>
+										<th
+											scope="col"
+											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+										>
+											Available
+										</th>
+										<th
+											scope="col"
+											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+										>
+											Start - end day
+										</th>
+										<th
+											scope="col"
+											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+										>
+											Location
 										</th>
 										<th
 											scope="col"
@@ -113,46 +86,51 @@ const AllAccStaff = () => {
 									</tr>
 								</thead>
 								<tbody className="bg-white divide-y divide-gray-200">
-									{users?.map((user) => (
-										<tr key={user?._id}>
+									{cars?.map((car) => (
+										<tr key={car?._id}>
 											<td className="px-6 py-4 whitespace-nowrap">
 												<div className="flex items-center">
 													<div className="flex-shrink-0 h-10 w-10">
 														<img
 															className="h-10 w-10 rounded-full"
-															src={user?.avatar?.url}
+															src={car?.images[1]?.url}
 															alt=""
 														/>
 													</div>
 													<div className="ml-4">
 														<div className="text-sm font-medium text-gray-900">
-															{user?.name}
+															{car?.name}
 														</div>
 														<div className="text-sm text-gray-500">
-															{user?.email}
+															{car?.seatsCategory} seat category
 														</div>
 													</div>
 												</div>
 											</td>
-											<td className="px-6 py-4 whitespace-nowrap">
-												<span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-													Active
-												</span>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+												{car?.description}
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-												{user?.role}
+												{car?.rentPerDay}$
+											</td>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+												{car?.available}
+											</td>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+												{String(car?.startDay)?.substr(0, 10)} --
+												{String(car?.endDay)?.substr(0, 10)}
+											</td>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+												{car?.location}
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
 												<button
-													onClick={() => changePasswordHandle(user?._id)}
 													className="border-1 p-2 rounded bg-cyan-300 mr-2"
+													onClick={() => assignCarHandle(car?._id)}
 												>
-													Change Password
+													Assign
 												</button>
-												<button
-													onClick={() => deleteAccUserHandle(user?._id)}
-													className="border-1 p-2 rounded bg-red-500 text-white"
-												>
+												<button className="border-1 p-2 rounded bg-red-500 text-white">
 													Delete
 												</button>
 											</td>
@@ -168,4 +146,4 @@ const AllAccStaff = () => {
 	);
 };
 
-export default AllAccStaff;
+export default AssignCar;

@@ -60,6 +60,7 @@ const CreateAccStaff = () => {
 		}
 		if (users) {
 			navigate('/admin/manager/accStaff');
+			dispatch({ type: 'CREATE_ACC_STAFF_RESET' });
 		}
 	}, [error, dispatch, users, navigate]);
 
