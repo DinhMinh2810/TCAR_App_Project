@@ -95,13 +95,11 @@ exports.createAccStaff = catchAsyncErrShort(async (req, res) => {
 			url: uploadImage.secure_url,
 		},
 	});
-	res
-		.status(200)
-		.json({
-			user,
-			message: 'Admin create account for Staff success !!.',
-			success: true,
-		});
+	res.status(200).json({
+		user,
+		message: 'Admin create account for Staff success !!.',
+		success: true,
+	});
 });
 
 // Update account staff

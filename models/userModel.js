@@ -38,6 +38,10 @@ const userSchema = new mongoose.Schema(
 			enum: ['Admin', 'Staff', 'Driver', 'User'],
 			default: 'User',
 		},
+		isAssign: {
+			type: Boolean,
+			default: false,
+		},
 		resetPasswordToken: String,
 		resetPasswordOTP: String,
 		resetPasswordExpireIn: Date,

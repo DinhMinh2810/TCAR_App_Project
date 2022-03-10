@@ -129,7 +129,6 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 	const { carId, userId } = req.body;
 	const user = await User.findById(userId);
 	const car = await Car.findById(carId);
-	const carAll = await Car.find({});
 
 	const assign = {
 		user: user._id,
@@ -141,10 +140,6 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 		return car.assigns[k];
 	});
 
-	const assignedCarToAnotherDriver = carAll.map((car) => {
-		car.assigns.user;
-	});
-
 	if (user.role !== 'Driver') {
 		res.status(400).json({ message: 'Just assign car to driver !!' });
 	}
@@ -153,18 +148,37 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 		res.status(400).json({
 			message: 'This car has already been assigned to this driver already !!',
 		});
-	}
-	if (assignedCarToAnotherDriver) {
-		res.status(400).json({
-			message: 'This car has already been assigned to another driver !!',
-		});
 	} else {
+		await User.findOneAndUpdate({ _id: userId }, { isAssign: true });
 		Object.assign(car.assigns, assign);
 	}
 
 	await car.save({ validateBeforeSave: false });
 	res.status(200).json({ success: true, car });
 });
+
+// Remove assign car
+exports.removeAssignCar = catchAsyncErrShort(async (req, res) => {
+	const car = await Car.findOne({ _id: req.params.id });
+	if (!car) {
+		return res.status(404).json({
+			success: true,
+			message: 'Car not found !!',
+		});
+	}
+	updateAssignListUser(car.assigns.user);
+	car.assigns = null;
+
+	await car.save({ validateBeforeSave: false });
+	res.status(200).json({
+		success: true,
+		message: 'Remove assign car successfully !!',
+	});
+});
+
+async function updateAssignListUser(id) {
+	await User.findOneAndUpdate({ _id: id }, { isAssign: false });
+}
 
 // Create and update review for car
 exports.createCarReview = catchAsyncErrShort(async (req, res) => {

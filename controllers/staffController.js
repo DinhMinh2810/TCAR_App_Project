@@ -59,17 +59,8 @@ exports.getAccDriver = catchAsyncErrShort(async (req, res) => {
 
 // Get all account driver
 exports.getAccDriversss = catchAsyncErrShort(async (req, res) => {
-	const users = await User.find({ role: 'Driver' });
-	const car = await Car.find({});
-	console.log(car.assign.indexOf(users));
-	// if (car.assign.indexOf(users) !== -1) {
-	// 	console.log('====================================');
-
-	// 	console.log('====================================');
-	// } else {
-	// 	alert('Value does not exists!');
-	// }
-	return res.status(200).json(a);
+	const users = await User.find({ role: 'Driver', isAssign: false });
+	return res.status(200).json(users);
 });
 
 const validateEmail = (email) => {

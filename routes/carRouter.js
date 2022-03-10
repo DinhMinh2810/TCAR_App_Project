@@ -11,6 +11,7 @@ const {
 	createCarReview,
 	getCarReviews,
 	deleteReview,
+	removeAssignCar,
 } = require('../controllers/carController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
@@ -19,6 +20,10 @@ router.route('/getAllCars').get(getAllCars);
 router
 	.route('/assign')
 	.post(isAuthenticatedUser, authorWithRole('Staff'), assignCarToDriver);
+
+router
+	.route('/removeAssign/:id')
+	.delete(isAuthenticatedUser, authorWithRole('Staff'), removeAssignCar);
 
 router
 	.route('/getAdAllCars')
