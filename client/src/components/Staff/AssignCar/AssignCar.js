@@ -4,13 +4,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import HeaderBarStaff from './../HeaderBarStaff/HeaderBarStaff';
 import TitleBarPage from './../../Layout/TitleBarPage';
-import { getAdminCar } from '../../../redux/actions/carAction';
+import { getAdminCar, removeAssignCar } from '../../../redux/actions/carAction';
 
 const AssignCar = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { cars } = useSelector((state) => state.carsProduct);
-	const { success } = useSelector((state) => state.assignCar);
+	const { success, isRemoved } = useSelector((state) => state.assignCar);
 
 	useEffect(() => {
 		dispatch(getAdminCar());
@@ -19,10 +19,19 @@ const AssignCar = () => {
 			toast.success('Assign this user to car successfully !!');
 			dispatch({ type: 'ASSIGN_CAR_RESET' });
 		}
-	}, [dispatch, success]);
+
+		if (isRemoved) {
+			toast.success('Remove assign car successfully !!');
+			dispatch({ type: 'REMOVE_ASSIGN_CAR_RESET' });
+		}
+	}, [dispatch, success, isRemoved]);
 
 	const assignCarHandle = (id) => {
 		navigate(`/staff/assignCarToDriver/${id}`);
+	};
+
+	const removeAssignCarHandle = (id) => {
+		dispatch(removeAssignCar(id));
 	};
 
 	return (
@@ -44,12 +53,7 @@ const AssignCar = () => {
 										>
 											Name car
 										</th>
-										<th
-											scope="col"
-											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-										>
-											Description
-										</th>
+
 										<th
 											scope="col"
 											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -73,6 +77,12 @@ const AssignCar = () => {
 											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 										>
 											Location
+										</th>
+										<th
+											scope="col"
+											className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+										>
+											Driver assign
 										</th>
 										<th
 											scope="col"
@@ -108,9 +118,6 @@ const AssignCar = () => {
 												</div>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-												{car?.description}
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 												{car?.rentPerDay}$
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -123,6 +130,19 @@ const AssignCar = () => {
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 												{car?.location}
 											</td>
+											{car?.assigns?.name ? (
+												<>
+													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+														{car?.assigns?.name}
+													</td>
+												</>
+											) : (
+												<>
+													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+														Not yet driver
+													</td>
+												</>
+											)}
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
 												<button
 													className="border-1 p-2 rounded bg-cyan-300 mr-2"
@@ -130,8 +150,11 @@ const AssignCar = () => {
 												>
 													Assign
 												</button>
-												<button className="border-1 p-2 rounded bg-red-500 text-white">
-													Delete
+												<button
+													className="border-1 p-2 rounded bg-red-500 text-white"
+													onClick={() => removeAssignCarHandle(car?._id)}
+												>
+													Remove
 												</button>
 											</td>
 										</tr>

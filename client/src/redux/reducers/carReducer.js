@@ -110,7 +110,6 @@ export const updateOrDeleteCarReducer = (state = {}, action) => {
 				loading: false,
 				isDeleted: action.payload,
 			};
-
 		case 'UPDATE_CAR_SUCCESS':
 			return {
 				...state,
@@ -147,6 +146,7 @@ export const updateOrDeleteCarReducer = (state = {}, action) => {
 export const assignCarReducer = (state = { car: {} }, action) => {
 	switch (action.type) {
 		case 'ASSIGN_CAR_REQUEST':
+		case 'REMOVE_ASSIGN_CAR_REQUEST':
 			return {
 				...state,
 				loading: true,
@@ -157,11 +157,23 @@ export const assignCarReducer = (state = { car: {} }, action) => {
 				success: action.payload.success,
 				car: action.payload.car,
 			};
+		case 'REMOVE_ASSIGN_CAR_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				isRemoved: action.payload,
+			};
 		case 'ASSIGN_CAR_FAIL':
+		case 'REMOVE_ASSIGN_CAR_FAIL':
 			return {
 				...state,
 				loading: false,
 				error: action.payload,
+			};
+		case 'REMOVE_ASSIGN_CAR_RESET':
+			return {
+				...state,
+				isRemoved: false,
 			};
 		case 'ASSIGN_CAR_RESET':
 			return {

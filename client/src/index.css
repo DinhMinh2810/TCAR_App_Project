@@ -43,6 +43,7 @@ a {
 .toastify {
   font-size: 20px;
   padding: 2px;
+  line-height: 25px;
 }
 
 /* hide arrow form number */

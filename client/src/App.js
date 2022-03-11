@@ -10,7 +10,7 @@ import Login from './components/Auth/Login/Login';
 import ActiveMailRegister from './components/Auth/Register/ActiveMailRegister';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
-import Home from './components/Home/Home';
+
 import Car from './components/CarProduct/Car';
 import CarDetail from './components/CarProduct/CarDetail';
 import Register from './components/Auth/Register/Register.js';
@@ -43,6 +43,7 @@ import CreateCar from './components/Admin/ManagerCar/CreateCar';
 import UpdateCar from './components/Admin/ManagerCar/UpdateCar';
 import AssignCar from './components/Staff/AssignCar/AssignCar';
 import AssignCarToDriver from './components/Staff/AssignCar/AssignCarToDriver';
+import Home from './components/Home/Home';
 
 function App() {
 	const dispatch = useDispatch();
@@ -67,13 +68,6 @@ function App() {
 				<Header />
 			) : null}
 			{user?.role === 'Admin' || user?.role === 'Staff' ? null : null}
-			{/* 
-			{user?.role === 'User' ||
-			user?.role === 'Driver' ||
-			isLoggedIn === false ? (
-				<Header />
-			) : null}
-			{user?.role === 'Admin' ? <HeaderBarAdmin /> : null} */}
 
 			<Routes>
 				<Route

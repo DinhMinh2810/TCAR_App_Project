@@ -124,7 +124,7 @@ exports.deleteCar = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({ success: true, message: 'Car deleted success !!' });
 });
 
-// assign car to driver -- Admin
+// assign car to driver -- Staff
 exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 	const { carId, userId } = req.body;
 	const user = await User.findById(userId);
@@ -136,8 +136,8 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 		role: user.role,
 	};
 
-	const isAssigned = Object.keys(car.assigns).some(function (k) {
-		return car.assigns[k];
+	const isAssigned = Object.keys(car.assigns).some(function (c) {
+		return car.assigns[c];
 	});
 
 	if (user.role !== 'Driver') {
@@ -146,7 +146,7 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 
 	if (isAssigned) {
 		res.status(400).json({
-			message: 'This car has already been assigned to this driver already !!',
+			message: 'This car has already been assigned to another driver already !!',
 		});
 	} else {
 		await User.findOneAndUpdate({ _id: userId }, { isAssign: true });
@@ -157,7 +157,7 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({ success: true, car });
 });
 
-// Remove assign car
+// Remove assign car -- Staff
 exports.removeAssignCar = catchAsyncErrShort(async (req, res) => {
 	const car = await Car.findOne({ _id: req.params.id });
 	if (!car) {

@@ -4,7 +4,7 @@ import HeaderBarStaff from '../HeaderBarStaff/HeaderBarStaff';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllAccDriver } from '../../../redux/actions/staffAction';
+import { getDriverNotAssign } from '../../../redux/actions/staffAction';
 import { assignCar } from '../../../redux/actions/carAction';
 
 const AssignCarToDriver = () => {
@@ -14,16 +14,21 @@ const AssignCarToDriver = () => {
 	const carId = id;
 
 	const { users } = useSelector((state) => state.allAccDriver);
-	const { success } = useSelector((state) => state.assignCar);
+	const { success, error } = useSelector((state) => state.assignCar);
 
 	useEffect(() => {
-		dispatch(getAllAccDriver());
+		dispatch(getDriverNotAssign());
+
+		if (error) {
+			toast.error(error);
+			dispatch({ type: 'CLEAR_ERRORS' });
+		}
 
 		if (success) {
-			toast.success('Assign this user to car successfully !!');
+			toast.success('Assign this driver to car successfully !!');
 			navigate('/staff/assignCar');
 		}
-	}, [dispatch, success, navigate]);
+	}, [dispatch, success, navigate, error]);
 
 	const assignUserToCarHandle = (userId) => {
 		dispatch(assignCar(carId, userId));
@@ -32,19 +37,13 @@ const AssignCarToDriver = () => {
 	return (
 		<div className="dashboard">
 			<HeaderBarStaff />
-			<TitleBarPage title="Assign Car to driver" />
+			<TitleBarPage title="Assign driver to this car" />
 			<div className="flex flex-col p-3">
 				<ToastContainer className="toastify text-xs" />
 				<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-							<h2 className="text-center pb-3">Manager all account staff</h2>
-							<Link
-								to="/admin/manager/accStaff/create"
-								className="border-1 p-2 rounded bg-emerald-500 text-white ml-3 mb-3 inline-block"
-							>
-								Create a new account
-							</Link>
+							<h2 className="text-center pb-3">All driver not assign car</h2>
 							<table className="min-w-full divide-y divide-gray-200">
 								<thead className="bg-gray-50">
 									<tr>
@@ -112,10 +111,7 @@ const AssignCarToDriver = () => {
 													onClick={() => assignUserToCarHandle(user?._id)}
 													className="border-1 p-2 rounded bg-cyan-300 mr-2"
 												>
-													Assign this user to car
-												</button>
-												<button className="border-1 p-2 rounded bg-red-500 text-white">
-													Delete
+													Assign this driver to car
 												</button>
 											</td>
 										</tr>

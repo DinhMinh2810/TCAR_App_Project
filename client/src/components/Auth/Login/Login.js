@@ -84,7 +84,7 @@ const Login = () => {
 											<img
 												src={loginImg}
 												className="w-full rounded-2xl"
-												alt="Sample image"
+												alt="Sample images"
 											/>
 										</div>
 										<div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0 mt-3">

@@ -152,6 +152,25 @@ export const assignCar = (carId, userId) => async (dispatch) => {
 	}
 };
 
+// Remove assign car -- Staff
+export const removeAssignCar = (id) => async (dispatch) => {
+	try {
+		dispatch({ type: 'REMOVE_ASSIGN_CAR_REQUEST' });
+
+		const { data } = await axios.delete(`/api/cars/removeAssign/${id}`);
+
+		dispatch({
+			type: 'REMOVE_ASSIGN_CAR_SUCCESS',
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'REMOVE_ASSIGN_CAR__FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });

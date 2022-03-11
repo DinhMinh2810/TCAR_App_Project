@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-// Get all account staff - Admin
-export const getAllAccDriver = () => async (dispatch) => {
+// Get all driver not assign car - Admin
+export const getDriverNotAssign = () => async (dispatch) => {
 	try {
 		dispatch({ type: 'ACC_DRIVER_REQUEST' });
 
-		const res = await axios.get('/api/staff/getAccountDriver');
+		const res = await axios.get('/api/staff/getDriverNotAssign');
 
 		dispatch({ type: 'ACC_DRIVER_SUCCESS', payload: res.data });
 	} catch (error) {

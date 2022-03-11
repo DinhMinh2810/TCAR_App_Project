@@ -3,7 +3,7 @@ const router = express.Router();
 const {
 	createAccDriver,
 	getAccDriver,
-	getAccDriversss,
+	getDriverNotAssign,
 } = require('../controllers/staffController');
 
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
@@ -17,7 +17,7 @@ router
 	.get(isAuthenticatedUser, authorWithRole('Staff'), getAccDriver);
 
 router
-	.route('/getAccountDriversss')
-	.get(isAuthenticatedUser, authorWithRole('Staff'), getAccDriversss);
+	.route('/getDriverNotAssign')
+	.get(isAuthenticatedUser, authorWithRole('Staff'), getDriverNotAssign);
 
 module.exports = router;

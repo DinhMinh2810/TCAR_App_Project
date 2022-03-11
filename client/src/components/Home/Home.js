@@ -32,7 +32,8 @@ const Home = () => {
 	return (
 		<>
 			<TitleBarPage title="Home" />
-			<form className="searchBox" onSubmit={searchSubmitHandler}>
+			<h1>Home page</h1>
+			{/* <form className="searchBox" onSubmit={searchSubmitHandler}>
 				<input
 					type="text"
 					placeholder="Search a Product ..."
@@ -42,7 +43,7 @@ const Home = () => {
 			</form>
 			<div>
 				{cars && cars.map((car) => <CarProductCard key={car._id} car={car} />)}
-			</div>
+			</div> */}
 		</>
 	);
 };

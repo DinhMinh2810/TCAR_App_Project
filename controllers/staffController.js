@@ -58,7 +58,7 @@ exports.getAccDriver = catchAsyncErrShort(async (req, res) => {
 });
 
 // Get all account driver
-exports.getAccDriversss = catchAsyncErrShort(async (req, res) => {
+exports.getDriverNotAssign = catchAsyncErrShort(async (req, res) => {
 	const users = await User.find({ role: 'Driver', isAssign: false });
 	return res.status(200).json(users);
 });
