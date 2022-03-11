@@ -152,15 +152,16 @@ const Header = () => {
 													</Menu.Item>
 													<Menu.Item>
 														{({ active }) => (
-															<button
+															<a
 																onClick={logoutSubmit}
+																href
 																className={classNames(
 																	active ? 'bg-gray-100' : '',
 																	'block px-4 py-2 text-sm text-gray-700'
 																)}
 															>
 																Logout
-															</button>
+															</a>
 														)}
 													</Menu.Item>
 												</Menu.Items>
