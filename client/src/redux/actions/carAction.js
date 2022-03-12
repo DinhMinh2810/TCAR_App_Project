@@ -21,7 +21,7 @@ export const getAdminCar = () => async (dispatch) => {
 
 // Get All car products
 export const getCars =
-	(keyword = '', currentPage = 1, rentPerDay = [0, 600000]) =>
+	(keyword = '', currentPage = 1, rentPerDay = [0, 600000], ratings = 0) =>
 	async (dispatch) => {
 		try {
 			dispatch({ type: ' ALL_CAR_REQUEST' });
