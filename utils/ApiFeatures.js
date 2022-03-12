@@ -23,7 +23,7 @@ function ApiFeatures(query, queryString) {
 
 		removeExcludedFields.forEach((key) => delete queryObjCopy[key]);
 
-		// Filter For Price and Rating
+		// Filter for rent per day and rating
 
 		let queryStr = JSON.stringify(queryObjCopy);
 		queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);

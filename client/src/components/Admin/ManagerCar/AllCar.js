@@ -9,6 +9,7 @@ import {
 	deleteCar,
 	getAdminCar,
 } from '../../../redux/actions/carAction';
+import moment from 'moment';
 
 const AllCar = () => {
 	const dispatch = useDispatch();
@@ -153,9 +154,11 @@ const AllCar = () => {
 												{car?.available}
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-												{String(car?.startDay)?.substr(0, 10)} --
-												{String(car?.endDay)?.substr(0, 10)}
+												{moment(car?.startDay).format('YYYY-MM-DD HH:mm')}
+												<span className="font-extrabold"> &#8594; </span>
+												{moment(car?.endDay).format('YYYY-MM-DD HH:mm')}
 											</td>
+
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 												{car?.location}
 											</td>

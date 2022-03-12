@@ -101,6 +101,11 @@ const UpdateCar = () => {
 		}
 	}, [dispatch, id, carId, car, isUpdated, error, navigate]);
 
+	const disablePastDate = () => {
+		const today = new Date().toISOString().slice(0, 16);
+		return today;
+	};
+
 	return (
 		<div className="dashboard">
 			<HeaderBarAdmin />
@@ -197,6 +202,7 @@ const UpdateCar = () => {
 											<input
 												type="datetime-local"
 												value={startDay}
+												min={disablePastDate()}
 												onChange={(e) => setStartDay(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											/>
@@ -212,6 +218,7 @@ const UpdateCar = () => {
 											<input
 												type="datetime-local"
 												value={endDay}
+												min={disablePastDate()}
 												onChange={(e) => setEndDay(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											/>

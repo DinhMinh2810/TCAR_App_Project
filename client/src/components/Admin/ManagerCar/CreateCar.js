@@ -84,6 +84,11 @@ const CreateCar = () => {
 		}
 	}, [dispatch, error, successCreate, navigate]);
 
+	const disablePastDate = () => {
+		const today = new Date().toISOString().slice(0, 16);
+		return today;
+	};
+
 	return (
 		<div className="dashboard">
 			<HeaderBarAdmin />
@@ -182,6 +187,7 @@ const CreateCar = () => {
 											<input
 												type="datetime-local"
 												value={startDay}
+												min={disablePastDate()}
 												onChange={(e) => setStartDay(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											/>
@@ -197,6 +203,7 @@ const CreateCar = () => {
 											<input
 												type="datetime-local"
 												value={endDay}
+												min={disablePastDate()}
 												onChange={(e) => setEndDay(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											/>
