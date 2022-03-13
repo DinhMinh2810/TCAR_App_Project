@@ -1,0 +1,27 @@
+.page-item {
+    background-color: rgb(255, 255, 255);
+    list-style: none;
+    padding: 10px;
+    transition: all 0.3s;
+    cursor: pointer;
+    color: black;
+}
+
+.page-link {
+    text-decoration: none;
+    color: rgb(80, 80, 80) !important;
+    transition: all 0.3s;
+}
+
+.page-item:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.pageLinkActive {
+    color: white;
+}
+
+.btn_refresh_search {
+    color: #1976d2;
+    background-color: #ebf2f7;
+}
