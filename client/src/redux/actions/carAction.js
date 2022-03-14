@@ -23,8 +23,8 @@ export const getAdminCar = () => async (dispatch) => {
 export const getCars =
 	(
 		keyword = '',
-		startDay = '',
-		endDay = '',
+		StartDay = '',
+		EndDay = '',
 		currentPage = 1,
 		rentPerDay = [0, 9000],
 		seatsCategory,
@@ -34,15 +34,20 @@ export const getCars =
 	async (dispatch) => {
 		try {
 			dispatch({ type: ' ALL_CAR_REQUEST' });
-			let URL = `/api/cars/getAllCars?location=${keyword}&startDay=${startDay}&endDay=${endDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
+			let URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
 
 			if (seatsCategory) {
-				URL = `/api/cars/getAllCars?location=${keyword}&startDay=${startDay}&endDay=${endDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&seatsCategory=${seatsCategory}&ratings[gte]=${ratings}`;
+				URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&seatsCategory=${seatsCategory}&ratings[gte]=${ratings}`;
 			}
 
 			if (refreshSearch === true) {
-				URL = `/api/cars/getAllCars`;
+				URL = `/api/cars/getAllCars?location=${keyword}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
 			}
+
+			if (refreshSearch === true && seatsCategory) {
+				URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&seatsCategory=${seatsCategory}&ratings[gte]=${ratings}`;
+			}
+
 			const { data } = await axios.get(URL);
 
 			dispatch({

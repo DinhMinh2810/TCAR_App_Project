@@ -37,7 +37,7 @@ const CarProductCard = ({ car }) => {
 						{car?.location} City
 					</p>
 				</div>
-				<p className="text-sm font-medium text-gray-800">$ {car?.rentPerDay}</p>
+				<p className="text-sm font-medium text-gray-800">$ {car?.rentPerDay} / day</p>
 			</div>
 		</Link>
 	);
