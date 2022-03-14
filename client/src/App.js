@@ -91,6 +91,12 @@ function App() {
 					element={<ConfirmOTP />}
 				/>
 				<Route path="/resetPassword/:token" element={<ResetPassword />} />
+
+				<Route
+					path="/carProduct/:keyword/:startDay/:endDay"
+					element={<Car />}
+				/>
+
 				<Route
 					path="/myProfile"
 					element={
@@ -115,8 +121,9 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+
 				{/* here */}
-				<Route path="/carProduct" element={<Car />} />
+
 				<Route path="/carProduct/:id" element={<CarDetail />} />
 				<Route path="/favoriteCart" element={<FavoriteCart />} />
 				<Route path="/receiveCarTo" element={<ReceiveCarTo />} />

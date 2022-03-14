@@ -18,35 +18,23 @@ import {
 import './car.css';
 import Loader from '../Layout/Loader/Loader';
 import CachedIcon from '@mui/icons-material/Cached';
+import moment from 'moment';
 
 const sortOptions = [
 	{ name: 'Most Popular', href: '#', current: false },
-	{ name: 'Best Rating', href: '#', current: false },
 	{ name: 'Newest', href: '#', current: false },
-	{ name: 'Price: Low to High', href: '#', current: false },
-	{ name: 'Price: High to Low', href: '#', current: false },
+	{ name: 'Best Rating', href: '#', current: false },
 ];
 
 const filters = [
 	{
-		id: 'seatcategory',
+		id: 'seatCategory',
 		name: 'Seat Category',
 		options: [
-			{ value: '5', label: '4 seats mini', checked: false },
-			{ value: '7', label: '5 seats high ground', checked: false },
+			{ value: '5', label: '5 seats mini', checked: false },
+			{ value: '7', label: '7 seats high ground', checked: false },
 			{ value: '16', label: '16 seats high ground', checked: false },
 			{ value: '30', label: '30 seats bus pickup', checked: false },
-		],
-	},
-	{
-		id: 'rating',
-		name: 'Rating',
-		options: [
-			{ value: '1', label: '1', checked: false },
-			{ value: '2', label: '2', checked: false },
-			{ value: '3', label: '3', checked: false },
-			{ value: '4', label: '4', checked: false },
-			{ value: '5', label: '5', checked: false },
 		],
 	},
 ];
@@ -58,9 +46,12 @@ function classNames(...classes) {
 const Car = () => {
 	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 	const dispatch = useDispatch();
-	const { keyword } = useParams();
+	const { keyword, startDay, endDay } = useParams();
 	const [currentPage, setCurrentPage] = useState(1);
-	const [rentPerDay, setRentPerDay] = useState([0, 40000]);
+	const [rentPerDay, setRentPerDay] = useState([0, 4000]);
+	const [seatCategories, setSeatCategories] = useState('');
+	const [ratings, setRatings] = useState(0);
+	const [refreshSearch, setRefreshSearch] = useState(false);
 
 	const { loading, cars, error, carsCount, resultItemPage } = useSelector(
 		(state) => state.carsProduct
@@ -71,8 +62,29 @@ const Car = () => {
 			toast.warn(error);
 			dispatch(clearErrors());
 		}
-		dispatch(getCars(keyword, currentPage, rentPerDay));
-	}, [dispatch, keyword, currentPage, rentPerDay, error]);
+
+		dispatch(
+			getCars(
+				keyword,
+				startDay,
+				endDay,
+				currentPage,
+				rentPerDay,
+				seatCategories,
+				ratings
+			)
+		);
+	}, [
+		dispatch,
+		keyword,
+		startDay,
+		endDay,
+		currentPage,
+		rentPerDay,
+		error,
+		seatCategories,
+		ratings,
+	]);
 
 	const setCurrentPageNo = (e) => {
 		setCurrentPage(e);
@@ -81,6 +93,8 @@ const Car = () => {
 	const rentPerDayHandler = (event, newRentPerDay) => {
 		setRentPerDay(newRentPerDay);
 	};
+
+	const refreshSearchHandler = () => {};
 
 	return (
 		<div className="bg-white">
@@ -140,7 +154,7 @@ const Car = () => {
 												valueLabelDisplay="auto"
 												aria-labelledby="range-slider"
 												min={0}
-												max={90000}
+												max={9000}
 											/>
 										</ul>
 									</div>
@@ -212,6 +226,7 @@ const Car = () => {
 						</Transition.Child>
 					</Dialog>
 				</Transition.Root>
+				{/* Laptop */}
 
 				<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="relative z-10 flex items-baseline justify-between pt-6 pb-6 border-b border-gray-200">
@@ -294,15 +309,42 @@ const Car = () => {
 						<div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
 							{/* Filters */}
 							<form className="hidden lg:block">
-								<p className="">Price</p>
-								<Slider
-									value={rentPerDay}
-									onChange={rentPerDayHandler}
-									valueLabelDisplay="auto"
-									aria-labelledby="range-slider"
-									min={0}
-									max={90000}
-								/>
+								<div className="border-b border-gray-200 pb-6">
+									<p className="text-base">
+										Start day: {moment(startDay).format('LLL')}
+									</p>
+									<p className="text-base">
+										End day: {moment(endDay).format('LLL')}
+									</p>
+									<p className="text-base">Location: {keyword} city</p>
+								</div>
+
+								<div className="border-b border-gray-200 py-6">
+									<p className="">Price</p>
+									<Slider
+										value={rentPerDay}
+										onChange={rentPerDayHandler}
+										valueLabelDisplay="auto"
+										aria-labelledby="range-slider"
+										min={0}
+										max={9000}
+									/>
+								</div>
+
+								<div className="border-b border-gray-200 py-6">
+									<p className="">Ratings</p>
+									<Slider
+										value={ratings}
+										onChange={(e, newRating) => {
+											setRatings(newRating);
+										}}
+										valueLabelDisplay="auto"
+										aria-labelledby="range-slider"
+										min={0}
+										max={5}
+									/>
+								</div>
+
 								{filters.map((section) => (
 									<Disclosure
 										as="div"
@@ -345,6 +387,9 @@ const Car = () => {
 																	type="checkbox"
 																	defaultChecked={option.checked}
 																	className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+																	onClick={() =>
+																		setSeatCategories(option.value)
+																	}
 																/>
 																<label
 																	htmlFor={`filter-${section.id}-${optionIdx}`}
@@ -361,7 +406,10 @@ const Car = () => {
 									</Disclosure>
 								))}
 								<div className="border-b border-gray-200 py-6 flex justify-center">
-									<button className="px-8 py-2 btn_refresh_search border border-slate-300 rounded-md">
+									<button
+										className="px-8 py-2 btn_refresh_search border border-slate-300 rounded-md"
+										onClick={refreshSearchHandler}
+									>
 										<CachedIcon /> Refresh filter
 									</button>
 								</div>
@@ -403,39 +451,6 @@ const Car = () => {
 				</main>
 			</div>
 		</div>
-
-		// <div>
-		// 	<div>
-		// 		{cars && cars.map((car) => <CarProductCard key={car._id} car={car} />)}
-		// 	</div>
-		// 	<h1>Price</h1>
-		// 	<Slider
-		// 		value={rentPerDay}
-		// 		onChange={rentPerDayHandler}
-		// 		valueLabelDisplay="auto"
-		// 		aria-labelledby="range-slider"
-		// 		min={0}
-		// 		max={600000}
-		// 	/>
-		// 	<div>
-		// 		{resultItemPage < carsCount && (
-		// 			<Pagination
-		// 				activePage={currentPage}
-		// 				itemsCountPerPage={resultItemPage}
-		// 				totalItemsCount={carsCount}
-		// 				onChange={setCurrentPageNo}
-		// 				nextPageText="Next"
-		// 				prevPageText="Prev"
-		// 				firstPageText="1st"
-		// 				lastPageText="Last"
-		// 				itemClass="page-item"
-		// 				linkClass="page-link"
-		// 				activeClass="pageItemActive"
-		// 				activeLinkClass="pageLinkActive"
-		// 			/>
-		// 		)}
-		// 	</div>
-		// </div>
 	);
 };
 

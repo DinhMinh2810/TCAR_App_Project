@@ -154,9 +154,9 @@ const AllCar = () => {
 												{car?.available}
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-												{moment(car?.startDay).format('YYYY-MM-DD HH:mm')}
+												{moment(car?.startDay).format('LLL')}
 												<span className="font-extrabold"> &#8594; </span>
-												{moment(car?.endDay).format('YYYY-MM-DD HH:mm')}
+												{moment(car?.endDay).format('LLL')}
 											</td>
 
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
