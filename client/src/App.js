@@ -44,6 +44,7 @@ import UpdateCar from './components/Admin/ManagerCar/UpdateCar';
 import AssignCar from './components/Staff/AssignCar/AssignCar';
 import AssignCarToDriver from './components/Staff/AssignCar/AssignCarToDriver';
 import Home from './components/Home/Home';
+import CarRefreshSearch from './components/CarProduct/CarRefreshSearch';
 
 function App() {
 	const dispatch = useDispatch();
@@ -95,6 +96,11 @@ function App() {
 				<Route
 					path="/carProduct/:keyword/:startDay/:endDay"
 					element={<Car />}
+				/>
+
+				<Route
+					path="/carProduct/refreshSearch"
+					element={<CarRefreshSearch />}
 				/>
 
 				<Route

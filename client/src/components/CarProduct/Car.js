@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getCars, clearErrors } from '../../redux/actions/carAction';
 import { toast } from 'react-toastify';
 import CarProductCard from '../Home/CarProductCard';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
 import { Slider } from '@mui/material';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
@@ -44,14 +44,14 @@ function classNames(...classes) {
 }
 
 const Car = () => {
-	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 	const { keyword, startDay, endDay } = useParams();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [rentPerDay, setRentPerDay] = useState([0, 4000]);
 	const [seatCategories, setSeatCategories] = useState('');
 	const [ratings, setRatings] = useState(0);
-	const [refreshSearch, setRefreshSearch] = useState(false);
 	const [StartDay, setStartDay] = useState(startDay);
 	const [EndDay, setEndDay] = useState(endDay);
 	const [location, setLocation] = useState(keyword);
@@ -70,7 +70,7 @@ const Car = () => {
 	const { loading, cars, error, carsCount, resultItemPage } = useSelector(
 		(state) => state.carsProduct
 	);
-
+	console.log(StartDay);
 	useEffect(() => {
 		if (error) {
 			toast.warn(error);
@@ -85,8 +85,7 @@ const Car = () => {
 				currentPage,
 				rentPerDay,
 				seatCategories,
-				ratings,
-				refreshSearch
+				ratings
 			)
 		);
 	}, [
@@ -99,7 +98,6 @@ const Car = () => {
 		error,
 		seatCategories,
 		ratings,
-		refreshSearch,
 	]);
 
 	const setCurrentPageNo = (e) => {
@@ -111,15 +109,7 @@ const Car = () => {
 	};
 
 	const refreshSearchHandler = (e) => {
-		e.preventDefault();
-		setRefreshSearch(true);
-		setStartDay('');
-		setEndDay('');
-	};
-
-	const disablePastDate = () => {
-		const today = new Date().toISOString().slice(0, 16);
-		return today;
+		navigate('/carProduct/refreshSearch');
 	};
 
 	return (
@@ -335,7 +325,7 @@ const Car = () => {
 						<div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
 							{/* Filters */}
 							<form className="hidden lg:block">
-								{/* <div className="border-b border-gray-200 pb-6">
+								<div className="border-b border-gray-200 pb-6">
 									<p className="text-base">
 										Start day: {moment(startDay).format('LLL')}
 									</p>
@@ -343,8 +333,19 @@ const Car = () => {
 										End day: {moment(endDay).format('LLL')}
 									</p>
 									<p className="text-base">Location: {keyword} city</p>
-								</div> */}
-								<div className="border-b border-gray-200 pb-6">
+									<select
+										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+										onChange={(e) => setLocation(e.target.value)}
+									>
+										<option value="">Choose location</option>
+										{locations.map((local) => (
+											<option key={local} value={local}>
+												{local}
+											</option>
+										))}
+									</select>
+								</div>
+								{/* <div className="border-b border-gray-200 pb-6">
 									<input
 										type="datetime-local"
 										value={StartDay}
@@ -370,7 +371,7 @@ const Car = () => {
 											</option>
 										))}
 									</select>
-								</div>
+								</div> */}
 
 								<div className="border-b border-gray-200 py-6">
 									<p className="">Price</p>

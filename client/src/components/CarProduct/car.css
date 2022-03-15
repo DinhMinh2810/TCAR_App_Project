@@ -14,11 +14,11 @@
 }
 
 .page-item:hover {
-    background-color: rgb(230, 230, 230);
+    background-color: #1976d2;
 }
 
-.pageLinkActive {
-    color: white;
+.pageItemActive {
+    background-color: #1976d2;
 }
 
 .btn_refresh_search {

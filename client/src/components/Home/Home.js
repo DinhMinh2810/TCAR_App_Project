@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCars, clearErrors } from '../../redux/actions/carAction';
+import { getCarsHomePage, clearErrors } from '../../redux/actions/carAction';
 import CarProductCard from './CarProductCard';
 import { toast } from 'react-toastify';
 import { useNavigate, Navigate } from 'react-router-dom';
@@ -17,14 +17,12 @@ const Home = () => {
 	const { cars, error } = useSelector((state) => state.carsProduct);
 	let navigate = useNavigate();
 
-
-
 	useEffect(() => {
 		if (error) {
 			toast.error(error);
 			dispatch(clearErrors());
 		}
-		dispatch(getCars());
+		dispatch(getCarsHomePage());
 	}, [dispatch, error]);
 
 	return (
@@ -49,18 +47,6 @@ const Home = () => {
 
 			<Blog />
 			<Partner />
-
-			{/* <form className="searchBox" onSubmit={searchSubmitHandler}>
-				<input
-					type="text"
-					placeholder="Search a Product ..."
-					onChange={(e) => setKeyword(e.target.value)}
-				/>
-				<input type="submit" value="Search" />
-			</form>
-			<div>
-				{cars && cars.map((car) => <CarProductCard key={car._id} car={car} />)}
-			</div> */}
 		</>
 	);
 };

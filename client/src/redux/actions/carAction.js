@@ -19,7 +19,7 @@ export const getAdminCar = () => async (dispatch) => {
 	}
 };
 
-// Get All car products
+// Get All car products not refresh
 export const getCars =
 	(
 		keyword = '',
@@ -28,8 +28,7 @@ export const getCars =
 		currentPage = 1,
 		rentPerDay = [0, 9000],
 		seatsCategory,
-		ratings = 0,
-		refreshSearch
+		ratings = 0
 	) =>
 	async (dispatch) => {
 		try {
@@ -40,14 +39,87 @@ export const getCars =
 				URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&seatsCategory=${seatsCategory}&ratings[gte]=${ratings}`;
 			}
 
-			if (refreshSearch === true) {
+			// if (refreshSearch === true) {
+			// 	// URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
+
+			// 	// URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
+			// }
+			// // location=Gia Lai&startDay=2022-03-14T09:00&endDay=2022-03-25T09:00
+			// if (refreshSearch === true && seatsCategory) {
+			// 	URL = `/api/cars/getAllCars?location=${keyword}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&seatsCategory=${seatsCategory}&ratings[gte]=${ratings}`;
+			// }
+
+			const { data } = await axios.get(URL);
+
+			dispatch({
+				type: 'ALL_CAR_SUCCESS',
+				payload: data,
+			});
+		} catch (error) {
+			dispatch({
+				type: 'ALL_CAR_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
+
+// Get All car products refresh
+export const getCarsRefresh =
+	(
+		keyword,
+		StartDay,
+		EndDay,
+		currentPage = 1,
+		rentPerDay = [0, 9000],
+		ratings = 0,
+		seatsCategory
+	) =>
+	async (dispatch) => {
+		try {
+			dispatch({ type: ' ALL_CAR_REQUEST' });
+			let URL = `/api/cars/getAllCars?page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
+			if (keyword) {
 				URL = `/api/cars/getAllCars?location=${keyword}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
 			}
 
-			if (refreshSearch === true && seatsCategory) {
+			if (StartDay && EndDay) {
+				URL = `/api/cars/getAllCars?startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
+			}
+
+			if (keyword && StartDay && EndDay) {
+				URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
+			}
+
+			if (seatsCategory) {
+				URL = `/api/cars/getAllCars?page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}&seatsCategory=${seatsCategory}`;
+			}
+
+			if (keyword && StartDay && EndDay && seatsCategory) {
 				URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&seatsCategory=${seatsCategory}&ratings[gte]=${ratings}`;
 			}
 
+			const { data } = await axios.get(URL);
+
+			dispatch({
+				type: 'ALL_CAR_SUCCESS',
+				payload: data,
+			});
+		} catch (error) {
+			dispatch({
+				type: 'ALL_CAR_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
+
+// Get All car products
+export const getCarsHomePage =
+	(keyword = '', currentPage = 1) =>
+	async (dispatch) => {
+		try {
+			dispatch({ type: ' ALL_CAR_REQUEST' });
+
+			let URL = `/api/cars/getAllCars?location=${keyword}&page=${currentPage}`;
 			const { data } = await axios.get(URL);
 
 			dispatch({
