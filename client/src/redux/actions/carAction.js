@@ -39,16 +39,6 @@ export const getCars =
 				URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&seatsCategory=${seatsCategory}&ratings[gte]=${ratings}`;
 			}
 
-			// if (refreshSearch === true) {
-			// 	// URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
-
-			// 	// URL = `/api/cars/getAllCars?location=${keyword}&startDay=${StartDay}&endDay=${EndDay}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&ratings[gte]=${ratings}`;
-			// }
-			// // location=Gia Lai&startDay=2022-03-14T09:00&endDay=2022-03-25T09:00
-			// if (refreshSearch === true && seatsCategory) {
-			// 	URL = `/api/cars/getAllCars?location=${keyword}&page=${currentPage}&rentPerDay[gte]=${rentPerDay[0]}&rentPerDay[lte]=${rentPerDay[1]}&seatsCategory=${seatsCategory}&ratings[gte]=${ratings}`;
-			// }
-
 			const { data } = await axios.get(URL);
 
 			dispatch({
@@ -114,12 +104,12 @@ export const getCarsRefresh =
 
 // Get All car products
 export const getCarsHomePage =
-	(keyword = '', currentPage = 1) =>
+	(currentPage = 1) =>
 	async (dispatch) => {
 		try {
 			dispatch({ type: ' ALL_CAR_REQUEST' });
 
-			let URL = `/api/cars/getAllCars?location=${keyword}&page=${currentPage}`;
+			let URL = `/api/cars/getAllCars?page=${currentPage}`;
 			const { data } = await axios.get(URL);
 
 			dispatch({

@@ -18,7 +18,6 @@ import {
 import './car.css';
 import Loader from '../Layout/Loader/Loader';
 import CachedIcon from '@mui/icons-material/Cached';
-import moment from 'moment';
 
 const sortOptions = [
 	{ name: 'Most Popular', href: '#', current: false },
@@ -35,6 +34,7 @@ const filters = [
 			{ value: '7', label: '7 seats high ground', checked: false },
 			{ value: '16', label: '16 seats high ground', checked: false },
 			{ value: '30', label: '30 seats bus pickup', checked: false },
+			{ value: '', label: 'Reset seat category', checked: false },
 		],
 	},
 ];
@@ -157,7 +157,33 @@ const Car = () => {
 								</div>
 
 								{/* Filters */}
-								<form className="mt-4 border-t border-gray-200">
+								<form className="px-4 py-2 mr-7">
+									<p className="mb-2">Start Day</p>
+									<input
+										type="datetime-local"
+										value={StartDay}
+										readOnly
+										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block mb-2 w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+									/>
+									<p className="mb-2">End Day</p>
+									<input
+										type="datetime-local"
+										value={EndDay}
+										readOnly
+										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block mb-2 w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+									/>
+									<p className="mb-2">Location</p>
+									<select
+										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block mb-2 w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+										onChange={(e) => setLocation(e.target.value)}
+									>
+										<option value="">Choose location</option>
+										{locations.map((local) => (
+											<option key={local} value={local}>
+												{local}
+											</option>
+										))}
+									</select>
 									<div className=" px-4 py-2 mr-7">
 										<p className="font-medium text-xl text-gray-900 pt-2">
 											Price
@@ -174,7 +200,23 @@ const Car = () => {
 											/>
 										</ul>
 									</div>
-
+									<div className=" px-4 py-2 mr-7">
+										<p className="font-medium text-xl text-gray-900 pt-2">
+											Ratings
+										</p>
+										<ul className="font-medium text-gray-900 px-2">
+											<Slider
+												value={ratings}
+												onChange={(e, newRating) => {
+													setRatings(newRating);
+												}}
+												valueLabelDisplay="auto"
+												aria-labelledby="range-slider"
+												min={0}
+												max={5}
+											/>
+										</ul>
+									</div>
 									{filters.map((section) => (
 										<Disclosure
 											as="div"
@@ -185,7 +227,7 @@ const Car = () => {
 												<>
 													<h3 className="-mx-2 -my-3 flow-root">
 														<Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
-															<span className="font-medium text-gray-900">
+															<span className="font-medium text-xl text-gray-900">
 																{section.name}
 															</span>
 															<span className="ml-6 flex items-center">
@@ -233,7 +275,10 @@ const Car = () => {
 										</Disclosure>
 									))}
 									<div className="border-b border-gray-200 py-6 flex justify-center">
-										<button className="px-8 py-2 btn_refresh_search border border-slate-300 rounded-md">
+										<button
+											className="px-8 py-2 btn_refresh_search border border-slate-300 rounded-md"
+											onClick={refreshSearchHandler}
+										>
 											<CachedIcon /> Refresh filter
 										</button>
 									</div>
@@ -257,7 +302,7 @@ const Car = () => {
 							>
 								<div>
 									<Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-										Sort
+										Welcome
 										<ChevronDownIcon
 											className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
 											aria-hidden="true"
@@ -325,16 +370,24 @@ const Car = () => {
 						<div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
 							{/* Filters */}
 							<form className="hidden lg:block">
-								<div className="border-b border-gray-200 pb-6">
-									<p className="text-base">
-										Start day: {moment(startDay).format('LLL')}
-									</p>
-									<p className="text-base">
-										End day: {moment(endDay).format('LLL')}
-									</p>
-									<p className="text-base">Location: {keyword} city</p>
+								<div className="border-b border-gray-200 pb-4">
+									<p className="mb-2">Start Day</p>
+									<input
+										type="datetime-local"
+										value={StartDay}
+										readOnly
+										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block mb-3 w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+									/>
+									<p className="mb-2">End Day</p>
+									<input
+										type="datetime-local"
+										value={EndDay}
+										readOnly
+										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block mb-3 w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+									/>
+									<p className="mb-2">Location</p>
 									<select
-										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block mb-3 w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 										onChange={(e) => setLocation(e.target.value)}
 									>
 										<option value="">Choose location</option>
@@ -345,33 +398,6 @@ const Car = () => {
 										))}
 									</select>
 								</div>
-								{/* <div className="border-b border-gray-200 pb-6">
-									<input
-										type="datetime-local"
-										value={StartDay}
-										min={disablePastDate()}
-										onChange={(e) => setStartDay(e.target.value)}
-										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-									/>
-									<input
-										type="datetime-local"
-										value={EndDay}
-										min={disablePastDate()}
-										onChange={(e) => setEndDay(e.target.value)}
-										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-									/>
-									<select
-										className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-										onChange={(e) => setLocation(e.target.value)}
-									>
-										<option value="">Choose location</option>
-										{locations.map((local) => (
-											<option key={local} value={local}>
-												{local}
-											</option>
-										))}
-									</select>
-								</div> */}
 
 								<div className="border-b border-gray-200 py-6">
 									<p className="">Price</p>

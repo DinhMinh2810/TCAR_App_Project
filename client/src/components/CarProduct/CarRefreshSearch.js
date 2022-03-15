@@ -34,6 +34,7 @@ const filters = [
 			{ value: '7', label: '7 seats high ground', checked: false },
 			{ value: '16', label: '16 seats high ground', checked: false },
 			{ value: '30', label: '30 seats bus pickup', checked: false },
+			{ value: '', label: 'Reset seat category', checked: false },
 		],
 	},
 ];
@@ -208,6 +209,24 @@ const CarRefreshSearch = () => {
 														aria-labelledby="range-slider"
 														min={0}
 														max={9000}
+													/>
+												</ul>
+											</div>
+
+											<div className=" px-4 py-2 mr-7">
+												<p className="font-medium text-xl text-gray-900 pt-2">
+													Ratings
+												</p>
+												<ul className="font-medium text-gray-900 px-2">
+													<Slider
+														value={ratings}
+														onChange={(e, newRating) => {
+															setRatings(newRating);
+														}}
+														valueLabelDisplay="auto"
+														aria-labelledby="range-slider"
+														min={0}
+														max={5}
 													/>
 												</ul>
 											</div>
