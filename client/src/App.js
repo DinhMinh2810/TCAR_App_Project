@@ -97,6 +97,7 @@ function App() {
 					path="/carProduct/:keyword/:startDay/:endDay"
 					element={<Car />}
 				/>
+				<Route path="/carProduct/:id" element={<CarDetail />} />
 
 				<Route
 					path="/carProduct/refreshSearch"
@@ -130,7 +131,6 @@ function App() {
 
 				{/* here */}
 
-				<Route path="/carProduct/:id" element={<CarDetail />} />
 				<Route path="/favoriteCart" element={<FavoriteCart />} />
 				<Route path="/receiveCarTo" element={<ReceiveCarTo />} />
 				<Route path="/confirmBookCar" element={<ConfirmBookCar />} />

@@ -29,7 +29,7 @@ router
 	.route('/getAdAllCars')
 	.get(isAuthenticatedUser, authorWithRole('Admin', 'Staff'), getAdAllCars);
 
-router.route('/getDetailCar/:id').get(isAuthenticatedUser, getDetailCar);
+router.route('/getDetailCar/:id').get(getDetailCar);
 
 router
 	.route('/create')

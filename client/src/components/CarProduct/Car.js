@@ -70,7 +70,7 @@ const Car = () => {
 	const { loading, cars, error, carsCount, resultItemPage } = useSelector(
 		(state) => state.carsProduct
 	);
-	console.log(StartDay);
+
 	useEffect(() => {
 		if (error) {
 			toast.warn(error);

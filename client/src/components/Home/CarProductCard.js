@@ -12,7 +12,7 @@ const CarProductCard = ({ car }) => {
 
 	return (
 		<Link
-			to={`/car/${car?._id}`}
+			to={`/carProduct/${car?._id}`}
 			key={car?.id}
 			className="group relative text-neutral-700"
 		>
@@ -37,7 +37,9 @@ const CarProductCard = ({ car }) => {
 						{car?.location} City
 					</p>
 				</div>
-				<p className="text-sm font-medium text-gray-800">$ {car?.rentPerDay} / day</p>
+				<p className="text-sm font-medium text-gray-800">
+					$ {car?.rentPerDay} / day
+				</p>
 			</div>
 		</Link>
 	);

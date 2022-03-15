@@ -167,7 +167,7 @@ const CarRefreshSearch = () => {
 										</div>
 
 										{/* Filters */}
-										<form className="px-4 py-2 mr-7">
+										<div className="px-4 py-2 mr-7">
 											<p className="mb-2">Start Day</p>
 											<input
 												type="datetime-local"
@@ -293,7 +293,7 @@ const CarRefreshSearch = () => {
 													<CachedIcon /> Refresh filter
 												</button>
 											</div>
-										</form>
+										</div>
 									</div>
 								</Transition.Child>
 							</Dialog>
