@@ -25,7 +25,7 @@ const AllCar = () => {
 
 	useEffect(() => {
 		if (deleteError) {
-			alert.error(deleteError);
+			toast.error(deleteError);
 			dispatch(clearErrors());
 		}
 

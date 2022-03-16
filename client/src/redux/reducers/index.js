@@ -35,9 +35,9 @@ export default combineReducers({
 	updateOrDeleteCar: updateOrDeleteCarReducer,
 	allAccDriver: allAccDriverReducer,
 	assignCar: assignCarReducer,
+	favoriteCart: favoriteCartReducer,
 	// not
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,
-	favoriteCart: favoriteCartReducer,
 	chatbot: chatBotReducer,
 });

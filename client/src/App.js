@@ -99,6 +99,8 @@ function App() {
 				/>
 				<Route path="/carProduct/:id" element={<CarDetail />} />
 
+				<Route path="/favoriteCart" element={<FavoriteCart />} />
+
 				<Route
 					path="/carProduct/refreshSearch"
 					element={<CarRefreshSearch />}

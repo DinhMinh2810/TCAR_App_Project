@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Add card to favorite Cart
+// Add car to favorite Cart
 export const addCarsToCart = (id, quantity) => async (dispatch, getState) => {
 	const { data } = await axios.get(`/api/cars/getDetailCar/${id}`);
 
@@ -11,7 +11,10 @@ export const addCarsToCart = (id, quantity) => async (dispatch, getState) => {
 			name: data.car.name,
 			rentPerDay: data.car.rentPerDay,
 			image: data.car.images[0].url,
+			seatsCategory: data.car.seatsCategory,
 			available: data.car.available,
+			startDay: data.car.startDay,
+			endDay: data.car.endDay,
 			quantity,
 		},
 	});

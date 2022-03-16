@@ -3,20 +3,20 @@ const mongoose = require('mongoose');
 const bookingSchema = new mongoose.Schema(
 	{
 		deliverCarInfo: {
-			address: {
-				type: String,
-				required: true,
-			},
-			city: {
-				type: String,
-				required: true,
-			},
 			pinCode: {
 				type: Number,
 				required: true,
 			},
 			phoneNo: {
 				type: Number,
+				required: true,
+			},
+			address: {
+				type: String,
+				required: true,
+			},
+			city: {
+				type: String,
 				required: true,
 			},
 		},
@@ -50,9 +50,17 @@ const bookingSchema = new mongoose.Schema(
 			ref: 'User',
 			required: true,
 		},
-		bookedTimeSlots: {
-			from: { type: String, required: true },
-			to: { type: String, required: true },
+		// bookedTimeSlots: {
+		// 	from: { type: String, required: true },
+		// 	to: { type: String, required: true },
+		// },
+		startDay: {
+			type: String,
+			required: true,
+		},
+		endDay: {
+			type: String,
+			required: true,
 		},
 		paymentInfo: {
 			id: {
