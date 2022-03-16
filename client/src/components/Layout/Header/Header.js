@@ -127,7 +127,7 @@ const Header = () => {
 													<Menu.Item>
 														{({ active }) => (
 															<Link
-																to=""
+																to="/favoriteCart"
 																className={classNames(
 																	active ? 'bg-gray-100' : '',
 																	'block px-4 py-2 text-sm text-gray-700'
@@ -170,7 +170,6 @@ const Header = () => {
 									</>
 								) : (
 									<>
-										{' '}
 										<Link
 											to="/register"
 											className="bg-gray-800 p-1 text-gray-400 hover:text-white mr-4"
@@ -179,7 +178,7 @@ const Header = () => {
 										</Link>
 										<Link
 											to="/login"
-											className="bg-gray-800 p-1 text-gray-400 hover:text-white"
+											className="bg-gray-800 p-1 text-gray-400 hover:text-white mr-4"
 										>
 											Login
 										</Link>
