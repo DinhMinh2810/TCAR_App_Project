@@ -1,29 +1,32 @@
 import axios from 'axios';
 
 // Add car to favorite Cart
-export const addCarsToCart = (id, quantity) => async (dispatch, getState) => {
-	const { data } = await axios.get(`/api/cars/getDetailCar/${id}`);
+export const addCarsToCart =
+	(id, quantity, StartDay, EndDay) => async (dispatch, getState) => {
+		const { data } = await axios.get(`/api/cars/getDetailCar/${id}`);
 
-	dispatch({
-		type: 'ADD_TO_CART',
-		payload: {
-			car: data.car._id,
-			name: data.car.name,
-			rentPerDay: data.car.rentPerDay,
-			image: data.car.images[0].url,
-			seatsCategory: data.car.seatsCategory,
-			available: data.car.available,
-			startDay: data.car.startDay,
-			endDay: data.car.endDay,
-			quantity,
-		},
-	});
+		dispatch({
+			type: 'ADD_TO_CART',
+			payload: {
+				car: data.car._id,
+				name: data.car.name,
+				rentPerDay: data.car.rentPerDay,
+				image: data.car.images[0].url,
+				seatsCategory: data.car.seatsCategory,
+				available: data.car.available,
+				startDay: data.car.startDay,
+				endDay: data.car.endDay,
+				quantity,
+				StartDay,
+				EndDay,
+			},
+		});
 
-	localStorage.setItem(
-		'favoriteCartItems',
-		JSON.stringify(getState().favoriteCart.favoriteCartItems)
-	);
-};
+		localStorage.setItem(
+			'favoriteCartItems',
+			JSON.stringify(getState().favoriteCart.favoriteCartItems)
+		);
+	};
 
 // REMOVE FROM CART
 export const removeCarsFromCart = (id) => async (dispatch, getState) => {

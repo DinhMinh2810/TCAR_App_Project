@@ -90,7 +90,7 @@ const Header = () => {
 											<span className="sr-only">View notifications</span>
 											<BellIcon className="h-6 w-6" aria-hidden="true" />
 										</button>
-										<Menu as="div" className="ml-3 relative">
+										<Menu as="div" className="mx-3 relative">
 											<div>
 												<Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
 													<span className="sr-only">Open user menu</span>

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCarDetails } from '../../redux/actions/carAction';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { addCarsToCart } from '../../redux/actions/favoriteCartActions';
 import Loader from '../Layout/Loader/Loader';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatReclineNormal';
 import { Rating } from '@mui/material';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import moment from 'moment';
 import Carousel from 'react-material-ui-carousel';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -16,46 +15,83 @@ import TitleBarPage from '../Layout/TitleBarPage';
 
 const CarDetail = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { id } = useParams();
+	const { isLoggedIn } = useSelector((state) => state.auth);
 	const { loading, car } = useSelector((state) => state.carProductDetails);
-	const [quantity, setQuantity] = useState(1);
+	const [quantity, setQuantity] = useState(0);
 	const [menu, setMenu] = useState(true);
-	const [menu1, setMenu1] = useState(false);
+	const [StartDay, setStartDay] = useState(car?.startDay);
+	const [EndDay, setEndDay] = useState(car?.endDay);
 
 	const options = {
-		value: car.ratings,
+		value: car?.ratings,
 		readOnly: true,
 		precision: 0.5,
 	};
 
 	useEffect(() => {
 		dispatch(getCarDetails(id));
-	}, [dispatch, id]);
+		getDays(StartDay, EndDay);
+	}, [dispatch, id, StartDay, EndDay]);
 
-	const increaseQuantity = () => {
-		// if (car.available <= quantity) {
-		// 	console.log('So luong xe co san it hon so luong dat ');
-		// } else {
-		// 	const increase = quantity + 1;
-		// 	setQuantity(increase);
-		// }
-		const increase = quantity + 1;
-		setQuantity(increase);
-	};
-
-	const decreaseQuantity = () => {
-		if (quantity <= 1) {
-			toast.error('Cannot choose negative number of rental days !!');
+	const addToCartHandler = () => {
+		if (isLoggedIn) {
+			dispatch(addCarsToCart(id, quantity, StartDay, EndDay));
+			toast.success('Car added to your favorite cart !!');
+			navigate('/favoriteCart');
 		} else {
-			const decrease = quantity - 1;
-			setQuantity(decrease);
+			toast.error('Please login to add car to your favorite cart !!');
 		}
 	};
 
-	const addToCartHandler = () => {
-		dispatch(addCarsToCart(id, quantity));
-		toast.success('Car added to your favorite cart !!');
+	const disablePastDate = () => {
+		const today = new Date().toISOString().slice(0, 16);
+		return today;
 	};
+
+	const checkDates = (valueTo, startDay, endDay) => {
+		const VALUETO = new Date(valueTo);
+		const STARTDAY = new Date(startDay);
+		const ENDDAY = new Date(endDay);
+		const startDayFormal = moment(STARTDAY).format('MMMM Do YYYY, h:mm:ss a');
+		const endDayFormal = moment(ENDDAY).format('MMMM Do YYYY, h:mm:ss a');
+		if (VALUETO <= STARTDAY) {
+			toast.error(
+				`Only booked from date  ${startDayFormal} to ${endDayFormal} !!`
+			);
+		}
+		if (VALUETO >= ENDDAY) {
+			toast.error(
+				`Only booked from date  ${startDayFormal} to ${endDayFormal} !!`
+			);
+		} else {
+			setStartDay(valueTo);
+		}
+	};
+	const checkEndDates = (valueTo, startDay) => {
+		const VALUETO = new Date(valueTo);
+		const STARTDAY = new Date(startDay);
+
+		if (VALUETO <= STARTDAY) {
+			toast.error(`Must rent car at least 1 day !!`);
+		} else {
+			setEndDay(valueTo);
+		}
+	};
+
+	function getDays(start, last) {
+		const date1 = new Date(start);
+		const date2 = new Date(last);
+
+		const oneDay = 24 * 60 * 60 * 1000;
+
+		const diffTime = date2.getTime() - date1.getTime();
+
+		const diffDays = Math.round(diffTime / oneDay);
+
+		return setQuantity(diffDays);
+	}
 
 	return (
 		<>
@@ -173,8 +209,34 @@ const CarDetail = () => {
 							</p>
 							<div className="flex items-center justify-center">
 								<p className="text-sm leading-none text-gray-600">
-									{moment(car?.startDay).format('LLL')} &#8594;{' '}
+									{moment(car?.startDay).format('LLL')}
+									<span className="font-extrabold"> &#8594; </span>
 									{moment(car?.endDay).format('LLL')}
+								</p>
+							</div>
+						</div>
+						<div className="py-4 border-b border-gray-200 flex items-center justify-between">
+							<p className="text-base leading-4 text-gray-800">
+								Choose date rental
+							</p>
+							<div className="flex items-center justify-center">
+								<p>
+									<input
+										type="datetime-local"
+										value={StartDay || ''}
+										min={disablePastDate()}
+										onChange={(e) =>
+											checkDates(e.target.value, car?.startDay, car?.endDay)
+										}
+										className="p-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-sm border-gray-300 rounded-md"
+									/>
+									<input
+										type="datetime-local"
+										value={EndDay || ''}
+										min={disablePastDate()}
+										onChange={(e) => checkEndDates(e.target.value, StartDay)}
+										className="mt-2 p-2 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+									/>
 								</p>
 							</div>
 						</div>
@@ -184,11 +246,11 @@ const CarDetail = () => {
 								Number rental days
 							</p>
 							<div className="flex items-center justify-between">
-								<p className="text-sm leading-none text-gray-600">
-									<button onClick={decreaseQuantity}>-</button>
-								</p>
-								<span className="px-4 text-base">{quantity}</span>
-								<button onClick={increaseQuantity}>+</button>
+								{isNaN(quantity) ? (
+									<span className="px-4 text-base">0 days</span>
+								) : (
+									<span className="px-4 text-base">{quantity} days</span>
+								)}
 							</div>
 						</div>
 

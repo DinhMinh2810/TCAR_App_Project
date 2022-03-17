@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema(
 	{
-		deliverCarInfo: {
-			pinCode: {
+		receiveCarInfo: {
+			CitizenIdentification: {
 				type: Number,
 				required: true,
 			},
@@ -11,11 +11,19 @@ const bookingSchema = new mongoose.Schema(
 				type: Number,
 				required: true,
 			},
+			timeReceived: {
+				type: String,
+				required: true,
+			},
 			address: {
 				type: String,
 				required: true,
 			},
 			city: {
+				type: String,
+				required: true,
+			},
+			note: {
 				type: String,
 				required: true,
 			},
@@ -50,10 +58,6 @@ const bookingSchema = new mongoose.Schema(
 			ref: 'User',
 			required: true,
 		},
-		// bookedTimeSlots: {
-		// 	from: { type: String, required: true },
-		// 	to: { type: String, required: true },
-		// },
 		startDay: {
 			type: String,
 			required: true,

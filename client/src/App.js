@@ -131,10 +131,17 @@ function App() {
 					}
 				/>
 
+				<Route
+					path="/receiveCarTo"
+					element={
+						<ProtectedRoute>
+							<ReceiveCarTo />
+						</ProtectedRoute>
+					}
+				/>
+
 				{/* here */}
 
-				<Route path="/favoriteCart" element={<FavoriteCart />} />
-				<Route path="/receiveCarTo" element={<ReceiveCarTo />} />
 				<Route path="/confirmBookCar" element={<ConfirmBookCar />} />
 				{/* {stripeApiKey && (
 					<Route

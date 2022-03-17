@@ -9,27 +9,15 @@ import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import { ToastContainer, toast } from 'react-toastify';
 import TitleBarPage from './../Layout/TitleBarPage';
 import { Link } from 'react-router-dom';
+import LocalCarWashIcon from '@mui/icons-material/LocalCarWash';
 
 const FavoriteCart = () => {
 	const dispatch = useDispatch();
 	const { favoriteCartItems } = useSelector((state) => state.favoriteCart);
 
-	const increaseQuantity = (id, quantity, available) => {
-		const newQuantity = quantity + 1;
-		dispatch(addCarsToCart(id, newQuantity));
-	};
-
-	const decreaseQuantity = (id, quantity) => {
-		const newQuantity = quantity - 1;
-		if (newQuantity <= 0) {
-			toast.error('Cannot choose negative number of rental days !!');
-		} else {
-			dispatch(addCarsToCart(id, newQuantity));
-		}
-	};
-
 	const removeCarsCart = (id) => {
 		dispatch(removeCarsFromCart(id));
+		toast.success('Remove car successfully !!');
 	};
 
 	return (
@@ -59,8 +47,15 @@ const FavoriteCart = () => {
 							<ToastContainer className="toastify text-xs" />
 							<div className="w-full bg-white px-10 py-10">
 								<div className="flex justify-between border-b pb-8">
-									<h1 className="font-semibold text-2xl">Car favorite cart</h1>
-									<h2 className="font-semibold text-2xl">3 Items</h2>
+									<h1 className="font-semibold text-2xl">
+										Car favorite cart 😍
+									</h1>
+									<Link
+										to="/receiveCarTo"
+										className="font-semibold text-gray-600 block text-xl flex items-center "
+									>
+										Book car <LocalCarWashIcon className="ml-1" />
+									</Link>
 								</div>
 								<div className="flex mt-10 mb-5">
 									<h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">
@@ -73,13 +68,13 @@ const FavoriteCart = () => {
 										Rent per day
 									</h3>
 									<h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
-										Start Day End Day
+										Start Day
+									</h3>
+									<h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
+										End Day
 									</h3>
 									<h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
 										Unit Total
-									</h3>
-									<h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
-										Total
 									</h3>
 								</div>
 
@@ -88,13 +83,16 @@ const FavoriteCart = () => {
 										<FavoriteItemCard
 											item={item}
 											removeCarsCart={removeCarsCart}
-											increaseQuantity={increaseQuantity}
-											decreaseQuantity={decreaseQuantity}
 										/>
 									))}
 								<div className="flex font-semibold text-xl mt-10 justify-center">
 									<p>
-										Total: 123 <PriceCheckIcon />
+										Total:
+										{` $ ${favoriteCartItems.reduce(
+											(all, item) => all + item.quantity * item.rentPerDay,
+											0
+										)}`}
+										<PriceCheckIcon />
 									</p>
 								</div>
 							</div>
