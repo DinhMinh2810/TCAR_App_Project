@@ -10,6 +10,7 @@ export const addCarsToCart =
 			payload: {
 				car: data.car._id,
 				name: data.car.name,
+				nameDriver: data.car.assigns.name,
 				rentPerDay: data.car.rentPerDay,
 				image: data.car.images[0].url,
 				seatsCategory: data.car.seatsCategory,

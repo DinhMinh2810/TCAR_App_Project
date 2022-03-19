@@ -23,10 +23,6 @@ const bookingSchema = new mongoose.Schema(
 				type: String,
 				required: true,
 			},
-			note: {
-				type: String,
-				required: true,
-			},
 		},
 		bookCars: [
 			{

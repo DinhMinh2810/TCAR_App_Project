@@ -10,7 +10,6 @@ import Login from './components/Auth/Login/Login';
 import ActiveMailRegister from './components/Auth/Register/ActiveMailRegister';
 import ForgotPassword from './components/Auth/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
-
 import Car from './components/CarProduct/Car';
 import CarDetail from './components/CarProduct/CarDetail';
 import Register from './components/Auth/Register/Register.js';
@@ -139,10 +138,17 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+				<Route
+					path="/confirmBookCar"
+					element={
+						<ProtectedRoute>
+							<ConfirmBookCar />
+						</ProtectedRoute>
+					}
+				/>
 
 				{/* here */}
 
-				<Route path="/confirmBookCar" element={<ConfirmBookCar />} />
 				{/* {stripeApiKey && (
 					<Route
 						path="/paymentWithStripe"

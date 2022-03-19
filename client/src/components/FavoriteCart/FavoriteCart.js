@@ -1,9 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-	addCarsToCart,
-	removeCarsFromCart,
-} from '../../redux/actions/favoriteCartActions';
+import { removeCarsFromCart } from '../../redux/actions/favoriteCartActions';
 import { FavoriteItemCard } from './FavouriteItemCard/FavoriteItemCard';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import { ToastContainer, toast } from 'react-toastify';
@@ -54,7 +51,7 @@ const FavoriteCart = () => {
 										to="/receiveCarTo"
 										className="font-semibold text-gray-600 block text-xl flex items-center "
 									>
-										Book car <LocalCarWashIcon className="ml-1" />
+										Book now <LocalCarWashIcon className="ml-1" />
 									</Link>
 								</div>
 								<div className="flex mt-10 mb-5">
@@ -81,6 +78,7 @@ const FavoriteCart = () => {
 								{favoriteCartItems &&
 									favoriteCartItems.map((item) => (
 										<FavoriteItemCard
+											key={item.car}
 											item={item}
 											removeCarsCart={removeCarsCart}
 										/>
