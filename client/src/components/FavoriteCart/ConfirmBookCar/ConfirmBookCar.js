@@ -16,39 +16,36 @@ const ConfirmBookCar = () => {
 		0
 	);
 
-	const shippingCharges = subtotal > 1000 ? 0 : 200;
+	const shuttleFee = subtotal * 0.2;
+	const deposits = (subtotal + shuttleFee) / 2;
+	const totalPrice = subtotal + shuttleFee;
 
-	const tax = subtotal * 0.18;
-
-	const totalPrice = subtotal + tax + shippingCharges;
-
-	const address = `${receivingCarTo.address}, ${receivingCarTo.pinCode}`;
+	const priceForDriver = totalPrice - deposits;
 
 	const paymentStripe = () => {
 		const data = {
 			subtotal,
-			shippingCharges,
-			tax,
+			shuttleFee,
+			deposits,
+			priceForDriver,
 			totalPrice,
 		};
-
 		sessionStorage.setItem('bookingInfo', JSON.stringify(data));
-
 		navigate('/paymentWithStripe');
 	};
 
-	const paymentPayPal = () => {
-		const data = {
-			subtotal,
-			shippingCharges,
-			tax,
-			totalPrice,
-		};
+	// const paymentPayPal = () => {
+	// 	const data = {
+	// 		subtotal,
+	// 		shippingCharges,
+	// 		tax,
+	// 		totalPrice,
+	// 	};
 
-		sessionStorage.setItem('bookingInfo', JSON.stringify(data));
+	// 	sessionStorage.setItem('bookingInfo', JSON.stringify(data));
 
-		navigate('/paymentWithPayPal');
-	};
+	// 	navigate('/paymentWithPayPal');
+	// };
 	return (
 		<>
 			<div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -137,25 +134,31 @@ const ConfirmBookCar = () => {
 										<p className="text-base leading-4 text-gray-800">
 											Subtotal
 										</p>
-										<p className="text-base leading-4 text-gray-600">$56.00</p>
+										<p className="text-base leading-4 text-gray-600">
+											$ {subtotal}
+										</p>
 									</div>
 									<div className="flex justify-between items-center w-full">
 										<p className="text-base leading-4 text-gray-800">
 											Shuttle fee
 										</p>
 										<p className="text-base leading-4 text-gray-600">
-											-$28.00 (50%)
+											$ {shuttleFee}
 										</p>
 									</div>
 									<div className="flex justify-between items-center w-full">
 										<p className="text-base leading-4 text-gray-800">Deposit</p>
-										<p className="text-base leading-4 text-gray-600">$8.00</p>
+										<p className="text-base leading-4 text-gray-600">
+											$ {deposits}
+										</p>
 									</div>
 									<div className="flex justify-between items-center w-full">
 										<p className="text-base leading-4 text-gray-800">
 											Payment for driver after received car
 										</p>
-										<p className="text-base leading-4 text-gray-600">$8.00</p>
+										<p className="text-base leading-4 text-gray-600">
+											$ {priceForDriver}
+										</p>
 									</div>
 								</div>
 								<div className="flex justify-between items-center w-full">
@@ -163,7 +166,7 @@ const ConfirmBookCar = () => {
 										Total
 									</p>
 									<p className="text-base font-semibold leading-4 text-gray-600">
-										$36.00
+										$ {totalPrice}
 									</p>
 								</div>
 							</div>
@@ -222,7 +225,7 @@ const ConfirmBookCar = () => {
 										<p className="text-base font-semibold leading-4 md:text-left text-gray-800">
 											Identifications &amp; Day Receive Car
 										</p>
-										<p className="w-48 lg:w-full xl:w-48 md:text-left text-sm leading-5 text-gray-600">
+										<p className="w-48 lg:w-full xl:w-48 text-center  md:text-left text-sm leading-5 text-gray-600">
 											{receivingCarTo?.citizenIdentifications}
 										</p>
 										<p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
@@ -240,7 +243,10 @@ const ConfirmBookCar = () => {
 									</div>
 								</div>
 								<div className="flex w-full justify-center items-center md:justify-start md:items-start">
-									<button className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800">
+									<button
+										onClick={paymentStripe}
+										className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800"
+									>
 										Payment booking with stripe
 									</button>
 								</div>
@@ -254,72 +260,6 @@ const ConfirmBookCar = () => {
 					</div>
 				</div>
 			</div>
-			{/* <div className="confirmOrderPage">
-				<div>
-					<div className="confirmshippingArea">
-						<h2>Shipping Info</h2>
-						<div className="confirmshippingAreaBox">
-							<div>
-								<p>Name:</p>
-								<span>{user.name}</span>
-							</div>
-							<div>
-								<p>Phone:</p>
-								<span>{receivingCarTo.phoneNo}</span>
-							</div>
-							<div>
-								<p>Address:</p>
-								<span>{address}</span>
-							</div>
-						</div>
-					</div>
-					<div className="confirmCartItems">
-						<h2>Your Cart Items:</h2>
-						<div className="confirmCartItemsContainer">
-							{favoriteCartItems &&
-								favoriteCartItems.map((item) => (
-									<div key={item.car}>
-										<Link to={`/product/${item.car}`}>{item.name}</Link>{' '}
-										<span>
-											{item.quantity} X ₹{item.rentPerDay} ={' '}
-											<b>₹{item.rentPerDay * item.quantity}</b>
-										</span>
-									</div>
-								))}
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<div className="orderSummary">
-						<h2>Order Summery</h2>
-						<div>
-							<div>
-								<p>Subtotal:</p>
-								<span>₹{subtotal}</span>
-							</div>
-							<div>
-								<p>Shipping Charges:</p>
-								<span>₹{shippingCharges}</span>
-							</div>
-							<div>
-								<p>GST:</p>
-								<span>₹{tax}</span>
-							</div>
-						</div>
-
-						<div className="orderSummaryTotal">
-							<p>
-								<b>Total:</b>
-							</p>
-							<span>₹{totalPrice}</span>
-						</div>
-
-						<button onClick={paymentStripe}>Payment with stripe</button>
-						<button onClick={paymentPayPal}>Payment with PayPal</button>
-					</div>
-				</div>
-			</div> */}
 		</>
 	);
 };

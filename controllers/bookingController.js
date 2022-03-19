@@ -54,27 +54,30 @@ exports.myBooking = catchAsyncErrShort(async (req, res) => {
 // Create new booking car
 exports.newBooking = catchAsyncErrShort(async (req, res) => {
 	const {
-		deliverCarInfo,
+		receivingCarTo,
 		bookCars,
-		bookedTimeSlots,
 		paymentInfo,
 		itemsPrice,
+		shuttleFee,
+		deposits,
+		priceForDriver,
 		totalPrice,
 	} = req.body;
 
 	const booking = await Booking.create({
-		deliverCarInfo,
-		bookCars,
-		bookedTimeSlots,
+		receivingCarTo,
 		paymentInfo,
 		itemsPrice,
+		shuttleFee,
+		deposits,
+		priceForDriver,
 		totalPrice,
 		paidAt: Date.now(),
 		userBooking: req.user._id,
 	});
 
 	res.status(201).json({
-		message: 'Booking created successfully !!',
+		message: 'Booking car created successfully !!',
 		booking,
 	});
 });

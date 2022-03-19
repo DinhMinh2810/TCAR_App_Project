@@ -21,6 +21,7 @@ import {
 	profileReducer,
 } from './adminReducer';
 import { allAccDriverReducer } from './staffReducer';
+import { newBookingReducer } from './bookingReducer';
 
 export default combineReducers({
 	auth: authReducer,
@@ -36,6 +37,7 @@ export default combineReducers({
 	allAccDriver: allAccDriverReducer,
 	assignCar: assignCarReducer,
 	favoriteCart: favoriteCartReducer,
+	newBooking:newBookingReducer,
 	// not
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,

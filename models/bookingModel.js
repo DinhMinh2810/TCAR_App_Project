@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema(
 	{
-		receiveCarInfo: {
-			CitizenIdentification: {
+		receivingCarTo: {
+			citizenIdentifications: {
 				type: Number,
 				required: true,
 			},
-			phoneNo: {
+			phoneNum: {
 				type: Number,
 				required: true,
 			},
-			timeReceived: {
+			day: {
 				type: String,
 				required: true,
 			},
@@ -19,7 +19,7 @@ const bookingSchema = new mongoose.Schema(
 				type: String,
 				required: true,
 			},
-			city: {
+			location: {
 				type: String,
 				required: true,
 			},
@@ -42,6 +42,14 @@ const bookingSchema = new mongoose.Schema(
 					type: String,
 					required: true,
 				},
+				startDay: {
+					type: String,
+					required: true,
+				},
+				endDay: {
+					type: String,
+					required: true,
+				},
 				car: {
 					type: mongoose.Schema.ObjectId,
 					ref: 'Car',
@@ -54,14 +62,7 @@ const bookingSchema = new mongoose.Schema(
 			ref: 'User',
 			required: true,
 		},
-		startDay: {
-			type: String,
-			required: true,
-		},
-		endDay: {
-			type: String,
-			required: true,
-		},
+
 		paymentInfo: {
 			id: {
 				type: String,
@@ -77,6 +78,21 @@ const bookingSchema = new mongoose.Schema(
 			required: true,
 		},
 		itemsPrice: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
+		shuttleFee: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
+		priceForDriver: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
+		deposits: {
 			type: Number,
 			required: true,
 			default: 0,

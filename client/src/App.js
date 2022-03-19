@@ -44,20 +44,21 @@ import AssignCar from './components/Staff/AssignCar/AssignCar';
 import AssignCarToDriver from './components/Staff/AssignCar/AssignCarToDriver';
 import Home from './components/Home/Home';
 import CarRefreshSearch from './components/CarProduct/CarRefreshSearch';
+import PaymentSuccess from './components/FavoriteCart/Payment/PaymentSuccess';
 
 function App() {
 	const dispatch = useDispatch();
 	const { user, isLoggedIn } = useSelector((state) => state.auth);
 	const [stripeApiKey, setStripeApiKey] = useState('');
 
-	// const getApiKeyStripe = async () => {
-	// 	const res = await axios.get('/api/booking/sendApiKeyStripe');
-	// 	setStripeApiKey(res.data.stripeApiKey);
-	// };
+	const getApiKeyStripe = async () => {
+		const res = await axios.get('/api/booking/sendApiKeyStripe');
+		setStripeApiKey(res.data.stripeApiKey);
+	};
 
 	useEffect(() => {
 		dispatch(loadUser());
-		// getApiKeyStripe();
+		getApiKeyStripe();
 	}, [dispatch]);
 
 	return (
@@ -91,20 +92,16 @@ function App() {
 					element={<ConfirmOTP />}
 				/>
 				<Route path="/resetPassword/:token" element={<ResetPassword />} />
-
 				<Route
 					path="/carProduct/:keyword/:startDay/:endDay"
 					element={<Car />}
 				/>
 				<Route path="/carProduct/:id" element={<CarDetail />} />
-
 				<Route path="/favoriteCart" element={<FavoriteCart />} />
-
 				<Route
 					path="/carProduct/refreshSearch"
 					element={<CarRefreshSearch />}
 				/>
-
 				<Route
 					path="/myProfile"
 					element={
@@ -129,7 +126,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					path="/receiveCarTo"
 					element={
@@ -146,10 +142,7 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
-				{/* here */}
-
-				{/* {stripeApiKey && (
+				{stripeApiKey && (
 					<Route
 						path="/paymentWithStripe"
 						element={
@@ -158,8 +151,26 @@ function App() {
 							</Elements>
 						}
 					/>
-				)} */}
-				{/* <Route path="/paymentWithPayPal" element={<PaymentPayPal />} /> */}
+				)}
+
+				<Route
+					path="/paymentWithPayPal"
+					element={
+						<Elements>
+							<PaymentPayPal />
+						</Elements>
+					}
+				/>
+
+				<Route
+					path="/paymentSuccess"
+					element={
+						<ProtectedRoute>
+							<PaymentSuccess />
+						</ProtectedRoute>
+					}
+				/>
+
 				{/* Admin  */}
 				<Route
 					exact
@@ -270,7 +281,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				{/* Driver  */}
 				{/* <Route path="/barChart" element={<BarChart />} /> */}
 				<Route
