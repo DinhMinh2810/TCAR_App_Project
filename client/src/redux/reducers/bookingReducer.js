@@ -9,7 +9,7 @@ export const newBookingReducer = (state = {}, action) => {
 		case 'CREATE_BOOKING_SUCCESS':
 			return {
 				loading: false,
-				order: action.payload,
+				book: action.payload,
 			};
 
 		case 'CREATE_BOOKING_FAIL':
@@ -42,6 +42,35 @@ export const myBookingReducer = (state = { books: [] }, action) => {
 			};
 
 		case 'MY_BOOKS_FAIL':
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+
+		default:
+			return state;
+	}
+};
+
+export const bookingDetailsReducer = (state = { book: {} }, action) => {
+	switch (action.type) {
+		case 'BOOKING_DETAILS_REQUEST':
+			return {
+				loading: true,
+			};
+
+		case 'BOOKING_DETAILS_SUCCESS':
+			return {
+				loading: false,
+				book: action.payload,
+			};
+
+		case 'BOOKING_DETAILS_FAIL':
 			return {
 				loading: false,
 				error: action.payload,

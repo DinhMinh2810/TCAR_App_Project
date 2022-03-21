@@ -30,6 +30,14 @@ const bookingSchema = new mongoose.Schema(
 					type: String,
 					required: true,
 				},
+				nameDriver: {
+					type: String,
+					required: true,
+				},
+				seatsCategory: {
+					type: Number,
+					required: true,
+				},
 				rentPerDay: {
 					type: Number,
 					required: true,
@@ -62,7 +70,6 @@ const bookingSchema = new mongoose.Schema(
 			ref: 'User',
 			required: true,
 		},
-
 		paymentInfo: {
 			id: {
 				type: String,

@@ -46,6 +46,7 @@ import Home from './components/Home/Home';
 import CarRefreshSearch from './components/CarProduct/CarRefreshSearch';
 import PaymentSuccess from './components/FavoriteCart/Payment/PaymentSuccess';
 import MyBooking from './components/Booking/MyBooking';
+import BookingDetail from './components/Booking/BookingDetail';
 
 function App() {
 	const dispatch = useDispatch();
@@ -174,6 +175,15 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<MyBooking />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					path="/bookingDetail/:id"
+					element={
+						<ProtectedRoute>
+							<BookingDetail />
 						</ProtectedRoute>
 					}
 				/>

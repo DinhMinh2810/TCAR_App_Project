@@ -37,6 +37,22 @@ export const myBooking = () => async (dispatch) => {
 	}
 };
 
+// Get booking details
+export const getBookingDetails = (id) => async (dispatch) => {
+	try {
+		dispatch({ type: 'BOOKING_DETAILS_REQUEST' });
+
+		const { data } = await axios.get(`/api/booking/bookingDetail/${id}`);
+
+		dispatch({ type: 'BOOKING_DETAILS_SUCCESS', payload: data.booking });
+	} catch (error) {
+		dispatch({
+			type: 'BOOKING_DETAILS_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });

@@ -21,7 +21,11 @@ import {
 	profileReducer,
 } from './adminReducer';
 import { allAccDriverReducer } from './staffReducer';
-import { newBookingReducer, myBookingReducer } from './bookingReducer';
+import {
+	newBookingReducer,
+	myBookingReducer,
+	bookingDetailsReducer,
+} from './bookingReducer';
 
 export default combineReducers({
 	auth: authReducer,
@@ -39,6 +43,7 @@ export default combineReducers({
 	favoriteCart: favoriteCartReducer,
 	newBooking: newBookingReducer,
 	myBooking: myBookingReducer,
+	bookingDetails: bookingDetailsReducer,
 	// not
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,

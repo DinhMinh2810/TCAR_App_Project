@@ -14,9 +14,7 @@ const {
 } = require('../controllers/bookingController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
-router
-	.route('/bookingUser/:id')
-	.get(isAuthenticatedUser, authorWithRole('Admin'), getSingleBooking);
+router.route('/bookingDetail/:id').get(isAuthenticatedUser, getSingleBooking);
 
 router.route('/myBooking').get(isAuthenticatedUser, myBooking);
 

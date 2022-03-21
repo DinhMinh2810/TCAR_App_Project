@@ -4,7 +4,7 @@ const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const braintree = require('braintree');
 
-// get Single booking -- Admin
+// get Single booking
 exports.getSingleBooking = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.findById(req.params.id).populate(
 		'userBooking',
@@ -41,7 +41,7 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
-// Logged in and user check my booking
+// Logged in and user check my all booking
 exports.myBooking = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.find({ userBooking: req.user._id });
 

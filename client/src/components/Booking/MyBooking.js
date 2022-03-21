@@ -6,7 +6,6 @@ import moment from 'moment';
 import Loader from '../Layout/Loader/Loader';
 import TitleBarPage from './../Layout/TitleBarPage';
 import { useNavigate } from 'react-router-dom';
-import PreviewIcon from '@mui/icons-material/Preview';
 
 const MyBooking = () => {
 	const dispatch = useDispatch();
@@ -33,7 +32,7 @@ const MyBooking = () => {
 					<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 						<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 							<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-								<h2 className="text-center pb-3">My booking car 🚖🚘</h2>
+								<h2 className="text-center pb-3">All my booking car 🚘🚘</h2>
 
 								<table className="min-w-full divide-y divide-gray-200">
 									<thead className="bg-gray-50">
@@ -42,7 +41,7 @@ const MyBooking = () => {
 												scope="col"
 												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 											>
-												Name car
+												Booking
 											</th>
 											<th
 												scope="col"
@@ -139,7 +138,9 @@ const MyBooking = () => {
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
 													<button
 														className="border-1 p-2 rounded bg-cyan-300 mr-2"
-														onClick={() => navigate('/')}
+														onClick={() =>
+															navigate(`/bookingDetail/${book?._id}`)
+														}
 													>
 														👀
 													</button>
