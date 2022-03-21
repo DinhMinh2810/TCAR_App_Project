@@ -21,6 +21,22 @@ export const createBooking = (book) => async (dispatch) => {
 	}
 };
 
+// My Booking
+export const myBooking = () => async (dispatch) => {
+	try {
+		dispatch({ type: 'MY_BOOKS_REQUEST' });
+
+		const { data } = await axios.get('/api/booking/myBooking');
+
+		dispatch({ type: 'MY_BOOKS_SUCCESS', payload: data.booking });
+	} catch (error) {
+		dispatch({
+			type: 'MY_BOOKS_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });

@@ -14,8 +14,8 @@ import Car from './components/CarProduct/Car';
 import CarDetail from './components/CarProduct/CarDetail';
 import Register from './components/Auth/Register/Register.js';
 import FavoriteCart from './components/FavoriteCart/FavoriteCart';
-import ReceiveCarTo from './components/FavoriteCart/ReceiveCarTo/ReceiveCarTo';
-import ConfirmBookCar from './components/FavoriteCart/ConfirmBookCar/ConfirmBookCar';
+import ReceiveCarTo from './components/FavoriteCart/ReceiveCarTo';
+import ConfirmBookCar from './components/FavoriteCart/ConfirmBookCar';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
@@ -45,6 +45,7 @@ import AssignCarToDriver from './components/Staff/AssignCar/AssignCarToDriver';
 import Home from './components/Home/Home';
 import CarRefreshSearch from './components/CarProduct/CarRefreshSearch';
 import PaymentSuccess from './components/FavoriteCart/Payment/PaymentSuccess';
+import MyBooking from './components/Booking/MyBooking';
 
 function App() {
 	const dispatch = useDispatch();
@@ -152,7 +153,6 @@ function App() {
 						}
 					/>
 				)}
-
 				<Route
 					path="/paymentWithPayPal"
 					element={
@@ -161,12 +161,19 @@ function App() {
 						</Elements>
 					}
 				/>
-
 				<Route
 					path="/paymentSuccess"
 					element={
 						<ProtectedRoute>
 							<PaymentSuccess />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/myBooking"
+					element={
+						<ProtectedRoute>
+							<MyBooking />
 						</ProtectedRoute>
 					}
 				/>

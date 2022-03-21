@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Country, State } from 'country-state-city';
-import { receiveCarTo } from '../../../redux/actions/favoriteCartActions';
+import { receiveCarTo } from '../../redux/actions/favoriteCartActions';
 import { useNavigate } from 'react-router-dom';
-import TitleBarPage from '../../Layout/TitleBarPage';
+import TitleBarPage from '../Layout/TitleBarPage';
 
 const ReceiveCarTo = () => {
 	const dispatch = useDispatch();

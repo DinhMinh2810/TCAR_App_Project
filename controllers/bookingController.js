@@ -43,7 +43,7 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 
 // Logged in and user check my booking
 exports.myBooking = catchAsyncErrShort(async (req, res) => {
-	const booking = await Booking.find({ user: req.user._id });
+	const booking = await Booking.find({ userBooking: req.user._id });
 
 	res.status(200).json({
 		success: true,
@@ -66,6 +66,7 @@ exports.newBooking = catchAsyncErrShort(async (req, res) => {
 
 	const booking = await Booking.create({
 		receivingCarTo,
+		bookCars,
 		paymentInfo,
 		itemsPrice,
 		shuttleFee,

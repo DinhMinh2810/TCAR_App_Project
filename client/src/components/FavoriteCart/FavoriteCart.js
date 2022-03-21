@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeCarsFromCart } from '../../redux/actions/favoriteCartActions';
-import { FavoriteItemCard } from './FavouriteItemCard/FavoriteItemCard';
+import { FavoriteItemCard } from './FavoriteItemCard';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import { ToastContainer, toast } from 'react-toastify';
 import TitleBarPage from './../Layout/TitleBarPage';
