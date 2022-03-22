@@ -10,6 +10,7 @@ import {
 	newCarReducer,
 	updateOrDeleteCarReducer,
 	assignCarReducer,
+	createReviewReducer,
 } from './carReducer';
 import { chatBotReducer } from './chatbotReducer';
 import { favoriteCartReducer } from './favoriteCartReducer';
@@ -44,6 +45,7 @@ export default combineReducers({
 	newBooking: newBookingReducer,
 	myBooking: myBookingReducer,
 	bookingDetails: bookingDetailsReducer,
+	createReview: createReviewReducer,
 	// not
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,

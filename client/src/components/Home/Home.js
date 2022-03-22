@@ -16,14 +16,20 @@ import Search from './Search';
 const Home = () => {
 	const dispatch = useDispatch();
 	const { cars, error } = useSelector((state) => state.carsProduct);
+	const { success } = useSelector((state) => state.createReview);
 
 	useEffect(() => {
 		if (error) {
 			toast.error(error);
 			dispatch(clearErrors());
 		}
+
+		if (success) {
+			toast.success(`Review successfully and see you later 💙💙`);
+		}
+
 		dispatch(getCarsHomePage());
-	}, [dispatch, error]);
+	}, [dispatch, error, success]);
 
 	return (
 		<>

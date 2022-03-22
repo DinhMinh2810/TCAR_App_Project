@@ -254,6 +254,33 @@ export const removeAssignCar = (id) => async (dispatch) => {
 	}
 };
 
+// create review car
+export const createReview = (formReview) => async (dispatch) => {
+	try {
+		dispatch({ type: 'CREATE_REVIEW_REQUEST' });
+
+		const config = {
+			headers: { 'Content-Type': 'application/json' },
+		};
+
+		const { data } = await axios.put(
+			`/api/cars/reviewCreate`,
+			formReview,
+			config
+		);
+
+		dispatch({
+			type: 'CREATE_REVIEW_SUCCESS',
+			payload: data.success,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'CREATE_REVIEW_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });

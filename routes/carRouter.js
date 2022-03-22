@@ -43,9 +43,9 @@ router
 	.route('/delete/:id')
 	.delete(isAuthenticatedUser, authorWithRole('Admin'), deleteCar);
 
-router.route('/reviewCreate').post(isAuthenticatedUser, createCarReview);
+router.route('/reviewCreate').put(isAuthenticatedUser, createCarReview);
 
-router.route('/review').post(isAuthenticatedUser, getCarReviews);
+router.route('/review').get(isAuthenticatedUser, getCarReviews);
 
 router.route('/review/delete').delete(isAuthenticatedUser, deleteReview);
 
