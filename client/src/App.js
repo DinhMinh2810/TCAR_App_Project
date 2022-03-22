@@ -28,7 +28,6 @@ import NotFound from './components/Layout/NotFound/NotFound';
 import DirectRoleHome from './components/Route/DirectRoleHome';
 import ConfirmOTP from './components/Auth/ForgotPassword/ConfirmOTP';
 import DashBoard from './components/Admin/DashBoard/DashBoard';
-import HeaderBarAdmin from './components/Admin/HeaderBarAdmin/HeaderBarAdmin';
 import AllAccStaff from './components/Admin/ManagerAccStaff/AllAccStaff/AllAccStaff';
 import AllAccUser from './components/Admin/AllAccUser/AllAccUser';
 import EditRole from './components/Admin/AllAccUser/EditRole';
@@ -73,6 +72,7 @@ function App() {
 			{user?.role === 'Admin' || user?.role === 'Staff' ? null : null}
 
 			<Routes>
+				<Route path="*" element={<NotFound />} />
 				<Route
 					path="/"
 					element={
@@ -309,7 +309,6 @@ function App() {
 					}
 				/>
 				<Route path="/chatbot" element={<ChatBot />} />
-				<Route path="/notFound" element={<NotFound />} />
 			</Routes>
 
 			{user?.role === 'User' ||
