@@ -12,6 +12,9 @@ module.exports = {
 			minHeight: {
 				eightVH: '80vh',
 			},
+			borderRadius: {
+				'50%': '50%',
+			},
 		},
 	},
 };

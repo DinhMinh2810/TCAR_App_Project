@@ -146,7 +146,8 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 
 	if (isAssigned) {
 		res.status(400).json({
-			message: 'This car has already been assigned to another driver already !!',
+			message:
+				'This car has already been assigned to another driver already !!',
 		});
 	} else {
 		await User.findOneAndUpdate({ _id: userId }, { isAssign: true });
@@ -187,6 +188,7 @@ exports.createCarReview = catchAsyncErrShort(async (req, res) => {
 	const review = {
 		user: req.user._id,
 		name: req.user.name,
+		avatar: req.user.avatar.url,
 		rating: Number(rating),
 		driver,
 		comment,
