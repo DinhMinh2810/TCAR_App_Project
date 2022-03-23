@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCarDetails } from '../../redux/actions/carAction';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { addCarsToCart } from '../../redux/actions/favoriteCartActions';
 import Loader from '../Layout/Loader/Loader';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -13,6 +13,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ToastContainer, toast } from 'react-toastify';
 import TitleBarPage from '../Layout/TitleBarPage';
 import ReviewCar from './ReviewCar';
+import CarRentalIcon from '@mui/icons-material/CarRental';
 
 const CarDetail = () => {
 	const dispatch = useDispatch();
@@ -40,7 +41,6 @@ const CarDetail = () => {
 		if (isLoggedIn) {
 			dispatch(addCarsToCart(id, quantity, StartDay, EndDay));
 			toast.success('Car added to your favorite cart !!');
-			navigate('/favoriteCart');
 		} else {
 			toast.error('Please login to add car to your favorite cart !!');
 		}
@@ -94,13 +94,23 @@ const CarDetail = () => {
 		return setQuantity(diffDays);
 	}
 
+	const bookCarHandler = () => {
+		if (isLoggedIn) {
+			dispatch(addCarsToCart(id, quantity, StartDay, EndDay));
+			toast.success('Car added to your favorite cart !!');
+			navigate('/receiveCarTo');
+		} else {
+			toast.error('Please login to book car!!');
+		}
+	};
+
 	return (
 		<>
 			{loading ? (
 				<Loader />
 			) : (
 				<div className="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4 items-center">
-					<div className="xl:w-2/6 lg:w-2/5 w-80 md:block">
+					<div className="xl:w-2/6 lg:w-2/5 w-80 md:block ">
 						<Carousel>
 							{car?.images &&
 								car?.images.map((item, i) => (
@@ -126,7 +136,7 @@ const CarDetail = () => {
 						lg:leading-6
 						leading-7
 						text-gray-800
-						mt-2
+					
 					"
 							>
 								{car?.name}
@@ -218,7 +228,7 @@ const CarDetail = () => {
 						</div>
 						<div className="py-4 border-b border-gray-200 flex items-center justify-between">
 							<p className="text-base leading-4 text-gray-800">
-								Choose date rental
+								Choose day rental
 							</p>
 							<div className="flex items-center justify-center">
 								<p>
@@ -260,23 +270,28 @@ const CarDetail = () => {
 								Description: {car?.description}
 							</p>
 							<p className="text-base leading-4 mt-4 text-gray-600">
-								Rent per day: $ {car?.rentPerDay} / day
+								Rent per day: $ {car?.rentPerDay} / day, {car?.location} City
 							</p>
-							<p className="text-base leading-4 mt-7 text-gray-600">
-								Location: {car?.location} City
-							</p>
-
 							<p className="text-base leading-4 mt-4 text-gray-600 flex items-center">
 								Rating: <Rating {...options} />({car?.numOfReviews} Reviews)
 							</p>
 						</div>
-						<button
-							className="focus:outline-none mt-4 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-gray-800 w-full py-3 hover:bg-gray-700"
-							onClick={addToCartHandler}
-						>
-							<FavoriteIcon className="mr-3" />
-							<p>Add car to favorite cart</p>
-						</button>
+						<div className="flex justify-around">
+							<button
+								className="mt-4 px-4 rounded-md text-white bg-red-500 hover:bg-red-400 text-base flex items-center justify-center leading-none py-3"
+								onClick={addToCartHandler}
+							>
+								<FavoriteIcon className="mr-3" />
+								<p>Add car to favorite cart</p>
+							</button>
+							<button
+								onClick={bookCarHandler}
+								className="mt-4 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-900 text-base flex items-center justify-center leading-none py-3"
+							>
+								<CarRentalIcon className="mr-3" />
+								<p>Book car right now</p>
+							</button>
+						</div>
 					</div>
 				</div>
 			)}
@@ -287,7 +302,7 @@ const CarDetail = () => {
 						<div className="flex flex-col justify-start items-start w-full space-y-8 px-4">
 							<div className="flex justify-start items-start">
 								<p className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">
-									Reviews
+									Review car 🤗🤗
 								</p>
 							</div>
 
@@ -304,7 +319,16 @@ const CarDetail = () => {
 					</div>
 				</>
 			) : (
-				<p className="noReviews">No Reviews Yet</p>
+				<div className="lg:px-20 md:px-6 px-4 py-12">
+					<div className="flex flex-col items-center justify-center">
+						<h1 className="lg:text-4xl text-3xl font-bold text-center text-gray-800 dark:text-white ">
+							Not yet review 🤗🤗
+						</h1>
+						<p className="text-base leading-6 mt-4 text-center text-gray-600 dark:text-white  2xl:w-2/5 ">
+							Let's rent a car to experience the same tours and reviews
+						</p>
+					</div>
+				</div>
 			)}
 		</>
 	);

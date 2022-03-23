@@ -26,6 +26,8 @@ import {
 	newBookingReducer,
 	myBookingReducer,
 	bookingDetailsReducer,
+	allBookingReducer,
+	updateOrDeleteBookingReducer,
 } from './bookingReducer';
 
 export default combineReducers({
@@ -46,6 +48,8 @@ export default combineReducers({
 	myBooking: myBookingReducer,
 	bookingDetails: bookingDetailsReducer,
 	createReview: createReviewReducer,
+	allBooking: allBookingReducer,
+	updateOrDeleteBooking: updateOrDeleteBookingReducer,
 	// not
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,

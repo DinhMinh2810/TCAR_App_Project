@@ -17,6 +17,7 @@ export const addCarsToCart =
 				available: data.car.available,
 				startDay: data.car.startDay,
 				endDay: data.car.endDay,
+				location: data.car.location,
 				quantity,
 				StartDay,
 				EndDay,
@@ -42,7 +43,7 @@ export const removeCarsFromCart = (id) => async (dispatch, getState) => {
 	);
 };
 
-// SAVE SHIPPING INFO
+// save info received car
 export const receiveCarTo = (data) => async (dispatch) => {
 	dispatch({
 		type: 'RECEIVE_CAR_TO',

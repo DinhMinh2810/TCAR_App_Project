@@ -1,5 +1,6 @@
 const Booking = require('../models/bookingModel');
 const Car = require('../models/carModel');
+const User = require('../models/userModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const braintree = require('braintree');
@@ -24,7 +25,7 @@ exports.getSingleBooking = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
-// get all Booking -- Admin
+// get all Booking -- Admin, Staff
 exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.find();
 
@@ -43,8 +44,25 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 
 // Logged in and user check my all booking
 exports.myBooking = catchAsyncErrShort(async (req, res) => {
-	const booking = await Booking.find({ userBooking: req.user._id });
+	// const {} =
+	// const booking = await Booking.find({ userBooking: req.user.id });
+	// const booking = await Booking.find(
+	// 	{},
+	// 	{
+	// 		userBooking: { $in: req.user.id },
+	// 	}
+	// );
 
+	const booking = await Booking.find({
+		'userBooking.user': req.user.id,
+	});
+
+	// const booking = await Booking.find({ userBooking: { $in: req.user.id } });
+
+	// const found = booking.find((e) => e.userBooking);
+
+	// const bookingWith = await Booking.find({ userBooking: found });
+	// console.log(found);
 	res.status(200).json({
 		success: true,
 		booking,
@@ -74,7 +92,11 @@ exports.newBooking = catchAsyncErrShort(async (req, res) => {
 		priceForDriver,
 		totalPrice,
 		paidAt: Date.now(),
-		userBooking: req.user._id,
+		userBooking: {
+			user: req.user._id,
+			nameUser: req.user.name,
+			email: req.user.email,
+		},
 	});
 
 	res.status(201).json({
@@ -95,18 +117,7 @@ exports.updateBookingStatus = catchAsyncErrShort(async (req, res) => {
 	if (booking.bookingStatus === 'Done') {
 		res.status(404).json({
 			success: false,
-			message: 'You have already choose this booking !!',
-		});
-	}
-
-	if (req.body.status === 'beConfirm') {
-		booking.bookCars.forEach(async (book) => {
-			await updateAvailableCar(book.car, book.quantity);
-			res.status(404).json({
-				success: false,
-				message:
-					'Cannot update booking because car available <  car quantity book !!',
-			});
+			message: 'This booking has been completed successfully !!',
 		});
 	}
 
@@ -121,19 +132,6 @@ exports.updateBookingStatus = catchAsyncErrShort(async (req, res) => {
 		booking,
 	});
 });
-
-async function updateAvailableCar(id, quantity) {
-	const car = await Car.findById(id);
-
-	if (car.available < quantity) {
-		console.log(
-			'Cannot update booking because car available <  car quantity book!!'
-		);
-	} else {
-		car.available -= quantity;
-		await car.save({ validateBeforeSave: false });
-	}
-}
 
 // delete booking
 exports.deleteBooking = catchAsyncErrShort(async (req, res) => {

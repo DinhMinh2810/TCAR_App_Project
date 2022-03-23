@@ -58,6 +58,10 @@ const bookingSchema = new mongoose.Schema(
 					type: String,
 					required: true,
 				},
+				location: {
+					type: String,
+					required: true,
+				},
 				car: {
 					type: mongoose.Schema.ObjectId,
 					ref: 'Car',
@@ -65,10 +69,22 @@ const bookingSchema = new mongoose.Schema(
 				},
 			},
 		],
+		// userBooking: {
+		// 	type: mongoose.Schema.ObjectId,
+		// 	ref: 'User',
+		// 	required: true,
+		// },
 		userBooking: {
-			type: mongoose.Schema.ObjectId,
-			ref: 'User',
-			required: true,
+			user: {
+				type: mongoose.Schema.ObjectId,
+				ref: 'User',
+			},
+			nameUser: {
+				type: String,
+			},
+			email: {
+				type: String,
+			},
 		},
 		paymentInfo: {
 			id: {

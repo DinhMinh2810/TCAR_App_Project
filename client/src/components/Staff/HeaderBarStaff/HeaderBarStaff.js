@@ -40,6 +40,9 @@ const HeaderBarStaff = () => {
 			<Link to="/admin/manager/accStaff">
 				<p className="header_sideBar_text">Manager account driver</p>
 			</Link>
+			<Link to="/manager/allBooking">
+				<p className="header_sideBar_text">Manager booking</p>
+			</Link>
 			<Link to="/staff/assignCar">
 				<p className="header_sideBar_text">Assign car</p>
 			</Link>

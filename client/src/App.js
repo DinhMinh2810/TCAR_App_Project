@@ -46,6 +46,7 @@ import CarRefreshSearch from './components/CarProduct/CarRefreshSearch';
 import PaymentSuccess from './components/FavoriteCart/Payment/PaymentSuccess';
 import MyBooking from './components/Booking/MyBooking';
 import BookingDetail from './components/Booking/BookingDetail';
+import AllBooking from './components/Staff/ManagerBooking/AllBooking';
 
 function App() {
 	const dispatch = useDispatch();
@@ -286,6 +287,15 @@ function App() {
 					element={
 						<ProtectedRoute isStaff={true}>
 							<AssignCar />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					exact
+					path="/manager/allBooking"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<AllBooking />
 						</ProtectedRoute>
 					}
 				/>

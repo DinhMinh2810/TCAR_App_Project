@@ -20,15 +20,17 @@ router.route('/myBooking').get(isAuthenticatedUser, myBooking);
 
 router
 	.route('/getAllBooking')
-	.get(isAuthenticatedUser, authorWithRole('Admin'), getAllBooking);
+	.get(isAuthenticatedUser, authorWithRole('Admin', 'Staff'), getAllBooking);
 
 router.route('/create').post(isAuthenticatedUser, newBooking);
 
 router
 	.route('/updateBookingStatus/:id')
-	.put(isAuthenticatedUser, updateBookingStatus);
+	.put(isAuthenticatedUser, authorWithRole('Staff'), updateBookingStatus);
 
-router.route('/delete/:id').delete(isAuthenticatedUser, deleteBooking);
+router
+	.route('/delete/:id')
+	.delete(isAuthenticatedUser, authorWithRole('Staff'), deleteBooking);
 
 router.route('/sendApiKeyStripe').get(isAuthenticatedUser, sendApiKeyStripe);
 

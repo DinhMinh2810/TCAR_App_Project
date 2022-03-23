@@ -99,7 +99,6 @@ const PaymentStripe = () => {
 						status: result.paymentIntent.status,
 					};
 					dispatch(createBooking(book));
-					toast.success('Payment success !!');
 					navigate('/paymentSuccess');
 				} else {
 					toast.error('There is some issue while processing payment !!');

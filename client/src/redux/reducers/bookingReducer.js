@@ -85,3 +85,84 @@ export const bookingDetailsReducer = (state = { book: {} }, action) => {
 			return state;
 	}
 };
+
+export const allBookingReducer = (state = { books: [] }, action) => {
+	switch (action.type) {
+		case 'ALL_BOOKING_REQUEST':
+			return {
+				loading: true,
+			};
+
+		case 'ALL_BOOKING_SUCCESS':
+			return {
+				loading: false,
+				books: action.payload,
+			};
+
+		case 'ALL_BOOKING_FAIL':
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+
+		default:
+			return state;
+	}
+};
+
+export const updateOrDeleteBookingReducer = (state = {}, action) => {
+	switch (action.type) {
+		case 'UPDATE_STATUS_BOOKING_REQUEST':
+		case 'DELETE_BOOKING_REQUEST':
+			return {
+				...state,
+				loading: true,
+			};
+
+		case 'UPDATE_STATUS_BOOKING_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				isUpdated: action.payload,
+			};
+
+		case 'DELETE_BOOKING_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				isDeleted: action.payload,
+			};
+
+		case 'UPDATE_STATUS_BOOKING_FAIL':
+		case 'DELETE_BOOKING_FAIL':
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		case 'UPDATE_STATUS_BOOKING_RESET':
+			return {
+				...state,
+				isUpdated: false,
+			};
+
+		case 'DELETE_BOOKING_RESET':
+			return {
+				...state,
+				isDeleted: false,
+			};
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+
+		default:
+			return state;
+	}
+};

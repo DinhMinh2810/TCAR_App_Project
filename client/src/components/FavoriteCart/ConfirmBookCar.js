@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -8,10 +8,11 @@ const ConfirmBookCar = () => {
 	const { favoriteCartItems, receivingCarTo } = useSelector(
 		(state) => state.favoriteCart
 	);
+	const { car } = useSelector((state) => state.carProductDetails);
 	const { user } = useSelector((state) => state.auth);
-
+	const [quantity, setQuantity] = useState(0);
 	const subtotal = favoriteCartItems.reduce(
-		(acc, item) => acc + item.quantity * item.rentPerDay,
+		(acc, item) => acc + quantity * item.rentPerDay,
 		0
 	);
 
@@ -20,6 +21,23 @@ const ConfirmBookCar = () => {
 	const totalPrice = subtotal + shuttleFee;
 
 	const priceForDriver = totalPrice - deposits;
+
+	function getDays(start, last) {
+		const date1 = new Date(start);
+		const date2 = new Date(last);
+
+		const oneDay = 24 * 60 * 60 * 1000;
+
+		const diffTime = date2.getTime() - date1.getTime();
+
+		const diffDays = Math.round(diffTime / oneDay);
+
+		return setQuantity(diffDays);
+	}
+
+	React.useEffect(() => {
+		getDays(car.startDay, car.endDay);
+	}, [car.startDay, car.endDay]);
 
 	const paymentStripe = () => {
 		const data = {
@@ -62,7 +80,71 @@ const ConfirmBookCar = () => {
 							<p className="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">
 								Car book cart
 							</p>
-							{favoriteCartItems &&
+							{car && (
+								<>
+									<div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full ">
+										<div className="pb-4 md:pb-8 w-full md:w-40">
+											<img
+												className="w-full hidden md:block"
+												src="https://i.ibb.co/84qQR4p/Rectangle-10.png"
+												alt="dress"
+											/>
+											<img
+												className="w-full md:hidden"
+												src="https://i.ibb.co/L039qbN/Rectangle-10.png"
+												alt="dress"
+											/>
+										</div>
+										<div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full  pb-8 space-y-4 md:space-y-0">
+											<div className="w-full flex flex-col justify-start items-start space-y-8">
+												<h3 className="text-xl xl:text-2xl font-semibold leading-6 text-gray-800">
+													{car?.name}
+												</h3>
+												<div className="flex justify-start items-start flex-col space-y-2">
+													{/* {car &&
+														car.assigns.map((x) => (
+															<p className="text-sm leading-none text-gray-800">
+																<span className="text-gray-600">
+																	Name driver: {x.name}
+																</span>
+															</p>
+														))} */}
+													<p className="text-sm leading-none text-gray-800">
+														<span className="text-gray-600">
+															Name driver: {car?.assigns?.name}
+														</span>
+													</p>
+													<p className="text-sm leading-none text-gray-800">
+														<span className="text-gray-600">
+															{car?.seatsCategory} Seats category
+														</span>
+													</p>
+													<p className="text-sm leading-none text-gray-800">
+														<span className="text-gray-600">Start day: </span>
+														{moment(car?.startDay).format('LLL')}
+													</p>
+													<p className="text-sm leading-none text-gray-800">
+														<span className="text-gray-600">End day: </span>
+														{moment(car?.endDay).format('LLL')}
+													</p>
+												</div>
+											</div>
+											<div className="flex justify-between space-x-8 items-start w-full">
+												<p className="text-base xl:text-lg leading-6">
+													$ {car?.rentPerDay} / day
+												</p>
+												<p className="text-base xl:text-lg leading-6 text-gray-800 mt-0">
+													{quantity} days rental
+												</p>
+												<p className="text-base xl:text-lg font-semibold leading-6 text-gray-800 mt-0">
+													$ {car?.rentPerDay * quantity}
+												</p>
+											</div>
+										</div>
+									</div>
+								</>
+							)}
+							{/* {favoriteCartItems &&
 								favoriteCartItems.map((item) => (
 									<>
 										<div
@@ -121,7 +203,7 @@ const ConfirmBookCar = () => {
 											</div>
 										</div>
 									</>
-								))}
+								))} */}
 						</div>
 						<div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
 							<div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6   ">
