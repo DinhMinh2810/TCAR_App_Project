@@ -14,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import TitleBarPage from '../Layout/TitleBarPage';
 import ReviewCar from './ReviewCar';
 import CarRentalIcon from '@mui/icons-material/CarRental';
+import { bookingCar } from './../../redux/actions/favoriteCartActions';
 
 const CarDetail = () => {
 	const dispatch = useDispatch();
@@ -43,6 +44,14 @@ const CarDetail = () => {
 			toast.success('Car added to your favorite cart !!');
 		} else {
 			toast.error('Please login to add car to your favorite cart !!');
+		}
+	};
+
+	const bookCarHandler = () => {
+		if (isLoggedIn) {
+			dispatch(bookingCar({ id, quantity, StartDay, EndDay }));
+		} else {
+			toast.error('Please login to add car to book car !!');
 		}
 	};
 
@@ -93,16 +102,6 @@ const CarDetail = () => {
 
 		return setQuantity(diffDays);
 	}
-
-	const bookCarHandler = () => {
-		if (isLoggedIn) {
-			dispatch(addCarsToCart(id, quantity, StartDay, EndDay));
-			toast.success('Car added to your favorite cart !!');
-			navigate('/receiveCarTo');
-		} else {
-			toast.error('Please login to book car!!');
-		}
-	};
 
 	return (
 		<>

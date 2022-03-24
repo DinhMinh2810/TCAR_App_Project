@@ -21,7 +21,28 @@ export const favoriteCartReducer = (state = initialState, action) => {
 					favoriteCartItems: [...state.favoriteCartItems, item],
 				};
 			}
+
+		case 'ADD_BOOK_CAR':
+			const bookItem = action.payload;
+			const bookIsItemExist = state.bookingCarItems.find(
+				(i) => i.car === bookItem.car
+			);
+
+			if (bookIsItemExist) {
+				return {
+					...state,
+					bookingCarItems: state.bookingCarItems.map((i) =>
+						i.car === isItemExist.car ? bookItem : i
+					),
+				};
+			} else {
+				return {
+					...state,
+					bookingCarItems: [...state.bookingCarItems, bookItem],
+				};
+			}
 		case 'REMOVE_CAR_CART':
+		case 'REMOVE_BOOK_CAR_CART':
 			return {
 				...state,
 				favoriteCartItems: state.favoriteCartItems.filter(
@@ -34,6 +55,7 @@ export const favoriteCartReducer = (state = initialState, action) => {
 				...state,
 				receivingCarTo: action.payload,
 			};
+
 		default:
 			return state;
 	}
