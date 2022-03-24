@@ -19,26 +19,26 @@ import {
 
 const PaymentStripe = () => {
 	const bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
-
 	const stripe = useStripe();
 	const elements = useElements();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const payBtn = useRef(null);
 
-	const { receivingCarTo, favoriteCartItems } = useSelector(
+	const { receivingCarTo, bookingCar } = useSelector(
 		(state) => state.favoriteCart
 	);
 	const { user } = useSelector((state) => state.auth);
 	const { error } = useSelector((state) => state.newBooking);
 
 	const paymentData = {
-		amount: Math.round(bookingInfo.totalPrice),
+		amount: Math.round(bookingInfo.deposits),
 	};
 
 	const book = {
 		receivingCarTo,
-		bookCars: favoriteCartItems,
+		carId: bookingInfo.carId,
+		bookCars: bookingCar,
 		itemsPrice: bookingInfo.subtotal,
 		shuttleFee: bookingInfo.shuttleFee,
 		priceForDriver: bookingInfo.priceForDriver,
@@ -143,7 +143,7 @@ const PaymentStripe = () => {
 							<input
 								type="submit"
 								value={`Payment total - $ ${
-									bookingInfo && bookingInfo.totalPrice
+									bookingInfo && bookingInfo.deposits
 								}`}
 								ref={payBtn}
 								className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900"

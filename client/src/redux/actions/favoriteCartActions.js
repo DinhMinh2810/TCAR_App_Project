@@ -44,33 +44,14 @@ export const removeCarsFromCart = (id) => async (dispatch, getState) => {
 };
 
 // booking car
-export const bookingCar =
-	(id, quantity, StartDay, EndDay) => async (dispatch, getState) => {
-		const { data } = await axios.get(`/api/cars/getDetailCar/${id}`);
+export const bookingCar = (data) => async (dispatch, getState) => {
+	dispatch({
+		type: 'ADD_BOOK_CAR',
+		payload: data,
+	});
 
-		dispatch({
-			type: 'ADD_BOOK_CAR',
-			payload: {
-				car: data.car._id,
-				name: data.car.name,
-				nameDriver: data.car.assigns.name,
-				rentPerDay: data.car.rentPerDay,
-				image: data.car.images[0].url,
-				seatsCategory: data.car.seatsCategory,
-				available: data.car.available,
-				startDay: data.car.startDay,
-				endDay: data.car.endDay,
-				location: data.car.location,
-				quantity,
-				StartDay,
-				EndDay,
-			},
-		});
-		localStorage.setItem(
-			'bookingCarItems',
-			JSON.stringify(getState().favoriteCart.bookingCarItems)
-		);
-	};
+	localStorage.setItem('bookingCar', JSON.stringify(data));
+};
 
 // save info received car
 export const receiveCarTo = (data) => async (dispatch) => {

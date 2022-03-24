@@ -23,24 +23,11 @@ export const favoriteCartReducer = (state = initialState, action) => {
 			}
 
 		case 'ADD_BOOK_CAR':
-			const bookItem = action.payload;
-			const bookIsItemExist = state.bookingCarItems.find(
-				(i) => i.car === bookItem.car
-			);
+			return {
+				...state,
+				bookingCar: action.payload,
+			};
 
-			if (bookIsItemExist) {
-				return {
-					...state,
-					bookingCarItems: state.bookingCarItems.map((i) =>
-						i.car === isItemExist.car ? bookItem : i
-					),
-				};
-			} else {
-				return {
-					...state,
-					bookingCarItems: [...state.bookingCarItems, bookItem],
-				};
-			}
 		case 'REMOVE_CAR_CART':
 		case 'REMOVE_BOOK_CAR_CART':
 			return {

@@ -44,25 +44,10 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 
 // Logged in and user check my all booking
 exports.myBooking = catchAsyncErrShort(async (req, res) => {
-	// const {} =
-	// const booking = await Booking.find({ userBooking: req.user.id });
-	// const booking = await Booking.find(
-	// 	{},
-	// 	{
-	// 		userBooking: { $in: req.user.id },
-	// 	}
-	// );
-
 	const booking = await Booking.find({
 		'userBooking.user': req.user.id,
 	});
 
-	// const booking = await Booking.find({ userBooking: { $in: req.user.id } });
-
-	// const found = booking.find((e) => e.userBooking);
-
-	// const bookingWith = await Booking.find({ userBooking: found });
-	// console.log(found);
 	res.status(200).json({
 		success: true,
 		booking,
@@ -72,6 +57,7 @@ exports.myBooking = catchAsyncErrShort(async (req, res) => {
 // Create new booking car
 exports.newBooking = catchAsyncErrShort(async (req, res) => {
 	const {
+		carId,
 		receivingCarTo,
 		bookCars,
 		paymentInfo,
@@ -99,11 +85,19 @@ exports.newBooking = catchAsyncErrShort(async (req, res) => {
 		},
 	});
 
+	await updateAvailableCar(carId);
+
 	res.status(201).json({
 		message: 'Booking car created successfully !!',
 		booking,
 	});
 });
+
+async function updateAvailableCar(id) {
+	const car = await Car.findById(id);
+	car.available -= 1;
+	await car.save({ validateBeforeSave: false });
+}
 
 // Update booking status -- Admin
 exports.updateBookingStatus = catchAsyncErrShort(async (req, res) => {

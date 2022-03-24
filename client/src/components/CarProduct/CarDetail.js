@@ -40,7 +40,7 @@ const CarDetail = () => {
 
 	const addToCartHandler = () => {
 		if (isLoggedIn) {
-			dispatch(addCarsToCart(id, quantity, StartDay, EndDay));
+			dispatch(addCarsToCart(id, quantity, StartDay, EndDay, car?.endDay));
 			toast.success('Car added to your favorite cart !!');
 		} else {
 			toast.error('Please login to add car to your favorite cart !!');
@@ -49,7 +49,21 @@ const CarDetail = () => {
 
 	const bookCarHandler = () => {
 		if (isLoggedIn) {
-			dispatch(bookingCar({ id, quantity, StartDay, EndDay }));
+			dispatch(
+				bookingCar({
+					car: id,
+					quantity,
+					startDay: StartDay,
+					endDay: EndDay,
+					name: car.name,
+					seatsCategory: car.seatsCategory,
+					image: car.images[0].url,
+					rentPerDay: car.rentPerDay,
+					nameDriver: car.assigns.name,
+					location: car.location,
+				})
+			);
+			navigate('/receiveCarTo');
 		} else {
 			toast.error('Please login to add car to book car !!');
 		}
@@ -283,13 +297,24 @@ const CarDetail = () => {
 								<FavoriteIcon className="mr-3" />
 								<p>Add car to favorite cart</p>
 							</button>
-							<button
-								onClick={bookCarHandler}
-								className="mt-4 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-900 text-base flex items-center justify-center leading-none py-3"
-							>
-								<CarRentalIcon className="mr-3" />
-								<p>Book car right now</p>
-							</button>
+							{car?.available === 0 ? (
+								<button
+									onClick={() => {
+										navigate('/carProduct/refreshSearch');
+									}}
+									className="mt-4 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-900 text-base flex items-center justify-center leading-none py-3"
+								>
+									<p>Car busy, please choose another car 🤣</p>
+								</button>
+							) : (
+								<button
+									onClick={bookCarHandler}
+									className="mt-4 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-900 text-base flex items-center justify-center leading-none py-3"
+								>
+									<CarRentalIcon className="mr-3" />
+									<p>Book car right now</p>
+								</button>
+							)}
 						</div>
 					</div>
 				</div>
