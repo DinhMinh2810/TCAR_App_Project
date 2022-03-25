@@ -2,17 +2,31 @@ function ApiFeatures(query, queryString) {
 	this.query = query; // Products.find()
 	this.queryString = queryString; // req.query
 
-	this.search = () => {
-		const keyword = this.queryString.keyword
-			? {
-					name: {
-						$regex: this.queryString.keyword,
-						$options: 'i',
-					},
-			  }
-			: {};
+	// this.search = () => {
+	// 	const keyword = this.queryString.keyword
+	// 		? {
+	// 				name: {
+	// 					$regex: this.queryString.keyword,
+	// 					$options: 'i',
+	// 				},
+	// 		  }
+	// 		: {};
 
-		this.query = this.query.find({ ...keyword });
+	// 	this.query = this.query.find({ ...keyword });
+	// 	return this;
+	// };
+
+	this.search = () => {
+		const search = this.queryString.search;
+
+		if (search) {
+			this.query = this.query.find({
+				$text: { $search: search.trim('A') },
+			});
+		} else {
+			this.query = this.query.find();
+		}
+
 		return this;
 	};
 
@@ -51,5 +65,3 @@ function ApiFeatures(query, queryString) {
 }
 
 module.exports = ApiFeatures;
-
-

@@ -11,6 +11,8 @@ import {
 	updateOrDeleteCarReducer,
 	assignCarReducer,
 	createReviewReducer,
+	deleteReviewReducer,
+	carReviewsReducer,
 } from './carReducer';
 import { chatBotReducer } from './chatbotReducer';
 import { favoriteCartReducer } from './favoriteCartReducer';
@@ -50,6 +52,8 @@ export default combineReducers({
 	createReview: createReviewReducer,
 	allBooking: allBookingReducer,
 	updateOrDeleteBooking: updateOrDeleteBookingReducer,
+	carReviews: carReviewsReducer,
+	deleteReview: deleteReviewReducer,
 	// not
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,

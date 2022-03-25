@@ -15,17 +15,39 @@ exports.getAdAllCars = catchAsyncErrShort(async (req, res) => {
 
 // Get all Car with search, pagination -- All
 exports.getAllCars = catchAsyncErrShort(async (req, res) => {
-	const resultItemPage = 8;
-	const carsCount = await Car.countDocuments();
+	// const resultItemPage = 8;
+	// const carsCount = await Car.countDocuments();
+	// const apiFeature = new ApiFeatures(Car.find(), req.query)
+	// 	.search()
+	// 	.filter()
+	// 	.pagination(resultItemPage)
+	// 	.sort();
+
+	// const cars = await apiFeature.query;
+
+	const resultPerPage = 8;
+	const allCarsCount = await Car.countDocuments();
+
 	const apiFeature = new ApiFeatures(Car.find(), req.query)
 		.search()
 		.filter()
-		.pagination(resultItemPage)
 		.sort();
 
-	const cars = await apiFeature.query;
+	let cars = await apiFeature.query;
 
-	res.status(200).json({ carsCount, resultItemPage, cars });
+	let filteredCarsCount = cars.length;
+
+	apiFeature.pagination(resultPerPage);
+
+	res.status(200).json({
+		success: true,
+		allCarsCount,
+		resultPerPage,
+		filteredCarsCount,
+		cars,
+	});
+
+	// res.status(200).json({ carsCount, resultItemPage, cars });
 });
 
 // Get car detail

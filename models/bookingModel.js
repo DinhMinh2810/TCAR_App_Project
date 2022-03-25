@@ -128,7 +128,7 @@ const bookingSchema = new mongoose.Schema(
 		},
 		deliveredAt: Date,
 	},
-	{ timeStamps: true }
+	{ timestamps: true }
 );
 
 module.exports = mongoose.model('Booking', bookingSchema);

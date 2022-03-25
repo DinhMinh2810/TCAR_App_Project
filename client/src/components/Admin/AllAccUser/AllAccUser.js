@@ -10,6 +10,7 @@ import HeaderBarAdmin from '../HeaderBarAdmin/HeaderBarAdmin';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../Layout/Loader/Loader';
+import Pagination from 'react-js-pagination';
 
 const AllAccUser = () => {
 	const dispatch = useDispatch();
@@ -143,6 +144,20 @@ const AllAccUser = () => {
 											))}
 										</tbody>
 									</table>
+									<Pagination
+										activePage={1}
+										// itemsCountPerPage={resultItemPage}
+										totalItemsCount={10}
+										// onChange={setCurrentPageNo}
+										nextPageText="Next"
+										prevPageText="Prev"
+										firstPageText="1st"
+										lastPageText="Last"
+										itemClass="page-item"
+										linkClass="page-link"
+										activeClass="pageItemActive"
+										activeLinkClass="pageLinkActive"
+									/>
 								</div>
 							</div>
 						</div>

@@ -45,8 +45,12 @@ router
 
 router.route('/reviewCreate').put(isAuthenticatedUser, createCarReview);
 
-router.route('/review').get(isAuthenticatedUser, getCarReviews);
+router
+	.route('/review')
+	.get(isAuthenticatedUser, authorWithRole('Staff'), getCarReviews);
 
-router.route('/review/delete').delete(isAuthenticatedUser, deleteReview);
+router
+	.route('/review/delete')
+	.delete(isAuthenticatedUser, authorWithRole('Staff'), deleteReview);
 
 module.exports = router;

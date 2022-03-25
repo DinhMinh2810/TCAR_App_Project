@@ -281,6 +281,46 @@ export const createReview = (formReview) => async (dispatch) => {
 	}
 };
 
+// Get All Reviews of a car
+export const getAllReviews = (id) => async (dispatch) => {
+	try {
+		dispatch({ type: 'ALL_REVIEW_REQUEST' });
+
+		const { data } = await axios.get(`/api/cars/review?id=${id}`);
+
+		dispatch({
+			type: 'ALL_REVIEW_SUCCESS',
+			payload: data.reviews,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'ALL_REVIEW_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
+// Delete Review of a car
+export const deleteReviews = (reviewId, carId) => async (dispatch) => {
+	try {
+		dispatch({ type: 'DELETE_REVIEW_REQUEST' });
+
+		const { data } = await axios.delete(
+			`/api/cars/review/delete?carId=${carId}&id=${reviewId}`
+		);
+
+		dispatch({
+			type: 'DELETE_REVIEW_SUCCESS',
+			payload: data.success,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'DELETE_REVIEW_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });

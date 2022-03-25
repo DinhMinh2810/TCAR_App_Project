@@ -2,12 +2,39 @@ const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const cloudinary = require('cloudinary');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
+const ApiFeatures = require('../utils/ApiFeatures');
 
 // Get all user
 exports.getAllAccount = catchAsyncErrShort(async (req, res) => {
-	const users = await User.find();
-	res.status(200).json(users);
+	const resultPerPage = 8;
+	const allUsersCount = await User.countDocuments();
+	const apiFeature = new ApiFeatures(User.find(), req.query)
+		.search()
+		.filter()
+		.sort();
+
+	let users = await apiFeature.query;
+
+	let filteredUsersCount = users.length;
+
+	apiFeature.pagination(resultPerPage);
+
+	res
+		.status(200)
+		.json({ allUsersCount, resultPerPage, filteredUsersCount, users });
 });
+
+// exports.getAllAccount = catchAsyncErrShort(async (req, res) => {
+// 	const search = req.query;
+
+// 	User.find({ name: { $regex: search, $options: '$i' } }).then((data) => {
+// 		res.send(data);
+// 	});
+
+// 	// res
+// 	// 	.status(200)
+// 	// 	.json({ allUsersCount, resultPerPage, filteredUsersCount, users });
+// });
 
 // Update role for user
 exports.updateUserRole = async (req, res) => {
