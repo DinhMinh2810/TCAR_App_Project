@@ -20,7 +20,7 @@ const CreateCar = () => {
 	const [startDay, setStartDay] = useState('');
 	const [endDay, setEndDay] = useState('');
 	const [rentPerDay, setRentPerDay] = useState(1000);
-	const [available, setAvailable] = useState(1);
+	const [available, setAvailable] = useState('');
 	const [images, setImages] = useState([]);
 
 	const locations = [
@@ -233,14 +233,16 @@ const CreateCar = () => {
 											>
 												Available
 											</label>
-											<input
-												type="number"
-												placeholder="Pleaser enter available"
-												required
-												value={available}
+											<select
+												name="method"
+												id="method"
 												onChange={(e) => setAvailable(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-											/>
+											>
+												<option value="">Please available car</option>
+												<option value="notYetBook">Not yet book</option>
+												<option value="isBooked">Is booked</option>
+											</select>
 										</div>
 
 										<div className="col-span-6">

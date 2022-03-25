@@ -47,6 +47,7 @@ import PaymentSuccess from './components/FavoriteCart/Payment/PaymentSuccess';
 import MyBooking from './components/Booking/MyBooking';
 import BookingDetail from './components/Booking/BookingDetail';
 import AllBooking from './components/Staff/ManagerBooking/AllBooking';
+import UpdateBooking from './components/Staff/ManagerBooking/UpdateBooking';
 
 function App() {
 	const dispatch = useDispatch();
@@ -296,6 +297,15 @@ function App() {
 					element={
 						<ProtectedRoute isStaff={true}>
 							<AllBooking />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					exact
+					path="/manager/updateStatusBooking/:id"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<UpdateBooking />
 						</ProtectedRoute>
 					}
 				/>

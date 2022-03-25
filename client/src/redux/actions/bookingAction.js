@@ -70,7 +70,7 @@ export const getAllBooking = () => async (dispatch) => {
 };
 
 // Update Status Booking - Staff
-export const updateStatusBooking = (id, book) => async (dispatch) => {
+export const updateStatusBooking = (id, bookStatus) => async (dispatch) => {
 	try {
 		dispatch({ type: 'UPDATE_STATUS_BOOKING_REQUEST' });
 
@@ -81,7 +81,7 @@ export const updateStatusBooking = (id, book) => async (dispatch) => {
 		};
 		const { data } = await axios.put(
 			`/api/booking/updateBookingStatus/${id}`,
-			book,
+			bookStatus,
 			config
 		);
 
@@ -99,7 +99,7 @@ export const deleteBooking = (id) => async (dispatch) => {
 	try {
 		dispatch({ type: 'DELETE_BOOKING_REQUEST' });
 
-		const { data } = await axios.delete(`/api/booking/delete${id}`);
+		const { data } = await axios.delete(`/api/booking/delete/${id}`);
 
 		dispatch({ type: 'DELETE_BOOKING_SUCCESS', payload: data.success });
 	} catch (error) {

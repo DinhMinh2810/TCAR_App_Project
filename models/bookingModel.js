@@ -69,11 +69,6 @@ const bookingSchema = new mongoose.Schema(
 				},
 			},
 		],
-		// userBooking: {
-		// 	type: mongoose.Schema.ObjectId,
-		// 	ref: 'User',
-		// 	required: true,
-		// },
 		userBooking: {
 			user: {
 				type: mongoose.Schema.ObjectId,
@@ -128,6 +123,7 @@ const bookingSchema = new mongoose.Schema(
 		bookingStatus: {
 			type: String,
 			required: true,
+			enum: ['Processing', 'isRunning', 'Done'],
 			default: 'Processing',
 		},
 		deliveredAt: Date,

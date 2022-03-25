@@ -95,7 +95,7 @@ exports.newBooking = catchAsyncErrShort(async (req, res) => {
 
 async function updateAvailableCar(id) {
 	const car = await Car.findById(id);
-	car.available -= 1;
+	car.available = 'isBooked';
 	await car.save({ validateBeforeSave: false });
 }
 
@@ -111,7 +111,7 @@ exports.updateBookingStatus = catchAsyncErrShort(async (req, res) => {
 	if (booking.bookingStatus === 'Done') {
 		res.status(404).json({
 			success: false,
-			message: 'This booking has been completed successfully !!',
+			message: 'This booking has been done successfully !!',
 		});
 	}
 

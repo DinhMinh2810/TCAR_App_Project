@@ -297,7 +297,7 @@ const CarDetail = () => {
 								<FavoriteIcon className="mr-3" />
 								<p>Add car to favorite cart</p>
 							</button>
-							{car?.available === 0 ? (
+							{car?.available === 'isBooked' ? (
 								<button
 									onClick={() => {
 										navigate('/carProduct/refreshSearch');

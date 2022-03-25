@@ -49,10 +49,10 @@ const carSchema = new mongoose.Schema(
 			required: true,
 		},
 		available: {
-			type: Number,
+			type: String,
 			required: true,
-			maxLength: [3],
-			default: 1,
+			enum: ['isBooked', 'notYetBook'],
+			default: 'notYetBook',
 		},
 		numOfReviews: {
 			type: Number,
