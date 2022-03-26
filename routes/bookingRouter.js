@@ -6,7 +6,6 @@ const {
 	myBooking,
 	getAllBooking,
 	deleteBooking,
-	updateBookingStatus,
 	paymentStripe,
 	sendApiKeyStripe,
 	generateTokenPayPal,
@@ -23,10 +22,6 @@ router
 	.get(isAuthenticatedUser, authorWithRole('Admin', 'Staff'), getAllBooking);
 
 router.route('/create').post(isAuthenticatedUser, newBooking);
-
-router
-	.route('/updateBookingStatus/:id')
-	.put(isAuthenticatedUser, authorWithRole('Staff'), updateBookingStatus);
 
 router
 	.route('/delete/:id')

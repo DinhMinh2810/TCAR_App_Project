@@ -4,7 +4,7 @@ const User = require('../models/userModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const braintree = require('braintree');
-
+const moment = require('moment');
 // get Single booking
 exports.getSingleBooking = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.findById(req.params.id).populate(
@@ -35,6 +35,16 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 		totalAllPrice += book.totalPrice;
 	});
 
+	booking.map(async (book) => {
+		const id = book.id;
+		const now = moment(moment().startOf('hour'));
+		const startDayBook = moment(
+			moment(book.bookCars[0].startDay).startOf('hour')
+		);
+		const endDayBook = moment(moment(book.bookCars[0].endDay).startOf('hour'));
+		await updateStatusBooking(id, now, startDayBook, endDayBook);
+	});
+
 	res.status(200).json({
 		success: true,
 		totalAllPrice,
@@ -42,10 +52,38 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
+async function updateStatusBooking(id, now, startDayBook, endDayBook) {
+	const book = await Booking.findById(id);
+
+	if (now < startDayBook) {
+		book.bookingStatus = 'Processing';
+	}
+
+	if (now >= startDayBook && now <= endDayBook) {
+		book.bookingStatus = 'isRunning';
+	}
+
+	if (now > endDayBook) {
+		book.bookingStatus = 'Done';
+	}
+
+	await book.save({ validateBeforeSave: false });
+}
+
 // Logged in and user check my all booking
 exports.myBooking = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.find({
 		'userBooking.user': req.user.id,
+	});
+
+	booking.map(async (book) => {
+		const id = book.id;
+		const now = moment(moment().startOf('hour'));
+		const startDayBook = moment(
+			moment(book.bookCars[0].startDay).startOf('hour')
+		);
+		const endDayBook = moment(moment(book.bookCars[0].endDay).startOf('hour'));
+		await updateStatusBooking(id, now, startDayBook, endDayBook);
 	});
 
 	res.status(200).json({
@@ -98,34 +136,6 @@ async function updateAvailableCar(id) {
 	car.available = 'isBooked';
 	await car.save({ validateBeforeSave: false });
 }
-
-// Update booking status -- Admin
-exports.updateBookingStatus = catchAsyncErrShort(async (req, res) => {
-	const booking = await Booking.findById(req.params.id);
-	if (!booking) {
-		res.status(404).json({
-			success: false,
-			message: 'Booking not found !!',
-		});
-	}
-	if (booking.bookingStatus === 'Done') {
-		res.status(404).json({
-			success: false,
-			message: 'This booking has been done successfully !!',
-		});
-	}
-
-	booking.bookingStatus = req.body.status;
-
-	if (req.body.status === 'Done') {
-		booking.deliveredAt = Date.now();
-	}
-	await booking.save({ validateBeforeSave: false });
-	res.status(200).json({
-		message: 'Update this booking successfully !!',
-		booking,
-	});
-});
 
 // delete booking
 exports.deleteBooking = catchAsyncErrShort(async (req, res) => {
