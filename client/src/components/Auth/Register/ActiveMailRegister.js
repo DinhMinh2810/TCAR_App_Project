@@ -19,7 +19,10 @@ const ActiveMailRegister = () => {
 				Welcome to Tourist car rental service 🤣🥰
 			</p>
 			<div className="mt-12 md:mt-14 w-full flex justify-center">
-				<Link to="/" className="w-full sm:w-auto border border-gray-800 text-base font-medium text-gray-800 py-5 px-14 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hover:bg-gray-800 hover:text-white">
+				<Link
+					to="/"
+					className="text-center w-full sm:w-auto border border-gray-800 text-base font-medium text-gray-800 py-5 px-14 text-white bg-blue-600 rounded-lg hover:bg-blue-900"
+				>
 					Go home page
 				</Link>
 			</div>

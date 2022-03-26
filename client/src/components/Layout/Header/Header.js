@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadUser, logout } from '../../../redux/actions/authAction';
-import { Container, Navbar, NavDropdown, Nav } from 'react-bootstrap';
+import logo from '../../../assets/images/logo1.png';
 import { Link, useNavigate } from 'react-router-dom';
 import './header.css';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
@@ -12,22 +12,26 @@ function classNames(...classes) {
 }
 
 const navigation = [
-	{ name: 'Dashboard', href: '#', current: true },
-	{ name: 'Team', href: '#', current: false },
-	{ name: 'Projects', href: '#', current: false },
-	{ name: 'Calendar', href: '#', current: false },
+	{ name: 'Home', href: '/', current: true },
+	{ name: 'Car', href: '/carProduct/refreshSearch', current: false },
+	{ name: 'Projects', href: 'true', current: false },
+	{ name: 'Calendar', href: 'true', current: false },
 ];
 
 const Header = () => {
 	const auth = useSelector((state) => state.auth);
 	const { user, isLoggedIn } = auth;
+	const { user: userGG } = useSelector((state) => state.loginWithSocial);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		if (userGG) {
+			dispatch(loadUser());
+		}
 		dispatch(loadUser());
-	}, [dispatch]);
+	}, [dispatch, userGG]);
 
 	const logoutSubmit = async () => {
 		dispatch(logout());
@@ -55,7 +59,7 @@ const Header = () => {
 								<div className="flex-shrink-0 flex items-center">
 									<img
 										className="hidden lg:block h-8 w-auto"
-										src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+										src={logo}
 										alt="Workflow"
 									/>
 								</div>

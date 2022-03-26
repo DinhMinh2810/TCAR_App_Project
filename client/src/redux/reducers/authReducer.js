@@ -1,3 +1,4 @@
+/* eslint-disable no-duplicate-case */
 const initialState = { user: {} };
 
 export const authReducer = (state = initialState, action) => {
@@ -58,6 +59,46 @@ export const authReducer = (state = initialState, action) => {
 				error: action.payload,
 			};
 
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+
+		default:
+			return state;
+	}
+};
+
+export const loginGoogleReducer = (state = initialState, action) => {
+	switch (action.type) {
+		case 'LOGIN_GG_REQUEST':
+		case 'LOGIN_FB_REQUEST':
+			return {
+				loading: true,
+				isLoggedIn: false,
+			};
+
+		case 'LOGIN_GG_SUCCESS':
+		case 'LOGIN_FB_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				isLoggedIn: true,
+				message: action.payload.message,
+				token: action.payload.token,
+				user: action.payload.user,
+			};
+
+		case 'LOGIN_GG_FAIL':
+		case 'LOGIN_FB_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				isLoggedIn: false,
+				user: null,
+				error: action.payload,
+			};
 		case 'CLEAR_ERRORS':
 			return {
 				...state,

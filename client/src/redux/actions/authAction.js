@@ -53,20 +53,20 @@ export const login = (email, password) => async (dispatch) => {
 
 export const loginGoogle = (tokenId) => async (dispatch) => {
 	try {
-		dispatch({ type: 'LOGIN_REQUEST' });
+		dispatch({ type: 'LOGIN_GG_REQUEST' });
 		const config = { headers: { 'Content-Type': 'application/json' } };
 
-		const res = await axios.post('/api/googleLogin', { tokenId }, config);
+		const { data } = await axios.post('/api/googleLogin', { tokenId }, config);
 
-		dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
+		dispatch({ type: 'LOGIN_GG_SUCCESS', payload: data });
 	} catch (error) {
-		dispatch({ type: 'LOGIN_FAIL', payload: error.response.data.message });
+		dispatch({ type: 'LOGIN_GG_FAIL', payload: error.response.data.message });
 	}
 };
 
 export const loginFacebook = (accessToken, userID) => async (dispatch) => {
 	try {
-		dispatch({ type: 'LOGIN_REQUEST' });
+		dispatch({ type: 'LOGIN_FB_REQUEST' });
 		const config = { headers: { 'Content-Type': 'application/json' } };
 
 		const res = await axios.post(
@@ -75,9 +75,9 @@ export const loginFacebook = (accessToken, userID) => async (dispatch) => {
 			config
 		);
 
-		dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
+		dispatch({ type: 'LOGIN_FB_SUCCESS', payload: res.data });
 	} catch (error) {
-		dispatch({ type: 'LOGIN_FAIL', payload: error.response.data.message });
+		dispatch({ type: 'LOGIN_FB_FAIL', payload: error.response.data.message });
 	}
 };
 

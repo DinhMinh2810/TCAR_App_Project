@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
 	authReducer,
 	forgotPasswordReducer,
+	loginGoogleReducer,
 	userSingleDetailsReducer,
 } from './authReducer';
 import {
@@ -34,6 +35,7 @@ import {
 
 export default combineReducers({
 	auth: authReducer,
+	loginWithSocial: loginGoogleReducer,
 	forgotPassword: forgotPasswordReducer,
 	profileUser: profileReducer,
 	userSingleDetail: userSingleDetailsReducer,

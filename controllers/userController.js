@@ -139,18 +139,22 @@ exports.googleLogin = async (req, res) => {
 			return res.status(400).json({ message: 'This email is not exist !!' });
 		}
 
-		const newUser = new User({
-			name,
-			email,
-			password: hashPassword,
-			avatar: {
-				public_id: sub,
-				url: picture,
-			},
-		});
-
-		await newUser.save();
-		sendTokenCookie(newUser, 200, res, 'Login success with google !!');
+		const user = await User.findOne({ email });
+		if (user) {
+			sendTokenCookie(user, 200, res, 'Login success with google !!');
+		} else {
+			const newUser = new User({
+				name,
+				email,
+				password: hashPassword,
+				avatar: {
+					public_id: sub,
+					url: picture,
+				},
+			});
+			await newUser.save();
+			sendTokenCookie(newUser, 200, res, 'Login success with google !!');
+		}
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
@@ -178,11 +182,11 @@ exports.facebookLogin = async (req, res) => {
 		const user = await User.findOne({ email });
 
 		if (user) {
-			const isMatch = await bcrypt.compare(password, user.password);
-			if (!isMatch)
-				return res.status(400).json({ message: 'Password is incorrect !!' });
-
-			res.json({ message: 'Login success !!' });
+			// const isMatch = await bcrypt.compare(password, user.password);
+			// if (!isMatch)
+			// 	return res.status(400).json({ message: 'Password is incorrect !!' });
+			// res.json({ message: 'Login success !!' });
+			sendTokenCookie(user, 200, res, 'Login success with fb !!');
 		} else {
 			const newUser = new User({
 				name,
