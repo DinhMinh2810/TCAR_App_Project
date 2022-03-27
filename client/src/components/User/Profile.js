@@ -2,19 +2,15 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Loader from '../Layout/Loader/Loader';
-import { ToastContainer, toast } from 'react-toastify';
 
 const Profile = () => {
 	const navigate = useNavigate();
 	const { loading, isLoggedIn, user } = useSelector((state) => state.auth);
-	const { error, isUpdated } = useSelector((state) => state.profileUser);
+	const { isUpdated } = useSelector((state) => state.profileUser);
 
 	useEffect(() => {
 		if (isLoggedIn === false) {
 			navigate('/login');
-		}
-		if (isUpdated) {
-			toast.success(isUpdated);
 		}
 	}, [isLoggedIn, navigate, isUpdated]);
 
@@ -28,13 +24,15 @@ const Profile = () => {
 						<div className="w-full md:w-2/5 p-4 sm:p-6 lg:p-8 bg-white shadow-md">
 							<div className="flex justify-between">
 								<span className="text-xl font-semibold block">My Profile</span>
-								<ToastContainer className="toastify" />
-								<Link
-									to="/user/changePassword"
-									className="-mt-2 text-md font-bold text-white bg-gray-700 rounded-full px-5 py-2 hover:bg-gray-800"
-								>
-									Change password
-								</Link>
+
+								{user.role === 'User' || user.role === 'Driver' ? (
+									<Link
+										to="/user/changePassword"
+										className="-mt-2 text-md text-white bg-blue-500 hover:bg-blue-400 rounded-full px-5 py-2 "
+									>
+										Change password
+									</Link>
+								) : null}
 							</div>
 
 							<span className="text-gray-600 pt-2 inline-block">
@@ -48,13 +46,14 @@ const Profile = () => {
 									alt=""
 								/>
 							</div>
-
-							<Link
-								to="/user/editProfile"
-								className="-mt-2 text-md font-bold text-white bg-gray-700 rounded-full px-5 py-2 hover:bg-gray-800 p-8 mx-2 flex justify-center"
-							>
-								Edit Profile
-							</Link>
+							{user.role === 'User' || user.role === 'Driver' ? (
+								<Link
+									to="/user/editProfile"
+									className="mt-2 text-md text-white bg-blue-500 hover:bg-blue-400 rounded-full px-5 py-2 p-8 mx-2 flex justify-center"
+								>
+									Edit Profile
+								</Link>
+							) : null}
 						</div>
 
 						<div className="w-full md:w-3/5 p-8 bg-white lg:ml-4 shadow-md">

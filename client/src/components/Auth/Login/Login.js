@@ -12,7 +12,7 @@ import {
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import Loader from '../../Layout/Loader/Loader';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './login.css';
 import TitleBarPage from './../../Layout/TitleBarPage';
 import loginImg from '../../../assets/images/login.jpg';
@@ -41,6 +41,7 @@ const Login = () => {
 			toast.warn(error);
 			dispatch(clearErrors());
 		}
+
 		if (isLoggedIn) {
 			navigate('/');
 		}
@@ -71,7 +72,6 @@ const Login = () => {
 			) : (
 				<>
 					<TitleBarPage title="Login" />
-					<ToastContainer className="toastify text-xs" />
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}

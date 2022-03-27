@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './header.css';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
+import { toast } from 'react-toastify';
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
@@ -35,6 +36,7 @@ const Header = () => {
 
 	const logoutSubmit = async () => {
 		dispatch(logout());
+		toast.success('Logout successfully !!');
 		navigate('/');
 	};
 

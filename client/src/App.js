@@ -48,6 +48,9 @@ import MyBooking from './components/Booking/MyBooking';
 import BookingDetail from './components/Booking/BookingDetail';
 import AllBooking from './components/Staff/ManagerBooking/AllBooking';
 import UpdateBooking from './components/Staff/ManagerBooking/UpdateBooking';
+import ProfileAdmin from './components/Admin/Profile/ProfileAdmin';
+import ChangePasswordAdmin from './components/Admin/Profile/ChangePasswordAdmin';
+import EditProfileAdmin from './components/Admin/Profile/EditProfileAdmin';
 
 function App() {
 	const dispatch = useDispatch();
@@ -200,6 +203,37 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+
+				<Route
+					exact
+					path="/admin/profile"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<ProfileAdmin />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/admin/changePassword"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<ChangePasswordAdmin />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/admin/editProfile"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<EditProfileAdmin />
+						</ProtectedRoute>
+					}
+				/>
+
 				<Route
 					exact
 					path="/admin/manager/allAccount"

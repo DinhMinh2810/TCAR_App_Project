@@ -1,22 +1,27 @@
 import axios from 'axios';
 
 // Update Password
-export const changePasswordUser = (formData) => async (dispatch) => {
-	try {
-		dispatch({ type: 'UPDATE_PASSWORD_REQUEST' });
+export const changePasswordUser =
+	(newPassword, confirmPassword) => async (dispatch) => {
+		try {
+			dispatch({ type: 'UPDATE_PASSWORD_REQUEST' });
 
-		const config = { headers: { 'Content-Type': 'application/json' } };
+			const config = { headers: { 'Content-Type': 'application/json' } };
 
-		const { data } = await axios.put(`/api/changePassword`, formData, config);
+			const { data } = await axios.put(
+				`/api/changePassword`,
+				{ newPassword, confirmPassword },
+				config
+			);
 
-		dispatch({ type: 'UPDATE_PASSWORD_SUCCESS', payload: data });
-	} catch (error) {
-		dispatch({
-			type: 'UPDATE_PASSWORD_FAIL',
-			payload: error.response.data.message,
-		});
-	}
-};
+			dispatch({ type: 'UPDATE_PASSWORD_SUCCESS', payload: data });
+		} catch (error) {
+			dispatch({
+				type: 'UPDATE_PASSWORD_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
 
 // Update Profile user
 export const editUserProfile = (formData) => async (dispatch) => {

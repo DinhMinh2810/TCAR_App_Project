@@ -140,9 +140,15 @@ exports.googleLogin = async (req, res) => {
 		}
 
 		const user = await User.findOne({ email });
+
 		if (user) {
 			sendTokenCookie(user, 200, res, 'Login success with google !!');
 		} else {
+			await cloudinary.v2.uploader.upload(picture, {
+				folder: 'avatars',
+				width: 150,
+				crop: 'scale',
+			});
 			const newUser = new User({
 				name,
 				email,
@@ -185,9 +191,17 @@ exports.facebookLogin = async (req, res) => {
 			// const isMatch = await bcrypt.compare(password, user.password);
 			// if (!isMatch)
 			// 	return res.status(400).json({ message: 'Password is incorrect !!' });
-			// res.json({ message: 'Login success !!' });
+			// else {
+			// 	sendTokenCookie(user, 200, res, 'Login success with fb !!');
+			// }
+
 			sendTokenCookie(user, 200, res, 'Login success with fb !!');
 		} else {
+			await cloudinary.v2.uploader.upload(picture.data.url, {
+				folder: 'avatars',
+				width: 150,
+				crop: 'scale',
+			});
 			const newUser = new User({
 				name,
 				email,
@@ -285,6 +299,7 @@ exports.OtpResetPassword = async (req, res) => {
 		return res.status(500).json({ message: err.message });
 	}
 };
+
 // Reset Password User
 exports.resetPassword = async (req, res) => {
 	try {
@@ -311,8 +326,6 @@ exports.resetPassword = async (req, res) => {
 		return res
 			.status(200)
 			.json({ message: 'Password changed successfully !!' });
-
-		// sendTokenCookie(user, 200, res, 'Password changed successfully !!');
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
@@ -365,13 +378,13 @@ exports.changePassword = async (req, res) => {
 	try {
 		const user = await User.findById(req.user.id).select('+password');
 
-		const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+		// const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
-		if (!isPasswordMatched) {
-			return res.status(400).json({
-				message: `Old password is incorrect !!`,
-			});
-		}
+		// if (!isPasswordMatched) {
+		// 	return res.status(400).json({
+		// 		message: `Old password is incorrect !!`,
+		// 	});
+		// }
 
 		if (req.body.newPassword !== req.body.confirmPassword) {
 			return res.status(400).json({
