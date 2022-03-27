@@ -50,19 +50,16 @@ const Login = () => {
 	const loginSubmit = (values) => {
 		const { email, password } = values;
 		dispatch(login(email, password));
-		toast.success('Login Successfully !!');
 	};
 
 	const responseGoogle = async (response) => {
 		const tokenId = response.tokenId;
 		dispatch(loginGoogle(tokenId));
-		toast.success('Login Successfully with Google !!');
 	};
 
 	const responseFacebook = async (response) => {
 		const { accessToken, userID } = response;
 		dispatch(loginFacebook(accessToken, userID));
-		toast.success('Login Successfully with Facebook !!');
 	};
 
 	return (

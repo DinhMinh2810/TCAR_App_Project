@@ -51,6 +51,9 @@ import UpdateBooking from './components/Staff/ManagerBooking/UpdateBooking';
 import ProfileAdmin from './components/Admin/Profile/ProfileAdmin';
 import ChangePasswordAdmin from './components/Admin/Profile/ChangePasswordAdmin';
 import EditProfileAdmin from './components/Admin/Profile/EditProfileAdmin';
+import ProfileStaff from './components/Staff/Profile/ProfileStaff';
+import EditProfileStaff from './components/Staff/Profile/EditProfileStaff';
+import StaffPWChange from './components/Staff/Profile/StaffPWChange';
 
 function App() {
 	const dispatch = useDispatch();
@@ -306,6 +309,7 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+
 				{/* Staff  */}
 				<Route
 					exact
@@ -316,6 +320,37 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+
+				<Route
+					exact
+					path="/staff/profile"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<ProfileStaff />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/staff/changePassword"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<StaffPWChange />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/staff/editProfile"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<EditProfileStaff />
+						</ProtectedRoute>
+					}
+				/>
+
 				<Route
 					exact
 					path="/staff/assignCar"

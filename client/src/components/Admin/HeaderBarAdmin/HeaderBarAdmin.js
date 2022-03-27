@@ -13,6 +13,7 @@ import CarRentalIcon from '@mui/icons-material/CarRental';
 import ChatIcon from '@mui/icons-material/Chat';
 import { toast } from 'react-toastify';
 import logo1 from '../../../assets/images/logo1.png';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 
 const HeaderBarAdmin = () => {
 	const dispatch = useDispatch();
@@ -33,20 +34,8 @@ const HeaderBarAdmin = () => {
 			<Link to="">
 				<p className="header_sideBar_text">
 					<TreeView
-						defaultCollapseIcon={
-							<img
-								className="header_sideBar_img"
-								src={user?.avatar?.url}
-								alt=""
-							/>
-						}
-						defaultExpandIcon={
-							<img
-								className="header_sideBar_img"
-								src={user?.avatar?.url}
-								alt=""
-							/>
-						}
+						defaultCollapseIcon={<InsertEmoticonIcon />}
+						defaultExpandIcon={<InsertEmoticonIcon />}
 					>
 						<TreeItem nodeId="1" label={user?.name}>
 							<Link to="/admin/profile">

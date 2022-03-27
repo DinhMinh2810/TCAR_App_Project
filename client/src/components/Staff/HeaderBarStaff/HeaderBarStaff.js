@@ -5,6 +5,17 @@ import { logout } from '../../../redux/actions/authAction';
 import { Link } from 'react-router-dom';
 import '../../Admin/HeaderBarAdmin/headerBarAdmin.css';
 import { TreeItem, TreeView } from '@mui/lab';
+import PersonIcon from '@mui/icons-material/Person';
+import EditIcon from '@mui/icons-material/Edit';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import CarRentalIcon from '@mui/icons-material/CarRental';
+import ChatIcon from '@mui/icons-material/Chat';
+import { toast } from 'react-toastify';
+import logo1 from '../../../assets/images/logo1.png';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import ReviewsIcon from '@mui/icons-material/Reviews';
 
 const HeaderBarStaff = () => {
 	const dispatch = useDispatch();
@@ -13,46 +24,79 @@ const HeaderBarStaff = () => {
 
 	const logoutSubmit = async () => {
 		dispatch(logout());
+		toast.success('Logout successfully !!');
 		navigate('/');
 	};
 
 	return (
 		<div className="header_sideBar">
 			<Link to="">
-				<img className="header_sideBar_img" src={user?.avatar?.url} alt="" />
+				<img className="header_sideBar_img" src={logo1} alt="" />
 			</Link>
 			<Link to="">
-				<TreeView>
-					<TreeItem nodeId="1" label={user?.name}>
-						<Link to="/admin/products">
-							<TreeItem nodeId="2" label="My Profile" />
-						</Link>
-
-						<Link to="/admin/product">
-							<TreeItem nodeId="3" label="Change password" />
-						</Link>
-					</TreeItem>
-				</TreeView>
+				<p className="header_sideBar_text">
+					<TreeView
+						defaultCollapseIcon={<InsertEmoticonIcon />}
+						defaultExpandIcon={<InsertEmoticonIcon />}
+					>
+						<TreeItem nodeId="1" label={user?.name}>
+							<Link to="/staff/profile">
+								<TreeItem nodeId="2" label="My Profile" icon={<PersonIcon />} />
+							</Link>
+							<Link to="/staff/editProfile">
+								<TreeItem nodeId="3" label="Edit profile" icon={<EditIcon />} />
+							</Link>
+							<Link to="/staff/changePassword">
+								<TreeItem
+									nodeId="3"
+									label="Change password"
+									icon={<EditIcon />}
+								/>
+							</Link>
+						</TreeItem>
+					</TreeView>
+				</p>
 			</Link>
 			<Link to="/admin/dashboard">
-				<p className="header_sideBar_text">Dashboard</p>
+				<p className="header_sideBar_text">
+					<DashboardIcon />
+					Dashboard
+				</p>
 			</Link>
 			<Link to="/admin/manager/accStaff">
-				<p className="header_sideBar_text">Manager account driver</p>
+				<p className="header_sideBar_text">
+					<CurrencyExchangeIcon />
+					Manager all booking
+				</p>
 			</Link>
-			<Link to="/manager/allBooking">
-				<p className="header_sideBar_text">Manager booking</p>
+			<Link to="/admin/manager/allAccount">
+				<p className="header_sideBar_text">
+					<ManageAccountsIcon />
+					Manager account driver
+				</p>
 			</Link>
 			<Link to="/staff/assignCar">
-				<p className="header_sideBar_text">Assign car</p>
+				<p className="header_sideBar_text">
+					<CarRentalIcon />
+					Assign Car
+				</p>
+			</Link>
+			<Link to="/admin/manager/allCar">
+				<p className="header_sideBar_text">
+					<ReviewsIcon />
+					Manager review
+				</p>
 			</Link>
 			<Link to="/admin/reviews">
-				<p className="header_sideBar_text">Reviews</p>
+				<p className="header_sideBar_text">
+					<ChatIcon />
+					Message
+				</p>
 			</Link>
 
 			<div className="text-center bottom-0 w-full">
 				<button
-					className="py-2 text-sm text-gray-700 header_sideBar_btn"
+					className="py-2 text-sm header_sideBar_btn text-white bg-blue-500 hover:bg-blue-400 rounded-full"
 					onClick={logoutSubmit}
 				>
 					Logout

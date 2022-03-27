@@ -47,6 +47,9 @@ const ChangePassword = () => {
 			toast.success('Updated your password successfully !!');
 			if (user.role === 'Admin') {
 				navigate('/admin/profile');
+			}
+			if (user.role === 'Staff') {
+				navigate('/staff/profile');
 			} else {
 				navigate('/myProfile');
 			}

@@ -15,24 +15,24 @@ function classNames(...classes) {
 const navigation = [
 	{ name: 'Home', href: '/', current: true },
 	{ name: 'Car', href: '/carProduct/refreshSearch', current: false },
-	{ name: 'Projects', href: 'true', current: false },
-	{ name: 'Calendar', href: 'true', current: false },
+	{ name: 'Projects', href: '/', current: false },
+	{ name: 'Calendar', href: '/', current: false },
 ];
 
 const Header = () => {
 	const auth = useSelector((state) => state.auth);
 	const { user, isLoggedIn } = auth;
-	const { user: userGG } = useSelector((state) => state.loginWithSocial);
+	const { user: userSocial } = useSelector((state) => state.loginWithSocial);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (userGG) {
+		if (userSocial) {
 			dispatch(loadUser());
 		}
 		dispatch(loadUser());
-	}, [dispatch, userGG]);
+	}, [dispatch, userSocial]);
 
 	const logoutSubmit = async () => {
 		dispatch(logout());
@@ -116,74 +116,145 @@ const Header = () => {
 												leaveFrom="transform opacity-100 scale-100"
 												leaveTo="transform opacity-0 scale-95"
 											>
-												<Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none ">
-													<Menu.Item>
-														{({ active }) => (
-															<Link
-																to="/myProfile"
-																className={classNames(
-																	active ? 'bg-gray-100' : '',
-																	'block px-4 py-2 text-sm text-gray-700'
-																)}
-															>
-																My Profile
-															</Link>
-														)}
-													</Menu.Item>
-													<Menu.Item>
-														{({ active }) => (
-															<Link
-																to="/favoriteCart"
-																className={classNames(
-																	active ? 'bg-gray-100' : '',
-																	'block px-4 py-2 text-sm text-gray-700'
-																)}
-															>
-																Favorite car
-															</Link>
-														)}
-													</Menu.Item>
-													<Menu.Item>
-														{({ active }) => (
-															<Link
-																to="/myBooking"
-																className={classNames(
-																	active ? 'bg-gray-100' : '',
-																	'block px-4 py-2 text-sm text-gray-700'
-																)}
-															>
-																My booking car
-															</Link>
-														)}
-													</Menu.Item>
-													<Menu.Item>
-														{({ active }) => (
-															<Link
-																to=""
-																className={classNames(
-																	active ? 'bg-gray-100' : '',
-																	'block px-4 py-2 text-sm text-gray-700'
-																)}
-															>
-																Settings
-															</Link>
-														)}
-													</Menu.Item>
-													<Menu.Item>
-														{({ active }) => (
-															<a
-																onClick={logoutSubmit}
-																href
-																className={classNames(
-																	active ? 'bg-gray-100' : '',
-																	'block px-4 py-2 text-sm text-gray-700'
-																)}
-															>
-																Logout
-															</a>
-														)}
-													</Menu.Item>
-												</Menu.Items>
+												{user?.role === 'User' ? (
+													<Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none ">
+														<Menu.Item>
+															{({ active }) => (
+																<Link
+																	to="/myProfile"
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	👨🏼 My Profile
+																</Link>
+															)}
+														</Menu.Item>
+														<Menu.Item>
+															{({ active }) => (
+																<Link
+																	to="/favoriteCart"
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	💙 Favorite car
+																</Link>
+															)}
+														</Menu.Item>
+														<Menu.Item>
+															{({ active }) => (
+																<Link
+																	to="/myBooking"
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	🚖 My booking car
+																</Link>
+															)}
+														</Menu.Item>
+														<Menu.Item>
+															{({ active }) => (
+																<Link
+																	to=""
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	💬 Message
+																</Link>
+															)}
+														</Menu.Item>
+														<Menu.Item>
+															{({ active }) => (
+																<a
+																	onClick={logoutSubmit}
+																	href
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	⭕️ Logout
+																</a>
+															)}
+														</Menu.Item>
+													</Menu.Items>
+												) : (
+													<Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none ">
+														<Menu.Item>
+															{({ active }) => (
+																<Link
+																	to="/myProfile"
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	👨🏼 My Profile
+																</Link>
+															)}
+														</Menu.Item>
+														<Menu.Item>
+															{({ active }) => (
+																<Link
+																	to="/favoriteCart"
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	🚖 My car assign
+																</Link>
+															)}
+														</Menu.Item>
+														<Menu.Item>
+															{({ active }) => (
+																<Link
+																	to="/myBooking"
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	🆕 My car user book
+																</Link>
+															)}
+														</Menu.Item>
+														<Menu.Item>
+															{({ active }) => (
+																<Link
+																	to=""
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	💬 Message
+																</Link>
+															)}
+														</Menu.Item>
+														<Menu.Item>
+															{({ active }) => (
+																<a
+																	onClick={logoutSubmit}
+																	href
+																	className={classNames(
+																		active ? 'bg-gray-100' : '',
+																		'block px-4 py-2 text-sm text-gray-700'
+																	)}
+																>
+																	⭕️ Logout
+																</a>
+															)}
+														</Menu.Item>
+													</Menu.Items>
+												)}
 											</Transition>
 										</Menu>
 									</>
