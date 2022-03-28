@@ -54,6 +54,9 @@ import EditProfileAdmin from './components/Admin/Profile/EditProfileAdmin';
 import ProfileStaff from './components/Staff/Profile/ProfileStaff';
 import EditProfileStaff from './components/Staff/Profile/EditProfileStaff';
 import StaffPWChange from './components/Staff/Profile/StaffPWChange';
+import AllAccDriver from './components/Staff/ManagerAccDriver/AllAccDriver';
+import ChangePasswordDriver from './components/Staff/ManagerAccDriver/ChangePasswordDriver';
+import CreateAccDriver from './components/Staff/ManagerAccDriver/CreateAccDriver';
 
 function App() {
 	const dispatch = useDispatch();
@@ -347,6 +350,36 @@ function App() {
 					element={
 						<ProtectedRoute isStaff={true}>
 							<EditProfileStaff />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/staff/manager/accDriver"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<AllAccDriver />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/staff/manager/create"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<AllAccDriver />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					exact
+					path="/staff/manager/changePassword/:id"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<CreateAccDriver />
 						</ProtectedRoute>
 					}
 				/>

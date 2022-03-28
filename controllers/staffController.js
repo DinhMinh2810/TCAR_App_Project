@@ -33,28 +33,47 @@ exports.createAccDriver = async (req, res) => {
 	}
 };
 
-exports.send = async (req, res) => {
-	try {
-		const { name, email, password } = req.body;
-
-		res
-			.status(200)
-			.json({ message: 'Staff create account for Driver success !!.' }, user);
-	} catch (error) {
-		return res.status(500).json({ message: error.message });
+// Update account staff
+exports.changePWAccDriver = catchAsyncErrShort(async (req, res) => {
+	const { password } = req.body;
+	if (!password) {
+		return res.status(400).json({ message: 'Please enter new password !!' });
 	}
-};
+	const hashPassword = await bcrypt.hash(password, 12);
+	await User.findOneAndUpdate(
+		{ _id: req.params.id },
+		{ password: hashPassword }
+	);
+	res.json({ message: 'Change password account driver success !!' });
+});
 
-// Get all account driver
-exports.getAccDriver = catchAsyncErrShort(async (req, res) => {
-	const users = await User.find({ role: 'Driver' });
-	if (!users) {
+// Delete account staff
+exports.deleteAccDriver = catchAsyncErrShort(async (req, res) => {
+	const user = await User.findOne({ _id: req.params.id, role: 'Driver' });
+	if (!user) {
 		return res.status(404).json({
 			message: `User not found or just can delete user with role "Driver" !!`,
 		});
 	}
+	const imageId = user.avatar.public_id;
 
-	return res.status(200).json(users);
+	await cloudinary.v2.uploader.destroy(imageId);
+
+	await User.deleteOne({ _id: req.params.id });
+	return res.status(200).json({ message: 'Delete user successful !!' });
+});
+
+// Get all account driver
+exports.getAccDriver = catchAsyncErrShort(async (req, res) => {
+	const resultItemPage = 5;
+	const usersCount = await User.countDocuments();
+	const apiFeature = new ApiFeatures(User.find({ role: 'Driver' }), req.query)
+		.filter()
+		.pagination(resultItemPage);
+
+	const users = await apiFeature.query;
+
+	res.status(200).json({ usersCount, resultItemPage, users });
 });
 
 // Get all account driver

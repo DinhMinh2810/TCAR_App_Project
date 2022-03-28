@@ -9,7 +9,9 @@ export const allAccUsersReducer = (state = { users: [] }, action) => {
 			return {
 				...state,
 				loading: false,
-				users: action.payload,
+				users: action.payload.users,
+				usersCount: action.payload.usersCount,
+				resultItemPage: action.payload.resultItemPage,
 			};
 
 		case 'ALL_USERS_FAIL':
@@ -119,19 +121,24 @@ export const deleteAccUserReducer = (state = {}, action) => {
 export const allAccStaffReducer = (state = { users: [] }, action) => {
 	switch (action.type) {
 		case 'ACC_STAFF_REQUEST':
+		case 'ACC_DRIVER_REQUEST':
 			return {
 				...state,
 				loading: true,
 			};
 
 		case 'ACC_STAFF_SUCCESS':
+		case 'ACC_DRIVER_SUCCESS':
 			return {
 				...state,
 				loading: false,
-				users: action.payload,
+				users: action.payload.users,
+				usersCount: action.payload.usersCount,
+				resultItemPage: action.payload.resultItemPage,
 			};
 
 		case 'ACC_STAFF_FAIL':
+		case 'ACC_DRIVER_FAIL':
 			return {
 				loading: false,
 				users: null,
@@ -152,12 +159,14 @@ export const allAccStaffReducer = (state = { users: [] }, action) => {
 export const CRUDAccStaffReducer = (state = {}, action) => {
 	switch (action.type) {
 		case 'CREATE_ACC_STAFF_REQUEST':
+		case 'CREATE_ACC_DRIVER_REQUEST':
 			return {
 				...state,
 				loading: true,
 			};
 
 		case 'CREATE_ACC_STAFF_SUCCESS':
+		case 'CREATE_ACC_DRIVER_SUCCESS':
 			return {
 				...state,
 				loading: false,
@@ -166,6 +175,7 @@ export const CRUDAccStaffReducer = (state = {}, action) => {
 			};
 
 		case 'CREATE_ACC_STAFF_FAIL':
+		case 'CREATE_ACC_DRIVER_FAIL':
 			return {
 				...state,
 				loading: false,
@@ -173,6 +183,7 @@ export const CRUDAccStaffReducer = (state = {}, action) => {
 			};
 
 		case 'CREATE_ACC_STAFF_RESET':
+		case 'CREATE_ACC_DRIVER_RESET':
 			return {
 				...state,
 				users: null,

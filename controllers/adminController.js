@@ -6,35 +6,16 @@ const ApiFeatures = require('../utils/ApiFeatures');
 
 // Get all user
 exports.getAllAccount = catchAsyncErrShort(async (req, res) => {
-	const resultPerPage = 8;
-	const allUsersCount = await User.countDocuments();
+	const resultItemPage = 5;
+	const usersCount = await User.countDocuments();
 	const apiFeature = new ApiFeatures(User.find(), req.query)
-		.search()
 		.filter()
-		.sort();
+		.pagination(resultItemPage);
 
-	let users = await apiFeature.query;
+	const users = await apiFeature.query;
 
-	let filteredUsersCount = users.length;
-
-	apiFeature.pagination(resultPerPage);
-
-	res
-		.status(200)
-		.json({ allUsersCount, resultPerPage, filteredUsersCount, users });
+	res.status(200).json({ usersCount, resultItemPage, users });
 });
-
-// exports.getAllAccount = catchAsyncErrShort(async (req, res) => {
-// 	const search = req.query;
-
-// 	User.find({ name: { $regex: search, $options: '$i' } }).then((data) => {
-// 		res.send(data);
-// 	});
-
-// 	// res
-// 	// 	.status(200)
-// 	// 	.json({ allUsersCount, resultPerPage, filteredUsersCount, users });
-// });
 
 // Update role for user
 exports.updateUserRole = async (req, res) => {
@@ -82,14 +63,15 @@ exports.deleteAccUser = catchAsyncErrShort(async (req, res, next) => {
 
 // Get all account staff
 exports.getAccStaff = catchAsyncErrShort(async (req, res) => {
-	const users = await User.find({ role: 'Staff' });
-	if (!users) {
-		return res.status(404).json({
-			message: `User not found or just can delete user with role "Staff" !!`,
-		});
-	}
+	const resultItemPage = 5;
+	const usersCount = await User.countDocuments();
+	const apiFeature = new ApiFeatures(User.find({ role: 'Staff' }), req.query)
+		.filter()
+		.pagination(resultItemPage);
 
-	return res.status(200).json(users);
+	const users = await apiFeature.query;
+
+	res.status(200).json({ usersCount, resultItemPage, users });
 });
 
 // Create account staff

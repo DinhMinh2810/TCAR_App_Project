@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	allAccUsers,
@@ -15,7 +15,10 @@ import Pagination from 'react-js-pagination';
 const AllAccUser = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { error, users, loading } = useSelector((state) => state.allAccUsers);
+	const { error, users, loading, resultItemPage, usersCount } = useSelector(
+		(state) => state.allAccUsers
+	);
+	const [currentPage, setCurrentPage] = useState(1);
 
 	const {
 		error: deleteAccUserError,
@@ -39,8 +42,17 @@ const AllAccUser = () => {
 			navigate('/admin/manager/allAccount');
 			dispatch({ type: 'DELETE_USER_RESET' });
 		}
-		dispatch(allAccUsers());
-	}, [dispatch, isDeleted, navigate, error, message, deleteAccUserError]);
+
+		dispatch(allAccUsers(currentPage));
+	}, [
+		dispatch,
+		isDeleted,
+		navigate,
+		error,
+		message,
+		deleteAccUserError,
+		currentPage,
+	]);
 
 	const deleteAccUserHandle = (userID) => {
 		dispatch(deleteAccUser(userID));
@@ -50,20 +62,24 @@ const AllAccUser = () => {
 		navigate(`/admin/manager/allAccount/editRole/${userID}`);
 	};
 
+	const setCurrentPageNo = (e) => {
+		setCurrentPage(e);
+	};
+
 	return (
 		<>
-			{loading ? (
-				<Loader />
-			) : (
-				<div className="dashboard">
-					<HeaderBarAdmin />
-					<TitleBarPage title="Manager all account" />
-					<div className="flex flex-col p-3">
-						<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-							<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-								<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-									<h2 className="text-center pb-3">Manager all account user</h2>
-									<ToastContainer className="toastify text-xs" />
+			<div className="dashboard">
+				<HeaderBarAdmin />
+				<TitleBarPage title="Manager all account" />
+				<div className="flex flex-col p-3">
+					<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+						<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+							<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+								<h2 className="text-center pb-3">Manager all account user</h2>
+								<ToastContainer className="toastify text-xs" />
+								{loading ? (
+									<Loader />
+								) : (
 									<table className="min-w-full divide-y divide-gray-200">
 										<thead className="bg-gray-50">
 											<tr>
@@ -126,9 +142,9 @@ const AllAccUser = () => {
 													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 														{user.role}
 													</td>
-													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
+													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue ">
 														<button
-															className="border-1 p-2 rounded bg-cyan-300 mr-2"
+															className="border-1 p-2 rounded bg-cyan-300 mr-2 text-white bg-blue-600 hover:bg-blue-800"
 															onClick={() => updateRoleUserHandle(user?._id)}
 														>
 															Edit role
@@ -144,11 +160,15 @@ const AllAccUser = () => {
 											))}
 										</tbody>
 									</table>
+								)}
+							</div>
+							<div className="flex items-center justify-center mt-3">
+								{resultItemPage < usersCount && (
 									<Pagination
-										activePage={1}
-										// itemsCountPerPage={resultItemPage}
-										totalItemsCount={10}
-										// onChange={setCurrentPageNo}
+										activePage={currentPage}
+										itemsCountPerPage={resultItemPage}
+										totalItemsCount={usersCount}
+										onChange={setCurrentPageNo}
 										nextPageText="Next"
 										prevPageText="Prev"
 										firstPageText="1st"
@@ -158,12 +178,12 @@ const AllAccUser = () => {
 										activeClass="pageItemActive"
 										activeLinkClass="pageLinkActive"
 									/>
-								</div>
+								)}
 							</div>
 						</div>
 					</div>
 				</div>
-			)}
+			</div>
 		</>
 	);
 };

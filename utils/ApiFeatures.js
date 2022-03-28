@@ -14,21 +14,7 @@ function ApiFeatures(query, queryString) {
 		this.query = this.query.find({ ...keyword });
 		return this;
 	};
-
-	// this.search = () => {
-	// 	const search = this.queryString.search;
-
-	// 	if (search) {
-	// 		this.query = this.query.find({
-	// 			$text: { $search: search },
-	// 		});
-	// 	} else {
-	// 		this.query = this.query.find();
-	// 	}
-
-	// 	return this;
-	// };
-
+	
 	this.filter = () => {
 		const queryObjCopy = { ...this.queryString };
 

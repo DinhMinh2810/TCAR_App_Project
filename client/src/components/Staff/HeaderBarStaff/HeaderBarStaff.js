@@ -69,7 +69,7 @@ const HeaderBarStaff = () => {
 					Manager all booking
 				</p>
 			</Link>
-			<Link to="/admin/manager/allAccount">
+			<Link to="/staff/manager/accDriver">
 				<p className="header_sideBar_text">
 					<ManageAccountsIcon />
 					Manager account driver

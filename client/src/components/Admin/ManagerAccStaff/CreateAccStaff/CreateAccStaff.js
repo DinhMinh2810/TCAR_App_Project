@@ -7,7 +7,7 @@ import {
 	clearErrors,
 	CreateAccountStaff,
 } from './../../../../redux/actions/adminAction';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const CreateAccStaff = () => {
 	const dispatch = useDispatch();
@@ -22,7 +22,6 @@ const CreateAccStaff = () => {
 	});
 
 	const { name, email, password } = user;
-
 	const [avatar, setAvatar] = useState('');
 
 	const registerSubmit = (e) => {
@@ -34,7 +33,6 @@ const CreateAccStaff = () => {
 		formData.set('password', password);
 		formData.set('avatar', avatar);
 		// console.log(Object.fromEntries(formData))
-
 		dispatch(CreateAccountStaff(formData));
 	};
 
@@ -58,7 +56,9 @@ const CreateAccStaff = () => {
 			toast.warn(error);
 			dispatch(clearErrors());
 		}
+
 		if (users) {
+			toast.success('Create account staff success !!');
 			navigate('/admin/manager/accStaff');
 			dispatch({ type: 'CREATE_ACC_STAFF_RESET' });
 		}
@@ -73,7 +73,6 @@ const CreateAccStaff = () => {
 					<h3 className="text-2xl font-bold text-center">
 						Create account staff
 					</h3>
-					<ToastContainer className="toastify text-xs" />
 					<form encType="multipart/form-data" onSubmit={registerSubmit}>
 						<div className="mt-4">
 							<div>
