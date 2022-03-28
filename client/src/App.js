@@ -366,10 +366,10 @@ function App() {
 
 				<Route
 					exact
-					path="/staff/manager/create"
+					path="/staff/manager/accDriver/create"
 					element={
 						<ProtectedRoute isStaff={true}>
-							<AllAccDriver />
+							<CreateAccDriver />
 						</ProtectedRoute>
 					}
 				/>
@@ -379,7 +379,7 @@ function App() {
 					path="/staff/manager/changePassword/:id"
 					element={
 						<ProtectedRoute isStaff={true}>
-							<CreateAccDriver />
+							<ChangePasswordDriver />
 						</ProtectedRoute>
 					}
 				/>

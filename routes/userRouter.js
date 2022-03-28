@@ -43,6 +43,10 @@ router.route('/editUserProfile/me').put(isAuthenticatedUser, editUserProfile);
 
 router
 	.route('/singleUserDetail/:id')
-	.get(isAuthenticatedUser, authorWithRole('Admin'), getSingleUserDetail);
+	.get(
+		isAuthenticatedUser,
+		authorWithRole('Admin', 'Staff'),
+		getSingleUserDetail
+	);
 
 module.exports = router;

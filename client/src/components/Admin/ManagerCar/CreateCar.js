@@ -74,7 +74,7 @@ const CreateCar = () => {
 
 	useEffect(() => {
 		if (error) {
-			toast.warn('Create not successful !! Duplicate car !!');
+			toast.error('Create not successful !! Duplicate car !!');
 			dispatch(clearErrors());
 		}
 
@@ -146,6 +146,7 @@ const CreateCar = () => {
 											<select
 												name="method"
 												id="method"
+												required
 												onChange={(e) => setSeatCategory(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											>
@@ -165,6 +166,7 @@ const CreateCar = () => {
 												Location
 											</label>
 											<select
+												required
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 												onChange={(e) => setLocation(e.target.value)}
 											>
@@ -187,6 +189,7 @@ const CreateCar = () => {
 											<input
 												type="datetime-local"
 												value={startDay}
+												required
 												min={disablePastDate()}
 												onChange={(e) => setStartDay(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
@@ -203,6 +206,7 @@ const CreateCar = () => {
 											<input
 												type="datetime-local"
 												value={endDay}
+												required
 												min={disablePastDate()}
 												onChange={(e) => setEndDay(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
@@ -236,11 +240,12 @@ const CreateCar = () => {
 											<select
 												name="method"
 												id="method"
+												required
 												onChange={(e) => setAvailable(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											>
 												<option value="">Please available car</option>
-												<option value="notYetBook">Not yet book</option>
+												<option value="notYetBook">Ready</option>
 												<option value="isBooked">Is booked</option>
 											</select>
 										</div>
@@ -257,6 +262,7 @@ const CreateCar = () => {
 												name="avatar"
 												accept="image/*"
 												multiple
+												required
 												onChange={uploadImagesChange}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 											/>

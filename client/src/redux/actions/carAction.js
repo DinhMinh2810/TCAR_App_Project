@@ -1,23 +1,27 @@
 import axios from 'axios';
 
 // Get all car -- Admin
-export const getAdminCar = () => async (dispatch) => {
-	try {
-		dispatch({ type: 'ADMIN_CAR_REQUEST' });
+export const getAdminCar =
+	(currentPage = 1) =>
+	async (dispatch) => {
+		try {
+			dispatch({ type: 'ADMIN_CAR_REQUEST' });
 
-		const { data } = await axios.get('/api/cars/getAdAllCars');
+			const { data } = await axios.get(
+				`/api/cars/getAdAllCars?page=${currentPage}`
+			);
 
-		dispatch({
-			type: 'ADMIN_CAR_SUCCESS',
-			payload: data.cars,
-		});
-	} catch (error) {
-		dispatch({
-			type: 'ADMIN_CAR_FAIL',
-			payload: error.response.data.message,
-		});
-	}
-};
+			dispatch({
+				type: 'ADMIN_CAR_SUCCESS',
+				payload: data,
+			});
+		} catch (error) {
+			dispatch({
+				type: 'ADMIN_CAR_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
 
 // Get All car products not refresh
 export const getCars =

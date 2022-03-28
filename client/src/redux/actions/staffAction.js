@@ -1,20 +1,24 @@
 import axios from 'axios';
 
-// Get all driver not assign car - Admin
-export const getDriverNotAssign = () => async (dispatch) => {
-	try {
-		dispatch({ type: 'ACC_DRIVER_REQUEST' });
+// Get all driver not assign car - Staff
+export const getDriverNotAssign =
+	(currentPage = 1) =>
+	async (dispatch) => {
+		try {
+			dispatch({ type: 'ACC_DRIVER_REQUEST' });
 
-		const res = await axios.get('/api/staff/getDriverNotAssign');
+			const res = await axios.get(
+				`/api/staff/getDriverNotAssign?page=${currentPage}`
+			);
 
-		dispatch({ type: 'ACC_DRIVER_SUCCESS', payload: res.data });
-	} catch (error) {
-		dispatch({
-			type: 'ACC_DRIVER_FAIL',
-			payload: error.response.data.message,
-		});
-	}
-};
+			dispatch({ type: 'ACC_DRIVER_SUCCESS', payload: res.data });
+		} catch (error) {
+			dispatch({
+				type: 'ACC_DRIVER_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
 
 // Get all account driver - Staff
 export const getAllAccDriver =
@@ -37,7 +41,7 @@ export const getAllAccDriver =
 	};
 
 // Create account driver - staff
-export const CreateAccountDriver = (formData) => async (dispatch) => {
+export const createAccountDriver = (formData) => async (dispatch) => {
 	try {
 		dispatch({ type: 'CREATE_ACC_DRIVER_REQUEST' });
 		const config = { headers: { 'Content-Type': 'multipart/form-data' } };

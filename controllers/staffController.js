@@ -1,37 +1,45 @@
 const User = require('../models/userModel');
-const Car = require('../models/carModel');
-// const bcrypt = require('bcrypt');
+const cloudinary = require('cloudinary');
+const bcrypt = require('bcrypt');
+const ApiFeatures = require('../utils/ApiFeatures');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 
-// Create account driver -- Staff
-exports.createAccDriver = async (req, res) => {
-	try {
-		const { name, email, password } = req.body;
+// Create account driver - Staff
+exports.createAccDriver = catchAsyncErrShort(async (req, res) => {
+	const uploadImage = await cloudinary.v2.uploader.upload(req.body.avatar, {
+		folder: 'avatars',
+		width: 150,
+		crop: 'scale',
+	});
+	const { name, email, password } = req.body;
 
-		if (!name || !email || !password) {
-			return res.status(400).json({ message: 'Please enter all fields !!' });
-		}
-
-		if (!validateEmail(email)) {
-			return res.status(400).json({ message: 'Invalid emails !!' });
-		}
-		const checkUser = await User.findOne({ email });
-		if (checkUser) {
-			return res.status(400).json({ message: 'This email already exists !!' });
-		}
-		const user = await User.create({
-			name,
-			email,
-			password,
-			role: 'Driver',
-		});
-		res
-			.status(200)
-			.json({ message: 'Staff create account for Driver success !!.' }, user);
-	} catch (error) {
-		return res.status(500).json({ message: error.message });
+	if (!name || !email || !password) {
+		return res.status(400).json({ message: 'Please enter all fields !!' });
 	}
-};
+
+	if (!validateEmail(email)) {
+		return res.status(400).json({ message: 'Invalid emails !!' });
+	}
+	const checkUser = await User.findOne({ email });
+	if (checkUser) {
+		return res.status(400).json({ message: 'This email already exists !!' });
+	}
+	const user = await User.create({
+		name,
+		email,
+		password,
+		role: 'Driver',
+		avatar: {
+			public_id: uploadImage.public_id,
+			url: uploadImage.secure_url,
+		},
+	});
+	res.status(200).json({
+		user,
+		message: 'Staff create account for Driver success !!',
+		success: true,
+	});
+});
 
 // Update account staff
 exports.changePWAccDriver = catchAsyncErrShort(async (req, res) => {
@@ -60,13 +68,15 @@ exports.deleteAccDriver = catchAsyncErrShort(async (req, res) => {
 	await cloudinary.v2.uploader.destroy(imageId);
 
 	await User.deleteOne({ _id: req.params.id });
-	return res.status(200).json({ message: 'Delete user successful !!' });
+	return res
+		.status(200)
+		.json({ success: true, message: 'Delete user successful !!' });
 });
 
 // Get all account driver
 exports.getAccDriver = catchAsyncErrShort(async (req, res) => {
 	const resultItemPage = 5;
-	const usersCount = await User.countDocuments();
+	const usersCount = await User.countDocuments({ role: 'Driver' });
 	const apiFeature = new ApiFeatures(User.find({ role: 'Driver' }), req.query)
 		.filter()
 		.pagination(resultItemPage);
@@ -78,8 +88,20 @@ exports.getAccDriver = catchAsyncErrShort(async (req, res) => {
 
 // Get all account driver
 exports.getDriverNotAssign = catchAsyncErrShort(async (req, res) => {
-	const users = await User.find({ role: 'Driver', isAssign: false });
-	return res.status(200).json(users);
+	const resultItemPage = 5;
+	const usersCount = await User.countDocuments({
+		role: 'Driver',
+		isAssign: false,
+	});
+
+	const apiFeature = new ApiFeatures(
+		User.find({ role: 'Driver', isAssign: false }),
+		req.query
+	).pagination(resultItemPage);
+
+	const users = await apiFeature.query;
+
+	res.status(200).json({ usersCount, resultItemPage, users });
 });
 
 const validateEmail = (email) => {

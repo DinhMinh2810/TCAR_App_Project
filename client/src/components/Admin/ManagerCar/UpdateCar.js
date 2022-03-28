@@ -25,6 +25,7 @@ const UpdateCar = () => {
 	const [available, setAvailable] = useState(1);
 	const [images, setImages] = useState([]);
 	const [oldImages, setOldImages] = useState([]);
+	const [imagesPreview, setImagesPreview] = useState([]);
 
 	const locations = [
 		'Da Nang',
@@ -41,6 +42,7 @@ const UpdateCar = () => {
 		const files = Array.from(e.target.files);
 
 		setImages([]);
+		setImagesPreview([]);
 		setOldImages([]);
 
 		files.forEach((file) => {
@@ -48,6 +50,7 @@ const UpdateCar = () => {
 
 			reader.onload = () => {
 				if (reader.readyState === 2) {
+					setImagesPreview((old) => [...old, reader.result]);
 					setImages((old) => [...old, reader.result]);
 				}
 			};
@@ -96,7 +99,6 @@ const UpdateCar = () => {
 		}
 
 		if (isUpdated) {
-			toast.success('Update car successfully !!');
 			navigate('/admin/manager/allCar');
 		}
 	}, [dispatch, id, carId, car, isUpdated, error, navigate]);
@@ -117,7 +119,6 @@ const UpdateCar = () => {
 							<div className="shadow overflow-hidden sm:rounded-md">
 								<div className="px-4 bg-white sm:p-6">
 									<h3 className="text-2xl font-bold text-center">Update car</h3>
-									<ToastContainer className="toastify text-xs" />
 									<div className="grid grid-cols-6 gap-6">
 										<div className="col-span-6 sm:col-span-4">
 											<label
@@ -248,14 +249,18 @@ const UpdateCar = () => {
 											>
 												Available
 											</label>
-											<input
-												type="number"
-												placeholder="Pleaser enter available"
+											<select
+												name="method"
+												id="method"
 												required
 												value={available}
 												onChange={(e) => setAvailable(e.target.value)}
 												className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-											/>
+											>
+												<option value="">Please available car</option>
+												<option value="notYetBook">Ready</option>
+												<option value="isBooked">Is booked</option>
+											</select>
 										</div>
 
 										<div className="col-span-6">
@@ -265,6 +270,27 @@ const UpdateCar = () => {
 											>
 												Images
 											</label>
+											<div className="block mt-1">
+												{oldImages &&
+													oldImages.map((image, index) => (
+														<img
+															key={index}
+															src={image.url}
+															alt=""
+															className="inline-block h-10 w-10 rounded-full ring-2 ring-white mr-2"
+														/>
+													))}
+											</div>
+											<div className="block mt-1">
+												{imagesPreview.map((image, index) => (
+													<img
+														key={index}
+														src={image}
+														alt=""
+														className="inline-block h-10 w-10 rounded-full ring-2 ring-white mr-2"
+													/>
+												))}
+											</div>
 											<input
 												type="file"
 												name="avatar"

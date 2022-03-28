@@ -24,7 +24,7 @@ import {
 	deleteAccUserReducer,
 	profileReducer,
 } from './adminReducer';
-import { allAccDriverReducer } from './staffReducer';
+import { allAccDriverReducer, CRUDAccDriverReducer } from './staffReducer';
 import {
 	newBookingReducer,
 	myBookingReducer,
@@ -43,6 +43,7 @@ export default combineReducers({
 	deleteAccUsers: deleteAccUserReducer,
 	allAccStaff: allAccStaffReducer,
 	CRUDAccStaff: CRUDAccStaffReducer,
+	CRUDAccDriver: CRUDAccDriverReducer,
 	newCar: newCarReducer,
 	updateOrDeleteCar: updateOrDeleteCarReducer,
 	allAccDriver: allAccDriverReducer,

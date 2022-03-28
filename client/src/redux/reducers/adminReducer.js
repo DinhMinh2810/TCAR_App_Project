@@ -159,14 +159,12 @@ export const allAccStaffReducer = (state = { users: [] }, action) => {
 export const CRUDAccStaffReducer = (state = {}, action) => {
 	switch (action.type) {
 		case 'CREATE_ACC_STAFF_REQUEST':
-		case 'CREATE_ACC_DRIVER_REQUEST':
 			return {
 				...state,
 				loading: true,
 			};
 
 		case 'CREATE_ACC_STAFF_SUCCESS':
-		case 'CREATE_ACC_DRIVER_SUCCESS':
 			return {
 				...state,
 				loading: false,
@@ -175,7 +173,6 @@ export const CRUDAccStaffReducer = (state = {}, action) => {
 			};
 
 		case 'CREATE_ACC_STAFF_FAIL':
-		case 'CREATE_ACC_DRIVER_FAIL':
 			return {
 				...state,
 				loading: false,
@@ -183,7 +180,6 @@ export const CRUDAccStaffReducer = (state = {}, action) => {
 			};
 
 		case 'CREATE_ACC_STAFF_RESET':
-		case 'CREATE_ACC_DRIVER_RESET':
 			return {
 				...state,
 				users: null,

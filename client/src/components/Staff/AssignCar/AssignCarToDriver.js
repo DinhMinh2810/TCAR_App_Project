@@ -1,23 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TitleBarPage from '../../Layout/TitleBarPage';
 import HeaderBarStaff from '../HeaderBarStaff/HeaderBarStaff';
-import { ToastContainer, toast } from 'react-toastify';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDriverNotAssign } from '../../../redux/actions/staffAction';
 import { assignCar } from '../../../redux/actions/carAction';
+import Pagination from 'react-js-pagination';
 
 const AssignCarToDriver = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { id } = useParams();
 	const carId = id;
-
-	const { users } = useSelector((state) => state.allAccDriver);
+	const [currentPage, setCurrentPage] = useState(1);
+	const { users, resultItemPage, usersCount, loading } = useSelector(
+		(state) => state.allAccDriver
+	);
 	const { success, error } = useSelector((state) => state.assignCar);
 
 	useEffect(() => {
-		dispatch(getDriverNotAssign());
+		dispatch(getDriverNotAssign(currentPage));
 
 		if (error) {
 			toast.error(error);
@@ -25,13 +28,16 @@ const AssignCarToDriver = () => {
 		}
 
 		if (success) {
-			toast.success('Assign this driver to car successfully !!');
 			navigate('/staff/assignCar');
 		}
-	}, [dispatch, success, navigate, error]);
+	}, [dispatch, success, navigate, error, currentPage]);
 
 	const assignUserToCarHandle = (userId) => {
 		dispatch(assignCar(carId, userId));
+	};
+
+	const setCurrentPageNo = (e) => {
+		setCurrentPage(e);
 	};
 
 	return (
@@ -39,8 +45,7 @@ const AssignCarToDriver = () => {
 			<HeaderBarStaff />
 			<TitleBarPage title="Assign driver to this car" />
 			<div className="flex flex-col p-3">
-				<ToastContainer className="toastify text-xs" />
-				<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+				<div className="-my-2 overflow-x-auto">
 					<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
 							<h2 className="text-center pb-3">All driver not assign car</h2>
@@ -109,7 +114,7 @@ const AssignCarToDriver = () => {
 											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
 												<button
 													onClick={() => assignUserToCarHandle(user?._id)}
-													className="border-1 p-2 rounded bg-cyan-300 mr-2"
+													className="border-1 p-2 rounded bg-cyan-300 mr-2 text-white bg-blue-600 hover:bg-blue-800"
 												>
 													Assign this driver to car
 												</button>
@@ -118,6 +123,24 @@ const AssignCarToDriver = () => {
 									))}
 								</tbody>
 							</table>
+						</div>
+						<div className="flex items-center justify-center mt-4">
+							{resultItemPage < usersCount && (
+								<Pagination
+									activePage={currentPage}
+									itemsCountPerPage={resultItemPage}
+									totalItemsCount={usersCount}
+									onChange={setCurrentPageNo}
+									nextPageText="Next"
+									prevPageText="Prev"
+									firstPageText="1st"
+									lastPageText="Last"
+									itemClass="page-item"
+									linkClass="page-link"
+									activeClass="pageItemActive"
+									activeLinkClass="pageLinkActive"
+								/>
+							)}
 						</div>
 					</div>
 				</div>

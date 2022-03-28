@@ -64,7 +64,7 @@ exports.deleteAccUser = catchAsyncErrShort(async (req, res, next) => {
 // Get all account staff
 exports.getAccStaff = catchAsyncErrShort(async (req, res) => {
 	const resultItemPage = 5;
-	const usersCount = await User.countDocuments();
+	const usersCount = await User.countDocuments({ role: 'Staff' });
 	const apiFeature = new ApiFeatures(User.find({ role: 'Staff' }), req.query)
 		.filter()
 		.pagination(resultItemPage);

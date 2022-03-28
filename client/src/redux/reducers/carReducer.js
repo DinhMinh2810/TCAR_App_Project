@@ -7,16 +7,12 @@ export const carsReducer = (state = { cars: [] }, action) => {
 				cars: [],
 			};
 		case 'ALL_CAR_SUCCESS':
+		case 'ADMIN_CAR_SUCCESS':
 			return {
 				loading: false,
 				cars: action.payload.cars,
 				carsCount: action.payload.carsCount,
 				resultItemPage: action.payload.resultItemPage,
-			};
-		case 'ADMIN_CAR_SUCCESS':
-			return {
-				loading: false,
-				cars: action.payload,
 			};
 		case 'ALL_CAR_FAIL':
 		case 'ADMIN_CAR_FAIL':

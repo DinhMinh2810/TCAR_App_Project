@@ -79,7 +79,7 @@ const AllAccStaff = () => {
 			<TitleBarPage title="Manager all staff" />
 			<div className="flex flex-col p-3">
 				<ToastContainer className="toastify text-xs" />
-				<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+				<div className="-my-2 overflow-x-auto">
 					<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
 							<h2 className="text-center pb-3">Manager all account staff</h2>

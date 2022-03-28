@@ -6,11 +6,15 @@ const cloudinary = require('cloudinary');
 
 // Get all Car -- Admin
 exports.getAdAllCars = catchAsyncErrShort(async (req, res) => {
-	const cars = await Car.find();
-	res.status(200).json({
-		success: true,
-		cars,
-	});
+	const resultItemPage = 5;
+	const carsCount = await Car.countDocuments();
+	const apiFeature = new ApiFeatures(Car.find(), req.query)
+		.filter()
+		.pagination(resultItemPage);
+
+	const cars = await apiFeature.query;
+
+	res.status(200).json({ carsCount, resultItemPage, cars });
 });
 
 // Get all Car with search, pagination -- All
