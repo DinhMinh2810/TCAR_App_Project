@@ -2,6 +2,7 @@ export const carsReducer = (state = { cars: [] }, action) => {
 	switch (action.type) {
 		case 'ALL_CAR_REQUEST':
 		case 'ADMIN_CAR_REQUEST':
+		case 'GET_ASSIGN_CAR_REQUEST':
 			return {
 				loading: true,
 				cars: [],
@@ -14,8 +15,16 @@ export const carsReducer = (state = { cars: [] }, action) => {
 				carsCount: action.payload.carsCount,
 				resultItemPage: action.payload.resultItemPage,
 			};
+
+		case 'GET_ASSIGN_CAR_SUCCESS':
+			return {
+				loading: false,
+				car: action.payload.car,
+				success: action.payload.success,
+			};
 		case 'ALL_CAR_FAIL':
 		case 'ADMIN_CAR_FAIL':
+		case 'GET_ASSIGN_CAR_FAIL':
 			return {
 				loading: false,
 				error: action.payload,

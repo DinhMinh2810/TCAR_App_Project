@@ -11,7 +11,7 @@ exports.createAccDriver = catchAsyncErrShort(async (req, res) => {
 		width: 150,
 		crop: 'scale',
 	});
-	const { name, email, password } = req.body;
+	const { name, email, password, location } = req.body;
 
 	if (!name || !email || !password) {
 		return res.status(400).json({ message: 'Please enter all fields !!' });
@@ -29,6 +29,7 @@ exports.createAccDriver = catchAsyncErrShort(async (req, res) => {
 		email,
 		password,
 		role: 'Driver',
+		location,
 		avatar: {
 			public_id: uploadImage.public_id,
 			url: uploadImage.secure_url,

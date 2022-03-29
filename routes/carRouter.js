@@ -12,10 +12,15 @@ const {
 	getCarReviews,
 	deleteReview,
 	removeAssignCar,
+	getDriverAssignCar,
 } = require('../controllers/carController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
 router.route('/getAllCars').get(getAllCars);
+
+router
+	.route('/myAssignCar')
+	.get(isAuthenticatedUser, authorWithRole('Driver'), getDriverAssignCar);
 
 router
 	.route('/assign')

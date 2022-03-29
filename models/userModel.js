@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false,
 		},
+		location: {
+			type: String,
+			default: 'Da Nang',
+		},
 		resetPasswordToken: String,
 		resetPasswordOTP: String,
 		resetPasswordExpireIn: Date,

@@ -214,6 +214,24 @@ export const deleteCar = (id) => async (dispatch) => {
 	}
 };
 
+export const getMyCarAssign = () => async (dispatch) => {
+	try {
+		dispatch({ type: 'GET_ASSIGN_CAR_REQUEST' });
+
+		const res = await axios.get(`/api/cars/myAssignCar`);
+
+		dispatch({
+			type: 'GET_ASSIGN_CAR_SUCCESS',
+			payload: res.data,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'GET_ASSIGN_CAR_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // assign car -- Staff
 export const assignCar = (carId, userId) => async (dispatch) => {
 	try {

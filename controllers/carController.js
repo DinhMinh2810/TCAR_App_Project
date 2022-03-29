@@ -128,6 +128,14 @@ exports.deleteCar = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({ success: true, message: 'Car deleted success !!' });
 });
 
+// Driver Assign Car -- Driver
+exports.getDriverAssignCar = catchAsyncErrShort(async (req, res) => {
+	const car = await Car.find({
+		'assigns.user': req.user.id,
+	});
+	res.status(200).json({ success: true, car });
+});
+
 // assign car to driver -- Staff
 exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 	const { carId, userId } = req.body;
@@ -146,9 +154,11 @@ exports.assignCarToDriver = catchAsyncErrShort(async (req, res) => {
 
 	if (user.role !== 'Driver') {
 		res.status(400).json({ message: 'Just assign car to driver !!' });
-	}
-
-	if (isAssigned) {
+	} else if (user.location !== car.location) {
+		res
+			.status(400)
+			.json({ message: 'Car and driver must be in the same location !!' });
+	} else if (isAssigned) {
 		res.status(400).json({
 			message:
 				'This car has already been assigned to another driver already !!',

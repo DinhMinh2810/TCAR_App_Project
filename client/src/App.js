@@ -57,6 +57,7 @@ import StaffPWChange from './components/Staff/Profile/StaffPWChange';
 import AllAccDriver from './components/Staff/ManagerAccDriver/AllAccDriver';
 import ChangePasswordDriver from './components/Staff/ManagerAccDriver/ChangePasswordDriver';
 import CreateAccDriver from './components/Staff/ManagerAccDriver/CreateAccDriver';
+import MyAssignCar from './components/Driver/MyAssignCar';
 
 function App() {
 	const dispatch = useDispatch();
@@ -421,6 +422,15 @@ function App() {
 					}
 				/>
 				{/* Driver  */}
+				<Route
+					exact
+					path="/driver/myCarAssign"
+					element={
+						<ProtectedRoute isDriver={true}>
+							<MyAssignCar />
+						</ProtectedRoute>
+					}
+				/>
 				{/* <Route path="/barChart" element={<BarChart />} /> */}
 				<Route
 					path="/messenger"

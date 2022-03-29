@@ -17,10 +17,22 @@ const CreateAccDriver = () => {
 		name: '',
 		email: '',
 		password: '',
+		location: '',
 	});
 
-	const { name, email, password } = user;
+	const { name, email, password, location } = user;
 	const [avatar, setAvatar] = useState('');
+
+	const locations = [
+		'Da Nang',
+		'Ha Noi',
+		'Ho Chi Minh',
+		'Can Tho',
+		'Ca Mau',
+		'Hai Phong',
+		'Gia Lai',
+		'Quang Nam',
+	];
 
 	const registerSubmit = (e) => {
 		e.preventDefault();
@@ -29,6 +41,7 @@ const CreateAccDriver = () => {
 		formData.set('name', name);
 		formData.set('email', email);
 		formData.set('password', password);
+		formData.set('location', location);
 		formData.set('avatar', avatar);
 		// console.log(Object.fromEntries(formData))
 		dispatch(createAccountDriver(formData));
@@ -67,7 +80,7 @@ const CreateAccDriver = () => {
 			<HeaderBarStaff />
 			<TitleBarPage title="Create account driver" />
 			<div className="flex items-center justify-center min-h-eightVH">
-				<div className="px-8 py-6 mx-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
+				<div className="px-8 py-6 mt-8 mx-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
 					<h3 className="text-2xl font-bold text-center">
 						Create account driver
 					</h3>
@@ -116,6 +129,25 @@ const CreateAccDriver = () => {
 									value={password}
 									onChange={addDataForm}
 								/>
+							</div>
+
+							<div className="mt-4">
+								<label className="block" htmlFor="email">
+									Location
+								</label>
+								<select
+									required
+									className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+									onChange={addDataForm}
+									name="location"
+								>
+									<option value="">Choose location</option>
+									{locations.map((local) => (
+										<option key={local} value={local}>
+											{local}
+										</option>
+									))}
+								</select>
 							</div>
 
 							<div className="mt-4">
