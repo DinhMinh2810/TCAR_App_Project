@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCarDetails } from '../../redux/actions/carAction';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { addCarsToCart } from '../../redux/actions/favoriteCartActions';
 import Loader from '../Layout/Loader/Loader';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -93,6 +93,7 @@ const CarDetail = () => {
 			setStartDay(valueTo);
 		}
 	};
+
 	const checkEndDates = (valueTo, startDay) => {
 		const VALUETO = new Date(valueTo);
 		const STARTDAY = new Date(startDay);
@@ -240,7 +241,7 @@ const CarDetail = () => {
 							</div>
 						</div>
 						<div className="py-4 border-b border-gray-200 flex items-center justify-between">
-							<p className="text-base leading-4 text-gray-800">
+							<p className="text-base leading-4 text-gray-800 ">
 								Choose day rental
 							</p>
 							<div className="flex items-center justify-center">

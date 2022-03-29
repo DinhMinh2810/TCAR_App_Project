@@ -54,20 +54,24 @@ export const getBookingDetails = (id) => async (dispatch) => {
 };
 
 // Get All booking - staff
-export const getAllBooking = () => async (dispatch) => {
-	try {
-		dispatch({ type: 'ALL_BOOKING_REQUEST' });
+export const getAllBooking =
+	(currentPage = 1) =>
+	async (dispatch) => {
+		try {
+			dispatch({ type: 'ALL_BOOKING_REQUEST' });
 
-		const { data } = await axios.get('/api/booking/getAllBooking');
+			const { data } = await axios.get(
+				`/api/booking/getAllBooking?page=${currentPage}`
+			);
 
-		dispatch({ type: 'ALL_BOOKING_SUCCESS', payload: data.booking });
-	} catch (error) {
-		dispatch({
-			type: 'ALL_BOOKING_FAIL',
-			payload: error.response.data.message,
-		});
-	}
-};
+			dispatch({ type: 'ALL_BOOKING_SUCCESS', payload: data });
+		} catch (error) {
+			dispatch({
+				type: 'ALL_BOOKING_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
 
 // Update Status Booking - Staff
 export const updateStatusBooking = (id, bookStatus) => async (dispatch) => {

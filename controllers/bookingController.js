@@ -1,10 +1,11 @@
 const Booking = require('../models/bookingModel');
 const Car = require('../models/carModel');
-const User = require('../models/userModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const braintree = require('braintree');
 const moment = require('moment');
+const ApiFeatures = require('../utils/ApiFeatures');
+
 // get Single booking
 exports.getSingleBooking = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.findById(req.params.id).populate(
@@ -27,9 +28,16 @@ exports.getSingleBooking = catchAsyncErrShort(async (req, res) => {
 
 // get all Booking -- Admin, Staff
 exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
-	const booking = await Booking.find();
+	const resultItemPage = 5;
+	const booksCount = await Booking.countDocuments();
+	const apiFeature = new ApiFeatures(Booking.find(), req.query).pagination(
+		resultItemPage
+	);
+	const books = await apiFeature.query;
 
 	let totalAllPrice = 0;
+
+	const booking = await Booking.find();
 
 	booking.forEach((book) => {
 		totalAllPrice += book.totalPrice;
@@ -37,38 +45,19 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 
 	booking.map(async (book) => {
 		const id = book.id;
+		const carID = book.bookCars[0]._car;
 		const now = moment(moment().startOf('hour'));
 		const startDayBook = moment(
 			moment(book.bookCars[0].startDay).startOf('hour')
 		);
 		const endDayBook = moment(moment(book.bookCars[0].endDay).startOf('hour'));
-		await updateStatusBooking(id, now, startDayBook, endDayBook);
+		await updateStatusBooking(id, now, startDayBook, endDayBook, carID);
 	});
 
-	res.status(200).json({
-		success: true,
-		totalAllPrice,
-		booking,
-	});
+	res
+		.status(200)
+		.json({ success: true, totalAllPrice, booksCount, resultItemPage, books });
 });
-
-async function updateStatusBooking(id, now, startDayBook, endDayBook) {
-	const book = await Booking.findById(id);
-
-	if (now < startDayBook) {
-		book.bookingStatus = 'Processing';
-	}
-
-	if (now >= startDayBook && now <= endDayBook) {
-		book.bookingStatus = 'isRunning';
-	}
-
-	if (now > endDayBook) {
-		book.bookingStatus = 'Done';
-	}
-
-	await book.save({ validateBeforeSave: false });
-}
 
 // Logged in and user check my all booking
 exports.myBooking = catchAsyncErrShort(async (req, res) => {
@@ -78,12 +67,13 @@ exports.myBooking = catchAsyncErrShort(async (req, res) => {
 
 	booking.map(async (book) => {
 		const id = book.id;
+		const carID = book.bookCars[0].car;
 		const now = moment(moment().startOf('hour'));
 		const startDayBook = moment(
 			moment(book.bookCars[0].startDay).startOf('hour')
 		);
 		const endDayBook = moment(moment(book.bookCars[0].endDay).startOf('hour'));
-		await updateStatusBooking(id, now, startDayBook, endDayBook);
+		await updateStatusBooking(id, now, startDayBook, endDayBook, carID);
 	});
 
 	res.status(200).json({
@@ -91,6 +81,28 @@ exports.myBooking = catchAsyncErrShort(async (req, res) => {
 		booking,
 	});
 });
+
+async function updateStatusBooking(id, now, startDayBook, endDayBook, carID) {
+	const book = await Booking.findById(id);
+	const car = await Car.findById(carID);
+	if (now < startDayBook) {
+		book.bookingStatus = 'Processing';
+		car.available = 'isBooked';
+	}
+
+	if (now >= startDayBook && now <= endDayBook) {
+		book.bookingStatus = 'isRunning';
+		car.available = 'isBooked';
+	}
+
+	if (now > endDayBook) {
+		book.bookingStatus = 'Done';
+		car.available = 'Update';
+	}
+
+	await book.save({ validateBeforeSave: false });
+	await car.save({ validateBeforeSave: false });
+}
 
 // Create new booking car
 exports.newBooking = catchAsyncErrShort(async (req, res) => {

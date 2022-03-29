@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { clearErrors } from '../../redux/actions/bookingAction';
 import { getBookingDetails } from './../../redux/actions/bookingAction';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Loader from '../Layout/Loader/Loader';
 import moment from 'moment';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
@@ -61,7 +61,9 @@ const BookingDetail = () => {
 							<h1 className="ml-2 uppercase font-bold text-gray-500">
 								Booking car details
 							</h1>
-							<p className="ml-2 font-normal text-gray-500">We beside you</p>
+							<p className="ml-2 font-normal text-gray-500">
+								We beside you 😂😂
+							</p>
 						</div>
 						<div className="mt-2 flex justify-start bg-white p-2">
 							<div className="flex mx-2 ml-6 h8 px-2 flex-row items-baseline rounded-full bg-gray-100 p-1">
@@ -108,15 +110,28 @@ const BookingDetail = () => {
 								))}
 
 							<div className="flex flex-col flex-wrap p-2">
-								<p className="text-gray-500">
-									Booking status: {book.bookingStatus}
-								</p>
+								{book?.bookingStatus === 'Processing' ? (
+									<p>
+										Booking status:
+										<span className="text-red-500"> Processing</span>
+									</p>
+								) : book?.bookingStatus === 'isRunning' ? (
+									<p>
+										Booking status:
+										<span className="text-cyan-600"> Is running</span>
+									</p>
+								) : (
+									<p>
+										Booking status:
+										<span className="text-lime-600"> Done</span>
+									</p>
+								)}
 								<p className="text-gray-500 ">
 									Payment status:
 									{book.paymentInfo && (
 										<span className="text-lime-600">
 											<span> </span>
-											{book.paymentInfo.status}
+											{book.paymentInfo.status === 'succeeded' && 'Succeeded'}
 										</span>
 									)}
 								</p>
@@ -130,6 +145,11 @@ const BookingDetail = () => {
 								<CarRepairIcon className="w-22 h-22 mx-2 self-center bg-gray-400 rounded-full fill-current text-white" />
 								<div className="text-sm mx-2 flex flex-col">
 									<p className="text-xl">INFO RECEIVED CAR 🙎🏼‍♂️🙎🏼‍♂️</p>
+									<p className="">
+										Name:
+										<span> </span>
+										{book?.userBooking?.nameUser && book?.userBooking?.nameUser}
+									</p>
 									<p className="">
 										Citizen Identifications:
 										<span> </span>

@@ -58,6 +58,7 @@ import AllAccDriver from './components/Staff/ManagerAccDriver/AllAccDriver';
 import ChangePasswordDriver from './components/Staff/ManagerAccDriver/ChangePasswordDriver';
 import CreateAccDriver from './components/Staff/ManagerAccDriver/CreateAccDriver';
 import MyAssignCar from './components/Driver/MyAssignCar';
+import ViewDetailBooking from './components/Staff/ManagerBooking/ViewDetailBooking';
 
 function App() {
 	const dispatch = useDispatch();
@@ -405,13 +406,14 @@ function App() {
 				/>
 				<Route
 					exact
-					path="/manager/updateStatusBooking/:id"
+					path="/manager/ViewDetailBooking"
 					element={
 						<ProtectedRoute isStaff={true}>
-							<UpdateBooking />
+							<ViewDetailBooking />
 						</ProtectedRoute>
 					}
 				/>
+
 				<Route
 					exact
 					path="/staff/assignCarToDriver/:id"

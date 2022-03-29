@@ -3,11 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { receiveCarTo } from '../../redux/actions/favoriteCartActions';
 import { useNavigate } from 'react-router-dom';
 import TitleBarPage from '../Layout/TitleBarPage';
+import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const ReceiveCarTo = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { receivingCarTo } = useSelector((state) => state.favoriteCart);
+	const { receivingCarTo, bookingCar } = useSelector(
+		(state) => state.favoriteCart
+	);
 
 	const [citizenIdentifications, setCitizenIdentifications] = useState(
 		receivingCarTo.citizenIdentifications
@@ -16,22 +20,31 @@ const ReceiveCarTo = () => {
 	const [day, setDay] = useState(receivingCarTo.day);
 
 	const [address, setAddress] = useState(receivingCarTo.address);
-	const [location, setLocation] = useState(receivingCarTo.location);
-
-	const locations = [
-		'Da Nang',
-		'Ha Noi',
-		'Ho Chi Minh',
-		'Can Tho',
-		'Ca Mau',
-		'Hai Phong',
-		'Gia Lai',
-		'Quang Nam',
-	];
+	const [location, setLocation] = useState(bookingCar.location);
 
 	const disablePastDate = () => {
 		const today = new Date().toISOString().slice(0, 16);
 		return today;
+	};
+
+	const checkDates = (valueTo, startDay, endDay) => {
+		const VALUETO = new Date(valueTo);
+		const STARTDAY = new Date(startDay);
+		const ENDDAY = new Date(endDay);
+		const startDayFormal = moment(STARTDAY).format('MMMM Do YYYY, h:mm:ss a');
+		const endDayFormal = moment(ENDDAY).format('MMMM Do YYYY, h:mm:ss a');
+		if (VALUETO <= STARTDAY) {
+			toast.error(
+				`Only booked from date  ${startDayFormal} to ${endDayFormal} !!`
+			);
+		}
+		if (VALUETO >= ENDDAY) {
+			toast.error(
+				`Only booked from date  ${startDayFormal} to ${endDayFormal} !!`
+			);
+		} else {
+			setDay(valueTo);
+		}
 	};
 
 	const confirmReceiveSubmit = (e) => {
@@ -88,7 +101,14 @@ const ReceiveCarTo = () => {
 								type="datetime-local"
 								value={day}
 								min={disablePastDate()}
-								onChange={(e) => setDay(e.target.value)}
+								// onChange={(e) => setDay(e.target.value)}
+								onChange={(e) =>
+									checkDates(
+										e.target.value,
+										bookingCar.startDay,
+										bookingCar.endDay
+									)
+								}
 								className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
 							/>
 						</div>
@@ -108,23 +128,16 @@ const ReceiveCarTo = () => {
 						</div>
 
 						<div className="mt-4">
-							<label
-								htmlFor="last-name"
-								className="block text-sm font-medium text-gray-700"
-							>
+							<label className="block" htmlFor="email">
 								Location
 							</label>
-							<select
-								className="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-								onChange={(e) => setLocation(e.target.value)}
-							>
-								<option value="">Choose location</option>
-								{locations.map((local) => (
-									<option key={local} value={local}>
-										{local}
-									</option>
-								))}
-							</select>
+							<input
+								type="text"
+								className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+								required
+								placeholder={bookingCar.location}
+								value={bookingCar.location}
+							/>
 						</div>
 
 						<div className="flex">

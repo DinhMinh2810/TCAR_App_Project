@@ -60,13 +60,13 @@ const FavoriteCart = () => {
 										Rent per day
 									</h3>
 									<h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
-										Start Day
+										Start Day Free
 									</h3>
 									<h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
-										End Day
+										End Day free
 									</h3>
 									<h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
-										Unit Total
+										Location
 									</h3>
 									<h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
 										View details

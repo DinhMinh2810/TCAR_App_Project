@@ -63,7 +63,7 @@ const HeaderBarStaff = () => {
 					Dashboard
 				</p>
 			</Link>
-			<Link to="/admin/manager/accStaff">
+			<Link to="/manager/allBooking">
 				<p className="header_sideBar_text">
 					<CurrencyExchangeIcon />
 					Manager all booking

@@ -5,6 +5,16 @@
     background-position: center;
 }
 
+.allHome {
+    position: relative;
+    z-index: 1;
+}
+
+.chatbot {
+    position: relative;
+    z-index: 2;
+}
+
 .chat-services {
     transition: 0.5s;
     max-height: 0;

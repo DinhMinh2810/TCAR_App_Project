@@ -65,12 +65,7 @@ const ConfirmBookCar = () => {
 										<div className="pb-4 md:pb-8 w-full md:w-40">
 											<img
 												className="w-full hidden md:block"
-												src="https://i.ibb.co/84qQR4p/Rectangle-10.png"
-												alt="dress"
-											/>
-											<img
-												className="w-full md:hidden"
-												src="https://i.ibb.co/L039qbN/Rectangle-10.png"
+												src={bookingCar?.image}
 												alt="dress"
 											/>
 										</div>
@@ -92,11 +87,11 @@ const ConfirmBookCar = () => {
 													</p>
 													<p className="text-sm leading-none text-gray-800">
 														<span className="text-gray-600">Start day: </span>
-														{moment(bookingCar?.StartDay).format('LLL')}
+														{moment(bookingCar?.startDay).format('LLL')}
 													</p>
 													<p className="text-sm leading-none text-gray-800">
 														<span className="text-gray-600">End day: </span>
-														{moment(bookingCar?.EndDay).format('LLL')}
+														{moment(bookingCar?.endDay).format('LLL')}
 													</p>
 												</div>
 											</div>
@@ -172,8 +167,9 @@ const ConfirmBookCar = () => {
 							<div className="flex flex-col justify-start items-start flex-shrink-0">
 								<div className="flex justify-center  w-full  md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
 									<img
-										src="https://i.ibb.co/5TSg7f6/Rectangle-18.png"
+										src={user?.avatar.url}
 										alt="avatar"
+										className="w-11 h-11"
 									/>
 									<div className=" flex justify-start items-start flex-col space-y-2">
 										<p className="text-base font-semibold leading-4 text-left text-gray-800">

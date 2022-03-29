@@ -30,10 +30,9 @@ const MyBooking = () => {
 					<ToastContainer className="toastify text-xs" />
 					<TitleBarPage title="My booking car" />
 					<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-						<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+						<div className="py-2 align-middle inline-block min-w-full sm:px-12 lg:px-12">
 							<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
 								<h2 className="text-center pb-3">All my booking car 🚘🚘</h2>
-
 								<table className="min-w-full divide-y divide-gray-200">
 									<thead className="bg-gray-50">
 										<tr>
@@ -54,20 +53,8 @@ const MyBooking = () => {
 												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 											>
 												Start <span className="font-extrabold"> &#8594; </span>{' '}
-												end day
-											</th>
-											<th
-												scope="col"
-												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-											>
-												Deposits
-											</th>
-											<th
-												scope="col"
-												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-											>
-												Payment for driver
-											</th>
+												end day rental
+											</th>			
 											<th
 												scope="col"
 												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -123,18 +110,23 @@ const MyBooking = () => {
 													<span className="font-extrabold"> &#8594; </span>
 													{moment(book?.bookCars[0]?.endDay).format('LLL')}
 												</td>
-												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-													$ {book?.deposits}
-												</td>
-												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-													$ {book?.priceForDriver}
-												</td>
+
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 													$ {book?.totalPrice}
 												</td>
-												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-													{book?.bookingStatus}
-												</td>
+												{book?.bookingStatus === 'Processing' ? (
+													<td className="px-6 py-4 whitespace-nowrap text-sm text-red-500">
+														Processing
+													</td>
+												) : book?.bookingStatus === 'isRunning' ? (
+													<td className="px-6 py-4 whitespace-nowrap text-sm text-cyan-600">
+														Is running
+													</td>
+												) : (
+													<td className="px-6 py-4 whitespace-nowrap text-sm text-lime-600">
+														Done
+													</td>
+												)}
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
 													<button
 														className="border-1 p-2 rounded bg-cyan-300 mr-2"

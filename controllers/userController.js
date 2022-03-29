@@ -377,7 +377,6 @@ exports.getSingleUserDetail = async (req, res) => {
 exports.changePassword = async (req, res) => {
 	try {
 		const user = await User.findById(req.user.id).select('+password');
-
 		// const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
 		// if (!isPasswordMatched) {

@@ -91,12 +91,16 @@ export const allBookingReducer = (state = { books: [] }, action) => {
 		case 'ALL_BOOKING_REQUEST':
 			return {
 				loading: true,
+				books: [],
 			};
 
 		case 'ALL_BOOKING_SUCCESS':
 			return {
 				loading: false,
-				books: action.payload,
+				totalAllPrice: action.payload.totalAllPrice,
+				booksCount: action.payload.booksCount,
+				resultItemPage: action.payload.resultItemPage,
+				books: action.payload.books,
 			};
 
 		case 'ALL_BOOKING_FAIL':

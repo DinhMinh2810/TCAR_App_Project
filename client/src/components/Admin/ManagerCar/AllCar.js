@@ -161,11 +161,15 @@ const AllCar = () => {
 													$ {car?.rentPerDay}
 												</td>
 												{car.available === 'notYetBook' ? (
-													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-														Ready
+													<td className="px-6 py-4 whitespace-nowrap text-sm text-cyan-600">
+														Not yet book
+													</td>
+												) : car.available === 'Update' ? (
+													<td className="px-6 py-4 whitespace-nowrap text-sm text-red-500">
+														Need update date
 													</td>
 												) : (
-													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+													<td className="px-6 py-4 whitespace-nowrap text-sm text-lime-600">
 														Booked
 													</td>
 												)}
