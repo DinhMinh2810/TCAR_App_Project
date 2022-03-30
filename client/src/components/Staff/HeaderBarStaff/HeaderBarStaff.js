@@ -98,7 +98,7 @@ const HeaderBarStaff = () => {
 					Assign Car
 				</p>
 			</Link>
-			<Link to="/admin/manager/allCar">
+			<Link to="/staff/allCarReview">
 				<p className="header_sideBar_text">
 					<ReviewsIcon />
 					Manager review

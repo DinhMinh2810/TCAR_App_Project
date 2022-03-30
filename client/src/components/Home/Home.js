@@ -27,6 +27,7 @@ const Home = () => {
 
 		if (success) {
 			toast.success(`Review successfully and see you later 💙💙`);
+			dispatch({ type: 'CREATE_REVIEW_RESET' });
 		}
 
 		dispatch(getCarsHomePage());

@@ -59,6 +59,8 @@ import CreateAccDriver from './components/Staff/ManagerAccDriver/CreateAccDriver
 import MyAssignCar from './components/Driver/MyAssignCar';
 import ViewDetailBooking from './components/Staff/ManagerBooking/ViewDetailBooking';
 import MyUserBook from './components/Driver/MyUserBook';
+import AllCarReview from './components/Staff/ManagerReview/AllCarReview';
+import CarReviewDetail from './components/Staff/ManagerReview/CarReviewDetail';
 
 function App() {
 	const dispatch = useDispatch();
@@ -406,6 +408,24 @@ function App() {
 					element={
 						<ProtectedRoute isStaff={true}>
 							<AssignCarToDriver />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					exact
+					path="/staff/allCarReview"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<AllCarReview />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					exact
+					path="/staff/carReviewDetail/:id"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<CarReviewDetail />
 						</ProtectedRoute>
 					}
 				/>

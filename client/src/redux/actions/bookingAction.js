@@ -121,9 +121,11 @@ export const myUserBooking =
 		try {
 			dispatch({ type: 'ALL_BOOKING_REQUEST' });
 
-			const { data } = await axios.get(`/api/booking/driverGetUserBooking`);
+			const { data } = await axios.get(
+				`/api/booking/driverGetUserBooking?page=${currentPage}`
+			);
 
-			dispatch({ type: 'ALL_BOOKING_SUCCESS', payload: data });
+			dispatch({ type: 'ALL_BOOKING_DRIVER_SUCCESS', payload: data });
 		} catch (error) {
 			dispatch({
 				type: 'ALL_BOOKING_FAIL',

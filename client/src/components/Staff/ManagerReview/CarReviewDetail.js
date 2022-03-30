@@ -1,92 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
-import HeaderBarAdmin from '../HeaderBarAdmin/HeaderBarAdmin';
+import { useNavigate } from 'react-router-dom';
 import TitleBarPage from '../../Layout/TitleBarPage';
-import {
-	clearErrors,
-	deleteCar,
-	getAdminCar,
-} from '../../../redux/actions/carAction';
-import moment from 'moment';
+import HeaderBarStaff from '../HeaderBarStaff/HeaderBarStaff';
+import { getAdminCar } from '../../../redux/actions/carAction';
 import Pagination from 'react-js-pagination';
 import Loader from '../../Layout/Loader/Loader';
+import { Rating } from '@mui/material';
 
-const AllCar = () => {
+const CarReviewDetail = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const [currentPage, setCurrentPage] = useState(1);
 	const { loading, cars, carsCount, resultItemPage } = useSelector(
 		(state) => state.carsProduct
 	);
-	const { success: successCreateCar } = useSelector((state) => state.newCar);
-	const {
-		isDeleted,
-		isUpdated,
-		error: deleteError,
-	} = useSelector((state) => state.updateOrDeleteCar);
+	const navigate = useNavigate();
+	const [currentPage, setCurrentPage] = useState(1);
 
 	useEffect(() => {
-		if (deleteError) {
-			toast.error(deleteError);
-			dispatch(clearErrors());
-		}
-
-		if (isDeleted) {
-			toast.success(isDeleted);
-			navigate('/admin/manager/allCar');
-			dispatch({ type: 'DELETE_CAR_RESET' });
-		}
-
-		if (isUpdated) {
-			toast.success('Update car successfully !!');
-			dispatch({ type: 'UPDATE_CAR_RESET' });
-		}
-
-		if (successCreateCar) {
-			toast.success('Create car successfully !!');
-			dispatch({ type: 'NEW_CAR_RESET' });
-		}
-
 		dispatch(getAdminCar(currentPage));
-	}, [
-		dispatch,
-		isDeleted,
-		navigate,
-		deleteError,
-		isUpdated,
-		successCreateCar,
-		currentPage,
-	]);
-
-	const updateCarHandle = (id) => {
-		navigate(`/admin/manager/allCar/update/${id}`);
-	};
-
-	const deleteCarHandle = (id) => {
-		dispatch(deleteCar(id));
-	};
-
-	const setCurrentPageNo = (e) => {
-		setCurrentPage(e);
-	};
+	}, [dispatch, currentPage]);
 
 	return (
 		<div className="dashboard">
-			<HeaderBarAdmin />
-			<TitleBarPage title="Manager all car" />
+			<HeaderBarStaff />
+			<TitleBarPage title="Manager car review details" />
 			<div className="flex flex-col p-3">
 				<div className="-my-2 overflow-x-auto">
 					<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-							<h2 className="text-center pb-3">Manager all car</h2>
-							<Link
-								to="/admin/manager/allCar/create"
-								className="border-1 p-2 rounded bg-emerald-500 text-white ml-3 mb-3 inline-block"
-							>
-								Create a new car
-							</Link>
+							<h2 className="text-center pb-3">Manager review details</h2>
 							{loading ? (
 								<Loader />
 							) : (
@@ -97,32 +40,25 @@ const AllCar = () => {
 												scope="col"
 												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 											>
-												Name car
+												User
 											</th>
 											<th
 												scope="col"
 												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 											>
-												Rent per day
+												Comment
 											</th>
 											<th
 												scope="col"
 												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 											>
-												Available
+												Evaluate driver
 											</th>
 											<th
 												scope="col"
 												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 											>
-												Start <span className="font-extrabold"> &#8594; </span>
-												end day free
-											</th>
-											<th
-												scope="col"
-												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-											>
-												Location
+												Rating car
 											</th>
 											<th
 												scope="col"
@@ -157,42 +93,32 @@ const AllCar = () => {
 														</div>
 													</div>
 												</td>
-												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-													$ {car?.rentPerDay}
-												</td>
-												{car.available === 'notYetBook' ? (
-													<td className="px-6 py-4 whitespace-nowrap text-sm text-cyan-600">
-														Not yet book
-													</td>
-												) : car.available === 'Update' ? (
-													<td className="px-6 py-4 whitespace-nowrap text-sm text-red-500">
-														Need update date
-													</td>
+												{car?.assigns?.name ? (
+													<>
+														<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+															{car?.assigns?.name}
+														</td>
+													</>
 												) : (
-													<td className="px-6 py-4 whitespace-nowrap text-sm text-lime-600">
-														Booked
-													</td>
+													<>
+														<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+															Not yet
+														</td>
+													</>
 												)}
-
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-													{moment(car?.startDay).format('LLL')}
-													<span className="font-extrabold"> &#8594; </span>
-													{moment(car?.endDay).format('LLL')}
+													{car?.numOfReviews} reviews
+												</td>
+												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+													<Rating value={car?.ratings} precision={0.5} />
 												</td>
 
-												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-													{car?.location}
-												</td>
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
 													<button
-														className="border-1 p-2 rounded bg-cyan-300 mr-2 text-white bg-blue-600 hover:bg-blue-800"
-														onClick={() => updateCarHandle(car?._id)}
-													>
-														Update
-													</button>
-													<button
-														className="border-1 p-2 rounded bg-red-500 text-white"
-														onClick={() => deleteCarHandle(car?._id)}
+														className="border-1 p-2 rounded mr-2 text-white bg-red-500"
+														onClick={() =>
+															navigate('/staff/carReviewDetail/car?._id')
+														}
 													>
 														Delete
 													</button>
@@ -228,4 +154,4 @@ const AllCar = () => {
 	);
 };
 
-export default AllCar;
+export default CarReviewDetail;

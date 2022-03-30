@@ -171,14 +171,37 @@ exports.deleteBooking = catchAsyncErrShort(async (req, res) => {
 
 // driver get my user booking -- Driver
 exports.driverGetUserBooking = catchAsyncErrShort(async (req, res) => {
+	const resultItemPage = 4;
+	const userBooksCount = await Booking.countDocuments({
+		'bookCars.driverID': req.user.id,
+	});
+	const apiFeature = new ApiFeatures(
+		Booking.find({
+			'bookCars.driverID': req.user.id,
+		}),
+		req.query
+	)
+		.pagination(resultItemPage)
+		.sort();
+
 	const booking = await Booking.find({
 		'bookCars.driverID': req.user.id,
 	});
 
-	res.status(200).json({
-		success: true,
-		booking,
+	booking.map(async (book) => {
+		const id = book.id;
+		const carID = book.bookCars[0].car;
+		const now = moment(moment().startOf('hour'));
+		const startDayBook = moment(
+			moment(book.bookCars[0].startDay).startOf('hour')
+		);
+		const endDayBook = moment(moment(book.bookCars[0].endDay).startOf('hour'));
+		await updateStatusBooking(id, now, startDayBook, endDayBook, carID);
 	});
+
+	const books = await apiFeature.query;
+
+	res.status(200).json({ userBooksCount, resultItemPage, books });
 });
 
 exports.sendApiKeyStripe = catchAsyncErrShort(async (req, res) => {

@@ -7,7 +7,7 @@ import './header.css';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { toast } from 'react-toastify';
-import { myBooking } from '../../../redux/actions/bookingAction';
+import { myBooking, myUserBooking } from '../../../redux/actions/bookingAction';
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
@@ -226,6 +226,9 @@ const Header = () => {
 																		active ? 'bg-gray-100' : '',
 																		'block px-4 py-2 text-sm text-gray-700'
 																	)}
+																	onClick={() => {
+																		dispatch(myUserBooking(1));
+																	}}
 																>
 																	🆕 My car user book
 																</Link>

@@ -8,11 +8,12 @@ import Loader from '../Layout/Loader/Loader';
 import moment from 'moment';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
 import PaidIcon from '@mui/icons-material/Paid';
-import { Dialog } from '@mui/material';
+import { Dialog, DialogActions } from '@mui/material';
 import { Rating } from '@mui/material';
 import { createReview } from './../../redux/actions/carAction';
 
 const BookingDetail = () => {
+	const { user } = useSelector((state) => state.auth);
 	const { book, error, loading } = useSelector((state) => state.bookingDetails);
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -36,8 +37,7 @@ const BookingDetail = () => {
 		open ? setOpen(false) : setOpen(true);
 	};
 
-	const reviewSubmitHandler = (e) => {
-		e.preventDefault();
+	const reviewSubmitHandler = () => {
 		const formData = new FormData();
 		formData.set('carId', book?.bookCars[0]?.car);
 		formData.set('driver', quality);
@@ -45,7 +45,7 @@ const BookingDetail = () => {
 		formData.set('rating', rating);
 
 		dispatch(createReview(formData));
-		console.log(Object.fromEntries(formData));
+		// console.log(Object.fromEntries(formData));
 		setOpen(false);
 		navigate('/');
 	};
@@ -68,7 +68,7 @@ const BookingDetail = () => {
 						<div className="mt-2 flex justify-start bg-white p-2">
 							<div className="flex mx-2 ml-6 h8 px-2 flex-row items-baseline rounded-full bg-gray-100 p-1">
 								<p className="font-normal text-sm ml-1 text-gray-500">
-									Check information your booking !!
+									All information booking !!
 								</p>
 							</div>
 						</div>
@@ -135,6 +135,7 @@ const BookingDetail = () => {
 										</span>
 									)}
 								</p>
+								<p className="text-gray-500">Method paid: {book.methodPaid}</p>
 								<p className="text-gray-500">
 									Paid at: {book && moment(book.paidAt).format('LLL')}
 								</p>
@@ -191,7 +192,7 @@ const BookingDetail = () => {
 									<p>Pay for driver: $ {book.priceForDriver}</p>
 									<p>Total: $ {book.totalPrice}</p>
 								</div>
-								{book.bookingStatus === 'Done' && (
+								{book.bookingStatus === 'Done' && user.role === 'User' && (
 									<div className="flex items-center">
 										<button
 											className="w-32 h-11 rounded-xl flex border-solid border bg-blue-500 mx-2 justify-center place-items-center"
@@ -208,10 +209,7 @@ const BookingDetail = () => {
 									onClose={submitReviewToggle}
 								>
 									<div className="flex items-center justify-center py-10 px-20">
-										<form
-											className="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4"
-											onSubmit={reviewSubmitHandler}
-										>
+										<div className="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4">
 											<div className="text-gray-800 text-2xl flex justify-center border-b-2 py-2 mb-4">
 												Review car
 											</div>
@@ -224,6 +222,7 @@ const BookingDetail = () => {
 												</label>
 												<select
 													className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+													required
 													onChange={(e) => setQuality(e.target.value)}
 												>
 													<option value="">Choose quality</option>
@@ -243,6 +242,7 @@ const BookingDetail = () => {
 												</label>
 												<textarea
 													value={comment}
+													required
 													onChange={(e) => setComment(e.target.value)}
 													className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 												/>
@@ -255,28 +255,28 @@ const BookingDetail = () => {
 													Ratings
 												</label>
 												<Rating
+													required
 													onChange={(e) => setRating(e.target.value)}
 													value={rating.toString()}
 													size="large"
 												/>
 											</div>
 
-											<div className="flex items-center justify-evenly">
+											<DialogActions className="flex items-center justify-evenly">
 												<button
-													className="px-3 py-2 rounded text-white inline-block shadow-lg bg-red-500 hover:bg-red-600 focus:bg-blue-700"
-													type="submit"
 													onClick={submitReviewToggle}
+													className="px-3 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700"
 												>
 													Cancel
 												</button>
 												<button
-													className="px-3 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700"
-													type="submit"
+													onClick={reviewSubmitHandler}
+													className="px-3 py-2 rounded text-white inline-block shadow-lg bg-red-500 hover:bg-red-600 focus:bg-blue-700"
 												>
 													Submit
 												</button>
-											</div>
-										</form>
+											</DialogActions>
+										</div>
 									</div>
 								</Dialog>
 								{/* test */}

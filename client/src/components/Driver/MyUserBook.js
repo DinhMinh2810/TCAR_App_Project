@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react';
-import { clearErrors, myBooking } from '../../redux/actions/bookingAction';
+import React, { useEffect, useState } from 'react';
+import { clearErrors, myUserBooking } from '../../redux/actions/bookingAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import Loader from '../Layout/Loader/Loader';
 import TitleBarPage from './../Layout/TitleBarPage';
 import { useNavigate } from 'react-router-dom';
+import Pagination from 'react-js-pagination';
 
 const MyUserBook = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { loading, error, books } = useSelector((state) => state.myBooking);
+	const [currentPage, setCurrentPage] = useState(1);
+	const { loading, error, books, userBooksCount, resultItemPage } = useSelector(
+		(state) => state.allBooking
+	);
 
 	useEffect(() => {
 		if (error) {
@@ -18,8 +22,12 @@ const MyUserBook = () => {
 			dispatch(clearErrors());
 		}
 
-		dispatch(myBooking());
-	}, [dispatch, error]);
+		dispatch(myUserBooking(currentPage));
+	}, [dispatch, error, currentPage]);
+
+	const setCurrentPageNo = (e) => {
+		setCurrentPage(e);
+	};
 
 	return (
 		<>
@@ -27,11 +35,13 @@ const MyUserBook = () => {
 				<Loader />
 			) : (
 				<div className="flex flex-col p-3">
-					<TitleBarPage title="My booking car" />
+					<TitleBarPage title="All user booking my car" />
 					<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 						<div className="py-2 align-middle inline-block min-w-full sm:px-12 lg:px-12">
 							<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-								<h2 className="text-center pb-3">All my booking car 🚘🚘</h2>
+								<h2 className="text-center pb-3">
+									All user booking my car 🚘🚘
+								</h2>
 								<table className="min-w-full divide-y divide-gray-200">
 									<thead className="bg-gray-50">
 										<tr>
@@ -141,6 +151,24 @@ const MyUserBook = () => {
 									</tbody>
 								</table>
 							</div>
+						</div>
+						<div className="flex items-center justify-center mt-3">
+							{resultItemPage < userBooksCount && (
+								<Pagination
+									activePage={currentPage}
+									itemsCountPerPage={resultItemPage}
+									totalItemsCount={userBooksCount}
+									onChange={setCurrentPageNo}
+									nextPageText="Next"
+									prevPageText="Prev"
+									firstPageText="1st"
+									lastPageText="Last"
+									itemClass="page-item"
+									linkClass="page-link"
+									activeClass="pageItemActive"
+									activeLinkClass="pageLinkActive"
+								/>
+							)}
 						</div>
 					</div>
 				</div>

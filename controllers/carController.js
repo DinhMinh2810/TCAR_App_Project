@@ -239,20 +239,22 @@ exports.createCarReview = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
-// Get All Reviews of car
+// Get all reviews of car
 exports.getCarReviews = catchAsyncErrShort(async (req, res) => {
-	const car = await Car.findById(req.query.id);
+	const resultItemPage = 5;
 
-	if (!car) {
-		return res.status(404).json({
-			success: true,
-			message: 'Car not found !!',
-		});
-	}
+	const apiFeature = new ApiFeatures(
+		Car.findById(req.query.id),
+		req.query
+	).pagination(resultItemPage);
+
+	const cars = await apiFeature.query;
+	const reviewsCount = Object.keys(cars.reviews).length;
 
 	res.status(200).json({
-		success: true,
-		reviews: car.reviews,
+		resultItemPage,
+		reviewsCount,
+		reviews: cars.reviews,
 	});
 });
 

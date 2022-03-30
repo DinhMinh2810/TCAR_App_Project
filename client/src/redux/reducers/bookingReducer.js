@@ -102,6 +102,13 @@ export const allBookingReducer = (state = { books: [] }, action) => {
 				resultItemPage: action.payload.resultItemPage,
 				books: action.payload.books,
 			};
+		case 'ALL_BOOKING_DRIVER_SUCCESS':
+			return {
+				loading: false,
+				userBooksCount: action.payload.userBooksCount,
+				resultItemPage: action.payload.resultItemPage,
+				books: action.payload.books,
+			};
 
 		case 'ALL_BOOKING_FAIL':
 			return {
