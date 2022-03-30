@@ -7,7 +7,7 @@ import Loader from '../Layout/Loader/Loader';
 import TitleBarPage from './../Layout/TitleBarPage';
 import { useNavigate } from 'react-router-dom';
 
-const MyBooking = () => {
+const MyUserBook = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { loading, error, books } = useSelector((state) => state.myBooking);
@@ -149,4 +149,4 @@ const MyBooking = () => {
 	);
 };
 
-export default MyBooking;
+export default MyUserBook;

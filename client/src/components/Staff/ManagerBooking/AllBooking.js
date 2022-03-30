@@ -162,7 +162,9 @@ const AllBooking = () => {
 														<button
 															className="border-1 p-2 rounded bg-cyan-300 mr-2 text-white bg-blue-600 hover:bg-blue-800"
 															onClick={() =>
-																navigate(`/manager/ViewDetailBooking`)
+																navigate(
+																	`/manager/ViewDetailBooking/${book?._id}`
+																)
 															}
 														>
 															View

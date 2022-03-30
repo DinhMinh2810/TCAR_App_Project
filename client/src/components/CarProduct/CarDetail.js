@@ -60,6 +60,7 @@ const CarDetail = () => {
 					image: car.images[0].url,
 					rentPerDay: car.rentPerDay,
 					nameDriver: car.assigns.name,
+					driverID: car.assigns.user,
 					location: car.location,
 				})
 			);

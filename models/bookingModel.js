@@ -62,6 +62,11 @@ const bookingSchema = new mongoose.Schema(
 					type: String,
 					required: true,
 				},
+				driverID: {
+					type: mongoose.Schema.ObjectId,
+					ref: 'User',
+					required: true,
+				},
 				car: {
 					type: mongoose.Schema.ObjectId,
 					ref: 'Car',
@@ -119,6 +124,11 @@ const bookingSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 			default: 0,
+		},
+		methodPaid: {
+			type: String,
+			required: true,
+			default: 'Stripe',
 		},
 		bookingStatus: {
 			type: String,

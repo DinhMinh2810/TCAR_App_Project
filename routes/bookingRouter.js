@@ -10,6 +10,7 @@ const {
 	sendApiKeyStripe,
 	generateTokenPayPal,
 	paymentPayPal,
+	driverGetUserBooking,
 } = require('../controllers/bookingController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
@@ -26,6 +27,10 @@ router.route('/create').post(isAuthenticatedUser, newBooking);
 router
 	.route('/delete/:id')
 	.delete(isAuthenticatedUser, authorWithRole('Staff'), deleteBooking);
+
+router
+	.route('/driverGetUserBooking')
+	.get(isAuthenticatedUser, authorWithRole('Driver'), driverGetUserBooking);
 
 router.route('/sendApiKeyStripe').get(isAuthenticatedUser, sendApiKeyStripe);
 

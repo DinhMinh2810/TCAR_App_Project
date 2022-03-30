@@ -8,6 +8,13 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 const MyAssignCar = () => {
 	const dispatch = useDispatch();
 	const { car } = useSelector((state) => state.carsProduct);
+	console.log('====================================');
+	console.log(typeof car);
+	console.log('====================================');
+
+	function isRealValue(obj) {
+		return obj && obj !== 'null' && obj !== 'undefined';
+	}
 
 	useEffect(() => {
 		dispatch(getMyCarAssign());
@@ -15,7 +22,7 @@ const MyAssignCar = () => {
 
 	return (
 		<>
-			{car &&
+			{car && car[0] ? (
 				car.map((item) => (
 					<div
 						className="flex items-center justify-center mt-20"
@@ -60,7 +67,19 @@ const MyAssignCar = () => {
 							</div>
 						</div>
 					</div>
-				))}
+				))
+			) : (
+				<div className="lg:px-20 md:px-6 px-4 py-12">
+					<div className="flex flex-col items-center justify-center">
+						<h1 className="lg:text-4xl text-3xl font-bold text-center text-gray-800 dark:text-white ">
+							You have not been assigned to any car 🤗🤗
+						</h1>
+						<p className="text-base leading-6 mt-4 text-center text-gray-600 dark:text-white  2xl:w-2/5 ">
+							Wait for the car to be received and work well !!
+						</p>
+					</div>
+				</div>
+			)}
 		</>
 	);
 };

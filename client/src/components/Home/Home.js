@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCarsHomePage, clearErrors } from '../../redux/actions/carAction';
 import CarProductCard from './CarProductCard';
 import { toast } from 'react-toastify';
-import { useNavigate, Navigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TitleBarPage from '../Layout/TitleBarPage';
 import Partner from './Partner';
 import Blog from './Blog';
@@ -15,6 +15,7 @@ import Search from './Search';
 
 const Home = () => {
 	const dispatch = useDispatch();
+	const { user } = useSelector((state) => state.auth);
 	const { cars, error } = useSelector((state) => state.carsProduct);
 	const { success } = useSelector((state) => state.createReview);
 
@@ -33,40 +34,40 @@ const Home = () => {
 
 	return (
 		<>
-			<div className="allHome">
-				<TitleBarPage title="Home" />
-				<Search />
+			{/* <div className="allHome"> */}
+			<TitleBarPage title="Home" />
+			<Search />
 
-				{/* Car product */}
-				<div className="bg-white">
-					<div className="max-w-2xl mx-auto pb-16 pt-5 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-						<h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
-							<div className="flex justify-between">
-								<p>
-									Featured Cars - Self Driving Cars <ElectricCarIcon />
-								</p>
-								<Link
-									to="/carProduct/refreshSearch"
-									className="text-slate-700 text-lg"
-								>
-									See More <ReadMoreIcon />
-								</Link>
-							</div>
+			{/* Car product */}
+			<div className="bg-white">
+				<div className="max-w-2xl mx-auto pb-16 pt-5 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+					<h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
+						<div className="flex justify-between">
+							<p>
+								Featured Cars - Self Driving Cars <ElectricCarIcon />
+							</p>
+							<Link
+								to="/carProduct/refreshSearch"
+								className="text-slate-700 text-lg"
+							>
+								See More <ReadMoreIcon />
+							</Link>
+						</div>
 
-							<div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-								{cars &&
-									cars.map((car) => <CarProductCard key={car._id} car={car} />)}
-							</div>
-						</h2>
-					</div>
+						<div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+							{cars &&
+								cars.map((car) => <CarProductCard key={car._id} car={car} />)}
+						</div>
+					</h2>
 				</div>
+			</div>
 
-				<GuideRental />
+			<GuideRental />
 
-				<Blog />
-				<Partner />
-				{/* chatbot */}
-				<div className="fixed bottom-0 right-0 flex flex-col items-end ml-6 w-full chatbot">
+			<Blog />
+			<Partner />
+			{/* chatbot */}
+			{/* <div className="fixed bottom-0 right-0 flex flex-col items-end ml-6 w-full chatbot">
 					<div className="chat-modal show  mr-5 flex flex-col mb-5 shadow-lg sm:w-1/2 md:w-1/3 lg:w-1/4">
 						<div className="close-chat bg-red-500 hover:bg-red-600 text-white mb-1 w-10 flex justify-center items-center px-2 py-1 rounded self-end cursor-pointer">
 							<svg
@@ -153,8 +154,8 @@ const Home = () => {
 							/>
 						</svg>
 					</div>
-				</div>
-			</div>
+				</div> */}
+			{/* </div> */}
 		</>
 	);
 };

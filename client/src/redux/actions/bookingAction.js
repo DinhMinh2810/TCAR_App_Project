@@ -114,6 +114,23 @@ export const deleteBooking = (id) => async (dispatch) => {
 	}
 };
 
+// Get my user booking - driver
+export const myUserBooking =
+	(currentPage = 1) =>
+	async (dispatch) => {
+		try {
+			dispatch({ type: 'ALL_BOOKING_REQUEST' });
+
+			const { data } = await axios.get(`/api/booking/driverGetUserBooking`);
+
+			dispatch({ type: 'ALL_BOOKING_SUCCESS', payload: data });
+		} catch (error) {
+			dispatch({
+				type: 'ALL_BOOKING_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });

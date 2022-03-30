@@ -52,7 +52,13 @@ const ReceiveCarTo = () => {
 		dispatch(
 			receiveCarTo({ citizenIdentifications, phoneNum, day, address, location })
 		);
+
 		navigate('/confirmBookCar');
+		setCitizenIdentifications('');
+		setPhoneNum('');
+		setDay('');
+		setAddress('');
+		setLocation('');
 	};
 
 	return (
@@ -101,7 +107,6 @@ const ReceiveCarTo = () => {
 								type="datetime-local"
 								value={day}
 								min={disablePastDate()}
-								// onChange={(e) => setDay(e.target.value)}
 								onChange={(e) =>
 									checkDates(
 										e.target.value,

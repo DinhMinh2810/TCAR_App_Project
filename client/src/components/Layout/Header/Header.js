@@ -7,6 +7,7 @@ import './header.css';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { toast } from 'react-toastify';
+import { myBooking } from '../../../redux/actions/bookingAction';
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
@@ -31,6 +32,7 @@ const Header = () => {
 		if (userSocial) {
 			dispatch(loadUser());
 		}
+
 		dispatch(loadUser());
 	}, [dispatch, userSocial]);
 
@@ -152,6 +154,9 @@ const Header = () => {
 																		active ? 'bg-gray-100' : '',
 																		'block px-4 py-2 text-sm text-gray-700'
 																	)}
+																	onClick={() => {
+																		dispatch(myBooking());
+																	}}
 																>
 																	🚖 My booking car
 																</Link>
@@ -216,7 +221,7 @@ const Header = () => {
 														<Menu.Item>
 															{({ active }) => (
 																<Link
-																	to="/myBooking"
+																	to="/driver/myUserBook"
 																	className={classNames(
 																		active ? 'bg-gray-100' : '',
 																		'block px-4 py-2 text-sm text-gray-700'

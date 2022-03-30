@@ -79,7 +79,6 @@ const CreateCar = () => {
 		}
 
 		if (successCreate) {
-			toast.success('Create car successfully !!');
 			navigate('/admin/manager/allCar');
 		}
 	}, [dispatch, error, successCreate, navigate]);
@@ -102,7 +101,6 @@ const CreateCar = () => {
 									<h3 className="text-2xl font-bold text-center">
 										Create a new car
 									</h3>
-									<ToastContainer className="toastify text-xs" />
 									<div className="grid grid-cols-6 gap-6">
 										<div className="col-span-6 sm:col-span-4">
 											<label

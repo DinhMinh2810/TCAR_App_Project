@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../redux/actions/authAction';
@@ -16,11 +16,23 @@ import logo1 from '../../../assets/images/logo1.png';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import ReviewsIcon from '@mui/icons-material/Reviews';
+import {
+	clearErrors,
+	getAllBooking,
+} from '../../../redux/actions/bookingAction';
 
 const HeaderBarStaff = () => {
+	const { error } = useSelector((state) => state.allBooking);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { user } = useSelector((state) => state.auth);
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+			dispatch(clearErrors());
+		}
+	}, [dispatch, error]);
 
 	const logoutSubmit = async () => {
 		dispatch(logout());
@@ -63,7 +75,12 @@ const HeaderBarStaff = () => {
 					Dashboard
 				</p>
 			</Link>
-			<Link to="/manager/allBooking">
+			<Link
+				to="/manager/allBooking"
+				onClick={() => {
+					dispatch(getAllBooking());
+				}}
+			>
 				<p className="header_sideBar_text">
 					<CurrencyExchangeIcon />
 					Manager all booking

@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TitleBarPage from '../../Layout/TitleBarPage';
 import HeaderBarStaff from './../HeaderBarStaff/HeaderBarStaff';
-import { useSelector } from 'react-redux';
 import Loader from '../../Layout/Loader/Loader';
 import moment from 'moment';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
 import PaidIcon from '@mui/icons-material/Paid';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import {
+	clearErrors,
+	getBookingDetails,
+} from './../../../redux/actions/bookingAction';
+import { useParams } from 'react-router-dom';
 
 const ViewDetailBooking = () => {
+	const { id } = useParams();
 	const { book, error, loading } = useSelector((state) => state.bookingDetails);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+			dispatch(clearErrors());
+		}
+
+		dispatch(getBookingDetails(id));
+	}, [dispatch, error, id]);
+
 	return (
 		<div className="dashboard">
 			<HeaderBarStaff />
@@ -54,6 +72,9 @@ const ViewDetailBooking = () => {
 													</p>
 													<p className="text-gray-500">
 														Seat category: {item?.seatsCategory}
+													</p>
+													<p className="text-gray-500">
+														Location: {item?.location} city
 													</p>
 												</div>
 											</div>
@@ -114,6 +135,11 @@ const ViewDetailBooking = () => {
 												book?.userBooking?.nameUser}
 										</p>
 										<p className="">
+											Email:
+											<span> </span>
+											{book?.userBooking?.email && book?.userBooking?.email}
+										</p>
+										<p className="">
 											Citizen Identifications:
 											<span> </span>
 											{book?.receivingCarTo?.citizenIdentifications &&
@@ -139,6 +165,7 @@ const ViewDetailBooking = () => {
 											<span>, </span>
 											{book?.receivingCarTo?.location &&
 												book?.receivingCarTo?.location}
+											<span> </span>
 											city
 										</p>
 									</div>

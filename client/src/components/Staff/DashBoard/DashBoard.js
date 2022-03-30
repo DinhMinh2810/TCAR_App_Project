@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TitleBarPage from '../../Layout/TitleBarPage';
 import HeaderBarStaff from '../HeaderBarStaff/HeaderBarStaff';
 

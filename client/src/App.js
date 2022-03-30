@@ -47,7 +47,6 @@ import PaymentSuccess from './components/FavoriteCart/Payment/PaymentSuccess';
 import MyBooking from './components/Booking/MyBooking';
 import BookingDetail from './components/Booking/BookingDetail';
 import AllBooking from './components/Staff/ManagerBooking/AllBooking';
-import UpdateBooking from './components/Staff/ManagerBooking/UpdateBooking';
 import ProfileAdmin from './components/Admin/Profile/ProfileAdmin';
 import ChangePasswordAdmin from './components/Admin/Profile/ChangePasswordAdmin';
 import EditProfileAdmin from './components/Admin/Profile/EditProfileAdmin';
@@ -59,10 +58,12 @@ import ChangePasswordDriver from './components/Staff/ManagerAccDriver/ChangePass
 import CreateAccDriver from './components/Staff/ManagerAccDriver/CreateAccDriver';
 import MyAssignCar from './components/Driver/MyAssignCar';
 import ViewDetailBooking from './components/Staff/ManagerBooking/ViewDetailBooking';
+import MyUserBook from './components/Driver/MyUserBook';
 
 function App() {
 	const dispatch = useDispatch();
 	const { user, isLoggedIn } = useSelector((state) => state.auth);
+
 	const [stripeApiKey, setStripeApiKey] = useState('');
 
 	const getApiKeyStripe = async () => {
@@ -72,6 +73,7 @@ function App() {
 
 	useEffect(() => {
 		dispatch(loadUser());
+
 		getApiKeyStripe();
 	}, [dispatch]);
 
@@ -82,7 +84,6 @@ function App() {
 			isLoggedIn === false ? (
 				<Header />
 			) : null}
-			{/* {user?.role === 'Admin' || user?.role === 'Staff' ? null : null} */}
 
 			<Routes>
 				<Route path="*" element={<NotFound />} />
@@ -191,7 +192,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					path="/bookingDetail/:id"
 					element={
@@ -200,7 +200,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				{/* Admin  */}
 				<Route
 					exact
@@ -211,7 +210,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/profile"
@@ -221,7 +219,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/changePassword"
@@ -231,7 +228,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/editProfile"
@@ -241,7 +237,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/admin/manager/allAccount"
@@ -314,7 +309,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				{/* Staff  */}
 				<Route
 					exact
@@ -325,7 +319,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/staff/profile"
@@ -335,7 +328,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/staff/changePassword"
@@ -345,7 +337,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/staff/editProfile"
@@ -355,7 +346,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/staff/manager/accDriver"
@@ -365,7 +355,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/staff/manager/accDriver/create"
@@ -375,7 +364,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/staff/manager/changePassword/:id"
@@ -385,7 +373,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/staff/assignCar"
@@ -406,14 +393,13 @@ function App() {
 				/>
 				<Route
 					exact
-					path="/manager/ViewDetailBooking"
+					path="/manager/ViewDetailBooking/:id"
 					element={
 						<ProtectedRoute isStaff={true}>
 							<ViewDetailBooking />
 						</ProtectedRoute>
 					}
 				/>
-
 				<Route
 					exact
 					path="/staff/assignCarToDriver/:id"
@@ -433,6 +419,16 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+				<Route
+					exact
+					path="/driver/myUserBook"
+					element={
+						<ProtectedRoute isDriver={true}>
+							<MyUserBook />
+						</ProtectedRoute>
+					}
+				/>
+				MyUserBook
 				{/* <Route path="/barChart" element={<BarChart />} /> */}
 				<Route
 					path="/messenger"

@@ -45,7 +45,7 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 
 	booking.map(async (book) => {
 		const id = book.id;
-		const carID = book.bookCars[0]._car;
+		const carID = book.bookCars[0].car;
 		const now = moment(moment().startOf('hour'));
 		const startDayBook = moment(
 			moment(book.bookCars[0].startDay).startOf('hour')
@@ -59,7 +59,7 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 		.json({ success: true, totalAllPrice, booksCount, resultItemPage, books });
 });
 
-// Logged in and user check my all booking
+// Logged in and user check my all booking -- User
 exports.myBooking = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.find({
 		'userBooking.user': req.user.id,
@@ -85,6 +85,7 @@ exports.myBooking = catchAsyncErrShort(async (req, res) => {
 async function updateStatusBooking(id, now, startDayBook, endDayBook, carID) {
 	const book = await Booking.findById(id);
 	const car = await Car.findById(carID);
+
 	if (now < startDayBook) {
 		book.bookingStatus = 'Processing';
 		car.available = 'isBooked';
@@ -165,6 +166,18 @@ exports.deleteBooking = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({
 		success: true,
 		message: 'Delete booking successfully !!',
+	});
+});
+
+// driver get my user booking -- Driver
+exports.driverGetUserBooking = catchAsyncErrShort(async (req, res) => {
+	const booking = await Booking.find({
+		'bookCars.driverID': req.user.id,
+	});
+
+	res.status(200).json({
+		success: true,
+		booking,
 	});
 });
 
