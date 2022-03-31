@@ -241,20 +241,18 @@ exports.createCarReview = catchAsyncErrShort(async (req, res) => {
 
 // Get all reviews of car
 exports.getCarReviews = catchAsyncErrShort(async (req, res) => {
-	const resultItemPage = 5;
+	const car = await Car.findById(req.query.id);
 
-	const apiFeature = new ApiFeatures(
-		Car.findById(req.query.id),
-		req.query
-	).pagination(resultItemPage);
-
-	const cars = await apiFeature.query;
-	const reviewsCount = Object.keys(cars.reviews).length;
+	if (!car) {
+		return res.status(404).json({
+			success: true,
+			message: 'Car not found !!',
+		});
+	}
 
 	res.status(200).json({
-		resultItemPage,
-		reviewsCount,
-		reviews: cars.reviews,
+		success: true,
+		reviews: car.reviews,
 	});
 });
 

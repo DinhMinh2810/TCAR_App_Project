@@ -21,6 +21,17 @@ const AllCarReview = () => {
 		dispatch(getAdminCar(currentPage));
 	}, [dispatch, currentPage]);
 
+	const viewDetailIdeas = (id) => {
+		// console.log('====================================');
+		// console.log(carReviews);
+		// console.log('====================================');
+		// carReviews.map((review) =>
+		// 	navigate(`/staff/carReviewDetail/${review._id}`)
+		// );
+
+		navigate(`/staff/carReviewDetail/${id}`);
+	};
+
 	return (
 		<div className="dashboard">
 			<HeaderBarStaff />
@@ -110,15 +121,17 @@ const AllCarReview = () => {
 													{car?.numOfReviews} reviews
 												</td>
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-													<Rating value={car?.ratings} precision={0.5} />
+													<Rating
+														value={car?.ratings}
+														precision={0.5}
+														readOnly
+													/>
 												</td>
 
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 bg-blue">
 													<button
 														className="border-1 p-2 rounded bg-cyan-300 mr-2 text-white bg-blue-600 hover:bg-blue-800"
-														onClick={() =>
-															navigate(`/staff/carReviewDetail/${car?._id}`)
-														}
+														onClick={() => viewDetailIdeas(car?._id)}
 													>
 														View details
 													</button>

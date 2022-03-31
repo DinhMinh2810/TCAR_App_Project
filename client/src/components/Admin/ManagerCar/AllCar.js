@@ -209,7 +209,7 @@ const AllCar = () => {
 									activePage={currentPage}
 									itemsCountPerPage={resultItemPage}
 									totalItemsCount={carsCount}
-									onChange={setCurrentPage}
+									onChange={setCurrentPageNo}
 									nextPageText="Next"
 									prevPageText="Prev"
 									firstPageText="1st"
