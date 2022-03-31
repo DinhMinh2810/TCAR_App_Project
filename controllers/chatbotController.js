@@ -1,8 +1,6 @@
-const express = require('express');
-const router = express.Router();
-
+const User = require('../models/userModel');
+const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 const dialogflow = require('@google-cloud/dialogflow');
-// Your credentials
 const CREDENTIALS = JSON.parse(process.env.CREDENTIALS);
 
 const PROJECID = CREDENTIALS.project_id;
@@ -20,10 +18,11 @@ const CONFIGURATION = {
 // Create a new session
 const sessionClient = new dialogflow.SessionsClient(CONFIGURATION);
 
-router.post('/textQuery', async (req, res) => {
+// User send mesage normal to chatbot
+exports.sendMessageToChatBot = catchAsyncErrShort(async (req, res) => {
 	//We need to send some information that comes from the client to Dialogflow API
 	let sessionPath = sessionClient.projectAgentSessionPath(PROJECID, sessionId);
-	// The text query request.
+	// The text user send to chatbot query request.
 	const request = {
 		session: sessionPath,
 		queryInput: {
@@ -37,17 +36,15 @@ router.post('/textQuery', async (req, res) => {
 	};
 
 	const responses = await sessionClient.detectIntent(request);
-	console.log('Detected intent');
 	const result = responses[0].queryResult;
-	console.log(`  Query: ${result.queryText}`);
-	console.log(`  Response: ${result.fulfillmentText}`);
-
-	res.send(result);
+	res.status(200).json({
+		userSendMessage: result.queryText,
+		chatBotResponse: result.fulfillmentText,
+	});
 });
 
-//Event Query Route -- create 1 cau noi de bot tra loi
-
-router.post('/eventQuery', async (req, res) => {
+// User send mesage frequently asked questions to chatbot
+exports.sendFrequentlyAskToChatBot = catchAsyncErrShort(async (req, res) => {
 	//We need to send some information that comes from the client to Dialogflow API
 	let sessionPath = sessionClient.projectAgentSessionPath(PROJECID, sessionId);
 	// The text query request.
@@ -72,4 +69,3 @@ router.post('/eventQuery', async (req, res) => {
 
 	res.send(result);
 });
-module.exports = router;
