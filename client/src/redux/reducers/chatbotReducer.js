@@ -1,5 +1,4 @@
-const initialState = { messages: [] };
-export const chatBotReducer = (state = initialState, action) => {
+export const chatBotReducer = (state = { messages: [] }, action) => {
 	switch (action.type) {
 		case 'SAVE_MESSAGE':
 			return {

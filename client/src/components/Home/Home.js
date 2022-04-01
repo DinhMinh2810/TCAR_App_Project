@@ -12,7 +12,7 @@ import ElectricCarIcon from '@mui/icons-material/ElectricCar';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import './home.css';
 import Search from './Search';
-import ChatBot from './ChatBot';
+import ChatBot from './ChatBot/ChatBot';
 
 const Home = () => {
 	const dispatch = useDispatch();

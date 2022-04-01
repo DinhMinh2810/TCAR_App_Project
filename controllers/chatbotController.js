@@ -62,10 +62,11 @@ exports.sendFrequentlyAskToChatBot = catchAsyncErrShort(async (req, res) => {
 
 	// Send request and log result
 	const responses = await sessionClient.detectIntent(request);
-	console.log('Detected intent');
 	const result = responses[0].queryResult;
-	console.log(`  Query: ${result.queryText}`);
-	console.log(`  Response: ${result.fulfillmentText}`);
 
-	res.send(result);
+	res.status(200).json({
+		userSendMessageFrequentlyAsk: result.queryText,
+		chatBotResponseFrequentlyAskEvent: result.fulfillmentText,
+	});
+	// res.send(result);
 });
