@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HeaderBarAdmin from '../HeaderBarAdmin/HeaderBarAdmin';
 import './dashboard.css';
 import TitleBarPage from '../../Layout/TitleBarPage';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { allAccUsers } from '../../../redux/actions/adminAction';
+import { getCars } from '../../../redux/actions/carAction';
+import { getAllBooking } from '../../../redux/actions/bookingAction';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Dashboard = () => {
+	const dispatch = useDispatch();
+
+	const { carsCount } = useSelector((state) => state.carsProduct);
+
+	const { booksCount, totalAllPrice } = useSelector(
+		(state) => state.allBooking
+	);
+
+	const { numAccountOfUser } = useSelector((state) => state.allAccUsers);
+	useEffect(() => {
+		// dispatch(getAdminProduct());
+		dispatch(getCars());
+		dispatch(allAccUsers());
+		dispatch(getAllBooking());
+	}, [dispatch]);
 	return (
 		<div className="dashboard">
 			<HeaderBarAdmin />
@@ -18,7 +37,7 @@ const Dashboard = () => {
 				<div className="p-4 text-white bg-blue-500 rounded-md shadow-md">
 					<div className="flex items-center justify-center">
 						<span className="text-white text-2xl font-medium">
-							Total Amount money: $ 2000
+							Total Amount money: $ {totalAllPrice}
 						</span>
 					</div>
 				</div>
@@ -62,9 +81,9 @@ const Dashboard = () => {
 
 								<div className="mx-5">
 									<h4 className="text-2xl font-semibold text-gray-700">
-										8,282
+										{booksCount}
 									</h4>
-									<div className="text-gray-500">All Booking</div>
+									<div className="text-gray-500">All Bookings</div>
 								</div>
 							</div>
 						</div>
@@ -95,9 +114,9 @@ const Dashboard = () => {
 
 								<div className="mx-5">
 									<h4 className="text-2xl font-semibold text-gray-700">
-										200,521
+										{carsCount}
 									</h4>
-									<div className="text-gray-500">All Car</div>
+									<div className="text-gray-500">All Cars</div>
 								</div>
 							</div>
 						</div>
@@ -124,11 +143,12 @@ const Dashboard = () => {
 											stroke-width="2"
 										></path>
 									</svg>
+									<AccountCircleIcon />
 								</div>
 
 								<div className="mx-5">
 									<h4 className="text-2xl font-semibold text-gray-700">
-										215,542
+										{numAccountOfUser}
 									</h4>
 									<div className="text-gray-500">All Users</div>
 								</div>

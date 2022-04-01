@@ -5,9 +5,11 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveMessage } from './../../../redux/actions/chatbotAction';
+import chatBot from '../../../assets/images/chatbot.png';
 
 const ChatBot = () => {
 	const dispatch = useDispatch();
+
 	const { messages } = useSelector((state) => state.chatbot);
 
 	const chatModal = document.querySelector('.chat-modal');
@@ -148,9 +150,9 @@ const ChatBot = () => {
 					<div className="flex justify-between items-center text-white p-2 bg-sky-500 border shadow-lg mr-5 w-full">
 						<div className="flex items-center">
 							<img
-								src="https://f0.pngfuel.com/png/136/22/profile-icon-illustration-user-profile-computer-icons-girl-customer-avatar-png-clip-art-thumbnail.png"
-								alt="picture"
 								className="rounded-full w-8 h-8 mr-1"
+								src={chatBot}
+								alt="pictures"
 							/>
 							<h2 className="font-semibold tracking-wider">ChatBot</h2>
 						</div>
@@ -173,7 +175,7 @@ const ChatBot = () => {
 												</div>
 											) : (
 												<div
-													className="message bg-green-500 text-sky-500 border-cyan-500 border-1 p-2 self-end my-2 rounded-md shadow ml-3"
+													className="message text-sky-500 border-cyan-500 border-1 p-2 self-end my-2 rounded-md shadow ml-3"
 													key={i}
 												>
 													{item?.content?.text?.text}
@@ -193,7 +195,7 @@ const ChatBot = () => {
 							className="pl-4 pr-16 py-2 border border-green-500 focus:outline-none w-full"
 							onKeyPress={keyPressHandler}
 						/>
-						<button className="absolute right-0 bottom-0 text-green-600 bg-white  hover:text-green-500 m-1 px-3 py-1 w-auto transistion-color duration-100 focus:outline-none">
+						<button className="absolute right-0 bottom-0 text-green-600 bg-white hover:text-green-500 m-1 px-3 py-1 w-auto transistion-color duration-100 focus:outline-none">
 							Send
 						</button>
 					</div>

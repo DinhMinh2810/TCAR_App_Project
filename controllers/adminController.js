@@ -13,8 +13,9 @@ exports.getAllAccount = catchAsyncErrShort(async (req, res) => {
 		.pagination(resultItemPage);
 
 	const users = await apiFeature.query;
+	const numAccountOfUser = await User.countDocuments({ role: 'User' });
 
-	res.status(200).json({ usersCount, resultItemPage, users });
+	res.status(200).json({ usersCount, resultItemPage, users, numAccountOfUser });
 });
 
 // Update role for user

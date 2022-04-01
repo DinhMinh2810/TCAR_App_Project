@@ -12,6 +12,7 @@ export const allAccUsersReducer = (state = { users: [] }, action) => {
 				users: action.payload.users,
 				usersCount: action.payload.usersCount,
 				resultItemPage: action.payload.resultItemPage,
+				numAccountOfUser: action.payload.numAccountOfUser,
 			};
 
 		case 'ALL_USERS_FAIL':

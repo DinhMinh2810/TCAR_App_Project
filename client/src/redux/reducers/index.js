@@ -57,7 +57,6 @@ export default combineReducers({
 	updateOrDeleteBooking: updateOrDeleteBookingReducer,
 	carReviews: carReviewsReducer,
 	deleteReview: deleteReviewReducer,
-	// not
 	carsProduct: carsReducer,
 	carProductDetails: carDetailsReducer,
 	chatbot: chatBotReducer,
