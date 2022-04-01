@@ -1,6 +1,6 @@
 .chatbot {
-    position: relative;
-    z-index: 2;
+    position: absolute;
+    z-index: 1;
 }
 
 .chat-services {

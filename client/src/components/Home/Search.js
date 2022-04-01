@@ -38,7 +38,7 @@ const Search = () => {
 	return (
 		<div className="h-50 bg">
 			<div className="container h-screen mx-auto flex justify-center items-center md:p-0">
-				<div className="border border-gray-300 p-6 grid grid-cols-1 gap-6 bg-white shadow-lg rounded-lg mb-20">
+				<div className="relative z-10 border border-gray-300 p-6 grid grid-cols-1 gap-6 bg-white shadow-lg rounded-lg mb-20 ">
 					<div className="flex justify-center">
 						<p className="font-bold text-2xl">
 							TCAR - always with you on every journey

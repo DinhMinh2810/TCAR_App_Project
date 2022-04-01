@@ -121,7 +121,7 @@ const CarRefreshSearch = () => {
 			{loading ? (
 				<Loader />
 			) : (
-				<div className="bg-white">
+				<div className="bg-white relative z-10">
 					<div>
 						{/* Mobile filter dialog */}
 						<Transition.Root show={mobileFiltersOpen} as={Fragment}>

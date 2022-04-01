@@ -60,7 +60,6 @@ const ChatBot = () => {
 		dispatch(saveMessage(conversation));
 
 		try {
-			//I will send request to the textQuery ROUTE
 			const config = {
 				headers: { 'Content-Type': 'application/json' },
 			};
@@ -74,14 +73,6 @@ const ChatBot = () => {
 			conversation = { who: 'ChatBot', content: data.chatBotResponse };
 
 			dispatch(saveMessage(conversation));
-			// for (let content of response.data.fulfillmentMessages) {
-			// 	conversation = {
-			// 		who: 'bot',
-			// 		content: content,
-			// 	};
-
-			// 	// dispatch(saveMessage(conversation));
-			// }
 		} catch (error) {
 			conversation = {
 				who: 'ChatBot',
@@ -114,15 +105,6 @@ const ChatBot = () => {
 				content: data.chatBotResponseFrequentlyAskEvent,
 			};
 			dispatch(saveMessage(conversation));
-
-			// for (let content of data.fulfillmentMessages) {
-			// 	let conversation = {
-			// 		who: 'bot',
-			// 		content: content,
-			// 	};
-
-			// 	// dispatch(saveMessage(conversation));
-			// }
 		} catch (error) {
 			let conversation = {
 				who: 'ChatBot',
@@ -133,45 +115,6 @@ const ChatBot = () => {
 				},
 			};
 			dispatch(saveMessage(conversation));
-		}
-	};
-
-	const renderOneMessage = (message, i) => {
-		console.log('message', message.content);
-
-		return (
-			<>
-				{message?.who === 'ChatBot' &&
-					message?.who === 'User' &&
-					message?.content &&
-					message?.content.text &&
-					message?.content.text.text && (
-						<>
-							{/* <div className="chat bg-slate-200 text-gray-700 p-2 self-start my-2 rounded-md shadow mr-3">
-								{message?.content}
-							</div> */}
-							{/* {message?.who === 'ChatBot' ? (
-								<div className="chat bg-slate-200 text-gray-700 p-2 self-start my-2 rounded-md shadow mr-3">
-									{message?.content}
-								</div>
-							) : (
-								<div className="message bg-green-500 text-sky-500 border-cyan-500 border-1 p-2 self-end my-2 rounded-md shadow ml-3">
-									{message?.content?.text?.text}
-								</div>
-							)} */}
-						</>
-					)}
-			</>
-		);
-	};
-
-	const renderMessage = (returnedMessages) => {
-		if (returnedMessages) {
-			return returnedMessages.map((message, i) => {
-				return renderOneMessage(message, i);
-			});
-		} else {
-			return null;
 		}
 	};
 
@@ -216,41 +159,31 @@ const ChatBot = () => {
 							<div className="rounded-full w-2 h-2 bg-white"></div>
 						</div>
 					</div>
-					<div className="flex flex-col bg-white px-2 chat-services expand overflow-auto">
-						{/* {renderMessage(messages)} */}
+					<div className="min-h-[350px] flex flex-col bg-white px-2 chat-services expand overflow-auto">
 						<>
-							{messages ? (
-								messages?.map((item) => (
-									<>
-										{item.who === 'ChatBot' ? (
-											<div className="chat bg-slate-200 text-gray-700 p-2 self-start my-2 rounded-md shadow mr-3">
-												{item.content}
-												{console.log(item)}
-											</div>
-										) : (
-											<div className="message bg-green-500 text-sky-500 border-cyan-500 border-1 p-2 self-end my-2 rounded-md shadow ml-3">
-												{item?.content?.text?.text}
-											</div>
-										)}
-									</>
-								))
-							) : (
-								<h1>ss</h1>
-							)}
+							{messages
+								? messages?.map((item, i) => (
+										<>
+											{item.who === 'ChatBot' ? (
+												<div
+													className="chat bg-slate-200 text-gray-700 p-2 self-start my-2 rounded-md shadow mr-3"
+													key={i}
+												>
+													{item?.content}
+												</div>
+											) : (
+												<div
+													className="message bg-green-500 text-sky-500 border-cyan-500 border-1 p-2 self-end my-2 rounded-md shadow ml-3"
+													key={i}
+												>
+													{item?.content?.text?.text}
+												</div>
+											)}
+										</>
+								  ))
+								: null}
 						</>
 					</div>
-					{/* <div className="flex flex-col bg-white px-2 chat-services expand overflow-auto">
-						<div className="chat bg-slate-200 text-gray-700 p-2 self-start my-2 rounded-md shadow mr-3">
-							apa ada yang bisa saya bantu ?
-						</div>
-						<div style={{ height: 644, width: '100%', overflow: 'auto' }}>
-							{renderMessage(messages)}
-						</div>
-						<div className="message bg-green-500 text-sky-500 border-cyan-500 border-1 p-2 self-end my-2 rounded-md shadow ml-3">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Perferendis, quod.
-						</div>
-					</div> */}
 
 					<div className="relative bg-white">
 						<input

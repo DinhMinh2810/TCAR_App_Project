@@ -113,7 +113,7 @@ const Car = () => {
 	};
 
 	return (
-		<div className="bg-white">
+		<div className="bg-white relative z-20">
 			<div>
 				{/* Mobile filter dialog */}
 				<Transition.Root show={mobileFiltersOpen} as={Fragment}>
