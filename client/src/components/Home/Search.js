@@ -41,9 +41,13 @@ const Search = () => {
 				<div className="relative z-10 border border-gray-300 p-6 grid grid-cols-1 gap-6 bg-white shadow-lg rounded-lg mb-20 ">
 					<div className="flex justify-center">
 						<p className="font-bold text-2xl">
-							TCAR - always with you on every journey
+							TCAR - always with you on every journey 🤣🤣
 						</p>
-						<ToastContainer className="toastify text-xs" />
+					</div>
+					<div className="flex justify-center">
+						<p className="text-base">
+							Please find car from 9:00 AM today to 9:00 AM next day
+						</p>
 					</div>
 					<form onSubmit={searchSubmitHandler}>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">

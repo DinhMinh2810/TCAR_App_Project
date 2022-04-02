@@ -126,6 +126,47 @@ export const allBookingReducer = (state = { books: [] }, action) => {
 	}
 };
 
+export const allBookingStaticTotalReducer = (state = {}, action) => {
+	switch (action.type) {
+		case 'ALL_BOOKING_STATIC_TOTAL_REQUEST':
+			return {
+				loading: true,
+				books: [],
+			};
+
+		case 'ALL_BOOKING_STATIC_TOTAL_SUCCESS':
+			return {
+				loading: false,
+				totalMonth1: action.payload.totalMonth1,
+				totalMonth2: action.payload.totalMonth2,
+				totalMonth3: action.payload.totalMonth3,
+				totalMonth4: action.payload.totalMonth4,
+				totalMonth5: action.payload.totalMonth5,
+				totalMonth6: action.payload.totalMonth6,
+				totalMonth7: action.payload.totalMonth7,
+				totalMonth8: action.payload.totalMonth8,
+				totalMonth9: action.payload.totalMonth9,
+				totalMonth10: action.payload.totalMonth10,
+				totalMonth11: action.payload.totalMonth11,
+				totalMonth12: action.payload.totalMonth12,
+			};
+
+		case 'ALL_BOOKING_STATIC_TOTAL_FAIL':
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+
+		default:
+			return state;
+	}
+};
+
 export const updateOrDeleteBookingReducer = (state = {}, action) => {
 	switch (action.type) {
 		case 'UPDATE_STATUS_BOOKING_REQUEST':

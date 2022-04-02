@@ -69,12 +69,6 @@ const HeaderBarStaff = () => {
 					</TreeView>
 				</p>
 			</Link>
-			<Link to="/admin/dashboard">
-				<p className="header_sideBar_text">
-					<DashboardIcon />
-					Dashboard
-				</p>
-			</Link>
 			<Link
 				to="/manager/allBooking"
 				onClick={() => {

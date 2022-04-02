@@ -20,10 +20,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
 import PaymentPayPal from './components/FavoriteCart/Payment/PaymentPayPal';
-import DashboardStaff from './components/Staff/DashBoard/DashBoard';
-import BarChart from './components/Charts/BarChart';
 import Messenger from './components/Messenger/Messenger';
-import ChatBot from './components/ChatBot/ChatBot';
 import NotFound from './components/Layout/NotFound/NotFound';
 import DirectRoleHome from './components/Route/DirectRoleHome';
 import ConfirmOTP from './components/Auth/ForgotPassword/ConfirmOTP';
@@ -314,15 +311,6 @@ function App() {
 				{/* Staff  */}
 				<Route
 					exact
-					path="/staff/dashboard"
-					element={
-						<ProtectedRoute isStaff={true}>
-							<DashboardStaff />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					exact
 					path="/staff/profile"
 					element={
 						<ProtectedRoute isStaff={true}>
@@ -448,8 +436,8 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-				MyUserBook
-				{/* <Route path="/barChart" element={<BarChart />} /> */}
+
+				{/* //not yet */}
 				<Route
 					path="/messenger"
 					element={
@@ -458,7 +446,6 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-				<Route path="/chatbot" element={<ChatBot />} />
 			</Routes>
 
 			{user?.role === 'User' ||

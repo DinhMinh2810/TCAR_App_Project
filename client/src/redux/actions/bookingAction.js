@@ -73,6 +73,24 @@ export const getAllBooking =
 		}
 	};
 
+// Statistics Total Amount Booking by month -- Admin
+export const statisticsTotalAmountBooking = () => async (dispatch) => {
+	try {
+		dispatch({ type: 'ALL_BOOKING_STATIC_TOTAL_REQUEST' });
+
+		const { data } = await axios.get(
+			`/api/booking/statisticsTotalAmountBooking`
+		);
+
+		dispatch({ type: 'ALL_BOOKING_STATIC_TOTAL_SUCCESS', payload: data });
+	} catch (error) {
+		dispatch({
+			type: 'ALL_BOOKING_STATIC_TOTAL_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Update Status Booking - Staff
 export const updateStatusBooking = (id, bookStatus) => async (dispatch) => {
 	try {

@@ -11,6 +11,7 @@ const {
 	generateTokenPayPal,
 	paymentPayPal,
 	driverGetUserBooking,
+	statisticsTotalAmountBooking,
 } = require('../controllers/bookingController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
@@ -21,6 +22,14 @@ router.route('/myBooking').get(isAuthenticatedUser, myBooking);
 router
 	.route('/getAllBooking')
 	.get(isAuthenticatedUser, authorWithRole('Admin', 'Staff'), getAllBooking);
+
+router
+	.route('/statisticsTotalAmountBooking')
+	.get(
+		isAuthenticatedUser,
+		authorWithRole('Admin'),
+		statisticsTotalAmountBooking
+	);
 
 router.route('/create').post(isAuthenticatedUser, newBooking);
 

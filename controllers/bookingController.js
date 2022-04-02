@@ -30,9 +30,9 @@ exports.getSingleBooking = catchAsyncErrShort(async (req, res) => {
 exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 	const resultItemPage = 5;
 	const booksCount = await Booking.countDocuments();
-	const apiFeature = new ApiFeatures(Booking.find(), req.query).pagination(
-		resultItemPage
-	);
+	const apiFeature = new ApiFeatures(Booking.find(), req.query)
+		.pagination(resultItemPage)
+		.sort();
 	const books = await apiFeature.query;
 
 	let totalAllPrice = 0;
@@ -57,6 +57,78 @@ exports.getAllBooking = catchAsyncErrShort(async (req, res) => {
 	res
 		.status(200)
 		.json({ success: true, totalAllPrice, booksCount, resultItemPage, books });
+});
+
+// Statistics of total amount by month -- Admin
+exports.statisticsTotalAmountBooking = catchAsyncErrShort(async (req, res) => {
+	const booking = await Booking.find();
+	let totalMonth1 = 0;
+	let totalMonth2 = 0;
+	let totalMonth3 = 0;
+	let totalMonth4 = 0;
+	let totalMonth5 = 0;
+	let totalMonth6 = 0;
+	let totalMonth7 = 0;
+	let totalMonth8 = 0;
+	let totalMonth9 = 0;
+	let totalMonth10 = 0;
+	let totalMonth11 = 0;
+	let totalMonth12 = 0;
+	booking.forEach((book) => {
+		const month = moment(book.paidAt, 'YYYY/MM/DD').format('M');
+		if (month === '1') {
+			return (totalMonth1 = totalMonth1 + book.totalPrice);
+		}
+		if (month === '2') {
+			return (totalMonth2 = totalMonth2 + book.totalPrice);
+		}
+		if (month === '3') {
+			return (totalMonth3 = totalMonth3 + book.totalPrice);
+		}
+		if (month === '4') {
+			return (totalMonth4 = totalMonth4 + book.totalPrice);
+		}
+		if (month === '5') {
+			return (totalMonth5 = totalMonth5 + book.totalPrice);
+		}
+		if (month === '6') {
+			return (totalMonth6 = totalMonth6 + book.totalPrice);
+		}
+		if (month === '7') {
+			return (totalMonth7 = totalMonth7 + book.totalPrice);
+		}
+		if (month === '8') {
+			return (totalMonth8 = totalMonth8 + book.totalPrice);
+		}
+
+		if (month === '9') {
+			return (totalMonth9 = totalMonth9 + book.totalPrice);
+		}
+		if (month === '10') {
+			return (totalMonth10 = totalMonth10 + book.totalPrice);
+		}
+		if (month === '11') {
+			return (totalMonth11 = totalMonth11 + book.totalPrice);
+		}
+		if (month === '12') {
+			return (totalMonth12 = totalMonth12 + book.totalPrice);
+		}
+	});
+
+	res.status(200).json({
+		totalMonth1,
+		totalMonth2,
+		totalMonth3,
+		totalMonth4,
+		totalMonth5,
+		totalMonth6,
+		totalMonth7,
+		totalMonth8,
+		totalMonth9,
+		totalMonth10,
+		totalMonth11,
+		totalMonth12,
+	});
 });
 
 // Logged in and user check my all booking -- User

@@ -14,6 +14,7 @@ export const carsReducer = (state = { cars: [] }, action) => {
 				cars: action.payload.cars,
 				carsCount: action.payload.carsCount,
 				resultItemPage: action.payload.resultItemPage,
+				carsReview: action.payload.carsReview,
 			};
 
 		case 'GET_ASSIGN_CAR_SUCCESS':

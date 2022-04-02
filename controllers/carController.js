@@ -14,7 +14,13 @@ exports.getAdAllCars = catchAsyncErrShort(async (req, res) => {
 
 	const cars = await apiFeature.query;
 
-	res.status(200).json({ carsCount, resultItemPage, cars });
+	const apiFeatureReview = new ApiFeatures(Car.find({ ratings: 5 }), req.query)
+		.filter()
+		.pagination(resultItemPage);
+
+	const carsReview = await apiFeatureReview.query;
+
+	res.status(200).json({ carsCount, resultItemPage, cars, carsReview });
 });
 
 // Get all Car with search, pagination -- All

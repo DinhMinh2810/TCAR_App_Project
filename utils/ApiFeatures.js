@@ -14,7 +14,7 @@ function ApiFeatures(query, queryString) {
 		this.query = this.query.find({ ...keyword });
 		return this;
 	};
-	
+
 	this.filter = () => {
 		const queryObjCopy = { ...this.queryString };
 
