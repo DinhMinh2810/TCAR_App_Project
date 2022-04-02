@@ -76,41 +76,42 @@ exports.statisticsTotalAmountBooking = catchAsyncErrShort(async (req, res) => {
 	let totalMonth12 = 0;
 	booking.forEach((book) => {
 		const month = moment(book.paidAt, 'YYYY/MM/DD').format('M');
-		if (month === '1') {
+		const year = moment(book.paidAt, 'YYYY/MM/DD').format('Y');
+		if (month === '1' && year === '2022') {
 			return (totalMonth1 = totalMonth1 + book.totalPrice);
 		}
-		if (month === '2') {
+		if (month === '2' && year === '2022') {
 			return (totalMonth2 = totalMonth2 + book.totalPrice);
 		}
-		if (month === '3') {
+		if (month === '3' && year === '2022') {
 			return (totalMonth3 = totalMonth3 + book.totalPrice);
 		}
-		if (month === '4') {
+		if (month === '4' && year === '2022') {
 			return (totalMonth4 = totalMonth4 + book.totalPrice);
 		}
-		if (month === '5') {
+		if (month === '5' && year === '2022') {
 			return (totalMonth5 = totalMonth5 + book.totalPrice);
 		}
-		if (month === '6') {
+		if (month === '6' && year === '2022') {
 			return (totalMonth6 = totalMonth6 + book.totalPrice);
 		}
-		if (month === '7') {
+		if (month === '7' && year === '2022') {
 			return (totalMonth7 = totalMonth7 + book.totalPrice);
 		}
-		if (month === '8') {
+		if (month === '8' && year === '2022') {
 			return (totalMonth8 = totalMonth8 + book.totalPrice);
 		}
 
-		if (month === '9') {
+		if (month === '9' && year === '2022') {
 			return (totalMonth9 = totalMonth9 + book.totalPrice);
 		}
-		if (month === '10') {
+		if (month === '10' && year === '2022') {
 			return (totalMonth10 = totalMonth10 + book.totalPrice);
 		}
-		if (month === '11') {
+		if (month === '11' && year === '2022') {
 			return (totalMonth11 = totalMonth11 + book.totalPrice);
 		}
-		if (month === '12') {
+		if (month === '12' && year === '2022') {
 			return (totalMonth12 = totalMonth12 + book.totalPrice);
 		}
 	});
