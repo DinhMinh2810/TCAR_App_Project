@@ -12,6 +12,7 @@ const {
 	paymentPayPal,
 	driverGetUserBooking,
 	statisticsTotalAmountBooking,
+	statisticsAmountLocationBooking,
 } = require('../controllers/bookingController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
 
@@ -29,6 +30,14 @@ router
 		isAuthenticatedUser,
 		authorWithRole('Admin'),
 		statisticsTotalAmountBooking
+	);
+
+router
+	.route('/statisticsAmountLocationBooking')
+	.get(
+		isAuthenticatedUser,
+		authorWithRole('Admin'),
+		statisticsAmountLocationBooking
 	);
 
 router.route('/create').post(isAuthenticatedUser, newBooking);

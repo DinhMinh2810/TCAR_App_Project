@@ -16,7 +16,7 @@ exports.getAdAllCars = catchAsyncErrShort(async (req, res) => {
 
 	const apiFeatureReview = new ApiFeatures(Car.find({ ratings: 5 }), req.query)
 		.filter()
-		.pagination(resultItemPage);
+		.pagination(3);
 
 	const carsReview = await apiFeatureReview.query;
 

@@ -43,7 +43,7 @@ exports.updateUserRole = async (req, res) => {
 };
 
 // Delete Account User --Admin
-exports.deleteAccUser = catchAsyncErrShort(async (req, res, next) => {
+exports.deleteAccUser = catchAsyncErrShort(async (req, res) => {
 	const user = await User.findById(req.params.id);
 
 	if (!user) {

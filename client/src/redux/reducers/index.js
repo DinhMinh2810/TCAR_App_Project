@@ -32,6 +32,7 @@ import {
 	allBookingReducer,
 	updateOrDeleteBookingReducer,
 	allBookingStaticTotalReducer,
+	allBookingStaticTotalLocationReducer,
 } from './bookingReducer';
 
 export default combineReducers({
@@ -62,4 +63,5 @@ export default combineReducers({
 	carProductDetails: carDetailsReducer,
 	chatbot: chatBotReducer,
 	allBookingStatic: allBookingStaticTotalReducer,
+	allBookingStaticTotalLocation: allBookingStaticTotalLocationReducer,
 });

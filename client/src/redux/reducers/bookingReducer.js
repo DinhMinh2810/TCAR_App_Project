@@ -167,6 +167,43 @@ export const allBookingStaticTotalReducer = (state = {}, action) => {
 	}
 };
 
+export const allBookingStaticTotalLocationReducer = (state = {}, action) => {
+	switch (action.type) {
+		case 'ALL_BOOKING_STATIC_TOTAL_LOCATION_REQUEST':
+			return {
+				loading: true,
+				books: [],
+			};
+
+		case 'ALL_BOOKING_STATIC_TOTAL_LOCATION_SUCCESS':
+			return {
+				loading: false,
+				totalDaNang: action.payload.totalDaNang,
+				totalHaNoi: action.payload.totalHaNoi,
+				totalHoChiMinh: action.payload.totalHoChiMinh,
+				totalCanTho: action.payload.totalCanTho,
+				totalCaMau: action.payload.totalCaMau,
+				totalHaiPhong: action.payload.totalHaiPhong,
+				totalGiaLai: action.payload.totalGiaLai,
+				totalQuangNam: action.payload.totalQuangNam,
+			};
+
+		case 'ALL_BOOKING_STATIC_TOTAL_LOCATION_FAIL':
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+
+		default:
+			return state;
+	}
+};
+
 export const updateOrDeleteBookingReducer = (state = {}, action) => {
 	switch (action.type) {
 		case 'UPDATE_STATUS_BOOKING_REQUEST':

@@ -12,7 +12,11 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import StatisticsChart from './StatisticsChart';
 import { Rating } from '@mui/material';
 import Loader from '../../Layout/Loader/Loader';
-import { statisticsTotalAmountBooking } from './../../../redux/actions/bookingAction';
+import {
+	statisticsTotalAmountBooking,
+	statisticsAmountLocationBooking,
+} from './../../../redux/actions/bookingAction';
+import StaticLocationChart from './StaticLocationChart';
 
 const Dashboard = () => {
 	const dispatch = useDispatch();
@@ -36,6 +40,16 @@ const Dashboard = () => {
 		totalMonth11,
 		totalMonth12,
 	} = useSelector((state) => state.allBookingStatic);
+	const {
+		totalDaNang,
+		totalHaNoi,
+		totalHoChiMinh,
+		totalCanTho,
+		totalCaMau,
+		totalHaiPhong,
+		totalGiaLai,
+		totalQuangNam,
+	} = useSelector((state) => state.allBookingStaticTotalLocation);
 
 	const { numAccountOfUser } = useSelector((state) => state.allAccUsers);
 
@@ -44,6 +58,7 @@ const Dashboard = () => {
 		dispatch(allAccUsers());
 		dispatch(getAllBooking());
 		dispatch(statisticsTotalAmountBooking());
+		dispatch(statisticsAmountLocationBooking());
 	}, [dispatch]);
 
 	return (
@@ -83,7 +98,22 @@ const Dashboard = () => {
 											<h4 className="text-2xl font-semibold text-gray-700">
 												{booksCount}
 											</h4>
-											<div className="text-gray-500">All Bookings</div>
+											<div className="text-gray-500">Bookings</div>
+										</div>
+										<div className="flex items-center justify-end flex-1 text-green-700 text-base font-bold">
+											20%
+											<svg
+												className="w-5 h-5"
+												fill="currentColor"
+												viewBox="0 0 20 20"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													fill-rule="evenodd"
+													d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+													clip-rule="evenodd"
+												></path>
+											</svg>
 										</div>
 									</div>
 								</div>
@@ -103,6 +133,21 @@ const Dashboard = () => {
 											</h4>
 											<div className="text-gray-500">All Cars</div>
 										</div>
+										<div className="flex items-center justify-end flex-1 text-green-700 text-base font-bold">
+											50%
+											<svg
+												className="w-5 h-5"
+												fill="currentColor"
+												viewBox="0 0 20 20"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													fill-rule="evenodd"
+													d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+													clip-rule="evenodd"
+												></path>
+											</svg>
+										</div>
 									</div>
 								</div>
 
@@ -120,6 +165,21 @@ const Dashboard = () => {
 												{numAccountOfUser}
 											</h4>
 											<div className="text-gray-500">All Users</div>
+										</div>
+										<div className="flex items-center justify-end flex-1 text-green-700 text-base font-bold">
+											60%
+											<svg
+												className="w-5 h-5"
+												fill="currentColor"
+												viewBox="0 0 20 20"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													fill-rule="evenodd"
+													d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+													clip-rule="evenodd"
+												></path>
+											</svg>
 										</div>
 									</div>
 								</div>
@@ -142,74 +202,113 @@ const Dashboard = () => {
 								totalMonth12={totalMonth12}
 							/>
 						</div>
-						<div className="mb-4">
-							<h3 className="chartTitle">Top 5 car hight ratings 🥰🥰</h3>
-							<div className="flex flex-col p-3">
-								<div className="-my-2 overflow-x-auto">
-									<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-										<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-											<table className="min-w-full divide-y divide-gray-200">
-												<thead className="bg-gray-50">
-													<tr>
-														<th
-															scope="col"
-															className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-														>
-															Car
-														</th>
-														<th
-															scope="col"
-															className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-														>
-															Rating
-														</th>
-														<th
-															scope="col"
-															className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-														>
-															Location
-														</th>
-													</tr>
-												</thead>
-												<tbody className="bg-white divide-y divide-gray-200">
-													{carsReview?.map((review) => (
-														<tr key={review?._id}>
-															<td className="px-6 py-4 whitespace-nowrap">
-																<div className="flex items-center">
-																	<div className="flex-shrink-0 h-10 w-10">
-																		<img
-																			className="h-10 w-10 rounded-full"
-																			src={review?.images[0].url}
-																			alt=""
-																		/>
-																	</div>
-																	<div className="ml-4">
-																		<div className="text-sm font-medium text-gray-900">
-																			{review?.name}
-																		</div>
-																		<div className="text-sm text-gray-500">
-																			{review?.seatsCategory} seats category
-																		</div>
-																	</div>
-																</div>
-															</td>
-
-															<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-																<Rating
-																	value={review?.ratings}
-																	precision={0.5}
-																	readOnly
-																/>
-															</td>
-															<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-																<p className="break-words whitespace-pre-wrap">
-																	{review?.location}
-																</p>
-															</td>
+						<div className="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 mb-4">
+							<div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
+								<div className="flex items-center justify-between mb-4">
+									<div className="flex-shrink-0">
+										<span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+											Location amount chart 🤩🤩
+										</span>
+										<h3 className="text-base font-normal text-gray-500">
+											Statistics of the total amount earned from each city
+										</h3>
+									</div>
+									<div className="flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+										12.5%
+										<svg
+											className="w-5 h-5"
+											fill="currentColor"
+											viewBox="0 0 20 20"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+												clip-rule="evenodd"
+											></path>
+										</svg>
+									</div>
+								</div>
+								<div id="main-chart">
+									<StaticLocationChart
+										totalDaNang={totalDaNang}
+										totalHaNoi={totalHaNoi}
+										totalHoChiMinh={totalHoChiMinh}
+										totalCanTho={totalCanTho}
+										totalCaMau={totalCaMau}
+										totalHaiPhong={totalHaiPhong}
+										totalGiaLai={totalGiaLai}
+										totalQuangNam={totalQuangNam}
+									/>
+								</div>
+							</div>
+							<div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+								<div className="mb-4 flex items-center justify-between">
+									<div>
+										<h3 className="text-xl font-bold text-gray-900 mb-2">
+											Top 3 car hight ratings 🥰🥰
+										</h3>
+										<span className="text-base font-normal text-gray-500">
+											This is a list of latest ratings
+										</span>
+									</div>
+									<div className="flex-shrink-0">
+										<a
+											href="#/"
+											className="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2"
+										>
+											View all
+										</a>
+									</div>
+								</div>
+								<div className="flex flex-col mt-8">
+									<div className="overflow-x-auto rounded-lg">
+										<div className="align-middle inline-block min-w-full">
+											<div className="shadow overflow-hidden sm:rounded-lg">
+												<table className="min-w-full divide-y divide-gray-200">
+													<thead className="bg-gray-50">
+														<tr>
+															<th
+																scope="col"
+																className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+															>
+																Car
+															</th>
+															<th
+																scope="col"
+																className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+															>
+																Rating
+															</th>
+															<th
+																scope="col"
+																className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+															>
+																Location
+															</th>
 														</tr>
-													))}
-												</tbody>
-											</table>
+													</thead>
+													<tbody className="bg-white">
+														{carsReview?.map((review) => (
+															<tr key={review?._id}>
+																<td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+																	{review?.name}
+																</td>
+																<td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+																	<Rating
+																		value={review?.ratings}
+																		precision={0.5}
+																		readOnly
+																	/>
+																</td>
+																<td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+																	{review?.location}
+																</td>
+															</tr>
+														))}
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 								</div>

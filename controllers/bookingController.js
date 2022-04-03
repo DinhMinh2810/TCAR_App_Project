@@ -132,6 +132,61 @@ exports.statisticsTotalAmountBooking = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
+// Statistics of total amount by month -- Admin
+exports.statisticsAmountLocationBooking = catchAsyncErrShort(
+	async (req, res) => {
+		const booking = await Booking.find();
+		let totalDaNang = 0;
+		let totalHaNoi = 0;
+		let totalHoChiMinh = 0;
+		let totalCanTho = 0;
+		let totalCaMau = 0;
+		let totalHaiPhong = 0;
+		let totalGiaLai = 0;
+		let totalQuangNam = 0;
+
+		booking.forEach((book) => {
+			const location = book.bookCars[0].location;
+
+			if (location === 'Da Nang') {
+				return (totalDaNang = totalDaNang + book.totalPrice);
+			}
+			if (location === 'Ha Noi') {
+				return (totalHaNoi = totalHaNoi + book.totalPrice);
+			}
+			if (location === 'Ho Chi Minh') {
+				return (totalHoChiMinh = totalHoChiMinh + book.totalPrice);
+			}
+			if (location === 'Can Tho') {
+				return (totalCanTho = totalCanTho + book.totalPrice);
+			}
+			if (location === 'Ca Mau') {
+				return (totalCaMau = totalCaMau + book.totalPrice);
+			}
+			if (location === 'Hai Phong') {
+				return (totalHaiPhong = totalHaiPhong + book.totalPrice);
+			}
+			if (location === 'Gia Lai') {
+				return (totalGiaLai = totalGiaLai + book.totalPrice);
+			}
+			if (location === 'Quang Nam') {
+				return (totalQuangNam = totalQuangNam + book.totalPrice);
+			}
+		});
+
+		res.status(200).json({
+			totalDaNang,
+			totalHaNoi,
+			totalHoChiMinh,
+			totalCanTho,
+			totalCaMau,
+			totalHaiPhong,
+			totalGiaLai,
+			totalQuangNam,
+		});
+	}
+);
+
 // Logged in and user check my all booking -- User
 exports.myBooking = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.find({
