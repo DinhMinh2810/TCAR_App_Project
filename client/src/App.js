@@ -58,6 +58,8 @@ import ViewDetailBooking from './components/Staff/ManagerBooking/ViewDetailBooki
 import MyUserBook from './components/Driver/MyUserBook';
 import AllCarReview from './components/Staff/ManagerReview/AllCarReview';
 import CarReviewDetail from './components/Staff/ManagerReview/CarReviewDetail';
+import ChatPage from './components/ChatTogether/ChatPage';
+import ChatAdmin from './components/Admin/Chat/ChatAdmin';
 
 function App() {
 	const dispatch = useDispatch();
@@ -200,6 +202,16 @@ function App() {
 					}
 				/>
 				{/* Admin  */}
+				<Route
+					exact
+					path="/admin/chat"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<ChatAdmin />
+						</ProtectedRoute>
+					}
+				/>
+
 				<Route
 					exact
 					path="/admin/dashboard"
@@ -444,6 +456,15 @@ function App() {
 						<ProtectedRoute>
 							<Messenger />
 						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					path="/chat"
+					element={
+						<>
+							<ChatPage />
+						</>
 					}
 				/>
 			</Routes>

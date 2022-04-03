@@ -79,7 +79,7 @@ const HeaderBarAdmin = () => {
 					Manager car
 				</p>
 			</Link>
-			<Link to="/admin/reviews">
+			<Link to="/admin/chat">
 				<p className="header_sideBar_text">
 					<ChatIcon />
 					Message

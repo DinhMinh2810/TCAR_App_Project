@@ -22,7 +22,7 @@ const adminRouter = require('./routes/adminRouter');
 const staffRouter = require('./routes/staffRouter');
 const carRouter = require('./routes/carRouter');
 const bookingRouter = require('./routes/bookingRouter');
-const conversationRouter = require('./routes/conversationRouter');
+const chatRouter = require('./routes/chatRouter');
 const chatbotRouter = require('./routes/chatbotRouter');
 
 app.use('/api', userRouter);
@@ -30,9 +30,12 @@ app.use('/api/admin', adminRouter);
 app.use('/api/staff', staffRouter);
 app.use('/api/cars', carRouter);
 app.use('/api/booking', bookingRouter);
-app.use('/api/conversation', conversationRouter);
+app.use('/api/chat', chatRouter);
 app.use('/api/chatbot', chatbotRouter);
 
+// not use
+const conversationRouter = require('./routes/conversationRouter');
+app.use('/api/conversation', conversationRouter);
 connectDB();
 
 // Set up upload avatar

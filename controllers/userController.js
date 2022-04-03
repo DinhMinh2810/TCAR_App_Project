@@ -377,14 +377,6 @@ exports.getSingleUserDetail = async (req, res) => {
 exports.changePassword = async (req, res) => {
 	try {
 		const user = await User.findById(req.user.id).select('+password');
-		// const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
-
-		// if (!isPasswordMatched) {
-		// 	return res.status(400).json({
-		// 		message: `Old password is incorrect !!`,
-		// 	});
-		// }
-
 		if (req.body.newPassword !== req.body.confirmPassword) {
 			return res.status(400).json({
 				message: `Password does not match !!`,
