@@ -29,3 +29,36 @@ export const allUserChatReducer = (state = { users: [] }, action) => {
 			return state;
 	}
 };
+
+export const allUserChatAccessReducer = (state = { users: [] }, action) => {
+	switch (action.type) {
+		case 'ALL_USERS_CHAT_RECENT_REQUEST':
+			return {
+				...state,
+				loading: true,
+			};
+
+		case 'ALL_USERS_CHAT_RECENT_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				users: action.payload.users,
+			};
+
+		case 'ALL_USERS_CHAT_RECENT_FAIL':
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+
+		case 'CLEAR_ERRORS':
+			return {
+				...state,
+				error: null,
+			};
+
+		default:
+			return state;
+	}
+};

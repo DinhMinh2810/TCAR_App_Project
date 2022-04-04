@@ -22,6 +22,30 @@ export const allUserChat =
 		}
 	};
 
+export const accessChat = (userId) => async (dispatch) => {
+	try {
+		const config = {
+			headers: { 'Content-Type': 'application/json' },
+		};
+		dispatch({ type: 'ALL_USERS_CHAT_RECENT_REQUEST' });
+
+		const { data } = await axios.post(
+			`/api/chat/accessChat`,
+			{ userId },
+			config
+		);
+		dispatch({
+			type: 'ALL_USERS_CHAT_RECENT_SUCCESS',
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'ALL_USERS_CHAT_RECENT_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
 	dispatch({ type: 'CLEAR_ERRORS' });
