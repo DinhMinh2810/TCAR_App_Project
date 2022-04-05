@@ -8,8 +8,17 @@ const {
 	addUserToGroup,
 	removeUserFromGroup,
 	renameGroup,
+	getChatDetail,
 } = require('../controllers/chatController');
 const { isAuthenticatedUser, authorWithRole } = require('../middleware/auth');
+
+router
+	.route('/getChatDetail/:id')
+	.get(
+		isAuthenticatedUser,
+		authorWithRole('Admin', 'Staff', 'Driver'),
+		getChatDetail
+	);
 
 router
 	.route('/allUsersChat')

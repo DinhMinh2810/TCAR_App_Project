@@ -21,6 +21,15 @@ exports.allUsersChat = catchAsyncErrShort(async (req, res) => {
 	res.status(200).json({ users });
 });
 
+// Get car detail
+exports.getChatDetail = catchAsyncErrShort(async (req, res) => {
+	const chat = await Chat.findById({ _id: req.params.id });
+	res.status(200).json({
+		success: true,
+		chat,
+	});
+});
+
 // User create or access chat
 exports.accessChat = catchAsyncErrShort(async (req, res) => {
 	const { userId } = req.body;
@@ -67,18 +76,20 @@ exports.accessChat = catchAsyncErrShort(async (req, res) => {
 });
 
 exports.allChatsOfUser = catchAsyncErrShort(async (req, res) => {
-	Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
+	const chat = await Chat.find({
+		users: { $elemMatch: { $eq: req.user._id } },
+	})
 		.populate('users', '-password')
 		.populate('groupCreatedBy', '-password')
 		.populate('latestMessage')
-		.sort({ updatedAt: -1 })
-		.then(async (results) => {
-			results = await User.populate(results, {
-				path: 'latestMessage.sender',
-				select: 'name avatar email',
-			});
-			res.status(200).json(results);
-		});
+		.sort({ updatedAt: -1 });
+
+	const users = await User.populate(chat, {
+		path: 'latestMessage.sender',
+		select: 'name avatar email',
+	});
+
+	res.status(200).json({ users });
 });
 
 exports.createGroupChat = catchAsyncErrShort(async (req, res) => {
@@ -107,7 +118,7 @@ exports.createGroupChat = catchAsyncErrShort(async (req, res) => {
 		.populate('users', '-password')
 		.populate('groupCreatedBy', '-password');
 
-	res.status(200).json(fullGroupChat);
+	res.status(200).json({ success: true, fullGroupChat });
 });
 
 exports.renameGroup = catchAsyncErrShort(async (req, res) => {

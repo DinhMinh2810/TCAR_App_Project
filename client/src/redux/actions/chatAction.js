@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Get all car -- Admin
 export const allUserChat =
@@ -41,6 +42,58 @@ export const accessChat = (userId) => async (dispatch) => {
 	} catch (error) {
 		dispatch({
 			type: 'ALL_USERS_CHAT_RECENT_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
+export const createGroupChat =
+	(groupChatName, selectedUsers) => async (dispatch) => {
+		if (!groupChatName || !selectedUsers) {
+			toast.success('Please fill all the feilds !!');
+			return;
+		}
+
+		try {
+			dispatch({ type: 'CREATE_GROUP_REQUEST' });
+			const config = {
+				headers: { 'Content-Type': 'application/json' },
+			};
+			const { data } = await axios.post(
+				`/api/chat/createGroupChat`,
+				{
+					name: groupChatName,
+					users: JSON.stringify(selectedUsers.map((u) => u._id)),
+				},
+				config
+			);
+			console.log(data);
+
+			dispatch({
+				type: 'CREATE_GROUP_SUCCESS',
+				payload: data.success,
+			});
+		} catch (error) {
+			dispatch({
+				type: 'CREATE_GROUP_FAIL',
+				payload: error.response.data.message,
+			});
+		}
+	};
+
+export const allChatOfUser = () => async (dispatch) => {
+	try {
+		dispatch({ type: 'ALL_CHAT_OF_USER_REQUEST' });
+
+		const { data } = await axios.get(`/api/chat/allChatsOfUser`);
+
+		dispatch({
+			type: 'ALL_CHAT_OF_USER_SUCCESS',
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'ALL_CHAT_OF_USER_FAIL',
 			payload: error.response.data.message,
 		});
 	}

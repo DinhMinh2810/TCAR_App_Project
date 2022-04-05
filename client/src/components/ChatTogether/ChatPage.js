@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { accessChat, allUserChat } from './../../redux/actions/chatAction';
+import {
+	accessChat,
+	allChatOfUser,
+	allUserChat,
+} from './../../redux/actions/chatAction';
 import SearchIcon from '@mui/icons-material/Search';
 import Loader from '../Layout/Loader/Loader';
 import axios from 'axios';
@@ -10,6 +14,7 @@ import GroupChat from './GroupChat';
 
 const ChatPage = () => {
 	const [search, setSearch] = useState('');
+	const [userIDChat, setUserIDChat] = useState('');
 	const { user } = useSelector((state) => state.auth);
 	const { loading, users } = useSelector((state) => state.allUserChat);
 
@@ -18,10 +23,21 @@ const ChatPage = () => {
 	const { loading: loadingChatAccess, users: usersChatAccess } = useSelector(
 		(state) => state.allUserChatAccess
 	);
+	const { loading: loadingChatOfUser, users: chatOfUser } = useSelector(
+		(state) => state.allChatOfUser
+	);
+	const { success: successCreate, error } = useSelector(
+		(state) => state.createGroupChat
+	);
+
 	useEffect(() => {
-		dispatch(accessChat(user._id));
+		dispatch(allChatOfUser());
+		// dispatch(accessChat(user._id));
 		dispatch(allUserChat());
-	}, [dispatch, user._id]);
+		if (successCreate) {
+			dispatch({ type: 'CREATE_GROUP_RESET' });
+		}
+	}, [dispatch, successCreate]);
 
 	const handleSearch = () => {
 		if (!search) {
@@ -29,6 +45,13 @@ const ChatPage = () => {
 			dispatch(allUserChat());
 		}
 		dispatch(allUserChat(search));
+	};
+
+	const myChat = (userId) => {
+		setUserIDChat(userId);
+		console.log('====================================');
+		console.log(userId);
+		console.log('====================================');
 	};
 
 	return (
@@ -46,29 +69,39 @@ const ChatPage = () => {
 							</div>
 
 							<div className="flex flex-col space-y-1 mt-3 -mx-2 h-48 overflow-y-auto">
-								{loadingChatAccess ? (
+								{loadingChatOfUser ? (
 									<Loader />
 								) : (
 									<>
-										{usersChatAccess && usersChatAccess[0] ? (
-											usersChatAccess?.map((user, index) => (
+										{chatOfUser && chatOfUser[0] ? (
+											chatOfUser?.map((user, index) => (
 												<button
 													className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 divide-stone-300 border"
 													key={index}
+													onClick={() => myChat(user._id)}
 													// onClick={() => setUserID(user?._id)}
 												>
-													<img
+													{/* <img
 														className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
 														src={user.avatar.url}
 														alt=""
-													/>
+													/> */}
 													<div className="ml-2 flex-col flex items-start">
 														<div className="text-sm font-semibold">
-															{user.name}
+															Chat Name: {user.chatName}
 														</div>
-														<div className="text-xs font-medium">
-															{user.email}
-														</div>
+														{/* <div className="text-sm font-semibold">
+															Chat Name: {user.users[0]}
+														</div> */}
+														{user.isGroupChat === true ? (
+															<div className="text-xs font-medium">
+																Group chat
+															</div>
+														) : (
+															<div className="text-xs font-medium">
+																Single chat
+															</div>
+														)}
 													</div>
 												</button>
 											))
@@ -138,7 +171,7 @@ const ChatPage = () => {
 							</div>
 						</div>
 					</div>
-					<MyChat />
+					<MyChat userIDChat={userIDChat} />
 				</div>
 			</div>
 		</>

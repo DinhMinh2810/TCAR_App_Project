@@ -25,7 +25,12 @@ import {
 	profileReducer,
 } from './adminReducer';
 import { allAccDriverReducer, CRUDAccDriverReducer } from './staffReducer';
-import { allUserChatReducer, allUserChatAccessReducer } from './chatReducer';
+import {
+	allUserChatReducer,
+	allUserChatAccessReducer,
+	allChatOfUserReducer,
+	createGroupChatReducer,
+} from './chatReducer';
 import {
 	newBookingReducer,
 	myBookingReducer,
@@ -67,4 +72,6 @@ export default combineReducers({
 	allBookingStaticTotalLocation: allBookingStaticTotalLocationReducer,
 	allUserChat: allUserChatReducer,
 	allUserChatAccess: allUserChatAccessReducer,
+	allChatOfUser: allChatOfUserReducer,
+	createGroupChat: createGroupChatReducer,
 });

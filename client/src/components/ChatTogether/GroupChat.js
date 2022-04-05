@@ -2,24 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, DialogActions } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { useSelector, useDispatch } from 'react-redux';
-import { allUserChat } from './../../redux/actions/chatAction';
+import {
+	allChatOfUser,
+	allUserChat,
+	clearErrors,
+	createGroupChat,
+} from './../../redux/actions/chatAction';
 import Loader from '../Layout/Loader/Loader';
 import { toast } from 'react-toastify';
 import SearchIcon from '@mui/icons-material/Search';
-import UserListItem from './UserListItem';
+import UserListItemAdd from './UserListItemAdd';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const GroupChat = () => {
 	const [open, setOpen] = useState(false);
 	const [search, setSearch] = useState('');
 	const [searchResult, setSearchResult] = useState([]);
 	const { loading, users } = useSelector((state) => state.allUserChat);
+	const { success: successCreate, error } = useSelector(
+		(state) => state.createGroupChat
+	);
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const [groupChatName, setGroupChatName] = useState();
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		if (error) {
+			toast.error('Create not successful !! Duplicate car !!');
+			dispatch(clearErrors());
+		}
+
+		if (successCreate) {
+			toast.success('Create group successful !!');
+
+			setOpen(false);
+		}
 		dispatch(allUserChat());
-	}, [dispatch]);
+	}, [dispatch, successCreate, error]);
 
 	const handleSearch = () => {
 		if (!search) {
@@ -39,6 +60,11 @@ const GroupChat = () => {
 
 	const handleDelete = (delUser) => {
 		setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
+		toast.success('Remove this user successfully !!');
+	};
+
+	const createGroupChatSubmit = async () => {
+		dispatch(createGroupChat(groupChatName, selectedUsers));
 	};
 
 	const submitReviewToggle = () => {
@@ -103,7 +129,7 @@ const GroupChat = () => {
 
 						<div className="flex flex-col space-y-1 mt-2 -mx-2 h-14 overflow-y-auto">
 							{selectedUsers.map((user) => (
-								<UserListItem
+								<UserListItemAdd
 									key={user._id}
 									user={user}
 									handleFunction={() => handleDelete(user)}
@@ -150,15 +176,15 @@ const GroupChat = () => {
 						<DialogActions className="flex items-center justify-evenly">
 							<button
 								onClick={submitReviewToggle}
-								className="px-3 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700"
+								className="px-3 py-2 rounded text-white inline-block shadow-lg bg-red-500 hover:bg-red-600 focus:bg-blue-700"
 							>
 								Cancel
 							</button>
 							<button
-								// onClick={reviewSubmitHandler}
-								className="px-3 py-2 rounded text-white inline-block shadow-lg bg-red-500 hover:bg-red-600 focus:bg-blue-700"
+								onClick={createGroupChatSubmit}
+								className="px-3 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700"
 							>
-								Submit
+								Create group
 							</button>
 						</DialogActions>
 					</div>
