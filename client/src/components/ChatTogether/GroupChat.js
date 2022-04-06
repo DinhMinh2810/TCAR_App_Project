@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom';
 const GroupChat = () => {
 	const [open, setOpen] = useState(false);
 	const [search, setSearch] = useState('');
-	const [searchResult, setSearchResult] = useState([]);
 	const { loading, users } = useSelector((state) => state.allUserChat);
 	const { success: successCreate, error } = useSelector(
 		(state) => state.createGroupChat

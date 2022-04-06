@@ -58,7 +58,7 @@ const ChatPage = () => {
 								</span>
 							</div>
 
-							<MyChatRecent />
+							<MyChatRecent setSelectedChat={setSelectedChat} />
 
 							<div className="flex flex-row items-center justify-between text-xs mt-6">
 								<span className="font-bold text-2xl">Find users</span>

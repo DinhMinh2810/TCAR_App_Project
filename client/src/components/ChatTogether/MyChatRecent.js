@@ -2,26 +2,25 @@ import React, { useState, useEffect } from 'react';
 import Loader from '../Layout/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSender } from './ChatLogic';
-import {
-	accessChat,
-	allChatOfUser,
-	allUserChat,
-} from './../../redux/actions/chatAction';
+import { allChatOfUser, chatDetail } from './../../redux/actions/chatAction';
 
-const MyChatRecent = () => {
+const MyChatRecent = ({ setSelectedChat }) => {
 	const [loggedUser, setLoggedUser] = useState();
 	const { user: userIsLoggedIn } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const { loading: loadingChatOfUser, users: chatOfUser } = useSelector(
 		(state) => state.allChatOfUser
 	);
-	const { success } = useSelector((state) => state.allUserChatAccess);
 
 	useEffect(() => {
 		dispatch(allChatOfUser());
 
 		setLoggedUser(userIsLoggedIn);
 	}, [dispatch, userIsLoggedIn]);
+
+	const chatDetailHanler = (userId) => {
+		dispatch(chatDetail(userId));
+	};
 
 	return (
 		<div className="flex flex-col space-y-1 mt-3 -mx-2 h-48 overflow-y-auto">
@@ -34,6 +33,7 @@ const MyChatRecent = () => {
 							<button
 								className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 divide-stone-300 border"
 								key={index}
+								onClick={() => chatDetailHanler(user?._id)}
 							>
 								{!user.isGroupChat ? (
 									<>

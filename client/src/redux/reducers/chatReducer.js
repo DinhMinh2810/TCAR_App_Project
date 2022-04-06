@@ -108,7 +108,7 @@ export const allChatOfUserReducer = (state = { users: [] }, action) => {
 	}
 };
 
-export const chatDetailReducer = (state = { chat: [] }, action) => {
+export const chatDetailReducer = (state = {}, action) => {
 	switch (action.type) {
 		case 'CHAT_DETAIL_REQUEST':
 			return {

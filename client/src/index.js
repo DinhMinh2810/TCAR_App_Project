@@ -8,11 +8,14 @@ import store from './redux/store';
 import 'react-toastify/dist/ReactToastify.css';
 import 'rsuite/dist/rsuite.min.css';
 import { ToastContainer } from 'react-toastify';
+import ChatProvider from './components/Context/ChatProvider';
 
 ReactDOM.render(
 	<Provider store={store}>
-		<ToastContainer className="toastify text-xs" />
-		<App />
+		<ChatProvider>
+			<ToastContainer className="toastify text-xs" />
+			<App />
+		</ChatProvider>
 	</Provider>,
 	document.getElementById('root')
 );
