@@ -119,6 +119,7 @@ function App() {
 					path="/carProduct/refreshSearch"
 					element={<CarRefreshSearch />}
 				/>
+				<Route path="/chat" element={<ChatPage />} />
 				<Route
 					path="/myProfile"
 					element={
@@ -456,15 +457,6 @@ function App() {
 						<ProtectedRoute>
 							<Messenger />
 						</ProtectedRoute>
-					}
-				/>
-
-				<Route
-					path="/chat"
-					element={
-						<>
-							<ChatPage />
-						</>
 					}
 				/>
 			</Routes>

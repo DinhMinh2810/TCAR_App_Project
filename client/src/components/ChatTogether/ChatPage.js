@@ -9,35 +9,32 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import Loader from '../Layout/Loader/Loader';
 import axios from 'axios';
-import MyChat from './MyChat';
+import ChatBox from './ChatBox';
 import GroupChat from './GroupChat';
+import { getSender } from './ChatLogic';
+import MyChatRecent from './MyChatRecent';
 
 const ChatPage = () => {
 	const [search, setSearch] = useState('');
-	const [userIDChat, setUserIDChat] = useState('');
-	const { user } = useSelector((state) => state.auth);
+	const [selectedChat, setSelectedChat] = useState(false);
 	const { loading, users } = useSelector((state) => state.allUserChat);
 
 	const dispatch = useDispatch();
-
-	const { loading: loadingChatAccess, users: usersChatAccess } = useSelector(
-		(state) => state.allUserChatAccess
-	);
 	const { loading: loadingChatOfUser, users: chatOfUser } = useSelector(
 		(state) => state.allChatOfUser
 	);
+	const { success } = useSelector((state) => state.allUserChatAccess);
 	const { success: successCreate, error } = useSelector(
 		(state) => state.createGroupChat
 	);
 
 	useEffect(() => {
-		dispatch(allChatOfUser());
-		// dispatch(accessChat(user._id));
 		dispatch(allUserChat());
 		if (successCreate) {
+			dispatch(allChatOfUser());
 			dispatch({ type: 'CREATE_GROUP_RESET' });
 		}
-	}, [dispatch, successCreate]);
+	}, [dispatch, successCreate, success]);
 
 	const handleSearch = () => {
 		if (!search) {
@@ -45,13 +42,6 @@ const ChatPage = () => {
 			dispatch(allUserChat());
 		}
 		dispatch(allUserChat(search));
-	};
-
-	const myChat = (userId) => {
-		setUserIDChat(userId);
-		console.log('====================================');
-		console.log(userId);
-		console.log('====================================');
 	};
 
 	return (
@@ -62,57 +52,13 @@ const ChatPage = () => {
 						<GroupChat />
 						<div className="flex flex-col mt-8">
 							<div className="flex flex-row items-center justify-between text-xs">
-								<span className="font-bold text-2xl">Recent message</span>
+								<span className="font-bold text-2xl">My chat</span>
 								<span className="flex items-center justify-center bg-gray-300 h-4 w-4 p-3 rounded-full">
 									7
 								</span>
 							</div>
 
-							<div className="flex flex-col space-y-1 mt-3 -mx-2 h-48 overflow-y-auto">
-								{loadingChatOfUser ? (
-									<Loader />
-								) : (
-									<>
-										{chatOfUser && chatOfUser[0] ? (
-											chatOfUser?.map((user, index) => (
-												<button
-													className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 divide-stone-300 border"
-													key={index}
-													onClick={() => myChat(user._id)}
-													// onClick={() => setUserID(user?._id)}
-												>
-													{/* <img
-														className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
-														src={user.avatar.url}
-														alt=""
-													/> */}
-													<div className="ml-2 flex-col flex items-start">
-														<div className="text-sm font-semibold">
-															Chat Name: {user.chatName}
-														</div>
-														{/* <div className="text-sm font-semibold">
-															Chat Name: {user.users[0]}
-														</div> */}
-														{user.isGroupChat === true ? (
-															<div className="text-xs font-medium">
-																Group chat
-															</div>
-														) : (
-															<div className="text-xs font-medium">
-																Single chat
-															</div>
-														)}
-													</div>
-												</button>
-											))
-										) : (
-											<h1 className="text-2xl font-bold text-center text-gray-800 dark:text-white ">
-												Not users 🤗
-											</h1>
-										)}
-									</>
-								)}
-							</div>
+							<MyChatRecent />
 
 							<div className="flex flex-row items-center justify-between text-xs mt-6">
 								<span className="font-bold text-2xl">Find users</span>
@@ -145,6 +91,7 @@ const ChatPage = () => {
 												<button
 													className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 divide-stone-300 border"
 													key={index}
+													onClick={() => dispatch(accessChat(user._id))}
 												>
 													<img
 														className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
@@ -171,7 +118,7 @@ const ChatPage = () => {
 							</div>
 						</div>
 					</div>
-					<MyChat userIDChat={userIDChat} />
+					<ChatBox />
 				</div>
 			</div>
 		</>

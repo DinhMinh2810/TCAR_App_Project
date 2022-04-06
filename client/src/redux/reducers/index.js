@@ -30,6 +30,7 @@ import {
 	allUserChatAccessReducer,
 	allChatOfUserReducer,
 	createGroupChatReducer,
+	chatDetailReducer,
 } from './chatReducer';
 import {
 	newBookingReducer,
@@ -74,4 +75,5 @@ export default combineReducers({
 	allUserChatAccess: allUserChatAccessReducer,
 	allChatOfUser: allChatOfUserReducer,
 	createGroupChat: createGroupChatReducer,
+	chatDetail: chatDetailReducer,
 });

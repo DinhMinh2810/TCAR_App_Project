@@ -68,7 +68,7 @@ exports.accessChat = catchAsyncErrShort(async (req, res) => {
 				'users',
 				'-password'
 			);
-			res.status(200).json(fullChat);
+			res.status(200).json({ success: true, fullChat });
 		} catch (error) {
 			return res.status(500).json({ message: error.message });
 		}
@@ -86,10 +86,10 @@ exports.allChatsOfUser = catchAsyncErrShort(async (req, res) => {
 
 	const users = await User.populate(chat, {
 		path: 'latestMessage.sender',
-		select: 'name avatar email',
+		select: 'name location email',
 	});
 
-	res.status(200).json({ users });
+	res.status(200).json({ success: true, users });
 });
 
 exports.createGroupChat = catchAsyncErrShort(async (req, res) => {

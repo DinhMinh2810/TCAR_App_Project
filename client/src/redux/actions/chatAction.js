@@ -35,6 +35,7 @@ export const accessChat = (userId) => async (dispatch) => {
 			{ userId },
 			config
 		);
+
 		dispatch({
 			type: 'ALL_USERS_CHAT_RECENT_SUCCESS',
 			payload: data,
@@ -94,6 +95,25 @@ export const allChatOfUser = () => async (dispatch) => {
 	} catch (error) {
 		dispatch({
 			type: 'ALL_CHAT_OF_USER_FAIL',
+			payload: error.response.data.message,
+		});
+	}
+};
+
+export const chatDetail = (id) => async (dispatch) => {
+	try {
+		dispatch({ type: 'CHAT_DETAIL_REQUEST' });
+
+		const { data } = await axios.get(`
+		/api/chat/getChatDetail/${id}`);
+
+		dispatch({
+			type: 'CHAT_DETAIL_SUCCESS',
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: 'CHAT_DETAIL_FAIL',
 			payload: error.response.data.message,
 		});
 	}

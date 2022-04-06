@@ -45,7 +45,7 @@ router
 	.route('/singleUserDetail/:id')
 	.get(
 		isAuthenticatedUser,
-		authorWithRole('Admin', 'Staff'),
+		authorWithRole('Admin', 'Staff', 'Driver'),
 		getSingleUserDetail
 	);
 
