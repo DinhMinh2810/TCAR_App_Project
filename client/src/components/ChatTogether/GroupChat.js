@@ -3,7 +3,6 @@ import { Dialog, DialogActions } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-	allChatOfUser,
 	allUserChat,
 	clearErrors,
 	createGroupChat,
@@ -12,8 +11,6 @@ import Loader from '../Layout/Loader/Loader';
 import { toast } from 'react-toastify';
 import SearchIcon from '@mui/icons-material/Search';
 import UserListItemAdd from './UserListItemAdd';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const GroupChat = () => {
 	const [open, setOpen] = useState(false);

@@ -68,7 +68,7 @@ exports.accessChat = catchAsyncErrShort(async (req, res) => {
 				'users',
 				'-password'
 			);
-			res.status(200).json({ success: true, fullChat });
+			res.status(200).json(fullChat);
 		} catch (error) {
 			return res.status(500).json({ message: error.message });
 		}
@@ -89,7 +89,7 @@ exports.allChatsOfUser = catchAsyncErrShort(async (req, res) => {
 		select: 'name location email',
 	});
 
-	res.status(200).json({ success: true, users });
+	res.status(200).json(users);
 });
 
 exports.createGroupChat = catchAsyncErrShort(async (req, res) => {

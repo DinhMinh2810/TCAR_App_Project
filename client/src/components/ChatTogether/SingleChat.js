@@ -4,8 +4,9 @@ import { ChatState } from '../Context/ChatProvider';
 import { getSender, getSenderFull } from './ChatLogic';
 import { Dialog, DialogActions } from '@mui/material';
 import ProfileUserModal from './ProfileUserModal';
+import UpdateGroupChat from './UpdateGroupChat';
 
-const SingleChat = () => {
+const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 	const [open, setOpen] = useState(false);
 	const { selectedChat, setSelectedChat } = ChatState();
 	const { user: userIsLoggedIn } = useSelector((state) => state.auth);
@@ -38,7 +39,10 @@ const SingleChat = () => {
 											onClose={submitReviewToggle}
 										>
 											<ProfileUserModal
-												user={getSenderFull(userIsLoggedIn, selectedChat?.users)}
+												user={getSenderFull(
+													userIsLoggedIn,
+													selectedChat?.users
+												)}
 											/>
 
 											<DialogActions className="flex justify-center">
@@ -56,9 +60,33 @@ const SingleChat = () => {
 										<p className="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
 											Chat Name: {selectedChat?.chatName}
 										</p>
-										<div className="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
+
+										<div
+											onClick={submitReviewToggle}
+											className="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded"
+										>
 											<p>View detail</p>
 										</div>
+										<Dialog
+											aria-labelledby="simple-dialog-title"
+											open={open}
+											onClose={submitReviewToggle}
+										>
+											<UpdateGroupChat
+												fetchAgain={fetchAgain}
+												setFetchAgain={setFetchAgain}
+												handleFunction={() => submitReviewToggle()}
+											/>
+
+											<DialogActions className="flex justify-center">
+												<button
+													onClick={submitReviewToggle}
+													className="px-3 py-2 rounded text-white inline-block shadow-lg bg-red-500 hover:bg-red-600 focus:bg-blue-700"
+												>
+													Cancel
+												</button>
+											</DialogActions>
+										</Dialog>
 									</>
 								)}
 							</div>

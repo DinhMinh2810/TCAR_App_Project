@@ -2,27 +2,23 @@ import React, { useState, useEffect } from 'react';
 import Loader from '../Layout/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSender } from './ChatLogic';
-import { allChatOfUser, chatDetail } from './../../redux/actions/chatAction';
+import { allChatOfUser } from './../../redux/actions/chatAction';
 import { ChatState } from '../Context/ChatProvider';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 
 const MyChatRecent = ({ fetchAgain }) => {
 	const [loggedUser, setLoggedUser] = useState();
 	const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
 	const { user: userIsLoggedIn } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
-	const {
-		loading: loadingChatOfUser,
-		users: chatOfUser,
-		success,
-	} = useSelector((state) => state.allChatOfUser);
+	const { loading: loadingChatOfUser, users: chatOfUser } = useSelector(
+		(state) => state.allChatOfUser
+	);
 
 	useEffect(() => {
 		dispatch(allChatOfUser());
 
 		setLoggedUser(userIsLoggedIn);
-	}, [dispatch, userIsLoggedIn, fetchAgain, selectedChat]);
+	}, [dispatch, userIsLoggedIn, fetchAgain]);
 
 	return (
 		<div className="flex flex-col space-y-1 mt-3 -mx-2 h-48 overflow-y-auto">
@@ -37,7 +33,6 @@ const MyChatRecent = ({ fetchAgain }) => {
 								key={index}
 								onClick={() => setSelectedChat(user)}
 							>
-								{/* {console.log(user?.users)} */}
 								{!user?.isGroupChat ? (
 									<>
 										<img

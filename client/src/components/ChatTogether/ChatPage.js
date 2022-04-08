@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import {
-	accessChat,
-	allChatOfUser,
-	allUserChat,
-} from './../../redux/actions/chatAction';
+import { allChatOfUser, allUserChat } from './../../redux/actions/chatAction';
 import SearchIcon from '@mui/icons-material/Search';
 import Loader from '../Layout/Loader/Loader';
 import axios from 'axios';
 import ChatBox from './ChatBox';
 import GroupChat from './GroupChat';
-import { getSender } from './ChatLogic';
 import MyChatRecent from './MyChatRecent';
 import { ChatState } from './../Context/ChatProvider';
 
@@ -19,12 +14,11 @@ const ChatPage = () => {
 	const [search, setSearch] = useState('');
 	const [fetchAgain, setFetchAgain] = useState(false);
 	const { loading, users } = useSelector((state) => state.allUserChat);
-	const { setSelectedChat, notification, setNotification, chats, setChats } =
-		ChatState();
+	const { setSelectedChat, chats, setChats } = ChatState();
 
 	const dispatch = useDispatch();
-	const { success } = useSelector((state) => state.allUserChatAccess);
-	const { success: successCreate, error } = useSelector(
+
+	const { success: successCreate } = useSelector(
 		(state) => state.createGroupChat
 	);
 
@@ -68,7 +62,7 @@ const ChatPage = () => {
 					<div className="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
 						<GroupChat />
 						<div className="flex flex-col mt-8">
-							<div className="flex flex-row items-center justify-between text-xs">
+							<div className="flex flex-row items-center justify-between text-xs mb-2">
 								<span className="font-bold text-2xl">My chat</span>
 								<span className="flex items-center justify-center bg-gray-300 h-4 w-4 p-3 rounded-full">
 									7
@@ -81,7 +75,7 @@ const ChatPage = () => {
 									7
 								</span>
 							</div>
-							<div className="flex items-center justify-between mt-3">
+							<div className="flex items-center justify-between mt-3 mb-2">
 								<input
 									className="border-1 border-gray-300 bg-white pl-2 h-10 rounded-lg text-sm focus:outline-none"
 									placeholder="Search by name or email"
@@ -95,14 +89,14 @@ const ChatPage = () => {
 									<SearchIcon />
 								</button>
 							</div>
-							{/* search user */}
+							{/* Search user */}
 							<div className="flex flex-col space-y-1 mt-3 -mx-2 h-48 overflow-y-auto">
 								{loading ? (
 									<Loader />
 								) : (
 									<>
 										{users && users[0] ? (
-											users?.map((user, index) => (
+											users?.map((user) => (
 												<button
 													className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 divide-stone-300 border"
 													key={user._id}

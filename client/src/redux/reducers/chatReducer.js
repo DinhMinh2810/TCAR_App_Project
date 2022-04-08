@@ -42,8 +42,7 @@ export const allUserChatAccessReducer = (state = { users: [] }, action) => {
 			return {
 				...state,
 				loading: false,
-				users: action.payload.users,
-				success: action.payload.success,
+				users: action.payload,
 			};
 
 		case 'ALL_USERS_CHAT_RECENT_FAIL':
@@ -80,8 +79,7 @@ export const allChatOfUserReducer = (state = { users: [] }, action) => {
 			return {
 				...state,
 				loading: false,
-				users: action.payload.users,
-				success: action.payload.success,
+				users: action.payload,
 			};
 
 		case 'ALL_CHAT_OF_USER_FAIL':

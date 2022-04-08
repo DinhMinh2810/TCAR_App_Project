@@ -68,7 +68,6 @@ export const createGroupChat =
 				},
 				config
 			);
-			console.log(data);
 
 			dispatch({
 				type: 'CREATE_GROUP_SUCCESS',
