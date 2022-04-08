@@ -3,24 +3,26 @@ import Loader from '../Layout/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSender } from './ChatLogic';
 import { allChatOfUser, chatDetail } from './../../redux/actions/chatAction';
+import { ChatState } from '../Context/ChatProvider';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const MyChatRecent = ({ setSelectedChat }) => {
+const MyChatRecent = ({ fetchAgain }) => {
 	const [loggedUser, setLoggedUser] = useState();
+	const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
 	const { user: userIsLoggedIn } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
-	const { loading: loadingChatOfUser, users: chatOfUser } = useSelector(
-		(state) => state.allChatOfUser
-	);
+	const {
+		loading: loadingChatOfUser,
+		users: chatOfUser,
+		success,
+	} = useSelector((state) => state.allChatOfUser);
 
 	useEffect(() => {
 		dispatch(allChatOfUser());
 
 		setLoggedUser(userIsLoggedIn);
-	}, [dispatch, userIsLoggedIn]);
-
-	const chatDetailHanler = (userId) => {
-		dispatch(chatDetail(userId));
-	};
+	}, [dispatch, userIsLoggedIn, fetchAgain, selectedChat]);
 
 	return (
 		<div className="flex flex-col space-y-1 mt-3 -mx-2 h-48 overflow-y-auto">
@@ -28,22 +30,23 @@ const MyChatRecent = ({ setSelectedChat }) => {
 				<Loader />
 			) : (
 				<>
-					{chatOfUser && chatOfUser[0] ? (
+					{chatOfUser ? (
 						chatOfUser?.map((user, index) => (
 							<button
 								className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 divide-stone-300 border"
 								key={index}
-								onClick={() => chatDetailHanler(user?._id)}
+								onClick={() => setSelectedChat(user)}
 							>
-								{!user.isGroupChat ? (
+								{/* {console.log(user?.users)} */}
+								{!user?.isGroupChat ? (
 									<>
 										<img
 											className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
-											src={user.users[1].avatar.url}
+											src={user?.users[1]?.avatar.url}
 											alt=""
 										/>
 										<div className="ml-2 text-sm font-semibold">
-											{getSender(loggedUser, user.users)}
+											{getSender(loggedUser, user?.users)}
 										</div>
 									</>
 								) : (
@@ -54,7 +57,7 @@ const MyChatRecent = ({ setSelectedChat }) => {
 											alt=""
 										/>
 										<div className="ml-2 text-sm font-semibold">
-											{user.chatName}
+											{user?.chatName}
 										</div>
 									</>
 								)}
