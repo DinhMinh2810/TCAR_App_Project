@@ -1,23 +1,11 @@
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema(
-	// {
-	// 	conversationId: {
-	// 		type: String,
-	// 	},
-	// 	sender: {
-	// 		type: String,
-	// 	},
-	// 	content: {
-	// 		type: String,
-	// 	},
-	// },
-	// { timestamps: true }
 	{
-		sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+		sender: { type: mongoose.Schema.ObjectId, ref: 'User' },
 		content: { type: String, trim: true },
-		chat: { type: mongoose.Schema.Types.ObjectId, ref: 'Chat' },
-		readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+		chat: { type: mongoose.Schema.ObjectId, ref: 'Chat' },
+		readBy: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
 	},
 	{ timestamps: true }
 );

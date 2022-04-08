@@ -23,6 +23,7 @@ const staffRouter = require('./routes/staffRouter');
 const carRouter = require('./routes/carRouter');
 const bookingRouter = require('./routes/bookingRouter');
 const chatRouter = require('./routes/chatRouter');
+const messageRouter = require('./routes/messageRouter');
 const chatbotRouter = require('./routes/chatbotRouter');
 
 app.use('/api', userRouter);
@@ -31,6 +32,7 @@ app.use('/api/staff', staffRouter);
 app.use('/api/cars', carRouter);
 app.use('/api/booking', bookingRouter);
 app.use('/api/chat', chatRouter);
+app.use('/api/message', messageRouter);
 app.use('/api/chatbot', chatbotRouter);
 
 // not use
