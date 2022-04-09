@@ -14,11 +14,14 @@ import ChatIcon from '@mui/icons-material/Chat';
 import { toast } from 'react-toastify';
 import logo1 from '../../../assets/images/logo1.png';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import { ChatState } from '../../Context/ChatProvider';
+import { getSender } from '../../ChatTogether/ChatLogic';
 
 const HeaderBarAdmin = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { user } = useSelector((state) => state.auth);
+	const { setSelectedChat, notification, setNotification } = ChatState();
 
 	const logoutSubmit = async () => {
 		dispatch(logout());
@@ -80,10 +83,19 @@ const HeaderBarAdmin = () => {
 				</p>
 			</Link>
 			<Link to="/admin/chat">
-				<p className="header_sideBar_text">
-					<ChatIcon />
-					Message
-				</p>
+				{notification.length === 0 ? (
+					<p className="header_sideBar_text">
+						<ChatIcon />
+						Message
+					</p>
+				) : (
+					<>
+						<p className="header_sideBar_text">
+							<ChatIcon />
+							Message ({notification.length} notifications)
+						</p>
+					</>
+				)}
 			</Link>
 
 			<div className="text-center bottom-0 w-full">

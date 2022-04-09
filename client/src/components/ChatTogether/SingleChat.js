@@ -9,22 +9,24 @@ import Loader from '../Layout/Loader/Loader';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import ScrollChat from './ScrollChat';
+import io from 'socket.io-client';
+
+const endPoint = 'http://localhost:5000'; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+let socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-	const [open, setOpen] = useState(false);
-	const { selectedChat, setSelectedChat } = ChatState();
 	const { user: userIsLoggedIn } = useSelector((state) => state.auth);
+	const { selectedChat, setSelectedChat, notification, setNotification } =
+		ChatState();
+	const [open, setOpen] = useState(false);
 	const [messages, setMessages] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [newMessage, setNewMessage] = useState('');
+	const [socketConnected, setSocketConnected] = useState(false);
 
 	const submitReviewToggle = () => {
 		open ? setOpen(false) : setOpen(true);
 	};
-
-	useEffect(() => {
-		fetchMessages();
-	}, [selectedChat]);
 
 	const fetchMessages = async () => {
 		if (!selectedChat) return;
@@ -37,18 +39,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 			setMessages(data);
 			setLoading(false);
+			socket.emit('join chat', selectedChat._id);
 		} catch (error) {
 			toast.error('Can not load the messages !!');
 		}
 	};
 
-	const typingHandler = (e) => {
-		e.preventDefault();
-		setNewMessage(e.target.value);
-	};
-
 	const sendMessage = async () => {
 		if (newMessage) {
+			socket.emit('stop typing', selectedChat._id);
 			try {
 				const config = {
 					headers: { 'Content-Type': 'application/json' },
@@ -64,11 +63,46 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 					config
 				);
 
+				socket.emit('new message', data);
 				setMessages([...messages, data]);
 			} catch (error) {
 				toast.error('Error bug when send message !!');
 			}
 		}
+	};
+
+	useEffect(() => {
+		socket = io(endPoint);
+		socket.emit('setup', userIsLoggedIn);
+		socket.on('connected', () => setSocketConnected(true));
+	}, []);
+
+	useEffect(() => {
+		fetchMessages();
+		selectedChatCompare = selectedChat;
+	}, [selectedChat]);
+	console.log('====================================');
+	console.log(notification);
+	console.log('====================================');
+
+	useEffect(() => {
+		socket.on('message received', (newMessageReceived) => {
+			if (
+				!selectedChatCompare ||
+				selectedChatCompare._id !== newMessageReceived.chat._id
+			) {
+				if (!notification.includes(newMessageReceived)) {
+					setNotification([newMessageReceived, ...notification]);
+					setFetchAgain(!fetchAgain);
+				}
+			} else {
+				setMessages([...messages, newMessageReceived]);
+			}
+		});
+	});
+
+	const typingHandler = (e) => {
+		setNewMessage(e.target.value);
 	};
 
 	return (
@@ -171,7 +205,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 									</button>
 								</div>
 								<div className="flex-grow ml-4">
-									<form className="relative w-full">
+									<div className="relative w-full">
 										<input
 											type="text"
 											className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
@@ -195,7 +229,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 												></path>
 											</svg>
 										</button>
-									</form>
+									</div>
 								</div>
 								<div className="ml-4">
 									<button

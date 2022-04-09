@@ -20,7 +20,6 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
 import PaymentPayPal from './components/FavoriteCart/Payment/PaymentPayPal';
-import Messenger from './components/Messenger/Messenger';
 import NotFound from './components/Layout/NotFound/NotFound';
 import DirectRoleHome from './components/Route/DirectRoleHome';
 import ConfirmOTP from './components/Auth/ForgotPassword/ConfirmOTP';
@@ -60,6 +59,7 @@ import AllCarReview from './components/Staff/ManagerReview/AllCarReview';
 import CarReviewDetail from './components/Staff/ManagerReview/CarReviewDetail';
 import ChatPage from './components/ChatTogether/ChatPage';
 import ChatAdmin from './components/Admin/Chat/ChatAdmin';
+import ChatStaff from './components/Staff/Chat/ChatStaff';
 
 function App() {
 	const dispatch = useDispatch();
@@ -205,16 +205,6 @@ function App() {
 				{/* Admin  */}
 				<Route
 					exact
-					path="/admin/chat"
-					element={
-						<ProtectedRoute isAdmin={true}>
-							<ChatAdmin />
-						</ProtectedRoute>
-					}
-				/>
-
-				<Route
-					exact
 					path="/admin/dashboard"
 					element={
 						<ProtectedRoute isAdmin={true}>
@@ -321,6 +311,16 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+				<Route
+					exact
+					path="/admin/chat"
+					element={
+						<ProtectedRoute isAdmin={true}>
+							<ChatAdmin />
+						</ProtectedRoute>
+					}
+				/>
+
 				{/* Staff  */}
 				<Route
 					exact
@@ -430,6 +430,16 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+				<Route
+					exact
+					path="/staff/chat"
+					element={
+						<ProtectedRoute isStaff={true}>
+							<ChatStaff />
+						</ProtectedRoute>
+					}
+				/>
+
 				{/* Driver  */}
 				<Route
 					exact
@@ -446,16 +456,6 @@ function App() {
 					element={
 						<ProtectedRoute isDriver={true}>
 							<MyUserBook />
-						</ProtectedRoute>
-					}
-				/>
-
-				{/* //not yet */}
-				<Route
-					path="/messenger"
-					element={
-						<ProtectedRoute>
-							<Messenger />
 						</ProtectedRoute>
 					}
 				/>

@@ -1,17 +1,17 @@
 import React from 'react';
-
 import { useSelector } from 'react-redux';
+import ScrollableFeed from 'react-scrollable-feed';
 
 const ScrollChat = ({ messages }) => {
 	const { user } = useSelector((state) => state.auth);
 
 	return (
 		<>
-			<div className="flex flex-col h-full overflow-x-auto mb-4">
+			<div className="flex flex-col h-full overflow-x-auto mb-4 border-t">
 				<div className="flex flex-col h-full">
-					<div className="grid grid-cols-12 gap-y-2">
+					<ScrollableFeed ScrollableFeed className="grid grid-cols-12 gap-y-2">
 						{messages &&
-							messages.map((m, i) => (
+							messages.map((m) => (
 								<>
 									{m.sender._id === user._id ? (
 										<div
@@ -46,7 +46,7 @@ const ScrollChat = ({ messages }) => {
 									)}
 								</>
 							))}
-					</div>
+					</ScrollableFeed>
 				</div>
 			</div>
 		</>

@@ -98,7 +98,7 @@ const HeaderBarStaff = () => {
 					Manager review
 				</p>
 			</Link>
-			<Link to="/admin/reviews">
+			<Link to="/staff/chat">
 				<p className="header_sideBar_text">
 					<ChatIcon />
 					Message
