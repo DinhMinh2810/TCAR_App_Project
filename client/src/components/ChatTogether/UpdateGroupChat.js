@@ -5,7 +5,12 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
-const UpdateGroupChat = ({ fetchAgain, setFetchAgain, handleFunction }) => {
+const UpdateGroupChat = ({
+	fetchMessages,
+	fetchAgain,
+	setFetchAgain,
+	handleFunction,
+}) => {
 	const [groupChatName, setGroupChatName] = useState();
 	const [search, setSearch] = useState('');
 	const [searchResult, setSearchResult] = useState([]);
@@ -115,6 +120,7 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain, handleFunction }) => {
 			}
 
 			setFetchAgain(!fetchAgain);
+			fetchMessages();
 			setLoading(false);
 			toast.success('Remove this user from group successfully !!');
 		} catch (error) {

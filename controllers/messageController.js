@@ -31,7 +31,7 @@ exports.sendMessage = catchAsyncErrShort(async (req, res) => {
 // Get all user chat
 exports.allMessages = catchAsyncErrShort(async (req, res) => {
 	const messages = await Message.find({ chat: req.params.chatId })
-		.populate('sender', 'name pic email')
+		.populate('sender', 'name avatar email')
 		.populate('chat');
 
 	res.status(200).json(messages);

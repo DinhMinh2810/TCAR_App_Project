@@ -1,18 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ChatState } from '../Context/ChatProvider';
 import { getSender, getSenderFull } from './ChatLogic';
 import { Dialog, DialogActions } from '@mui/material';
 import ProfileUserModal from './ProfileUserModal';
 import UpdateGroupChat from './UpdateGroupChat';
+import Loader from '../Layout/Loader/Loader';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import ScrollChat from './ScrollChat';
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 	const [open, setOpen] = useState(false);
 	const { selectedChat, setSelectedChat } = ChatState();
 	const { user: userIsLoggedIn } = useSelector((state) => state.auth);
+	const [messages, setMessages] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [newMessage, setNewMessage] = useState('');
 
 	const submitReviewToggle = () => {
 		open ? setOpen(false) : setOpen(true);
+	};
+
+	useEffect(() => {
+		fetchMessages();
+	}, [selectedChat]);
+
+	const fetchMessages = async () => {
+		if (!selectedChat) return;
+
+		try {
+			setLoading(true);
+			const { data } = await axios.get(
+				`/api/message/allMessages/${selectedChat._id}`
+			);
+
+			setMessages(data);
+			setLoading(false);
+		} catch (error) {
+			toast.error('Can not load the messages !!');
+		}
+	};
+
+	const typingHandler = (e) => {
+		e.preventDefault();
+		setNewMessage(e.target.value);
+	};
+
+	const sendMessage = async () => {
+		if (newMessage) {
+			try {
+				const config = {
+					headers: { 'Content-Type': 'application/json' },
+				};
+
+				setNewMessage('');
+				const { data } = await axios.post(
+					'/api/message/sendMessage',
+					{
+						content: newMessage,
+						chatId: selectedChat,
+					},
+					config
+				);
+
+				setMessages([...messages, data]);
+			} catch (error) {
+				toast.error('Error bug when send message !!');
+			}
+		}
 	};
 
 	return (
@@ -20,8 +76,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 			{selectedChat ? (
 				<>
 					<div className="flex flex-col flex-auto h-full p-6">
-						<div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
-							<div className="flex items-center justify-between">
+						<div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4 ">
+							<div className="flex items-center justify-between mb-4">
 								{!selectedChat?.isGroupChat ? (
 									<>
 										<p className="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
@@ -75,6 +131,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 											<UpdateGroupChat
 												fetchAgain={fetchAgain}
 												setFetchAgain={setFetchAgain}
+												fetchMessages={fetchMessages}
 												handleFunction={() => submitReviewToggle()}
 											/>
 
@@ -91,33 +148,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 								)}
 							</div>
 
-							<div className="flex flex-col h-full overflow-x-auto mb-4">
-								<div className="flex flex-col h-full">
-									<div className="grid grid-cols-12 gap-y-2">
-										<div className="col-start-1 col-end-8 p-3 rounded-lg">
-											<div className="flex flex-row items-center">
-												<div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-													A
-												</div>
-												<div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-													<div>Hey How are you today?</div>
-												</div>
-											</div>
-										</div>
+							{/* Chat message */}
+							{loading ? <Loader /> : <ScrollChat messages={messages} />}
 
-										<div className="col-start-6 col-end-13 p-3 rounded-lg">
-											<div className="flex items-center justify-start flex-row-reverse">
-												<div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-													A
-												</div>
-												<div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-													<div>I'm ok what about you?</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
 							<div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
 								<div>
 									<button className="flex items-center justify-center text-gray-400 hover:text-gray-600">
@@ -138,10 +171,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 									</button>
 								</div>
 								<div className="flex-grow ml-4">
-									<div className="relative w-full">
+									<form className="relative w-full">
 										<input
 											type="text"
 											className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
+											placeholder="Enter a message.."
+											value={newMessage}
+											onChange={typingHandler}
 										/>
 										<button className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
 											<svg
@@ -159,10 +195,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 												></path>
 											</svg>
 										</button>
-									</div>
+									</form>
 								</div>
 								<div className="ml-4">
-									<button className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
+									<button
+										type="submit"
+										onClick={sendMessage}
+										className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+									>
 										<span>Send</span>
 										<span className="ml-2">
 											<svg
