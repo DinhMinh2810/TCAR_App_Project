@@ -499,12 +499,25 @@ const Car = () => {
 								<Loader />
 							) : (
 								<div className="lg:col-span-3">
-									<div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
-										{cars &&
-											cars.map((car) => (
+									{cars && cars[0] ? (
+										cars.map((car) => (
+											<div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
 												<CarProductCard key={car._id} car={car} />
-											))}
-									</div>
+											</div>
+										))
+									) : (
+										<div className="lg:px-20 md:px-6 px-4 py-12">
+											<div className="flex flex-col items-center justify-center">
+												<h1 className="lg:text-4xl text-3xl font-bold text-center text-gray-800 dark:text-white ">
+													Currently, there are no cars at this time or place 😢
+												</h1>
+												<p className="text-base leading-6 mt-4 text-center text-gray-600 dark:text-white  2xl:w-2/5 ">
+													Please click REFRESH FILTER to choose a car for
+													another time 🤗🤗
+												</p>
+											</div>
+										</div>
+									)}
 								</div>
 							)}
 

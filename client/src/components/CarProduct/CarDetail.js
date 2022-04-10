@@ -85,6 +85,7 @@ const CarDetail = () => {
 			toast.error(
 				`Only booked from date  ${startDayFormal} to ${endDayFormal} !!`
 			);
+			setStartDay('');
 		}
 		if (VALUETO >= ENDDAY) {
 			toast.error(

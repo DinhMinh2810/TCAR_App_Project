@@ -163,20 +163,24 @@ function App() {
 					<Route
 						path="/paymentWithStripe"
 						element={
-							<Elements stripe={loadStripe(stripeApiKey)}>
+							<ProtectedRoute stripe={loadStripe(stripeApiKey)}>
 								<PaymentStripe />
-							</Elements>
+							</ProtectedRoute>
 						}
 					/>
 				)}
-				<Route
-					path="/paymentWithPayPal"
-					element={
-						<Elements>
-							<PaymentPayPal />
-						</Elements>
-					}
-				/>
+
+				{stripeApiKey && (
+					<Route
+						path="/paymentWithPayPal"
+						element={
+							<ProtectedRoute stripe={loadStripe(stripeApiKey)}>
+								<PaymentPayPal />
+							</ProtectedRoute>
+						}
+					/>
+				)}
+
 				<Route
 					path="/paymentSuccess"
 					element={

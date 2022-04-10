@@ -66,9 +66,9 @@ const PaymentPayPal = () => {
 	};
 
 	return (
-		<div>
+		<div className="px-20 py-10">
 			{clientToken && (
-				<div>
+				<div className="flex flex-column">
 					<DropIn
 						options={{ authorization: clientToken }}
 						onInstance={(instance) =>
@@ -76,6 +76,7 @@ const PaymentPayPal = () => {
 						}
 					/>
 					<button
+						className="px-4 py-3 border border-black rounded text-white bg-blue-600 hover:bg-blue-900 mt-2"
 						onClick={() => {
 							onPurchase();
 						}}

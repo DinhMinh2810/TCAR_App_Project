@@ -30,18 +30,19 @@ const ConfirmBookCar = () => {
 		navigate('/paymentWithStripe');
 	};
 
-	// const paymentPayPal = () => {
-	// 	const data = {
-	// 		subtotal,
-	// 		shippingCharges,
-	// 		tax,
-	// 		totalPrice,
-	// 	};
+	const paymentPayPal = () => {
+		const data = {
+			carId: bookingCar?.car,
+			subtotal,
+			shuttleFee,
+			deposits,
+			priceForDriver,
+			totalPrice,
+		};
+		sessionStorage.setItem('bookingInfo', JSON.stringify(data));
 
-	// 	sessionStorage.setItem('bookingInfo', JSON.stringify(data));
-
-	// 	navigate('/paymentWithPayPal');
-	// };
+		navigate('/paymentWithPayPal');
+	};
 	return (
 		<>
 			<div className="pt-8 pb-14 px-15 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -238,9 +239,12 @@ const ConfirmBookCar = () => {
 										Payment booking with stripe
 									</button>
 								</div>
-								<div className="flex w-full justify-center items-center md:justify-start md:items-start">
+								<div
+									className="flex w-full justify-center items-center md:justify-start md:items-start"
+									onClick={paymentPayPal}
+								>
 									<button className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800">
-										Payment booking with paypal
+										Payment booking with braintree
 									</button>
 								</div>
 							</div>

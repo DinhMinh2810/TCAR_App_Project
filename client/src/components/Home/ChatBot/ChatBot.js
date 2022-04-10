@@ -8,6 +8,7 @@ import { saveMessage } from './../../../redux/actions/chatbotAction';
 import chatBot from '../../../assets/images/chatbot.png';
 import ScrollableFeed from 'react-scrollable-feed';
 import { Link } from 'react-router-dom';
+import SendIcon from '@mui/icons-material/Send';
 
 const ChatBot = () => {
 	const dispatch = useDispatch();
@@ -169,7 +170,8 @@ const ChatBot = () => {
 								? messages?.map((item, i) => (
 										<>
 											{item.who === 'ChatBot' ? (
-												<Link to='/carProduct/refreshSearch'
+												<Link
+													to="/carProduct/refreshSearch"
 													className="chat bg-slate-200 text-gray-700 p-2 self-start my-2 rounded-md shadow mr-3"
 													key={i}
 												>
@@ -198,7 +200,7 @@ const ChatBot = () => {
 							onKeyPress={keyPressHandler}
 						/>
 						<button className="absolute right-0 bottom-0 text-green-600 bg-white hover:text-green-500 m-1 px-3 py-1 w-auto transistion-color duration-100 focus:outline-none">
-							Send
+							<SendIcon />
 						</button>
 					</div>
 				</div>
