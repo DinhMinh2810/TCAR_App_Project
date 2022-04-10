@@ -81,9 +81,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 		fetchMessages();
 		selectedChatCompare = selectedChat;
 	}, [selectedChat]);
-	console.log('====================================');
-	console.log(notification);
-	console.log('====================================');
 
 	useEffect(() => {
 		socket.on('message received', (newMessageReceived) => {
@@ -100,6 +97,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 			}
 		});
 	});
+
+	console.log('====================================');
+	console.log(notification);
+	console.log('====================================');
 
 	const typingHandler = (e) => {
 		setNewMessage(e.target.value);

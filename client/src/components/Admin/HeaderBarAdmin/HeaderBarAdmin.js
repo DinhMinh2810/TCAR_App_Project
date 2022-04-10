@@ -15,13 +15,14 @@ import { toast } from 'react-toastify';
 import logo1 from '../../../assets/images/logo1.png';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import { ChatState } from '../../Context/ChatProvider';
-import { getSender } from '../../ChatTogether/ChatLogic';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 const HeaderBarAdmin = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { user } = useSelector((state) => state.auth);
 	const { setSelectedChat, notification, setNotification } = ChatState();
+	const message = `Message (${notification.length} notifications)`;
 
 	const logoutSubmit = async () => {
 		dispatch(logout());
@@ -90,9 +91,43 @@ const HeaderBarAdmin = () => {
 					</p>
 				) : (
 					<>
-						<p className="header_sideBar_text">
-							<ChatIcon />
-							Message ({notification.length} notifications)
+						<p className="header_sideBar_text_a">
+							<TreeView className="text-xs">
+								<TreeItem nodeId="1" label={message} icon={<ChatIcon />}>
+									{notification.map((notif) => (
+										<>
+											{notif.chat.isGroupChat === true ? (
+												<TreeItem
+													nodeId="2"
+													key={notif._id}
+													onClick={() => {
+														setSelectedChat(notif.chat);
+														setNotification(
+															notification.filter((n) => n !== notif)
+														);
+													}}
+													icon={<CircleNotificationsIcon />}
+													label="New mess from group"
+													className="text-sm text-red-500"
+												></TreeItem>
+											) : (
+												<TreeItem
+													nodeId="2"
+													key={notif._id}
+													onClick={() => {
+														setSelectedChat(notif.chat);
+														setNotification(
+															notification.filter((n) => n !== notif)
+														);
+													}}
+													icon={<CircleNotificationsIcon />}
+													label="New mess from user"
+												></TreeItem>
+											)}
+										</>
+									))}
+								</TreeItem>
+							</TreeView>
 						</p>
 					</>
 				)}
