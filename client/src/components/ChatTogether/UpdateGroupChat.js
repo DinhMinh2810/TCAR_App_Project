@@ -3,7 +3,7 @@ import { ChatState } from '../Context/ChatProvider';
 import Loader from '../Layout/Loader/Loader';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const UpdateGroupChat = ({
 	fetchMessages,
@@ -122,7 +122,11 @@ const UpdateGroupChat = ({
 			setFetchAgain(!fetchAgain);
 			fetchMessages();
 			setLoading(false);
-			toast.success('Remove this user from group successfully !!');
+			if (user1._id === user._id) {
+				toast.success('Leave group success !!');
+			} else {
+				toast.success('Remove this user from group successfully !!');
+			}
 		} catch (error) {
 			setLoading(false);
 		}
@@ -131,10 +135,17 @@ const UpdateGroupChat = ({
 
 	return (
 		<div className="bg-white w-full justify-center items-center overflow-hidden md:max-w-sm rounded-lg shadow-sm mx-auto">
-			<div className="mt-6 mb-2">
+			<div className="mt-6 mb-2 flex items-center justify-evenly">
 				<h1 className="text-lg text-center font-semibold">
-					Group name: {selectedChat.chatName}
+					{selectedChat.chatName}
 				</h1>
+				<button
+					type="submit"
+					className="px-6 py-2 mt-2 text-white rounded-lg bg-red-500 hover:bg-red-600"
+					onClick={() => handleRemove(user)}
+				>
+					Leave group
+				</button>
 			</div>
 			<div className="mt-3 pt-3 flex flex-wrap mx-6 border-t">
 				<label className="block" htmlFor="email">

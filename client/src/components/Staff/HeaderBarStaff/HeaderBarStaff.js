@@ -7,7 +7,6 @@ import '../../Admin/HeaderBarAdmin/headerBarAdmin.css';
 import { TreeItem, TreeView } from '@mui/lab';
 import PersonIcon from '@mui/icons-material/Person';
 import EditIcon from '@mui/icons-material/Edit';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import CarRentalIcon from '@mui/icons-material/CarRental';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -20,12 +19,16 @@ import {
 	clearErrors,
 	getAllBooking,
 } from '../../../redux/actions/bookingAction';
+import { ChatState } from '../../Context/ChatProvider';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 const HeaderBarStaff = () => {
 	const { error } = useSelector((state) => state.allBooking);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { user } = useSelector((state) => state.auth);
+	const { setSelectedChat, notification, setNotification } = ChatState();
+	const message = `Message (${notification.length} notifications)`;
 
 	useEffect(() => {
 		if (error) {
@@ -99,10 +102,53 @@ const HeaderBarStaff = () => {
 				</p>
 			</Link>
 			<Link to="/staff/chat">
-				<p className="header_sideBar_text">
-					<ChatIcon />
-					Message
-				</p>
+				{notification.length === 0 ? (
+					<p className="header_sideBar_text">
+						<ChatIcon />
+						Message
+					</p>
+				) : (
+					<>
+						<p className="header_sideBar_text_a">
+							<TreeView className="text-xs">
+								<TreeItem nodeId="1" label={message} icon={<ChatIcon />}>
+									{notification.map((notif) => (
+										<>
+											{notif.chat.isGroupChat === true ? (
+												<TreeItem
+													nodeId="2"
+													key={notif._id}
+													onClick={() => {
+														setSelectedChat(notif.chat);
+														setNotification(
+															notification.filter((n) => n !== notif)
+														);
+													}}
+													icon={<CircleNotificationsIcon />}
+													label="New mess from group"
+													className="text-sm text-red-500"
+												></TreeItem>
+											) : (
+												<TreeItem
+													nodeId="2"
+													key={notif._id}
+													onClick={() => {
+														setSelectedChat(notif.chat);
+														setNotification(
+															notification.filter((n) => n !== notif)
+														);
+													}}
+													icon={<CircleNotificationsIcon />}
+													label="New mess from user"
+												></TreeItem>
+											)}
+										</>
+									))}
+								</TreeItem>
+							</TreeView>
+						</p>
+					</>
+				)}
 			</Link>
 
 			<div className="text-center bottom-0 w-full">

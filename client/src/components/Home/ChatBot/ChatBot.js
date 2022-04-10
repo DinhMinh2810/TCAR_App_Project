@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveMessage } from './../../../redux/actions/chatbotAction';
 import chatBot from '../../../assets/images/chatbot.png';
+import ScrollableFeed from 'react-scrollable-feed';
+import { Link } from 'react-router-dom';
 
 const ChatBot = () => {
 	const dispatch = useDispatch();
@@ -137,11 +139,11 @@ const ChatBot = () => {
 							xmlns="http://www.w3.org/2000/svg"
 						>
 							<path
-								fill-rule="evenodd"
+								fillRule="evenodd"
 								d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"
 							/>
 							<path
-								fill-rule="evenodd"
+								fillRule="evenodd"
 								d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"
 							/>
 						</svg>
@@ -161,18 +163,18 @@ const ChatBot = () => {
 							<div className="rounded-full w-2 h-2 bg-white"></div>
 						</div>
 					</div>
-					<div className="min-h-[350px] flex flex-col bg-white px-2 chat-services expand overflow-auto">
+					<ScrollableFeed className="min-h-[350px] flex flex-col bg-white px-2 chat-services expand overflow-auto">
 						<>
 							{messages
 								? messages?.map((item, i) => (
 										<>
 											{item.who === 'ChatBot' ? (
-												<div
+												<Link to='/carProduct/refreshSearch'
 													className="chat bg-slate-200 text-gray-700 p-2 self-start my-2 rounded-md shadow mr-3"
 													key={i}
 												>
 													{item?.content}
-												</div>
+												</Link>
 											) : (
 												<div
 													className="message text-sky-500 border-cyan-500 border-1 p-2 self-end my-2 rounded-md shadow ml-3"
@@ -185,7 +187,7 @@ const ChatBot = () => {
 								  ))
 								: null}
 						</>
-					</div>
+					</ScrollableFeed>
 
 					<div className="relative bg-white">
 						<input

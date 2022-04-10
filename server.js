@@ -7,7 +7,6 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cloudinary = require('cloudinary');
-const socket = require('./socketIO');
 const app = express();
 
 app.use(express.json({ limit: '50mb' }));
@@ -35,9 +34,6 @@ app.use('/api/chat', chatRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/chatbot', chatbotRouter);
 
-// not use
-const conversationRouter = require('./routes/conversationRouter');
-app.use('/api/conversation', conversationRouter);
 connectDB();
 
 // Set up upload avatar

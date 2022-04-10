@@ -1,5 +1,4 @@
 import React from 'react';
-
 import SingleChat from './SingleChat';
 
 const ChatBox = ({ fetchAgain, setFetchAgain }) => {

@@ -32,7 +32,7 @@ const CreateAccStaff = () => {
 		formData.set('email', email);
 		formData.set('password', password);
 		formData.set('avatar', avatar);
-		// console.log(Object.fromEntries(formData))
+		console.log(Object.fromEntries(formData));
 		dispatch(CreateAccountStaff(formData));
 	};
 

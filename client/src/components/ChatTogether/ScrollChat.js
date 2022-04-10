@@ -9,7 +9,7 @@ const ScrollChat = ({ messages }) => {
 		<>
 			<div className="flex flex-col h-full overflow-x-auto mb-4 border-t">
 				<div className="flex flex-col h-full">
-					<ScrollableFeed ScrollableFeed className="grid grid-cols-12 gap-y-2">
+					<ScrollableFeed className="grid grid-cols-12 gap-y-2">
 						{messages &&
 							messages.map((m) => (
 								<>

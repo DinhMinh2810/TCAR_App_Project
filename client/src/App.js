@@ -119,7 +119,6 @@ function App() {
 					path="/carProduct/refreshSearch"
 					element={<CarRefreshSearch />}
 				/>
-				<Route path="/chat" element={<ChatPage />} />
 				<Route
 					path="/myProfile"
 					element={
@@ -456,6 +455,15 @@ function App() {
 					element={
 						<ProtectedRoute isDriver={true}>
 							<MyUserBook />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					exact
+					path="/driver/chat"
+					element={
+						<ProtectedRoute isDriver={true}>
+							<ChatPage />
 						</ProtectedRoute>
 					}
 				/>

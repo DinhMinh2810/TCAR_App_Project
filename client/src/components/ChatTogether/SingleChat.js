@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ChatState } from '../Context/ChatProvider';
 import { getSender, getSenderFull } from './ChatLogic';
 import { Dialog, DialogActions } from '@mui/material';
@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import ScrollChat from './ScrollChat';
 import io from 'socket.io-client';
+import { allChatOfUser } from './../../redux/actions/chatAction';
 
 const endPoint = 'http://localhost:5000'; // "https://talk-a-tive.herokuapp.com"; -> After deployment
 let socket, selectedChatCompare;
@@ -23,6 +24,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 	const [loading, setLoading] = useState(false);
 	const [newMessage, setNewMessage] = useState('');
 	const [socketConnected, setSocketConnected] = useState(false);
+	const dispatch = useDispatch();
 
 	const submitReviewToggle = () => {
 		open ? setOpen(false) : setOpen(true);
@@ -65,6 +67,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 				socket.emit('new message', data);
 				setMessages([...messages, data]);
+				dispatch(allChatOfUser());
 			} catch (error) {
 				toast.error('Error bug when send message !!');
 			}
@@ -79,6 +82,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 	useEffect(() => {
 		fetchMessages();
+
 		selectedChatCompare = selectedChat;
 	}, [selectedChat]);
 
@@ -97,10 +101,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 			}
 		});
 	});
-
-	console.log('====================================');
-	console.log(notification);
-	console.log('====================================');
 
 	const typingHandler = (e) => {
 		setNewMessage(e.target.value);
