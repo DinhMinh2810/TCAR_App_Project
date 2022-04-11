@@ -23,6 +23,7 @@ const EditProfile = () => {
 	const updateProfileSubmit = (e) => {
 		e.preventDefault();
 		const formData = new FormData();
+
 		formData.set('name', name);
 		formData.set('email', email);
 		formData.set('avatar', avatar);
@@ -60,8 +61,7 @@ const EditProfile = () => {
 			dispatch(loadUser());
 			if (user.role === 'Admin') {
 				navigate('/admin/profile');
-			}
-			if (user.role === 'Staff') {
+			} else if (user.role === 'Staff') {
 				navigate('/staff/profile');
 			} else {
 				navigate('/myProfile');

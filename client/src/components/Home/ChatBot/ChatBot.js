@@ -12,7 +12,6 @@ import SendIcon from '@mui/icons-material/Send';
 
 const ChatBot = () => {
 	const dispatch = useDispatch();
-
 	const { messages } = useSelector((state) => state.chatbot);
 
 	const chatModal = document.querySelector('.chat-modal');

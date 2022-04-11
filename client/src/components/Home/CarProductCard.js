@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Rating } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import moment from 'moment';
 
 const CarProductCard = ({ car }) => {
 	const options = {
@@ -29,6 +30,12 @@ const CarProductCard = ({ car }) => {
 						<span aria-hidden="true" className="absolute inset-0" />
 						{car?.name}
 					</h3>
+					<p className="mt-1 text-sm flex items-center">
+						Start day: {moment(car?.startDay).format('LLL')}
+					</p>
+					<p className="mt-1 text-sm flex items-center">
+						End day: {moment(car?.endDay).format('LLL')}
+					</p>
 					<p className="mt-1 text-sm flex items-center">
 						<Rating {...options} />({car.numOfReviews} Reviews)
 					</p>

@@ -19,7 +19,7 @@ import ConfirmBookCar from './components/FavoriteCart/ConfirmBookCar';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentStripe from './components/FavoriteCart/Payment/PaymentStripe';
-import PaymentPayPal from './components/FavoriteCart/Payment/PaymentPayPal';
+import PaymentBrainTree from './components/FavoriteCart/Payment/PaymentBrainTree';
 import NotFound from './components/Layout/NotFound/NotFound';
 import DirectRoleHome from './components/Route/DirectRoleHome';
 import ConfirmOTP from './components/Auth/ForgotPassword/ConfirmOTP';
@@ -163,23 +163,23 @@ function App() {
 					<Route
 						path="/paymentWithStripe"
 						element={
-							<ProtectedRoute stripe={loadStripe(stripeApiKey)}>
-								<PaymentStripe />
-							</ProtectedRoute>
+							<Elements stripe={loadStripe(stripeApiKey)}>
+								<ProtectedRoute>
+									<PaymentStripe />
+								</ProtectedRoute>
+							</Elements>
 						}
 					/>
 				)}
 
-				{stripeApiKey && (
-					<Route
-						path="/paymentWithPayPal"
-						element={
-							<ProtectedRoute stripe={loadStripe(stripeApiKey)}>
-								<PaymentPayPal />
-							</ProtectedRoute>
-						}
-					/>
-				)}
+				<Route
+					path="/paymentWithBrainTree"
+					element={
+						<ProtectedRoute>
+							<PaymentBrainTree />
+						</ProtectedRoute>
+					}
+				/>
 
 				<Route
 					path="/paymentSuccess"

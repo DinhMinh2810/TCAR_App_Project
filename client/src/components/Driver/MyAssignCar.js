@@ -8,13 +8,6 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 const MyAssignCar = () => {
 	const dispatch = useDispatch();
 	const { car } = useSelector((state) => state.carsProduct);
-	console.log('====================================');
-	console.log(typeof car);
-	console.log('====================================');
-
-	function isRealValue(obj) {
-		return obj && obj !== 'null' && obj !== 'undefined';
-	}
 
 	useEffect(() => {
 		dispatch(getMyCarAssign());
@@ -25,7 +18,7 @@ const MyAssignCar = () => {
 			{car && car[0] ? (
 				car.map((item) => (
 					<div
-						className="flex items-center justify-center mt-20"
+						className="flex items-center justify-center mt-10"
 						key={item.name}
 					>
 						<div className="group relative text-neutral-700">

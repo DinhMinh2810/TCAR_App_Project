@@ -8,8 +8,8 @@ const {
 	deleteBooking,
 	paymentStripe,
 	sendApiKeyStripe,
-	generateTokenPayPal,
-	paymentPayPal,
+	generateTokenBrainTree,
+	paymentBrainTree,
 	driverGetUserBooking,
 	statisticsTotalAmountBooking,
 	statisticsAmountLocationBooking,
@@ -55,9 +55,9 @@ router.route('/sendApiKeyStripe').get(isAuthenticatedUser, sendApiKeyStripe);
 router.route('/paymentStripe').post(isAuthenticatedUser, paymentStripe);
 
 router
-	.route('/generateTokenPayPal')
-	.get(isAuthenticatedUser, generateTokenPayPal);
+	.route('/generateTokenBrainTree')
+	.get(isAuthenticatedUser, generateTokenBrainTree);
 
-router.route('/paymentPayPal').post(isAuthenticatedUser, paymentPayPal);
+router.route('/paymentBrainTree').post(isAuthenticatedUser, paymentBrainTree);
 
 module.exports = router;

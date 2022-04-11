@@ -245,6 +245,7 @@ exports.newBooking = catchAsyncErrShort(async (req, res) => {
 		deposits,
 		priceForDriver,
 		totalPrice,
+		methodPaid,
 	} = req.body;
 
 	const booking = await Booking.create({
@@ -256,6 +257,7 @@ exports.newBooking = catchAsyncErrShort(async (req, res) => {
 		deposits,
 		priceForDriver,
 		totalPrice,
+		methodPaid,
 		paidAt: Date.now(),
 		userBooking: {
 			user: req.user._id,
@@ -361,7 +363,7 @@ const gateway = new braintree.BraintreeGateway({
 	privateKey: process.env.PRIVATE_BRAINTREE_KEY,
 });
 
-exports.generateTokenPayPal = catchAsyncErrShort(async (req, res) => {
+exports.generateTokenBrainTree = catchAsyncErrShort(async (req, res) => {
 	gateway.clientToken.generate({}).then((response) => {
 		// pass clientToken to front-end
 		const clientToken = response.clientToken;
@@ -369,7 +371,7 @@ exports.generateTokenPayPal = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
-exports.paymentPayPal = catchAsyncErrShort(async (req, res) => {
+exports.paymentBrainTree = catchAsyncErrShort(async (req, res) => {
 	const nonceFromTheClient = req.body.payment_method_nonce;
 	const { amount, id, email, firstName } = req.body;
 

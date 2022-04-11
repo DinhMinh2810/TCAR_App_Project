@@ -2,13 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import DropIn from 'braintree-web-drop-in-react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import {
+	clearErrors,
+	createBooking,
+} from '../../../redux/actions/bookingAction';
 
-const PaymentPayPal = () => {
+const PaymentBrainTree = () => {
 	const bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
-	const { receivingCarTo, favoriteCartItems } = useSelector(
+	const { receivingCarTo, bookingCar } = useSelector(
 		(state) => state.favoriteCart
 	);
 	const { user } = useSelector((state) => state.auth);
+	const { error } = useSelector((state) => state.newBooking);
+
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const book = {
+		receivingCarTo,
+		carId: bookingInfo.carId,
+		bookCars: bookingCar,
+		itemsPrice: bookingInfo.subtotal,
+		shuttleFee: bookingInfo.shuttleFee,
+		priceForDriver: bookingInfo.priceForDriver,
+		deposits: bookingInfo.deposits,
+		totalPrice: bookingInfo.totalPrice,
+		methodPaid: 'BrainTree',
+	};
 
 	const [values, setValues] = useState({
 		clientToken: null,
@@ -16,27 +38,36 @@ const PaymentPayPal = () => {
 	});
 
 	useEffect(() => {
+		if (error) {
+			toast.error(error);
+			dispatch(clearErrors());
+		}
+
 		getTokenPayPal();
-	}, []);
+	}, [error]);
 
 	const { clientToken, instance } = values;
 	const getTokenPayPal = async () => {
 		try {
-			const { data } = await axios.get(`/api/booking/generateTokenPayPal`);
+			const { data } = await axios.get(`/api/booking/generateTokenBrainTree`);
 
 			setValues({ ...values, clientToken: data.clientToken });
 		} catch (error) {
-			console.log(error);
+			toast.error(error);
 		}
 	};
 
 	const makePayment = async (data) => {
 		try {
 			const config = { headers: { 'Content-Type': 'application/json' } };
-			const res = await axios.post('/api/booking/paymentPayPal', data, config);
+			const res = await axios.post(
+				'/api/booking/paymentBrainTree',
+				data,
+				config
+			);
 			return res.data.result;
 		} catch (error) {
-			console.log(error);
+			toast.error(error);
 		}
 	};
 
@@ -46,7 +77,7 @@ const PaymentPayPal = () => {
 
 			let paymentData = {
 				payment_method_nonce: nonce,
-				amount: bookingInfo.totalPrice,
+				amount: bookingInfo.deposits,
 				id: user._id,
 				email: user.email,
 				firstName: user.name,
@@ -55,8 +86,17 @@ const PaymentPayPal = () => {
 				.then((response) => {
 					if (response.err) {
 						setValues({ ...values, error: response.err });
+						toast.error(response.message);
 					} else {
-						setValues({ ...values, success: response.success });
+						if (response.success === true) {
+							book.paymentInfo = {
+								id: response.transaction.globalId,
+								status: 'succeeded',
+							};
+							setValues({ ...values, success: response.success });
+							dispatch(createBooking(book));
+						}
+						navigate('/paymentSuccess');
 					}
 				})
 				.catch((err) => {
@@ -81,7 +121,7 @@ const PaymentPayPal = () => {
 							onPurchase();
 						}}
 					>
-						Buy
+						Payment total - $ {bookingInfo && bookingInfo.deposits}
 					</button>
 				</div>
 			)}
@@ -89,4 +129,4 @@ const PaymentPayPal = () => {
 	);
 };
 
-export default PaymentPayPal;
+export default PaymentBrainTree;

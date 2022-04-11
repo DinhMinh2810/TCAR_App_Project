@@ -119,6 +119,9 @@ const ViewDetailBooking = () => {
 										)}
 									</p>
 									<p className="text-gray-500">
+										Method paid: {book.methodPaid}
+									</p>
+									<p className="text-gray-500">
 										Paid at: {book && moment(book.paidAt).format('LLL')}
 									</p>
 								</div>

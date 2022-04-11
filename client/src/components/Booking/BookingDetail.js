@@ -93,6 +93,9 @@ const BookingDetail = () => {
 												<p className="text-gray-500">
 													Seat category: {item?.seatsCategory}
 												</p>
+												<p className="text-gray-500">
+													Location: {item?.location} city
+												</p>
 											</div>
 										</div>
 										<div className="flex flex-col p-2">
@@ -135,7 +138,6 @@ const BookingDetail = () => {
 										</span>
 									)}
 								</p>
-								<p className="text-gray-500">Method paid: {book.methodPaid}</p>
 								<p className="text-gray-500">
 									Paid at: {book && moment(book.paidAt).format('LLL')}
 								</p>
@@ -279,7 +281,7 @@ const BookingDetail = () => {
 										</div>
 									</div>
 								</Dialog>
-								{/* test */}
+								{/* review  */}
 							</div>
 						</div>
 					</div>

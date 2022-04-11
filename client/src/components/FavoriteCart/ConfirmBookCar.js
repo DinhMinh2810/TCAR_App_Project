@@ -41,7 +41,7 @@ const ConfirmBookCar = () => {
 		};
 		sessionStorage.setItem('bookingInfo', JSON.stringify(data));
 
-		navigate('/paymentWithPayPal');
+		navigate('/paymentWithBrainTree');
 	};
 	return (
 		<>

@@ -2,12 +2,13 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../../redux/actions/authAction';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import TitleBarPage from './../../Layout/TitleBarPage';
 import Loader from '../../Layout/Loader/Loader';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function ResetPassword() {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { token } = useParams();
 	const { loading } = useSelector((state) => state.forgotPassword);
@@ -26,13 +27,13 @@ function ResetPassword() {
 
 	const resetPWSubmit = (values) => {
 		dispatch(resetPassword(token, values));
+		navigate('/login');
 		toast.success('Reset password successfully !! Please login again !!');
 	};
 
 	return (
 		<>
 			<TitleBarPage title="Reset Password" />
-			<ToastContainer className="toastify" />
 			{loading ? (
 				<Loader />
 			) : (

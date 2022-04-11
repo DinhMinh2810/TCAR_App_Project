@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import TitleBarPage from '../Layout/TitleBarPage';
 import { changePasswordUser } from '../../redux/actions/userAction';
 import { useNavigate } from 'react-router-dom';
-import { clearErrors } from '../../redux/actions/authAction';
+import { clearErrors, loadUser } from '../../redux/actions/authAction';
 import Loader from '../Layout/Loader/Loader';
 
 const ChangePassword = () => {
@@ -45,10 +45,10 @@ const ChangePassword = () => {
 
 		if (isUpdated) {
 			toast.success('Updated your password successfully !!');
+			dispatch(loadUser());
 			if (user.role === 'Admin') {
 				navigate('/admin/profile');
-			}
-			if (user.role === 'Staff') {
+			} else if (user.role === 'Staff') {
 				navigate('/staff/profile');
 			} else {
 				navigate('/myProfile');

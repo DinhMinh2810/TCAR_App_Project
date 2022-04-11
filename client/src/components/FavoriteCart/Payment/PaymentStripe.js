@@ -7,7 +7,7 @@ import {
 	useStripe,
 	useElements,
 } from '@stripe/react-stripe-js';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import './Payment.css';
 import TitleBarPage from './../../Layout/TitleBarPage';
@@ -114,7 +114,6 @@ const PaymentStripe = () => {
 		<div className="flex items-center justify-center min-h-eightVH mt-10">
 			<div className="px-8 py-6 mx-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
 				<h3 className="text-2xl font-bold text-center">Payment with stripe</h3>
-				<ToastContainer className="toastify text-xs" />
 				<TitleBarPage title="Payment with stripe" />
 				<form onSubmit={(e) => submitHandler(e)}>
 					<div className="mt-4">

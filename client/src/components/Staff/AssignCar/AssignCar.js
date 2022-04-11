@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import HeaderBarStaff from './../HeaderBarStaff/HeaderBarStaff';
 import TitleBarPage from './../../Layout/TitleBarPage';
@@ -49,7 +49,6 @@ const AssignCar = () => {
 			<HeaderBarStaff />
 			<TitleBarPage title="Assign Car" />
 			<div className="flex flex-col p-3">
-				<ToastContainer className="toastify text-xs" />
 				<div className="-my-2 overflow-x-auto">
 					<div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -149,7 +148,7 @@ const AssignCar = () => {
 													</>
 												) : (
 													<>
-														<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+														<td className="px-6 py-4 whitespace-nowrap text-sm text-rose-500">
 															Not yet
 														</td>
 													</>
