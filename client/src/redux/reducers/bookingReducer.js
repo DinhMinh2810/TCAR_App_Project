@@ -33,12 +33,15 @@ export const myBookingReducer = (state = { books: [] }, action) => {
 		case 'MY_BOOKS_REQUEST':
 			return {
 				loading: true,
+				books: [],
 			};
 
 		case 'MY_BOOKS_SUCCESS':
 			return {
 				loading: false,
-				books: action.payload,
+				userBooksCount: action.payload.userBooksCount,
+				resultItemPage: action.payload.resultItemPage,
+				books: action.payload.books,
 			};
 
 		case 'MY_BOOKS_FAIL':

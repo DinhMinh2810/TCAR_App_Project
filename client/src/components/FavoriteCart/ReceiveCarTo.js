@@ -35,15 +35,17 @@ const ReceiveCarTo = () => {
 		const endDayFormal = moment(ENDDAY).format('MMMM Do YYYY, h:mm:ss a');
 		if (VALUETO <= STARTDAY) {
 			toast.error(
-				`Only booked from date  ${startDayFormal} to ${endDayFormal} !!`
+				`Only booked from date ${startDayFormal} to ${endDayFormal} !!`
 			);
+			return setDay('');
 		}
 		if (VALUETO >= ENDDAY) {
 			toast.error(
-				`Only booked from date  ${startDayFormal} to ${endDayFormal} !!`
+				`Only booked from date ${startDayFormal} to ${endDayFormal} !!`
 			);
+			return setDay('');
 		} else {
-			setDay(valueTo);
+			return setDay(valueTo);
 		}
 	};
 
@@ -54,11 +56,6 @@ const ReceiveCarTo = () => {
 		);
 
 		navigate('/confirmBookCar');
-		setCitizenIdentifications('');
-		setPhoneNum('');
-		setDay('');
-		setAddress('');
-		setLocation('');
 	};
 
 	return (

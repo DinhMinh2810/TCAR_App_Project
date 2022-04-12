@@ -189,6 +189,19 @@ exports.statisticsAmountLocationBooking = catchAsyncErrShort(
 
 // Logged in and user check my all booking -- User
 exports.myBooking = catchAsyncErrShort(async (req, res) => {
+	const resultItemPage = 4;
+	const userBooksCount = await Booking.countDocuments({
+		'userBooking.user': req.user.id,
+	});
+	const apiFeature = new ApiFeatures(
+		Booking.find({
+			'userBooking.user': req.user.id,
+		}),
+		req.query
+	)
+		.pagination(resultItemPage)
+		.sort();
+
 	const booking = await Booking.find({
 		'userBooking.user': req.user.id,
 	});
@@ -204,9 +217,12 @@ exports.myBooking = catchAsyncErrShort(async (req, res) => {
 		await updateStatusBooking(id, now, startDayBook, endDayBook, carID);
 	});
 
+	const books = await apiFeature.query;
+
 	res.status(200).json({
-		success: true,
-		booking,
+		userBooksCount,
+		resultItemPage,
+		books,
 	});
 });
 
@@ -280,7 +296,7 @@ async function updateAvailableCar(id) {
 	await car.save({ validateBeforeSave: false });
 }
 
-// delete booking
+// Delete booking -- Staff
 exports.deleteBooking = catchAsyncErrShort(async (req, res) => {
 	const booking = await Booking.findById(req.params.id);
 
@@ -291,6 +307,7 @@ exports.deleteBooking = catchAsyncErrShort(async (req, res) => {
 		});
 	}
 
+	await updateAvailableCarDelete(booking.bookCars[0].car);
 	await booking.remove();
 
 	res.status(200).json({
@@ -299,7 +316,12 @@ exports.deleteBooking = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
-// driver get my user booking -- Driver
+async function updateAvailableCarDelete(id) {
+	const car = await Car.findOneAndUpdate({ id, available: 'Update' });
+	await car.save({ validateBeforeSave: false });
+}
+
+// Driver get my user booking -- Driver
 exports.driverGetUserBooking = catchAsyncErrShort(async (req, res) => {
 	const resultItemPage = 4;
 	const userBooksCount = await Booking.countDocuments({

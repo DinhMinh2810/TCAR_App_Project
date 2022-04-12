@@ -15,35 +15,47 @@ const Footer = () => {
 										<ul>
 											<li>
 												<a href="#/">
-													<a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50">
+													<a
+														href="#/"
+														className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
+													>
 														Components
 													</a>
 												</a>
 											</li>
 											<li className="mt-6">
-												<a href="javascript:void(0)">
-													<a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50">
+												<a href="#javascript">
+													<a
+														href="#/"
+														className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
+													>
 														Templates
 													</a>
 												</a>
 											</li>
 											<li className="mt-6">
-												<a href="javascript:void(0)">
-													<a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50">
+												<a href="#javascript">
+													<a
+														href="#/"
+														className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
+													>
 														Pricing
 													</a>
 												</a>
 											</li>
 											<li className="mt-6">
-												<a href="javascript:void(0)">
-													<a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50">
+												<a href="#javascript">
+													<a
+														href="#/"
+														className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
+													>
 														FAQ
 													</a>
 												</a>
 											</li>
 											<li className="mt-6">
 												<a
-													href="javascript:void(0)"
+													href="#javascript"
 													className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
 												>
 													Documentation
@@ -54,23 +66,32 @@ const Footer = () => {
 									<div className="w-full lg:w-1/2 px-6">
 										<ul>
 											<li>
-												<a href="javascript:void(0)">
-													<a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50">
+												<a href="#javascript">
+													<a
+														href="#/"
+														className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
+													>
 														Free components
 													</a>
 												</a>
 											</li>
 
 											<li className="mt-6">
-												<a href="javascript:void(0)">
-													<a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50">
+												<a href="#javascript">
+													<a
+														href="#/"
+														className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
+													>
 														Blog
 													</a>
 												</a>
 											</li>
 											<li className="mt-6">
-												<a href="javascript:void(0)">
-													<a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50">
+												<a href="#javascript">
+													<a
+														href="#/"
+														className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
+													>
 														Changelog
 													</a>
 												</a>
@@ -83,15 +104,18 @@ const Footer = () => {
 										<ul>
 											<li>
 												<a
-													href="javascript:void(0)"
+													href="#javascript"
 													className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
 												>
 													Privacy policy
 												</a>
 											</li>
 											<li className="mt-6">
-												<a href="javascript:void(0)">
-													<a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50">
+												<a href="#javascript">
+													<a
+														href="#/"
+														className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50"
+													>
 														Terms of service
 													</a>
 												</a>
@@ -100,7 +124,7 @@ const Footer = () => {
 									</div>
 									<div className="w-full lg:w-1/2 px-6 flex flex-col justify-between">
 										<div className="flex items-center mb-6">
-											<a href="javascript:void(0)">
+											<a href="#javascript">
 												<div className="text-gray-800 dark:text-gray-50 cursor-pointer hover:text-brand dark:hover:text-brand ">
 													<svg
 														className="footer-icon feather feather-github"
@@ -118,7 +142,7 @@ const Footer = () => {
 													</svg>
 												</div>
 											</a>
-											<a href="javascript:void(0)">
+											<a href="#javascript">
 												<div className="pl-4">
 													<svg
 														className="footer-icon feather feather-twitter text-gray-800 dark:text-gray-50 cursor-pointer hover:text-brand dark:hover:text-brand "
@@ -154,7 +178,7 @@ const Footer = () => {
 						</div>
 					</div>
 					<div className="pb-16 pt-10 flex flex-col justify-center items-center">
-						<a href="javascript:void(0)">
+						<a href="#javascript">
 							<h2 className="dark:text-white">TCAR</h2>
 						</a>
 						<p className="mt-6 text-xs lg:text-sm leading-none text-gray-900 dark:text-gray-50">

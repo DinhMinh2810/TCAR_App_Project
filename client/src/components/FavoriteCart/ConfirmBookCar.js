@@ -45,7 +45,7 @@ const ConfirmBookCar = () => {
 	};
 	return (
 		<>
-			<div className="pt-8 pb-14 px-15 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+			<div className="pt-8 pb-14 px-15 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto sm: px-8">
 				<div className="flex justify-start item-start space-y-2 flex-col ">
 					<h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">
 						Booking car
@@ -210,7 +210,7 @@ const ConfirmBookCar = () => {
 							</div>
 							<div className="flex justify-between xl:h-full  items-stretch w-full flex-col mt-6 md:mt-0">
 								<div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row  items-center md:items-start ">
-									<div className="flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 xl:mt-8">
+									<div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-4">
 										<p className="text-base font-semibold leading-4 md:text-left text-gray-800">
 											Identifications &amp; Day Receive Car
 										</p>
@@ -222,11 +222,11 @@ const ConfirmBookCar = () => {
 										</p>
 									</div>
 
-									<div className="flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 ">
+									<div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 mb-4 mt-4">
 										<p className="text-base font-semibold leading-4 text-center md:text-left text-gray-800">
 											Receive Car Address
 										</p>
-										<p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
+										<p className="w-full lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
 											{receivingCarTo?.address}, {receivingCarTo?.location} city
 										</p>
 									</div>

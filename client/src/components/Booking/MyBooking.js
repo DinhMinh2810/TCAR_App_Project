@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { clearErrors, myBooking } from '../../redux/actions/bookingAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -6,11 +6,15 @@ import moment from 'moment';
 import Loader from '../Layout/Loader/Loader';
 import TitleBarPage from './../Layout/TitleBarPage';
 import { useNavigate } from 'react-router-dom';
+import Pagination from 'react-js-pagination';
 
 const MyBooking = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { loading, error, books } = useSelector((state) => state.myBooking);
+	const [currentPage, setCurrentPage] = useState(1);
+	const { loading, error, books, userBooksCount, resultItemPage } = useSelector(
+		(state) => state.myBooking
+	);
 
 	useEffect(() => {
 		if (error) {
@@ -18,9 +22,13 @@ const MyBooking = () => {
 			dispatch(clearErrors());
 		}
 
-		dispatch(myBooking());
-	}, [dispatch, error]);
+		dispatch(myBooking(currentPage));
+	}, [dispatch, error, currentPage]);
 
+	const setCurrentPageNo = (e) => {
+		setCurrentPage(e);
+	};
+	
 	return (
 		<>
 			{loading ? (
@@ -51,7 +59,7 @@ const MyBooking = () => {
 												scope="col"
 												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 											>
-												Start <span className="font-extrabold"> &#8594; </span>{' '}
+												Start <span className="font-extrabold"> &#8594; </span>
 												end day rental
 											</th>
 											<th
@@ -141,6 +149,24 @@ const MyBooking = () => {
 									</tbody>
 								</table>
 							</div>
+						</div>
+						<div className="flex items-center justify-center mt-3">
+							{resultItemPage < userBooksCount && (
+								<Pagination
+									activePage={currentPage}
+									itemsCountPerPage={resultItemPage}
+									totalItemsCount={userBooksCount}
+									onChange={setCurrentPageNo}
+									nextPageText="Next"
+									prevPageText="Prev"
+									firstPageText="1st"
+									lastPageText="Last"
+									itemClass="page-item"
+									linkClass="page-link"
+									activeClass="pageItemActive"
+									activeLinkClass="pageLinkActive"
+								/>
+							)}
 						</div>
 					</div>
 				</div>

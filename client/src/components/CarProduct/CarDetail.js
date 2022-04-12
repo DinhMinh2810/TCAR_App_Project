@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCarDetails } from '../../redux/actions/carAction';
+import { clearErrors, getCarDetails } from '../../redux/actions/carAction';
 import { useParams, useNavigate } from 'react-router-dom';
 import { addCarsToCart } from '../../redux/actions/favoriteCartActions';
 import Loader from '../Layout/Loader/Loader';
@@ -10,7 +10,7 @@ import { Rating } from '@mui/material';
 import moment from 'moment';
 import Carousel from 'react-material-ui-carousel';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import TitleBarPage from '../Layout/TitleBarPage';
 import ReviewCar from './ReviewCar';
 import CarRentalIcon from '@mui/icons-material/CarRental';
@@ -21,7 +21,9 @@ const CarDetail = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 	const { isLoggedIn } = useSelector((state) => state.auth);
-	const { loading, car } = useSelector((state) => state.carProductDetails);
+	const { loading, car, error } = useSelector(
+		(state) => state.carProductDetails
+	);
 	const [quantity, setQuantity] = useState(0);
 	const [menu, setMenu] = useState(true);
 	const [StartDay, setStartDay] = useState(car?.startDay);
@@ -34,9 +36,14 @@ const CarDetail = () => {
 	};
 
 	useEffect(() => {
+		if (error) {
+			alert.error(error);
+			dispatch(clearErrors());
+		}
+
+		getDaysQuantityRental(StartDay, EndDay);
 		dispatch(getCarDetails(id));
-		getDays(StartDay, EndDay);
-	}, [dispatch, id, StartDay, EndDay]);
+	}, [dispatch, id, StartDay, EndDay, error]);
 
 	const addToCartHandler = () => {
 		if (isLoggedIn) {
@@ -55,13 +62,13 @@ const CarDetail = () => {
 					quantity,
 					startDay: StartDay,
 					endDay: EndDay,
-					name: car.name,
-					seatsCategory: car.seatsCategory,
-					image: car.images[0].url,
-					rentPerDay: car.rentPerDay,
-					nameDriver: car.assigns.name,
-					driverID: car.assigns.user,
-					location: car.location,
+					name: car?.name,
+					seatsCategory: car?.seatsCategory,
+					image: car?.images[0]?.url,
+					rentPerDay: car?.rentPerDay,
+					nameDriver: car?.assigns?.name,
+					driverID: car?.assigns?.user,
+					location: car?.location,
 				})
 			);
 			navigate('/receiveCarTo');
@@ -83,16 +90,17 @@ const CarDetail = () => {
 		const endDayFormal = moment(ENDDAY).format('MMMM Do YYYY, h:mm:ss a');
 		if (VALUETO <= STARTDAY) {
 			toast.error(
-				`Only booked from date  ${startDayFormal} to ${endDayFormal} !!`
+				`Only booked from date ${startDayFormal} to ${endDayFormal} !!`
 			);
-			setStartDay('');
+			return setStartDay('');
 		}
 		if (VALUETO >= ENDDAY) {
 			toast.error(
-				`Only booked from date  ${startDayFormal} to ${endDayFormal} !!`
+				`Only booked from date ${startDayFormal} to ${endDayFormal} !!`
 			);
+			return setStartDay('');
 		} else {
-			setStartDay(valueTo);
+			return setStartDay(valueTo);
 		}
 	};
 
@@ -107,7 +115,7 @@ const CarDetail = () => {
 		}
 	};
 
-	function getDays(start, last) {
+	const getDaysQuantityRental = (start, last) => {
 		const date1 = new Date(start);
 		const date2 = new Date(last);
 
@@ -118,7 +126,7 @@ const CarDetail = () => {
 		const diffDays = Math.round(diffTime / oneDay);
 
 		return setQuantity(diffDays);
-	}
+	};
 
 	return (
 		<>
@@ -126,35 +134,27 @@ const CarDetail = () => {
 				<Loader />
 			) : (
 				<div className="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4 items-center">
-					<div className="xl:w-2/6 lg:w-2/5 w-80 md:block ">
+					<div className="xl:w-2/6 lg:w-2/5 md:w-80 md:block ">
 						<Carousel>
-							{car?.images &&
-								car?.images.map((item, i) => (
+							{car?.images ? (
+								car?.images?.map((item, i) => (
 									<img
 										className="w-full"
-										key={i}
+										key={item?.public_id}
 										src={item?.url}
-										alt="images"
+										alt={`${i} slide car`}
 									/>
-								))}
+								))
+							) : (
+								<Loader />
+							)}
 						</Carousel>
 					</div>
 
 					<div className="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
 						<TitleBarPage title="Car detail" />
-						<ToastContainer className="toastify text-xs" />
 						<div className="border-b border-gray-200 pb-6">
-							<h1
-								className="
-						lg:text-2xl
-						text-xl
-						font-semibold
-						lg:leading-6
-						leading-7
-						text-gray-800
-					
-					"
-							>
+							<h1 className="lg:text-2xl text-xl font-semibold lg:leading-6 leading-7 text-gray-800">
 								{car?.name}
 							</h1>
 						</div>
@@ -164,15 +164,7 @@ const CarDetail = () => {
 								<p className="text-sm leading-none text-gray-600">
 									{car?.assigns?.name}
 								</p>
-								<div
-									className="
-							w-6
-							h-6
-							ml-3
-							mr-4
-							cursor-pointer
-						"
-								>
+								<div className="w-6 h-6 ml-3 mr-4 cursor-pointer">
 									<AccountCircleIcon />
 								</div>
 
@@ -200,15 +192,7 @@ const CarDetail = () => {
 								<p className="text-sm leading-none text-gray-600">
 									{car?.seatsCategory}
 								</p>
-								<div
-									className="
-							w-6
-							h-6
-							ml-3
-							mr-4
-							cursor-pointer
-						"
-								>
+								<div className="w-6 h-6 ml-3 mr-4 cursor-pointer">
 									<AirlineSeatReclineNormalIcon />
 								</div>
 

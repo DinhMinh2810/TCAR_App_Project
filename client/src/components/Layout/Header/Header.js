@@ -8,7 +8,6 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { toast } from 'react-toastify';
 import { myBooking, myUserBooking } from '../../../redux/actions/bookingAction';
-import { ChatState } from '../../Context/ChatProvider';
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
