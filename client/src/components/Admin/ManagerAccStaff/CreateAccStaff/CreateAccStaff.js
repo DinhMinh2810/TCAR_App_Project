@@ -129,6 +129,7 @@ const CreateAccStaff = () => {
 									required
 									className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
 									accept="image/*"
+									// accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
 									onChange={addDataForm}
 								/>
 							</div>
