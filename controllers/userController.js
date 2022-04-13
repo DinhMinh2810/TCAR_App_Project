@@ -261,8 +261,8 @@ exports.forgotPassword = async (req, res) => {
 				await client.messages.create({
 					body: `${OTP}`,
 					from: '+16072988996',
-					// to: phoneNumber,
-					to: '+84905092786',
+					to: phoneNumber,
+					// to: '+84905092786',
 				});
 
 				res.status(200).json({
