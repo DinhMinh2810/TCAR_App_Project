@@ -45,7 +45,10 @@ exports.register = async (req, res) => {
 
 		const activationToken = createActivationToken(newUser);
 
-		const url = `${CLIENT_URL}/api/activate/${activationToken}`;
+		// const url = `${CLIENT_URL}/api/activate/${activationToken}`;
+		const url = `${req.protocol}://${req.get(
+			'host'
+		)}/api/activate/${activationToken}`;
 		sendEmail(email, url, 'Please click to verify your email address');
 
 		res.status(200).json({
@@ -228,7 +231,7 @@ exports.forgotPassword = async (req, res) => {
 		// `${'http://localhost:3000'}/resetPassword/${resetPWToken}`
 		const resetPasswordUrl = `${req.protocol}://${req.get(
 			'host'
-		)}/resetPassword/${resetToken}`;
+		)}/resetPassword/${resetPWToken}`;
 
 		await user.save({ validateBeforeSave: false });
 

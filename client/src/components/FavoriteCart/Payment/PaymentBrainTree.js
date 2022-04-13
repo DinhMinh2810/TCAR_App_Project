@@ -44,7 +44,7 @@ const PaymentBrainTree = () => {
 		}
 
 		getTokenPayPal();
-	}, [error]);
+	}, [error, dispatch]);
 
 	const { clientToken, instance } = values;
 	const getTokenPayPal = async () => {
