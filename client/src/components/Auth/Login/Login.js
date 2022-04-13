@@ -15,7 +15,7 @@ import Loader from '../../Layout/Loader/Loader';
 import { toast } from 'react-toastify';
 import TitleBarPage from './../../Layout/TitleBarPage';
 import loginImg from '../../../assets/images/login.jpg';
-import './login.css';
+import './Login.css';
 
 const Login = () => {
 	const { error, loading, isLoggedIn } = useSelector((state) => state.auth);
