@@ -2,7 +2,6 @@ const User = require('../models/userModel');
 const Chat = require('../models/chatModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 const Message = require('../models/messageModel');
-const cloudinary = require('cloudinary');
 
 // Get all user chat
 exports.sendMessage = catchAsyncErrShort(async (req, res) => {

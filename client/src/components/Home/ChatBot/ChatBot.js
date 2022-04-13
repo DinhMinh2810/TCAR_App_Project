@@ -51,7 +51,7 @@ const ChatBot = () => {
 	};
 
 	const userSendMessage = async (text) => {
-		//  user send message
+		//  Yser send message
 		let conversation = {
 			who: 'User',
 			content: {
@@ -82,7 +82,7 @@ const ChatBot = () => {
 				who: 'ChatBot',
 				content: {
 					text: {
-						text: 'Error just occured, please check problems !!',
+						text: 'Error, please check problems !!',
 					},
 				},
 			};
@@ -114,7 +114,7 @@ const ChatBot = () => {
 				who: 'ChatBot',
 				content: {
 					text: {
-						text: ' Error just occured, please check the problem',
+						text: ' Error, please check the problem',
 					},
 				},
 			};
@@ -163,12 +163,13 @@ const ChatBot = () => {
 							<div className="rounded-full w-2 h-2 bg-white"></div>
 						</div>
 					</div>
-					<ScrollableFeed className="min-h-[350px] flex flex-col bg-white px-2 chat-services expand overflow-auto">
+
+					<ScrollableFeed className="min-h-[350px] flex flex-col bg-white px-2 chat-services expand">
 						<>
 							{messages
 								? messages?.map((item, i) => (
 										<>
-											{item.who === 'ChatBot' ? (
+											{item?.who === 'ChatBot' ? (
 												<Link
 													to="/carProduct/refreshSearch"
 													className="chat bg-slate-200 text-gray-700 p-2 self-start my-2 rounded-md shadow mr-3"
@@ -177,12 +178,16 @@ const ChatBot = () => {
 													{item?.content}
 												</Link>
 											) : (
-												<div
-													className="message text-sky-500 border-cyan-500 border-1 p-2 self-end my-2 rounded-md shadow ml-3"
-													key={i}
-												>
-													{item?.content?.text?.text}
-												</div>
+												<>
+													{item?.content?.text?.text ? (
+														<div
+															className="message text-sky-500 border-cyan-500 border-1 p-2 self-end my-2 rounded-md shadow ml-3"
+															key={i}
+														>
+															{item?.content?.text?.text}
+														</div>
+													) : null}
+												</>
 											)}
 										</>
 								  ))
@@ -204,7 +209,7 @@ const ChatBot = () => {
 					</div>
 				</div>
 				<div
-					className="show-chat hidden mx-10 mb-6 mt-4 text-green-500 hover:text-green-600 flex justify-center items-center cursor-pointer bg-red-600l"
+					className="show-chat hidden mx-10 mb-6 mt-4 text-green-500 hover:text-green-600 flex justify-center items-center cursor-pointer"
 					onClick={showChatBot}
 				>
 					<MarkUnreadChatAltIcon color="info" sx={{ fontSize: 55 }} />
