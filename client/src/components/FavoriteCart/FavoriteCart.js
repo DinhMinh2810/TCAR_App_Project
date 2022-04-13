@@ -18,7 +18,7 @@ const FavoriteCart = () => {
 	return (
 		<>
 			{favoriteCartItems.length === 0 ? (
-				<div className="w-screen flex items-center">
+				<div className="w-screen flex items-center mb-20">
 					<div className="container flex flex-col  md:flex-row items-center justify-center text-gray-700 pt-40">
 						<div className="max-w-md md: px-4">
 							<div className="text-5xl font-dark font-bold">Empty 🤣🤣</div>

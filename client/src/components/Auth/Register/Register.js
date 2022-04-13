@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../../../redux/actions/authAction';
 import TitleBarPage from './../../Layout/TitleBarPage';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const Register = () => {
 	const dispatch = useDispatch();
@@ -48,7 +48,6 @@ const Register = () => {
 	return (
 		<>
 			<TitleBarPage title="Register" />
-			<ToastContainer className="toastify" />
 			<form
 				className="min-w-screen min-h-screen flex items-center justify-center px-5 pt-3"
 				encType="multipart/form-data"
