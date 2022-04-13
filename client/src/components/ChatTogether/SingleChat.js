@@ -13,7 +13,8 @@ import io from 'socket.io-client';
 import { allChatOfUser } from './../../redux/actions/chatAction';
 import MicNoneIcon from '@mui/icons-material/MicNone';
 
-const endPoint = 'http://localhost:5000'; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+const endPoint = 'https://tcarappproject.herokuapp.com/'; // "http://localhost:5000"; -> After deployment
+
 let socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {

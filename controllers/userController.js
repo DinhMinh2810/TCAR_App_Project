@@ -188,13 +188,6 @@ exports.facebookLogin = async (req, res) => {
 		const user = await User.findOne({ email });
 
 		if (user) {
-			// const isMatch = await bcrypt.compare(password, user.password);
-			// if (!isMatch)
-			// 	return res.status(400).json({ message: 'Password is incorrect !!' });
-			// else {
-			// 	sendTokenCookie(user, 200, res, 'Login success with fb !!');
-			// }
-
 			sendTokenCookie(user, 200, res, 'Login success with fb !!');
 		} else {
 			await cloudinary.v2.uploader.upload(picture.data.url, {
@@ -232,8 +225,10 @@ exports.forgotPassword = async (req, res) => {
 
 		const resetPWToken = user.getResetPasswordToken();
 		const OTP = user.getResetPassWordOTP();
-
-		const resetPasswordUrl = `${'http://localhost:3000'}/resetPassword/${resetPWToken}`;
+		// `${'http://localhost:3000'}/resetPassword/${resetPWToken}`
+		const resetPasswordUrl = `${req.protocol}://${req.get(
+			'host'
+		)}/resetPassword/${resetToken}`;
 
 		await user.save({ validateBeforeSave: false });
 

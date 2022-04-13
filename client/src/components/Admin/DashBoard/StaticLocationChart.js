@@ -1,21 +1,12 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import {
-	RadialBarChart,
-	RadialBar,
 	Legend,
-	FunnelChart,
-	ResponsiveContainer,
-	LabelList,
-	Funnel,
-	BarChart,
 	Tooltip,
 	CartesianGrid,
 	YAxis,
 	XAxis,
 	ComposedChart,
-	Area,
 	Bar,
-	Line,
 } from 'recharts';
 
 const StaticLocationChart = ({
@@ -52,6 +43,10 @@ const StaticLocationChart = ({
 		{
 			Location: 'Hai Phong',
 			'Total Amount': totalHaiPhong,
+		},
+		{
+			Location: 'Gia Lai',
+			'Total Amount': totalGiaLai,
 		},
 		{
 			Location: 'Quang Nam',
