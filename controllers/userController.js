@@ -7,7 +7,7 @@ const { google } = require('googleapis');
 const { OAuth2 } = google.auth;
 const fetch = require('node-fetch');
 const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
-const { CLIENT_URL } = process.env;
+const { CLIENT_URL, CLIENT_URL_DEPLOY } = process.env;
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
 
@@ -45,10 +45,9 @@ exports.register = async (req, res) => {
 
 		const activationToken = createActivationToken(newUser);
 
-		// const url = `${CLIENT_URL}/api/activate/${activationToken}`;
-		const url = `${req.protocol}://${req.get(
-			'host'
-		)}/api/activate/${activationToken}`;
+		// CLIENT_URL
+		const url = `${CLIENT_URL_DEPLOY}/api/activate/${activationToken}`;
+
 		sendEmail(email, url, 'Please click to verify your email address');
 
 		res.status(200).json({
@@ -228,11 +227,9 @@ exports.forgotPassword = async (req, res) => {
 
 		const resetPWToken = user.getResetPasswordToken();
 		const OTP = user.getResetPassWordOTP();
-		// `${'http://localhost:3000'}/resetPassword/${resetPWToken}`
-		const resetPasswordUrl = `${req.protocol}://${req.get(
-			'host'
-		)}/resetPassword/${resetPWToken}`;
 
+		const resetPasswordUrl = `${CLIENT_URL_DEPLOY}/resetPassword/${resetPWToken}`;
+		// CLIENT_URL_DEPLOY;
 		await user.save({ validateBeforeSave: false });
 
 		if (method === 'Email') {
