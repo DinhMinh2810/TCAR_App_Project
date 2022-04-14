@@ -255,15 +255,16 @@ exports.forgotPassword = async (req, res) => {
 				const authToken = process.env.TWILIO_AUTH_TOKEN;
 				const client = require('twilio')(accountSid, authToken);
 
-				await client.messages.create({
+				const sendOTP = await client.messages.create({
 					body: `${OTP}`,
-					from: '+16072988996',
-					to: phoneNumber,
-					// to: '+84905092786',
+					from: '+19706717801',
+					// to: phoneNumber,
+					to: '+84905092786',
 				});
 
 				res.status(200).json({
 					email,
+					sendOTP,
 					message: 'Please check your phone to reset your password !!',
 				});
 			} catch (err) {
