@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { activeMailRegister } from '../../../redux/actions/authAction';
+import { activeMailRegister, loadUser } from '../../../redux/actions/authAction';
 
 const ActiveMailRegister = () => {
 	const dispatch = useDispatch();
 	const { activationToken } = useParams();
 	useEffect(() => {
 		dispatch(activeMailRegister(activationToken));
+
+		dispatch(loadUser());
 	}, [dispatch, activationToken]);
 
 	return (

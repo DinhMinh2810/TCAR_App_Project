@@ -36,10 +36,6 @@ const Header = () => {
 		dispatch(loadUser());
 	}, [dispatch, userSocial]);
 
-	useEffect(() => {
-		dispatch(loadUser());
-	}, [dispatch]);
-
 	const logoutSubmit = async () => {
 		dispatch(logout());
 		toast.success('Logout successfully !!');
