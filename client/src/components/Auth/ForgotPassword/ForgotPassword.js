@@ -31,7 +31,6 @@ const ForgotPassword = () => {
 	const forgotSubmit = (values) => {
 		const { email, phoneNumber, method } = values;
 		if (method === 'Phone') {
-			console.log(email);
 			navigate('/forgotPassword/confirmOTP');
 			dispatch(forgotPassword(email, phoneNumber, method));
 		} else {

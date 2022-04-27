@@ -137,6 +137,11 @@ const bookingSchema = new mongoose.Schema(
 			default: 'Processing',
 		},
 		deliveredAt: Date,
+		userBookingMain: {
+			type: mongoose.Schema.ObjectId,
+			ref: 'User',
+			required: true,
+		},
 	},
 	{ timestamps: true }
 );

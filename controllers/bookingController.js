@@ -280,6 +280,7 @@ exports.newBooking = catchAsyncErrShort(async (req, res) => {
 			nameUser: req.user.name,
 			email: req.user.email,
 		},
+		userBookingMain: req.user.id,
 	});
 
 	await updateAvailableCar(carId);
