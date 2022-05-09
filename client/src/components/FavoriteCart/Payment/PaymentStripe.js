@@ -9,7 +9,6 @@ import {
 } from '@stripe/react-stripe-js';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import './Payment.css';
 import TitleBarPage from './../../Layout/TitleBarPage';
 import { useNavigate } from 'react-router-dom';
 import {

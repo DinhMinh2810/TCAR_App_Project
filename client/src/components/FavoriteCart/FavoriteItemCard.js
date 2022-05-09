@@ -3,22 +3,6 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 export const FavoriteItemCard = ({ item, removeCarsCart }) => {
-	// React.useEffect(() => {
-	// 	getDays(item.startDay, item.endDay);
-	// }, [item.startDay, item.endDay]);
-
-	// function getDays(start, last) {
-	// 	const date1 = new Date(start);
-	// 	const date2 = new Date(last);
-
-	// 	const oneDay = 24 * 60 * 60 * 1000;
-
-	// 	const diffTime = date2.getTime() - date1.getTime();
-
-	// 	const diffDays = Math.round(diffTime / oneDay);
-
-	// 	return setQuantity(diffDays);
-	// }
 	return (
 		<div className="flex items-center text-neutral-500 hover:bg-gray-100 -mx-8 px-6 py-5">
 			<div className="flex w-2/5">

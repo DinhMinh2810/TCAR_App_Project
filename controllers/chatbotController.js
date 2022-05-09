@@ -1,4 +1,3 @@
-const User = require('../models/userModel');
 const catchAsyncErrShort = require('../middleware/catchAsyncErrShort');
 const dialogflow = require('@google-cloud/dialogflow');
 const CREDENTIALS = JSON.parse(process.env.CREDENTIALS);
@@ -20,7 +19,7 @@ const sessionClient = new dialogflow.SessionsClient(CONFIGURATION);
 
 // User send mesage normal to chatbot
 exports.sendMessageToChatBot = catchAsyncErrShort(async (req, res) => {
-	//We need to send some information that comes from the client to Dialogflow API
+	//Need to send some information that comes from the client to Dialogflow API
 	let sessionPath = sessionClient.projectAgentSessionPath(PROJECID, sessionId);
 	// The text user send to chatbot query request.
 	const request = {
@@ -68,5 +67,4 @@ exports.sendFrequentlyAskToChatBot = catchAsyncErrShort(async (req, res) => {
 		userSendMessageFrequentlyAsk: result.queryText,
 		chatBotResponseFrequentlyAskEvent: result.fulfillmentText,
 	});
-	// res.send(result);
 });

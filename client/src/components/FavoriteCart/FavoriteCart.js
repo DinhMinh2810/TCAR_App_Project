@@ -45,12 +45,6 @@ const FavoriteCart = () => {
 									<h1 className="font-semibold text-2xl">
 										Car favorite cart 😍
 									</h1>
-									{/* <Link
-										to="/receiveCarTo"
-										className="font-semibold text-gray-600 block text-xl flex items-center "
-									>
-										Book now <LocalCarWashIcon className="ml-1" />
-									</Link> */}
 								</div>
 								<div className="flex mt-10 mb-5">
 									<h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">
