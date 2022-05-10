@@ -81,7 +81,7 @@ export const loginFacebook = (accessToken, userID) => async (dispatch) => {
 	}
 };
 
-// Get user is exsting in app
+// Get user is existing in app
 export const loadUser = () => async (dispatch) => {
 	try {
 		dispatch({ type: 'LOAD_USER_REQUEST' });

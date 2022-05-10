@@ -42,9 +42,9 @@ exports.sendMessageToChatBot = catchAsyncErrShort(async (req, res) => {
 	});
 });
 
-// User send mesage frequently asked questions to chatbot
+// User send message frequently asked questions to chatbot
 exports.sendFrequentlyAskToChatBot = catchAsyncErrShort(async (req, res) => {
-	//We need to send some information that comes from the client to Dialogflow API
+	//Need to send some information that comes from the client to Dialogflow API
 	let sessionPath = sessionClient.projectAgentSessionPath(PROJECID, sessionId);
 	// The text query request.
 	const request = {
@@ -59,7 +59,6 @@ exports.sendFrequentlyAskToChatBot = catchAsyncErrShort(async (req, res) => {
 		},
 	};
 
-	// Send request and log result
 	const responses = await sessionClient.detectIntent(request);
 	const result = responses[0].queryResult;
 

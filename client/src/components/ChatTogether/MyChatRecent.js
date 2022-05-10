@@ -7,7 +7,7 @@ import { ChatState } from '../Context/ChatProvider';
 
 const MyChatRecent = ({ fetchAgain }) => {
 	const [loggedUser, setLoggedUser] = useState();
-	const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
+	const { setSelectedChat } = ChatState();
 	const { user: userIsLoggedIn } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const { loading: loadingChatOfUser, users: chatOfUser } = useSelector(

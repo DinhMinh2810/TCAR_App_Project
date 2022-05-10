@@ -94,7 +94,7 @@ exports.allChatsOfUser = catchAsyncErrShort(async (req, res) => {
 
 exports.createGroupChat = catchAsyncErrShort(async (req, res) => {
 	if (!req.body.users || !req.body.name) {
-		return res.status(400).json({ message: 'Please fill all feilds !!' });
+		return res.status(400).json({ message: 'Please fill all fields !!' });
 	}
 
 	const users = JSON.parse(req.body.users);

@@ -43,11 +43,11 @@ const PaymentBrainTree = () => {
 			dispatch(clearErrors());
 		}
 
-		getTokenPayPal();
+		getTokenBrainTree();
 	}, [error]);
 
 	const { clientToken, instance } = values;
-	const getTokenPayPal = async () => {
+	const getTokenBrainTree = async () => {
 		try {
 			const { data } = await axios.get(`/api/booking/generateTokenBrainTree`);
 

@@ -69,7 +69,7 @@ io.on('connection', (socket) => {
 	console.log('Server connected to socket.io with client success !!');
 	socket.on('setup', (userData) => {
 		socket.join(userData._id);
-		socket.emit('connected !!');
+		socket.emit('connected');
 	});
 
 	socket.on('join chat', (room) => {

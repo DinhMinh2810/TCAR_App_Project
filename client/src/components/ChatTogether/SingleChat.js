@@ -14,7 +14,7 @@ import { allChatOfUser } from './../../redux/actions/chatAction';
 import MicNoneIcon from '@mui/icons-material/MicNone';
 
 const endPoint = 'https://tcarappproject.herokuapp.com/'; // "http://localhost:5000"; -> After deployment
-
+// https://tcarappproject.herokuapp.com/
 let socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -51,7 +51,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 	const sendMessage = async () => {
 		if (newMessage) {
-			socket.emit('stop typing', selectedChat._id);
+			// socket.emit('stop typing', selectedChat._id);
 			try {
 				const config = {
 					headers: { 'Content-Type': 'application/json' },

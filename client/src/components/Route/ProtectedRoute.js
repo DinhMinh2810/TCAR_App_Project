@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-//Check authentication
+//Check authentication user
 
 const ProtectedRoute = ({ isAdmin, isStaff, isDriver, isUser, children }) => {
 	const { loading, isLoggedIn, user } = useSelector((state) => state.auth);
