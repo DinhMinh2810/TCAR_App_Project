@@ -9,9 +9,9 @@ Tourist car rental application with the aim of increasing sales for TCAR company
 
 ## Technical Stack 🤣🤣
 
-**Client:** HTML, CSS, TailwindCSS, ReactJS, Redux, 
+**Front-End:** HTML, CSS, TailwindCSS, JavaScript, ReactJS, Redux, 
 
-**Server:** NodeJS, ExpressJS, Socket.IO
+**Back-End:** NodeJS, ExpressJS, Socket.IO
 
 **Database:** MongoDB (NoSQL)
 
