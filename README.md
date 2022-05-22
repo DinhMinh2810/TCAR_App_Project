@@ -4,12 +4,12 @@
 
 ![logo1](https://user-images.githubusercontent.com/86513245/168514697-6786bfc8-580f-4e70-a068-babd59ae3734.png)
 
-Tourist car rental application with the aim of increasing sales for TCAR company and making Vietnam tourism more professional. Application developed with MERN Stack toolkit 🤣🤣
+Tourist car rental application with the aim of increasing sales for TCAR company and making Vietnam tourism more professional. Application developed with MERN Stack !!
 
 
 ## Technical Stack 🤣🤣
 
-**Front-End:** HTML, CSS, TailwindCSS, JavaScript, ReactJS, Redux, 
+**Front-End:** HTML, CSS, TailwindCSS, JavaScript, ReactJS, Redux
 
 **Back-End:** NodeJS, ExpressJS, Socket.IO
 
@@ -22,81 +22,81 @@ Tourist car rental application with the aim of increasing sales for TCAR company
 
 Admin Role 👲
 
-- Login normal or google or facebook.
+- Login normal or google or facebook
 
-- Logout.
+- Logout
 
-- Forgot, reset password.
+- Forgot, reset password
 
 - See and change profile, change password.
 
-- Manager account staff (CRUD, change Password).
+- Manager account staff (CRUD, change Password)
 
-- Edit role user and delete all account.
+- Edit role user and delete all account
 
-- CRUD car.
+- CRUD car
 
-- Manager dashboard.
+- Manager dashboard
 
 Staff Role 👲
 
-- Login normal or google or facebook.
+- Login normal or google or facebook
 
-- Logout.
+- Logout
 
-- Forgot, reset password.
+- Forgot, reset password
 
-- See and change profile, change password.
+- See and change profile, change password
 
-- Manager account driver (CRUD, change Password).
+- Manager account driver (CRUD, change Password)
 
-- Assign driver to car.
+- Assign driver to car
 
-- Manager all booking.
+- Manager all booking
 
-- Manager review car and driver.
+- Manager review car and driver
 
-- Chat message.
+- Chat message
 
 Driver Role 👲
 
-- Login normal or google or facebook.
+- Login normal or google or facebook
 
-- Logout.
+- Logout
 
-- Forgot, reset password.
+- Forgot, reset password
 
-- See and change profile, change password.
+- See and change profile, change password
 
-- See car assign myself.
+- See car assign myself
 
-- See car user book.
+- See car user book
 
-- Chat message.
+- Chat message
 
 User Role 👲
 
 - Register with email
 
-- Login normal and gg or Facebook.
+- Login normal and google or facebook
 
-- Logout.
+- Logout
 
-- Forgot, reset password.
+- Forgot, reset password
 
-- See and change profile, change password.
+- See and change profile, change password
 
-- Search: car type, location, start day, end day, seat category, ratings, rent per day.
+- Search: car type, location, start day, end day, seat category, ratings, rent per day
 
-- Page detail information car.
+- Page detail information car
 
-- Add and remove favorite car rental.
+- Add and remove favorite car rental
 
-- Payment with paypal or stripe.
+- Payment with paypal or stripe
 
-- Review car and driver.
+- Review car and driver
 
-- View car rental user book.
+- View car rental user book
 
 - Chatbot
 
