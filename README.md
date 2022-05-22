@@ -1,5 +1,5 @@
 
-# TOURIST CAR RENTAL APPLICATION (MERN STACK) 🚀🚀
+# TOURIST CAR RENTAL APPLICATION (MERN STACK) 🚀
 
 
 ![logo1](https://user-images.githubusercontent.com/86513245/168514697-6786bfc8-580f-4e70-a068-babd59ae3734.png)
