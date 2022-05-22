@@ -1,127 +1,133 @@
-# TOURIST CAR RENTAL APPLICATION (MERN STACK)
+
+# TOURIST CAR RENTAL APPLICATION (MERN STACK) 🤣🤣
+
 
 ![logo1](https://user-images.githubusercontent.com/86513245/168514697-6786bfc8-580f-4e70-a068-babd59ae3734.png)
 
-LINK URL DEPLOY: https://tcarappproject.herokuapp.com/
+Tourist car rental application with the aim of increasing sales for TCAR company and making Vietnam tourism more professional.
 
-Application have 4 roles:
 
-Admin role: 
+## Technical Stack 🤣🤣
 
-•	Login normal or google or facebook. 
+**Client:** HTML, CSS, TailwindCSS, ReactJS, Redux, 
 
-•	Logout.
+**Server:** NodeJS, ExpressJS, Socket.IO
 
-•	Forgot, reset password.
+**Database:** MongoDB (NoSQL)
 
-•	See and change profile, change password. 
+**3rd party services:** Google cloud platform, Meta for developer, Twilio, Nodemailer, Braintree, Stripe, Dialogflow
 
-•	Manager account staff (CRUD, change Password).
 
-•	Edit role user and delete all account.
+## Features (4 roles) 🤣🤣
 
-•	CRUD car. 
+Admin Role:
 
-•	Manager dashboard.
+- Login normal or google or facebook.
 
-Staff role:
+- Logout.
 
-•	Login normal or google or facebook.
+- Forgot, reset password.
 
-•	Logout.
+- See and change profile, change password.
 
-•	Forgot, reset password.
+- Manager account staff (CRUD, change Password).
 
-•	See and change profile, change password.
+- Edit role user and delete all account.
 
-•	Manager account driver (CRUD, change Password).
+- CRUD car.
 
-•	Assign driver to car.
+- Manager dashboard.
 
-•   Manager all booking. 
+Staff Role:
 
-•	Manager review car and driver. 
+- Login normal or google or facebook.
 
-•	Chat message.
+- Logout.
 
-Driver role:
+- Forgot, reset password.
 
-•	Login normal or google or facebook.
+- See and change profile, change password.
 
-•	Logout.
+- Manager account driver (CRUD, change Password).
 
-•	Forgot, reset password.
+- Assign driver to car.
 
-•	See and change profile, change password.
+- Manager all booking.
 
-•	See car assign myself.
+- Manager review car and driver.
 
-•	See car user book. 
+- Chat message.
 
-•	Chat message.
+Driver Role:
 
-User role:
+- Login normal or google or facebook.
 
-•	Register with email 
+- Logout.
 
-•	Login normal and gg or Facebook.
+- Forgot, reset password.
 
-•	Logout.
+- See and change profile, change password.
 
-•	Forgot, reset password.
+- See car assign myself.
 
-•	See and change profile, change password.
+- See car user book.
 
-•	Search: car type, location, start day, end day, seat category, ratings, rent per day.
+- Chat message.
 
-•	Page detail information car.
+User Role:
 
-•	Add and remove favorite car rental.
+- Register with email
 
-•	Payment with paypal or stripe.
+- Login normal and gg or Facebook.
 
-•	Review car and driver.
+- Logout.
 
-•	View car rental user book.
+- Forgot, reset password.
 
-•	Chatbot. 
+- See and change profile, change password.
 
+- Search: car type, location, start day, end day, seat category, ratings, rent per day.
 
-Account admin: 
+- Page detail information car.
 
-•	Email: minhad2810@gmail.com
+- Add and remove favorite car rental.
 
-•	Password: 123456
+- Payment with paypal or stripe.
 
-Account staff: 
+- Review car and driver.
 
-•	Email: minhtdgcd18633@fpt.edu.vn
+- View car rental user book.
 
-•	Password: 123456
+- Chatbot
 
-Account driver: 
 
-•	Email: minhdriver2810@gmail.com
+## Demo Application 🤣🤣
 
-•	Password: 123456
+https://tcarappproject.herokuapp.com/
 
-Account user: 
 
-•	Email: minhuser2810@gmail.com
+## Account Login 🤣🤣
 
-•	Password: 123456
+Account admin:
 
+- Email: minhad2810@gmail.com
 
-Special feature:
+- Password: 123456
 
-• Login with Google and Facebook
+Account staff:
 
-• Payment with Stripe or Braintree
+- Email: minhtdgcd18633@fpt.edu.vn
 
-• Chat message realtime with socket
+- Password: 123456
 
-• ChatBot
+Account driver:
 
+- Email: minhdriver2810@gmail.com
 
+- Password: 123456
 
+Account user:
 
+- Email: minhuser2810@gmail.com
+
+- Password: 123456
