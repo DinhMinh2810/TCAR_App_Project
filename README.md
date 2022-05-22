@@ -1,10 +1,10 @@
 
-# TOURIST CAR RENTAL APPLICATION (MERN STACK) 🤣🤣
+# TOURIST CAR RENTAL APPLICATION (MERN STACK) 🚀🚀
 
 
 ![logo1](https://user-images.githubusercontent.com/86513245/168514697-6786bfc8-580f-4e70-a068-babd59ae3734.png)
 
-Tourist car rental application with the aim of increasing sales for TCAR company and making Vietnam tourism more professional.
+Tourist car rental application with the aim of increasing sales for TCAR company and making Vietnam tourism more professional. Application developed with MERN Stack toolkit 🤣🤣
 
 
 ## Technical Stack 🤣🤣
@@ -20,7 +20,7 @@ Tourist car rental application with the aim of increasing sales for TCAR company
 
 ## Features (4 roles) 🤣🤣
 
-Admin Role:
+Admin Role 👲
 
 - Login normal or google or facebook.
 
@@ -38,7 +38,7 @@ Admin Role:
 
 - Manager dashboard.
 
-Staff Role:
+Staff Role 👲
 
 - Login normal or google or facebook.
 
@@ -58,7 +58,7 @@ Staff Role:
 
 - Chat message.
 
-Driver Role:
+Driver Role 👲
 
 - Login normal or google or facebook.
 
@@ -74,7 +74,7 @@ Driver Role:
 
 - Chat message.
 
-User Role:
+User Role 👲
 
 - Register with email
 
